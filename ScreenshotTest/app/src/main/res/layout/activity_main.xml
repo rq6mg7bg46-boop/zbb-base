@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#F5F5F5">
+
+        <!-- 标题 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="截图 + OCR + 自动化测试"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:gravity="center"
+            android:paddingBottom="16dp" />
+
+        <!-- 截图权限按钮 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="【截图功能】"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#2196F3"
+                android:paddingBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnRequestPermission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. 请求截图权限"
+                android:textSize="14sp"
+                android:padding="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/btnCapture"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="2. 截图"
+                    android:textSize="14sp"
+                    android:padding="10dp"
+                    android:enabled="false" />
+
+                <Button
+                    android:id="@+id/btnOcr"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="3. OCR识别"
+                    android:textSize="14sp"
+                    android:padding="10dp"
+                    android:layout_marginStart="8dp"
+                    android:enabled="false" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSaveToGallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="截图自动保存到相册"
+                android:textSize="14sp"
+                android:padding="10dp"
+                android:layout_marginTop="8dp"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <!-- OCR 自动化功能 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="【OCR 自动化】"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#4CAF50"
+                android:paddingBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="输入关键词，找到文字位置并点击"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:paddingBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etKeyword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="输入要查找的关键词"
+                android:textSize="14sp"
+                android:padding="12dp"
+                android:background="#F0F0F0"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/btnFindAndClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="查找并点击"
+                android:textSize="14sp"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:enabled="false"
+                android:backgroundTint="#4CAF50" />
+
+        </LinearLayout>
+
+        <!-- 测试图片 OCR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="【测试图片 OCR】"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#FF9800"
+                android:paddingBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="选择本地图片进行 OCR 识别测试"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:paddingBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnTestImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="选择图片测试 OCR"
+                android:textSize="14sp"
+                android:padding="12dp"
+                android:backgroundTint="#FF9800" />
+
+        </LinearLayout>
+
+        <!-- 悬浮窗功能 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="【悬浮窗截图】"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#9C27B0"
+                android:paddingBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="开启悬浮窗后，点击悬浮按钮立即截图并识别，无需切换APP"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:paddingBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnOpenFloatingWindow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="开启悬浮窗"
+                    android:textSize="14sp"
+                    android:padding="10dp"
+                    android:backgroundTint="#9C27B0" />
+
+                <Button
+                    android:id="@+id/btnCloseFloatingWindow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="关闭悬浮窗"
+                    android:textSize="14sp"
+                    android:padding="10dp"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="#757575" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 状态显示 -->
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="状态: 请开启无障碍服务\n(设置 > 无障碍 > 截图测试 > 开启)"
+            android:textSize="13sp"
+            android:textColor="#666666"
+            android:background="@android:color/white"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"
+            android:minHeight="60dp" />
+
+        <!-- 截图预览 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@android:color/white">
+
+            <ImageView
+                android:id="@+id/ivPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:contentDescription="截图预览" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="截图预览区域"
+                android:textSize="16sp"
+                android:textColor="#999999" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</ScrollView>

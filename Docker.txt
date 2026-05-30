@@ -1,0 +1,539 @@
+# Docker 编译 Android APK 完整指南
+
+## 概述
+
+使用 Docker 容器编译 React Native (Expo) 项目的 Android APK，无需在本地安装 Android Studio。
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        Docker 编译流程                           │
+│                                                                 │
+│   宿主机 (项目代码)                                              │
+│        │                                                         │
+│        ▼                                                         │
+│   Docker 容器 (Android SDK + Gradle + Node.js)                    │
+│        │                                                         │
+│        ▼                                                         │
+│   输出: APK 安装包                                               │
+│        │                                                         │
+│        ▼                                                         │
+│   蒲公英分发 / 直接安装                                          │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 第一部分：Docker 与 Android Studio 对比
+
+| 对比项 | Docker | Android Studio |
+|--------|--------|----------------|
+| **安装大小** | ~5-10GB (镜像) | ~10-15GB |
+| **安装难度** | 中等 | 简单 (GUI 安装向导) |
+| **系统依赖** | 需要 Docker Engine | 需要 JDK + SDK |
+| **环境一致性** | ✅ 100% 一致 | ⚠️ 依赖本机配置 |
+| **跨平台** | ✅ Windows/Mac/Linux 相同 | ❌ 各平台独立配置 |
+| **内存占用** | 较高 | 较高 |
+| **适合人群** | 开发者 / CI/CD | 纯 Android 开发 |
+| **GUI 调试** | ❌ 无 | ✅ 支持 |
+| **首次编译** | 较慢 | 较快 |
+| **后续编译** | 快 (缓存) | 快 (缓存) |
+
+### 选择建议
+
+| 场景 | 推荐工具 |
+|------|----------|
+| 仅编译 APK | Docker 或 Android Studio 均可 |
+| 需要调试 Android 原生代码 | Android Studio |
+| 集成到 CI/CD 自动构建 | Docker |
+| Windows 系统，无编程基础 | Android Studio |
+| 已有其他 Docker 项目 | Docker |
+
+### 结论
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│   Docker: 适合开发者、追求环境一致性、需要自动化构建          │
+│   Android Studio: 适合纯 Android 开发、需要调试 UI           │
+│                                                             │
+│   两者可以同时使用，互不影响                                  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 第二部分：Docker 编译步骤
+
+### 步骤 1：安装 Docker
+
+#### Windows
+
+1. 访问 https://www.docker.com/products/docker-desktop/
+2. 下载 Docker Desktop for Windows
+3. 双击安装包，按向导完成安装
+4. 启动 Docker Desktop（等待任务栏图标显示）
+
+#### macOS
+
+1. 访问 https://www.docker.com/products/docker-desktop/
+2. 下载 Docker Desktop for Mac
+3. 拖拽到 Applications 文件夹
+4. 启动 Docker Desktop
+
+#### Linux (Ubuntu)
+
+```bash
+# 安装 Docker
+curl -fsSL https://get.docker.com | sh
+
+# 添加当前用户到 docker 组
+sudo usermod -aG docker $USER
+
+# 重新登录后验证
+docker --version
+```
+
+#### 验证安装
+
+```bash
+docker --version
+# Docker version 24.0.7, build afdd53b
+
+docker run hello-world
+# Hello from Docker!
+```
+
+---
+
+### 步骤 2：拉取 Android 构建镜像
+
+```bash
+# 拉取完整的 Android 构建镜像
+docker pull android
+
+# 或者使用 Gradle + JDK 镜像（更小）
+docker pull gradle:8.4-jdk17
+
+# 查看已下载的镜像
+docker images
+```
+
+**常用镜像推荐**：
+
+| 镜像 | 大小 | Node.js | Java | Android SDK |
+|------|------|---------|------|-------------|
+| android | ~8GB | ❌ | ✅ | ✅ 完整 |
+| gradle:8.4-jdk17 | ~500MB | ❌ | ✅ | ❌ |
+| ubuntu:22.04 + 自己装 | 按需 | ✅ | ✅ | ✅ |
+
+---
+
+### 步骤 3：准备项目
+
+#### 3.1 创建编译脚本 (build-android.sh)
+
+在项目根目录创建文件 `build-android.sh`：
+
+```bash
+#!/bin/bash
+set -e
+
+echo "=========================================="
+echo "  Docker React Native Android 构建脚本"
+echo "=========================================="
+
+# 颜色定义
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# 项目路径
+PROJECT_DIR="/workspace/projects"
+CLIENT_DIR="$PROJECT_DIR/client"
+OUTPUT_DIR="$PROJECT_DIR/output"
+
+# 创建输出目录
+mkdir -p "$OUTPUT_DIR"
+
+echo -e "${GREEN}[1/5]${NC} 安装 npm 依赖..."
+cd "$CLIENT_DIR"
+npm install
+
+echo -e "${GREEN}[2/5]${NC} 生成 Android 原生代码..."
+npx expo prebuild --platform android --clean
+
+echo -e "${GREEN}[3/5]${NC} 编译 Debug APK...
+cd "$CLIENT_DIR/android"
+chmod +x gradlew
+./gradlew assembleDebug --no-daemon
+
+echo -e "${GREEN}[4/5]${NC} 复制 APK 到输出目录..."
+cp app/build/outputs/apk/debug/app-debug.apk "$OUTPUT_DIR/"
+
+echo -e "${GREEN}[5/5]${NC} 清理构建缓存...
+./gradlew clean
+
+echo ""
+echo -e "${GREEN}==========================================${NC}"
+echo -e "${GREEN}  构建完成！${NC}"
+echo -e "${GREEN}  APK 位置: $OUTPUT_DIR/app-debug.apk${NC}"
+echo -e "${GREEN}==========================================${NC}"
+```
+
+#### 3.2 Windows 用户创建 (build-android.bat)
+
+在项目根目录创建文件 `build-android.bat`：
+
+```batch
+@echo off
+chcp 65001 >nul
+setlocal EnableDelayedExpansion
+
+echo ==========================================
+echo   Docker React Native Android 构建脚本
+echo ==========================================
+
+set PROJECT_DIR=C:\path\to\projects
+set CLIENT_DIR=%PROJECT_DIR%\client
+set OUTPUT_DIR=%PROJECT_DIR%\output
+
+mkdir %OUTPUT_DIR% 2>nul
+
+echo [1/5] 安装 npm 依赖...
+cd /d %CLIENT_DIR%
+call npm install
+
+echo [2/5] 生成 Android 原生代码...
+call npx expo prebuild --platform android --clean
+
+echo [3/5] 编译 Debug APK...
+cd /d %CLIENT_DIR%\android
+call gradlew.bat assembleDebug
+
+echo [4/5] 复制 APK 到输出目录...
+copy app\build\outputs\apk\debug\app-debug.apk %OUTPUT_DIR%\
+
+echo [5/5] 清理构建缓存...
+call gradlew.bat clean
+
+echo.
+echo ==========================================
+echo   构建完成！
+echo   APK 位置: %OUTPUT_DIR%\app-debug.apk
+echo ==========================================
+
+endlocal
+pause
+```
+
+---
+
+### 步骤 4：执行编译
+
+#### 方式 A：标准方式（推荐）
+
+```bash
+# 进入项目目录
+cd /workspace/projects
+
+# 执行编译
+docker run --rm \
+  -v "$(pwd)":/workspace/projects \
+  -w /workspace/projects \
+  -it \
+  android \
+  bash client/build-android.sh
+```
+
+#### 方式 B：使用缓存加速
+
+```bash
+# 首次编译
+docker run --rm \
+  -v "$(pwd)":/workspace/projects \
+  -v gradle-cache:/root/.gradle \
+  -v android-cache:/root/.android \
+  -w /workspace/projects \
+  -it \
+  android \
+  bash client/build-android.sh
+
+# 后续编译（使用缓存）
+docker run --rm \
+  -v "$(pwd)":/workspace/projects \
+  -v gradle-cache:/root/.gradle \
+  -v android-cache:/root/.android \
+  -w /workspace/projects \
+  -it \
+  android \
+  bash client/build-android.sh
+```
+
+#### 方式 C：使用 Docker Compose
+
+创建 `docker-compose.yml`：
+
+```yaml
+version: '3.8'
+
+services:
+  android-builder:
+    image: android
+    volumes:
+      # 项目代码
+      - ./:/workspace/projects
+      # Gradle 缓存（加速后续编译）
+      - gradle-cache:/root/.gradle
+      # Android SDK 缓存
+      - android-cache:/root/.android
+    working_dir: /workspace/projects
+    # 交互式运行
+    stdin_open: true
+    tty: true
+    # 执行编译脚本
+    command: bash client/build-android.sh
+
+volumes:
+  gradle-cache:
+  android-cache:
+```
+
+执行：
+```bash
+docker-compose up --build
+```
+
+#### 方式 D：Windows PowerShell
+
+```powershell
+# 进入项目目录
+cd C:\path\to\projects
+
+# 执行编译
+docker run --rm `
+  -v "${pwd}:C:\workspace\projects" `
+  -w C:\workspace\projects `
+  -it `
+  android `
+  bash client/build-android.sh
+```
+
+---
+
+### 步骤 5：获取 APK
+
+编译成功后，APK 文件位置：
+
+```
+/workspace/projects/output/
+├── app-debug.apk          # Debug 版本（开发测试用）
+└── app-release.apk        # Release 版本（正式发布用，需签名）
+```
+
+**APK 大小**：
+- Debug 版本：约 50-100MB（含调试信息）
+- Release 版本：约 30-60MB（已优化）
+
+---
+
+### 步骤 6：安装和分发
+
+#### 6.1 本地安装（ADB）
+
+```bash
+# 连接手机后安装
+adb install -r /workspace/projects/output/app-debug.apk
+
+# 安装后启动
+adb shell am start -n com.zbb.automation/.MainActivity
+```
+
+#### 6.2 上传到蒲公英
+
+1. 访问 https://www.pgyer.com
+2. 注册/登录账号（企业账号可申请免费）
+3. 进入「上传应用」页面
+4. 选择 `app-debug.apk` 上传
+5. 填写应用信息
+6. 获取下载链接和二维码
+
+#### 6.3 上传到 fir.im
+
+1. 访问 https://fir.im
+2. 注册/登录账号
+3. 创建应用
+4. 上传 APK
+5. 获取下载链接
+
+---
+
+## 第三部分：高级配置
+
+### 配置 Release 构建
+
+Release 版本需要签名配置，创建 `android/key.properties`：
+
+```properties
+storePassword=your_store_password
+keyPassword=your_key_password
+keyAlias=your_key_alias
+storeFile=/path/to/your/keystore.jks
+```
+
+修改 `build-android.sh`，添加 Release 构建：
+
+```bash
+echo "编译 Release APK..."
+./gradlew assembleRelease --no-daemon
+```
+
+### 配置 CI/CD
+
+#### GitHub Actions
+
+创建 `.github/workflows/android.yml`：
+
+```yaml
+name: Android Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build APK
+        uses: docker://android
+        with:
+          args: bash client/build-android.sh
+      
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-debug
+          path: output/app-debug.apk
+```
+
+---
+
+## 第四部分：常见问题
+
+| 问题 | 原因 | 解决方案 |
+|------|------|----------|
+| Docker 内存不足 | 分配内存太少 | Docker Desktop 设置 → 分配 8GB+ |
+| 编译超时 | 网络/资源问题 | 增加 Docker 资源分配 |
+| 权限错误 | 挂载目录无权限 | 检查目录读写权限 |
+| 找不到 SDK | 环境变量未设置 | 在脚本中设置 ANDROID_HOME |
+| 编译卡住 | Gradle 缓存问题 | 添加 `--no-daemon` 参数 |
+| APK 安装失败 | 签名不匹配 | 确认使用 debug 签名 |
+
+### 内存设置 (Docker Desktop)
+
+```
+Docker Desktop → Settings → Resources
+- Memory: 8GB (推荐 8-16GB)
+- CPUs: 4 (推荐 4-8核)
+- Swap: 2GB
+- Disk image size: 60GB+
+```
+
+---
+
+## 第五部分：快速命令速查
+
+```bash
+# ============ 基础命令 ============
+
+# 1. 安装 Docker
+# https://docs.docker.com/get-docker/
+
+# 2. 拉取镜像
+docker pull android
+
+# 3. 进入项目目录
+cd /workspace/projects
+
+# 4. 执行编译
+docker run --rm \
+  -v "$(pwd)":/workspace/projects \
+  -w /workspace/projects \
+  -it \
+  android \
+  bash client/build-android.sh
+
+# 5. 查看 APK
+ls -la output/
+
+# ============ Docker Compose ============
+
+# 启动构建
+docker-compose up --build
+
+# 后台运行
+docker-compose up -d --build
+
+# 查看日志
+docker-compose logs -f
+
+# 停止
+docker-compose down
+
+# ============ APK 安装 ============
+
+# ADB 安装
+adb install -r output/app-debug.apk
+
+# 查看已安装应用
+adb shell pm list packages | grep zbb
+```
+
+---
+
+## 第六部分：总结
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Docker 编译优势总结                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   ✅ 无需安装 Android Studio                                 │
+│   ✅ 环境一致，跨平台可用                                    │
+│   ✅ 可集成到 CI/CD 流程                                    │
+│   ✅ 输出 APK 后用蒲公英分发                                │
+│   ✅ 易于团队协作                                            │
+│                                                             │
+│   ⚠️  需要 Docker 环境                                       │
+│   ⚠️  首次编译需要下载镜像                                   │
+│   ⚠️  需要一定命令行基础                                     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+推荐流程：
+  本地开发 (npx expo start) 
+       ↓
+  Docker 编译 (docker run ...)
+       ↓
+  蒲公英分发 (pgyer.com)
+       ↓
+  用户扫码安装
+```
+
+---
+
+## 附录：推荐的 Docker 镜像
+
+| 镜像 | 用途 | 大小 |
+|------|------|------|
+| android | 完整 Android 构建 | ~8GB |
+| ubuntu:22.04 | 基础系统 | ~80MB |
+| gradle:8.4-jdk17 | Gradle 构建 | ~500MB |
+
+如需更小镜像，可使用 `ubuntu:22.04` + 自己安装 SDK。

@@ -1,0 +1,1356 @@
+--------- beginning of main
+04-18 03:16:24.124 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.140 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.156 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.174 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.191 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.207 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.223 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.240 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.257 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.274 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.290 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.307 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.324 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.340 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.357 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.373 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.392 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.407 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.425 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.440 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.457 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.474 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.556 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.590 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.673 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.768 D/jnicat  (15390): cacheitem("java/lang/Throwable", "toString", "()Ljava/lang/String;", 1)
+04-18 03:16:24.768 D/jnicat  (15390): cacheitem("android/util/Log", "getStackTraceString", "(Ljava/lang/Throwable;)Ljava/lang/String;", 2)
+04-18 03:16:24.803 D/hw-ProcessState(15390): Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-18 03:16:24.806 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.826 W/com.tencent.mm(13003): Suspending all threads took: 7.866ms
+04-18 03:16:24.857 I/encent.mm:patc(14430): Explicit concurrent copying GC freed 372546(9565KB) AllocSpace objects, 8(552KB) LOS objects, 36% free, 42MB/66MB, paused 170us,676us total 186.538ms
+04-18 03:16:24.858 I/chromium(15390): [0418/031624.858772:INFO:mm_cronet_network_change_notify.cc(59)] remain size: 1
+04-18 03:16:24.859 I/chromium(15390): [15639:0418/031624.859855:INFO:socket_impl.cc(157)] andromeda init, build time: Dec 24 2025,13:01:54
+04-18 03:16:24.859 I/chromium(15390): [15639:0418/031624.859955:INFO:socket_impl.cc(158)] default supported QUIC versions: RFCv1
+04-18 03:16:24.860 I/chromium(15390): [15639:0418/031624.860023:INFO:socket_impl.cc(173)]  pipe fd[0] 132, fd[1] 135
+04-18 03:16:24.866 I/chromium(15390): [15639:0418/031624.860284:INFO:runner.cc(76)] mmcronet::quic::recycle tid 15731
+04-18 03:16:24.878 I/chromium(15390): [15639:0418/031624.867146:INFO:runner.cc(65)] mmcronet::quic::timeout-guard tid 15737
+04-18 03:16:24.880 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:24.880 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:24.886 I/chromium(15390): [15639:0418/031624.878895:INFO:runner.cc(55)] mmcronet::quic::proxy tid 15743
+04-18 03:16:24.889 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.901 D/HARDCODER(15375): [com_tencent_mm_hardcoder_HardCoderJNI.cpp,Java_com_tencent_mm_hardcoder_HardCoderJNI_setDebug:415]"setDebug: 1"
+04-18 03:16:24.903 D/HARDCODER(15375): [com_tencent_mm_hardcoder_HardCoderJNI.cpp,Java_com_tencent_mm_hardcoder_HardCoderJNI_setHCEnable:400]"setEnable: 1"
+04-18 03:16:24.903 D/HARDCODER(15375): [client.h,setEnable:422]"setEnable 1 to 1, restart:0"
+04-18 03:16:24.911 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 4096
+04-18 03:16:24.915 I/com.tencent.mm(13003): Background concurrent copying GC freed 1070456(37MB) AllocSpace objects, 59(2300KB) LOS objects, 30% free, 54MB/78MB, paused 3.244ms,8.066ms total 1.162s
+04-18 03:16:24.941 D/HARDCODER(15375): [com_tencent_mm_hardcoder_HardCoderJNI.cpp,Java_com_tencent_mm_hardcoder_HardCoderJNI_initHardCoder:152]"initHardCoder, start."
+04-18 03:16:24.941 D/HARDCODER(15375): [client.h,init:476]"init m_remote:mmServer, HEADER_VERSION:4"
+04-18 03:16:24.941 D/HARDCODER(15375): [client.h,tryStartEngine:370]"tryStartEngine, TimeDiff:-1663075603, remote:mmServer, running:-1"
+04-18 03:16:24.941 W/HARDCODER(15375): [localsocket.h,uninit:218]"uninit, pipe:[0,0], m_fd:0, queue:0, flag:1"
+04-18 03:16:24.941 D/HARDCODER(15375): [localsocket.h,createSocket:252]"createSocket, localPath: com.tencent.mm.hardcoder.client.sock, remotePath: mmServer"
+04-18 03:16:24.942 W/HARDCODER(15375): [localsocket.h,createSocket:313]"createSocket, connect socket, ret:0, local:com.tencent.mm.hardcoder.client.sock, remote:mmServer"
+04-18 03:16:24.942 W/HARDCODER(15375): [localsocket.h,createSocket:355]"create ClientProtocal socket:153 local:com.tencent.mm.hardcoder.client.sock remote:mmServer"
+04-18 03:16:24.942 D/HARDCODER(15375): [com_tencent_mm_hardcoder_HardCoderJNI.cpp,Java_com_tencent_mm_hardcoder_HardCoderJNI_initHardCoder:157]"initHardCoder, end."
+04-18 03:16:24.943 D/HARDCODER(15375): [localsocket.h,loop:128]"loop, m_fd:153, maxfd:153, isServer:0"
+04-18 03:16:24.973 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:24.989 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.006 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.023 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.039 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.048 E/zidl2   (15375): ::JNI_OnLoad of libzidl2 BEGIN
+04-18 03:16:25.049 E/zidl2   (15375): ::JNI_OnLoad of libzidl2.so
+04-18 03:16:25.056 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.073 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.079 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 4096
+04-18 03:16:25.089 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.105 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.156 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.172 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.189 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.206 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.223 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.239 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.251 E/zidl2   (15390): ::JNI_OnLoad of libzidl2 BEGIN
+04-18 03:16:25.252 E/zidl2   (15390): ::JNI_OnLoad of libzidl2.so
+04-18 03:16:25.256 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.273 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.289 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.306 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.322 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.339 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.355 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.372 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.389 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.399 E/zlog    (15375): ::JNI_OnLoad of libzlog BEGIN
+04-18 03:16:25.399 E/zlog    (15375): ::JNI_OnLoad of libzlog.so
+04-18 03:16:25.406 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.420 E/zidl2   (15375): ::JNI_OnLoad of libzidl2 BEGIN
+04-18 03:16:25.420 E/zidl2   (15375): ::JNI_OnLoad of libzidl2.so
+04-18 03:16:25.422 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.439 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.456 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.472 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.488 E/zlog    (15390): ::JNI_OnLoad of libzlog BEGIN
+04-18 03:16:25.488 E/zlog    (15390): ::JNI_OnLoad of libzlog.so
+04-18 03:16:25.489 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.494 E/zidl2   (15390): ::JNI_OnLoad of libzidl2 BEGIN
+04-18 03:16:25.494 E/zidl2   (15390): ::JNI_OnLoad of libzidl2.so
+04-18 03:16:25.572 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.738 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.821 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.833 E/aff-module(15375): ::JNI_OnLoad of aff-biz
+04-18 03:16:25.971 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:25.988 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.005 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.017 E/aff-module(15390): ::JNI_OnLoad of aff-biz
+04-18 03:16:26.021 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.038 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.055 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.071 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.088 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.105 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.121 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.137 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.155 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.171 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.188 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.204 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.221 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.238 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.255 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.271 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.288 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.304 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.321 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.338 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.354 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.371 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.388 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.404 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.421 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.438 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.454 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.537 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.970 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:26.987 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.004 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.020 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.037 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.054 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.070 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.087 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.103 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.120 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.136 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.154 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.170 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.187 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.203 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.220 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.237 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.253 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.270 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.287 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.303 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.320 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.336 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.353 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.370 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.386 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.403 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.420 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.436 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.453 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.470 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.552 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.770 I/XWebSysUtils(15390): setLocalStoragePatthSuffix = com.tencent.mm.appbrand0.619
+04-18 03:16:27.783 I/NativeImage(15375): [WxImageLoader] loadAsync path[magicbrandservice-13]
+04-18 03:16:27.784 I/NativeImage(15375): [WxImageLoader] loadAsync path[magicbrandservice-13]
+04-18 03:16:27.785 I/NativeImage(15375): [WxImageLoader] loadAsync path[magicbrandservice-13]
+04-18 03:16:27.788 I/NativeImage(15375): [WxImageLoader] loadAsync path[magicadbrandservice-]
+04-18 03:16:27.789 I/NativeImage(15375): [WxImageLoader] loadAsync path[magicadbrandservice-]
+04-18 03:16:27.837 E/HeifDecoderImpl(15375): getSize: not supported!
+04-18 03:16:27.854 E/HeifDecoderImpl(15375): getSize: not supported!
+04-18 03:16:27.861 E/HeifDecoderImpl(15375): getSize: not supported!
+04-18 03:16:27.885 E/HeifDecoderImpl(15375): getSize: not supported!
+04-18 03:16:27.900 I/NativeImage(15375): [WxImageLoader] file is loaded [magicbrandservice-13003.731789://resources/images/fire.png] bitmap(not null)
+04-18 03:16:27.902 I/NativeImage(15375): [WxImageLoader] listenerList->size() [1]
+04-18 03:16:27.902 I/NativeImage(15375): [WxImageLoader] config listener removed, count[1]
+04-18 03:16:27.907 E/HeifDecoderImpl(15375): getSize: not supported!
+04-18 03:16:27.923 E/HeifDecoderImpl(15375): getSize: not supported!
+04-18 03:16:27.925 E/HeifDecoderImpl(15375): getSize: not supported!
+04-18 03:16:27.925 E/HeifDecoderImpl(15375): getSize: not supported!
+04-18 03:16:27.929 E/HeifDecoderImpl(15375): getSize: not supported!
+04-18 03:16:27.932 I/NativeImage(15375): [WxImageLoader] Invoke Listener finished, done.
+04-18 03:16:27.935 I/NativeImage(15375): [WxImageLoader] file is loaded [magicbrandservice-13003.731789://resources/images/close_border.png] bitmap(not null)
+04-18 03:16:27.937 E/HeifDecoderImpl(15375): getSize: not supported!
+04-18 03:16:27.938 I/NativeImage(15375): [WxImageLoader] listenerList->size() [1]
+04-18 03:16:27.938 I/NativeImage(15375): [WxImageLoader] config listener removed, count[1]
+04-18 03:16:27.944 I/NativeImage(15375): [WxImageLoader] Invoke Listener finished, done.
+04-18 03:16:27.944 I/NativeImage(15375): [WxImageLoader] file is loaded [magicadbrandservice-13003.731748://resources/feedback_medium_2_LM.png] bitmap(not null)
+04-18 03:16:27.944 I/NativeImage(15375): [WxImageLoader] listenerList->size() [1]
+04-18 03:16:27.944 I/NativeImage(15375): [WxImageLoader] config listener removed, count[1]
+04-18 03:16:27.946 I/NativeImage(15375): [WxImageLoader] Invoke Listener finished, done.
+04-18 03:16:27.946 I/NativeImage(15375): [WxImageLoader] file is loaded [magicbrandservice-13003.731789://resources/images/arrow_right_lm.png] bitmap(not null)
+04-18 03:16:27.946 I/NativeImage(15375): [WxImageLoader] listenerList->size() [1]
+04-18 03:16:27.946 I/NativeImage(15375): [WxImageLoader] config listener removed, count[1]
+04-18 03:16:27.947 I/NativeImage(15375): [WxImageLoader] Invoke Listener finished, done.
+04-18 03:16:27.969 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:27.975 I/NativeImage(15375): [WxImageLoader] loadAsync path[wxfile://usr/downloa]
+04-18 03:16:27.985 D/CompatibilityChangeReporter(15390): Compat change id reported: 171228096; UID 10246; state: ENABLED
+04-18 03:16:27.986 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.002 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.019 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.036 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.052 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.060 W/JSRuntimeLooper(15390): type=1400 audit(0.0:10327): avc: granted { execute } for path="/data/data/com.tencent.mm/tinker/patch-645cb71a/lib/lib/arm64-v8a/libmmv8.so" dev="dm-10" ino=87194 scontext=u:r:untrusted_app:s0:c246,c256,c512,c768 tcontext=u:object_r:app_data_file:s0:c246,c256,c512,c768 tclass=file app=com.tencent.mm
+04-18 03:16:28.066 I/NativeImage(15375): [WxImageLoader] file is loaded [wxfile://usr/download_e6f39ec56ee71e8d_1776258780356] bitmap(not null)
+04-18 03:16:28.066 I/NativeImage(15375): [WxImageLoader] listenerList->size() [1]
+04-18 03:16:28.066 I/NativeImage(15375): [WxImageLoader] config listener removed, count[1]
+04-18 03:16:28.069 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.070 I/NativeImage(15375): [WxImageLoader] Invoke Listener finished, done.
+04-18 03:16:28.076 I/NativeImage(15375): [WxImageLoader] loadAsync path[wxfile://usr/downloa]
+04-18 03:16:28.086 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.102 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.119 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.122 I/NativeImage(15375): [WxImageLoader] file is loaded [wxfile://usr/download_77925a3a9a82da20_1776430349381.jpeg] bitmap(not null)
+04-18 03:16:28.122 I/NativeImage(15375): [WxImageLoader] listenerList->size() [1]
+04-18 03:16:28.122 I/NativeImage(15375): [WxImageLoader] config listener removed, count[1]
+04-18 03:16:28.135 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.152 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.169 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.185 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.202 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.219 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.228 W/[GT]ColdPool#4(15390): type=1400 audit(0.0:10328): avc: granted { execute } for path="/data/data/com.tencent.mm/MicroMsg/AFFUDRPath/resource/udr/biz/ilinkres_55e88e46/libwcwss/d0775caed341bb6a5e7290900d62f134.udr" dev="dm-10" ino=24795 scontext=u:r:untrusted_app:s0:c246,c256,c512,c768 tcontext=u:object_r:app_data_file:s0:c246,c256,c512,c768 tclass=file app=com.tencent.mm
+04-18 03:16:28.235 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.244 W/[GT]ColdPool#4(15390): type=1400 audit(0.0:10329): avc: granted { execute } for path="/data/data/com.tencent.mm/MicroMsg/AFFUDRPath/resource/udr/biz/ilinkres_55e88e46/libmmwcwss/fb81866f1624f6931efd3f06774d0653.udr" dev="dm-10" ino=24637 scontext=u:r:untrusted_app:s0:c246,c256,c512,c768 tcontext=u:object_r:app_data_file:s0:c246,c256,c512,c768 tclass=file app=com.tencent.mm
+04-18 03:16:28.252 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.269 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.285 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.302 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.319 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.335 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.352 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.385 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.393 I/nt.mm:appbrand(15375): NativeAlloc concurrent copying GC freed 52509(2704KB) AllocSpace objects, 45(14MB) LOS objects, 39% free, 36MB/60MB, paused 146us,92us total 413.298ms
+04-18 03:16:28.402 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.419 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.428 W/libc    (15390): Access denied finding property "ro.vendor.perf.scroll_opt.heavy_app"
+04-18 03:16:28.435 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.452 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.468 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.538 D/HeapGCOptimizerV2#Native(13770): set max heap usage to add gc diff to 0.700000
+04-18 03:16:28.543 I/NativeImage(15375): [WxImageLoader] Invoke Listener finished, done.
+04-18 03:16:28.550 I/NativeImage(15375): [WxImageLoader] loadAsync path[wxfile://usr/downloa]
+04-18 03:16:28.551 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.564 I/NativeImage(15375): [WxImageLoader] loadAsync path[wxfile://usr/downloa]
+04-18 03:16:28.565 I/NativeImage(15375): [WxImageLoader] file is loaded [wxfile://usr/download_ec4c88c86786aff_1776258780364.png] bitmap(not null)
+04-18 03:16:28.565 I/NativeImage(15375): [WxImageLoader] listenerList->size() [1]
+04-18 03:16:28.565 I/NativeImage(15375): [WxImageLoader] config listener removed, count[1]
+04-18 03:16:28.650 E/XWeb.Core.NTransXweb(15390): XWEB_NATIVE_TRANS NTransManager_Bind xweb78 bind to 0x0x6d78cf02b0
+04-18 03:16:28.650 E/XWeb.Core.NTrans(15390): xweb bind native manager 0x78cf02b0
+04-18 03:16:28.744 I/NativeImage(15375): [WxImageLoader] Invoke Listener finished, done.
+04-18 03:16:28.760 I/NativeImage(15375): [WxImageLoader] file is loaded [wxfile://usr/download_1f34456335cc8a14_1776258780369.png] bitmap(not null)
+04-18 03:16:28.760 I/NativeImage(15375): [WxImageLoader] listenerList->size() [1]
+04-18 03:16:28.760 I/NativeImage(15375): [WxImageLoader] config listener removed, count[1]
+04-18 03:16:28.838 I/NativeImage(15375): [WxImageLoader] Invoke Listener finished, done.
+04-18 03:16:28.838 I/NativeImage(15375): [WxImageLoader] file is loaded [magicadbrandservice-13003.731748://resources/avif_detection.avif] bitmap(not null)
+04-18 03:16:28.838 I/NativeImage(15375): [WxImageLoader] listenerList->size() [1]
+04-18 03:16:28.838 I/NativeImage(15375): [WxImageLoader] config listener removed, count[1]
+04-18 03:16:28.842 I/encent.mm:patc(14430): Background young concurrent copying GC freed 687682(21MB) AllocSpace objects, 60(3984KB) LOS objects, 35% free, 43MB/66MB, paused 243us,163us total 243.805ms
+04-18 03:16:28.847 I/NativeImage(15375): [WxImageLoader] Invoke Listener finished, done.
+04-18 03:16:28.950 I/v8      (15390): SetInvokeRenderCallbackInner
+04-18 03:16:28.984 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:28.994 I/v8      (15390): v8_flags.code_range_fix: false
+04-18 03:16:29.001 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.000 W/Chrome_InProcRe(15390): type=1400 audit(0.0:10330): avc: granted { execute } for path="/data/data/com.tencent.mm/app_xweb_data/xweb_1460055/extracted_xwalkcore/libxwebcore.so" dev="dm-10" ino=48754 scontext=u:r:untrusted_app:s0:c246,c256,c512,c768 tcontext=u:object_r:app_data_file:s0:c246,c256,c512,c768 tclass=file app=com.tencent.mm
+04-18 03:16:29.018 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.034 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.051 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.067 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.084 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.100 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.118 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.130 D/Linux   (10441): [Posix_connect Debug]Process com.zbb.automation :8081
+04-18 03:16:29.134 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.151 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.168 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.184 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.201 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.218 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.234 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.251 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.267 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.283 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.301 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.315 W/MediaCodec-JNI(15390): pid:15390,client name:com.tencent.mm:appbrand0
+04-18 03:16:29.317 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.331 W/AudioCapabilities(15390): Unsupported mime audio/x-ms-wma
+04-18 03:16:29.334 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.335 W/AudioCapabilities(15390): Unsupported mime audio/x-ms-wma
+04-18 03:16:29.336 W/AudioCapabilities(15390): Unsupported mime audio/mpeg-L1
+04-18 03:16:29.337 W/AudioCapabilities(15390): Unsupported mime audio/mpeg-L2
+04-18 03:16:29.337 W/AudioCapabilities(15390): Unsupported mime audio/mpeg-L1
+04-18 03:16:29.337 W/AudioCapabilities(15390): Unsupported mime audio/mpeg-L2
+04-18 03:16:29.337 W/AudioCapabilities(15390): Unsupported mime audio/ra
+04-18 03:16:29.338 W/AudioCapabilities(15390): Unsupported mime audio/ra
+04-18 03:16:29.338 W/AudioCapabilities(15390): Unsupported mime audio/alac
+04-18 03:16:29.338 W/AudioCapabilities(15390): Unsupported mime audio/alac
+04-18 03:16:29.339 W/AudioCapabilities(15390): Unsupported mime audio/ape
+04-18 03:16:29.339 W/AudioCapabilities(15390): Unsupported mime audio/x-ape
+04-18 03:16:29.339 W/AudioCapabilities(15390): Unsupported mime audio/ape
+04-18 03:16:29.339 W/AudioCapabilities(15390): Unsupported mime audio/x-ape
+04-18 03:16:29.340 W/AudioCapabilities(15390): Unsupported mime audio/adpcm
+04-18 03:16:29.340 W/AudioCapabilities(15390): Unsupported mime audio/x-ms-adpcm
+04-18 03:16:29.340 W/AudioCapabilities(15390): Unsupported mime audio/pcm
+04-18 03:16:29.340 W/AudioCapabilities(15390): Unsupported mime audio/pcm
+04-18 03:16:29.340 W/AudioCapabilities(15390): Unsupported mime audio/dsd
+04-18 03:16:29.340 W/AudioCapabilities(15390): Unsupported mime audio/dsd
+04-18 03:16:29.341 W/VideoCapabilities(15390): Unsupported mime video/rv
+04-18 03:16:29.341 W/VideoCapabilities(15390): Unsupported mime video/rv
+04-18 03:16:29.341 W/VideoCapabilities(15390): Unsupported mime video/x-ms-wmv
+04-18 03:16:29.342 W/VideoCapabilities(15390): Unsupported mime video/x-ms-wmv2
+04-18 03:16:29.342 W/VideoCapabilities(15390): Unsupported mime video/x-ms-wmv
+04-18 03:16:29.343 W/VideoCapabilities(15390): Unsupported mime video/x-ms-wmv2
+04-18 03:16:29.345 W/VideoCapabilities(15390): Unsupported mime video/divx3
+04-18 03:16:29.345 W/VideoCapabilities(15390): Unsupported mime video/divx3
+04-18 03:16:29.346 W/VideoCapabilities(15390): Unsupported mime video/flv1
+04-18 03:16:29.346 W/VideoCapabilities(15390): Unsupported mime video/x-flv
+04-18 03:16:29.347 W/VideoCapabilities(15390): Unsupported mime video/flv1
+04-18 03:16:29.347 W/VideoCapabilities(15390): Unsupported mime video/x-flv
+04-18 03:16:29.348 W/VideoCapabilities(15390): Unsupported mime video/mjpeg
+04-18 03:16:29.348 W/VideoCapabilities(15390): Unsupported mime video/x-motion-jpeg
+04-18 03:16:29.348 W/VideoCapabilities(15390): Unsupported mime video/mjpeg
+04-18 03:16:29.349 W/VideoCapabilities(15390): Unsupported mime video/x-motion-jpeg
+04-18 03:16:29.349 W/AudioCapabilities(15390): Unsupported mime audio/x-adpcm-dvi-ima
+04-18 03:16:29.350 W/AudioCapabilities(15390): Unsupported mime audio/x-adpcm-dvi-ima
+04-18 03:16:29.350 W/AudioCapabilities(15390): Unsupported mime audio/x-adpcm-ms
+04-18 03:16:29.350 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.350 W/AudioCapabilities(15390): Unsupported mime audio/x-adpcm-ms
+04-18 03:16:29.352 W/AudioCapabilities(15390): Unsupported mime audio/alac
+04-18 03:16:29.352 W/AudioCapabilities(15390): Unsupported mime audio/alac
+04-18 03:16:29.353 W/AudioCapabilities(15390): Unsupported mime audio/ape
+04-18 03:16:29.353 W/AudioCapabilities(15390): Unsupported mime audio/ape
+04-18 03:16:29.362 W/VideoCapabilities(15390): Unsupported mime image/vnd.android.heic
+04-18 03:16:29.363 W/VideoCapabilities(15390): Unsupported mime image/vnd.android.heic
+04-18 03:16:29.363 W/VideoCapabilities(15390): Unsupported mime image/vnd.android.heic
+04-18 03:16:29.367 W/VideoCapabilities(15390): Unsupported mime video/x-ms-wmv
+04-18 03:16:29.367 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.368 W/VideoCapabilities(15390): Unsupported mime video/x-ms-wmv
+04-18 03:16:29.378 W/AccessibilityServiceImpl(10441): getCurrentPackageName 尝试在 非主线程调用，已在主线程重新执行
+04-18 03:16:29.383 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.387 I/ReactNativeJS(10441): [ZBB INFO] [微信] 当前包名: com.tencent.mm
+04-18 03:16:29.388 I/ReactNativeJS(10441): [ZBB SUCCESS] [微信] 微信已打开
+04-18 03:16:29.389 I/ReactNativeJS(10441): [ZBB INFO] [流程] 阶段三：搜索并进入小程序
+04-18 03:16:29.400 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.417 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.434 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.443 I/ReactNativeJS(10441): [ZBB INFO] [流程] 阶段三：搜索并进入小程序
+04-18 03:16:29.443 I/ReactNativeJS(10441): [ZBB INFO] [流程] 阶段四：进入绿城云小程序
+04-18 03:16:29.450 D/AccessibilityServiceImpl(10441): 找到已启用的 ZBB 无障碍服务: com.zbb.automation/.AccessibilityServiceImpl
+04-18 03:16:29.451 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.451 W/unknown:ReactNative(10441): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-18 03:16:29.452 W/unknown:ReactNative(10441): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-18 03:16:29.455 I/ReactNativeJS(10441): [ZBB INFO] [微信] ⑨: 下拉微信首页...
+04-18 03:16:29.467 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.484 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.500 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.534 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.536 E/XWeb.Core.NTransXweb(15390): XWEB_NATIVE_TRANS XWebNTransModule inject ntrans success
+04-18 03:16:29.550 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.567 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.583 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.585 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:29.585 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:29.600 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.617 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.634 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.651 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.666 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.683 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.685 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:29.685 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:29.700 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.703 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:29.703 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:29.703 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 4096
+04-18 03:16:29.717 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.720 I/encent.mm:patc(14430): Background concurrent copying GC freed 579459(26MB) AllocSpace objects, 15(1676KB) LOS objects, 36% free, 42MB/66MB, paused 675us,67us total 176.052ms
+04-18 03:16:29.733 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.737 I/nt.mm:appbrand(15390): Background young concurrent copying GC freed 162957(8754KB) AllocSpace objects, 9(4148KB) LOS objects, 0% free, 108MB/108MB, paused 1.747ms,127us total 174.572ms
+04-18 03:16:29.750 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.767 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.783 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.800 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.818 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:29.818 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:29.822 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 4096
+04-18 03:16:29.850 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.867 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.883 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.900 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.916 I/NativeImage(15375): [WxImageLoader] loadAsync path[magicbrandservice-13]
+04-18 03:16:29.917 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.933 I/NativeImage(15375): [WxImageLoader] file is loaded [magicbrandservice-13003.731789://wxfile%3A%2F%2Fusr%2Fmptl%2Fimage-view%2Fcef6c1ea3042c3d24328abcc9a] bitmap(not null)
+04-18 03:16:29.933 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.934 I/NativeImage(15375): [WxImageLoader] listenerList->size() [1]
+04-18 03:16:29.934 I/NativeImage(15375): [WxImageLoader] config listener removed, count[1]
+04-18 03:16:29.936 I/NativeImage(15375): [WxImageLoader] Invoke Listener finished, done.
+04-18 03:16:29.950 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:29.950 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:29.950 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.951 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 4096
+04-18 03:16:29.960 D/AccessibilityServiceImpl(10441): 滑动完成: (300.0,200.0) -> (300.0,800.0)
+04-18 03:16:29.961 I/ReactNativeJS(10441): [ZBB SUCCESS] [微信] ⑨: 下拉微信首页
+04-18 03:16:29.967 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.983 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:29.999 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.016 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.033 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.050 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.052 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:30.052 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:30.067 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.082 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:30.083 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:30.083 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.085 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 4096
+04-18 03:16:30.088 I/nt.mm:appbrand(15390): Background concurrent copying GC freed 126148(6689KB) AllocSpace objects, 16(99MB) LOS objects, 23% free, 79MB/103MB, paused 8.150ms,122us total 351.021ms
+04-18 03:16:30.089 W/JavaBinder(15390): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+04-18 03:16:30.089 I/BpBinder(15390): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+04-18 03:16:30.100 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.116 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.133 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.144 I/skyline (15390): [INFO:jni.cc(258)] JNI_OnLoad start
+04-18 03:16:30.144 I/skyline (15390):
+04-18 03:16:30.144 I/skyline (15390): setLogHandler
+04-18 03:16:30.150 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.156 E/flutter (15390): [ERROR:flutter/txt/src/txt/fontmgr_default_android.cc(429)] value vivo
+04-18 03:16:30.156 E/flutter (15390): [ERROR:flutter/txt/src/txt/fontmgr_default_android.cc(431)] fontXmlName /data/user/0/com.tencent.mm/code_cache/flutter_V2166A/com.tencent.mm:appbrand0/flutter_custom_fonts2.xml
+04-18 03:16:30.156 E/flutter (15390): [ERROR:flutter/txt/src/txt/fontmgr_default_android.cc(599)] use default font mgr
+04-18 03:16:30.160 I/flutter (15390): [INFO:flutter/shell/common/switches.cc(656)] settings.enable_surface_control:0, settings.surface_control_max_buffer_num:3,settings.create_join_raster_group_name:
+04-18 03:16:30.160 I/flutter (15390): [INFO:flutter/shell/common/switches.cc(674)] settings.enable_impeller_raster_cache:0, settings.enable_font_prerender:0
+04-18 03:16:30.160 I/flutter (15390): [INFO:flutter/shell/common/switches.cc(742)] settings.enable_vulkan_partial_repaint:0, settings.enable_vulkan_vma_pool:0, settings.enable_vulkan_set_present_time:0, settings.vulkan_swapchain_extra_image_count:1
+04-18 03:16:30.163 I/flutter (15390): [INFO:flutter/shell/platform/android/flutter_main.cc(258)] set slow runner report callback
+04-18 03:16:30.164 I/flutter (15390): [INFO:flutter/fml/platform/android/message_loop_android.cc(22)] prepare main_looper: 1
+04-18 03:16:30.164 I/flutter (15390): [INFO:flutter/fml/message_loop.cc(117)] start create platform thread message loop
+04-18 03:16:30.164 I/flutter (15390): [INFO:flutter/fml/platform/android/message_loop_android.cc(49)] AcquireLooperForMainThread success
+04-18 03:16:30.164 I/flutter (15390): [INFO:flutter/fml/message_loop.cc(119)] create platform thread message loop end
+04-18 03:16:30.164 I/flutter (15390): [INFO:flutter/fml/message_loop.cc(124)] start AttachLoopToPlatformThread
+04-18 03:16:30.164 I/flutter (15390): [INFO:flutter/fml/message_loop.cc(126)] AttachLoopToPlatformThread reset tls_message_loop. g_platform_thread_loop:0x6eae654bd0 tls_message_loop:0x0
+04-18 03:16:30.167 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.175 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:30.175 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:30.176 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 4
+04-18 03:16:30.177 I/flutter (15390): [INFO:flutter/fml/message_loop.cc(32)] create MessageLoop for current thread
+04-18 03:16:30.183 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.200 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.217 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.233 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.250 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.255 D/skia    (15390): --- Failed to create image decoder with message 'unimplemented'
+04-18 03:16:30.267 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.273 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:30.273 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:30.283 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.300 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.317 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.333 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.349 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.367 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.382 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.391 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:30.391 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:30.400 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.416 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.433 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.449 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.466 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.483 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.499 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.504 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:30.504 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:30.516 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.518 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:30.518 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:30.533 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.549 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.566 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.572 W/com.tencent.mm(13003): type=1400 audit(0.0:10333): avc: granted { execute } for path="/data/data/com.tencent.mm/app_xweb_data/xweb_1460055/apk/oat/arm64/base.odex" dev="dm-10" ino=64285 scontext=u:r:untrusted_app:s0:c246,c256,c512,c768 tcontext=u:object_r:app_data_file:s0:c246,c256,c512,c768 tclass=file app=com.tencent.mm
+04-18 03:16:30.591 I/PSCoreBridge(13003): setStandAloneMode:false
+04-18 03:16:30.588 W/com.tencent.mm(13003): type=1400 audit(0.0:10334): avc: granted { execute } for path="/data/data/com.tencent.mm/app_xweb_data/xweb_1460055/extracted_xwalkcore/libWXAMSDK.so" dev="dm-10" ino=51732 scontext=u:r:untrusted_app:s0:c246,c256,c512,c768 tcontext=u:object_r:app_data_file:s0:c246,c256,c512,c768 tclass=file app=com.tencent.mm
+04-18 03:16:30.592 W/com.tencent.mm(13003): type=1400 audit(0.0:10335): avc: granted { execute } for path="/data/data/com.tencent.mm/app_xweb_data/xweb_1460055/extracted_xwalkcore/libffmpeg.so" dev="dm-10" ino=51492 scontext=u:r:untrusted_app:s0:c246,c256,c512,c768 tcontext=u:object_r:app_data_file:s0:c246,c256,c512,c768 tclass=file app=com.tencent.mm
+04-18 03:16:30.621 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:30.621 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:30.639 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:30.639 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:30.641 I/XWeb.Core(13003): [0418/031630.640944:INFO:xweb/xweb_pinus/lib/webview_entry_point.cc:38] JNI_OnLoad start register jni
+04-18 03:16:30.641 I/XWeb.Core(13003): [0418/031630.641586:INFO:xweb/xweb_pinus/lib/webview_entry_point.cc:44] JNI_OnLoad end
+04-18 03:16:30.643 I/PSViewDelegate(13003): setNotifyCallBackChannel:gr5.i@f4e4c2b
+04-18 03:16:30.643 I/XWebCallBackChannel(13003): SetNotifyCallBackChannel, callback:gr5.i@f4e4c2b
+04-18 03:16:30.644 I/PSViewDelegate(13003): setLogCallBack:gr5.j@3cdb888
+04-18 03:16:30.649 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:30.710 I/XWeb.Core(13003): [0418/031630.710208:INFO:xweb/xweb_comm/modules/hevc_hls_support/xweb_hevc_and_hls_switcher.cc:20] [XWEB_HEVC_HLS_SUPPORT] enable hevc and hls
+04-18 03:16:30.742 I/XWeb.Core(13003): [0418/031630.742829:INFO:xweb/xweb_pinus/lib/webview_jni_onload.cc:20] OnJNIOnLoadInit
+04-18 03:16:30.747 I/XWeb.Core.fake_dlfcn(13003): 6de7646000-6de772c000 r-xp 00000000 fd:0a 63378                          /data/app/~~1N9La9Xt_Eo1BzVcJyCj-A==/com.tencent.mm-VjqhVGRAcUYFaUSueWTakQ==/lib/arm64/libwechatxlog.so
+04-18 03:16:30.747 I/XWeb.Core.fake_dlfcn(13003): /data/app/~~1N9La9Xt_Eo1BzVcJyCj-A==/com.tencent.mm-VjqhVGRAcUYFaUSueWTakQ==/lib/arm64/libwechatxlog.so loaded in Android at 0x6de7646000
+04-18 03:16:30.747 I/XWeb.Core.fake_dlfcn(13003): xlogger_IsEnabledFor found at 0x6de767d330
+04-18 03:16:30.748 I/XWeb.Core.fake_dlfcn(13003): xlogger_VPrint found at 0x6de767d43c
+04-18 03:16:30.748 I/XWeb.Core(13003): [0418/031630.748013:INFO:xweb/xweb_comm/xweb_common_logic.cc:88] [XWEB] initNativeXlog success
+04-18 03:16:30.748 I/XWeb.Core(13003): [0418/031630.748043:INFO:xweb/xweb_comm/xweb_common_logic.cc:217] [XWEB_COMMON] CommonLogic g_library_process_type:PROCESS_BROWSER:1
+04-18 03:16:30.812 W/libc    (13003): Access denied finding property "ro.vendor.api_level"
+04-18 03:16:30.817 I/com.tencent.mm(13003): Background young concurrent copying GC freed 689113(26MB) AllocSpace objects, 46(1588KB) LOS objects, 24% free, 58MB/78MB, paused 308us,358us total 166.536ms
+04-18 03:16:30.828 W/System  (13003): A resource failed to call close.
+04-18 03:16:30.850 I/XWebSysUtils(13003): setLocalStoragePatthSuffix = com.tencent.mm.619
+04-18 03:16:30.969 I/ReactNativeJS(10441): [ZBB INFO] [微信] ⑩: 截图并使用 OCR 查 找"绿城云"...
+04-18 03:16:30.982 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.005 I/libc    (16060): SetHeapTaggingLevel: tag level set to 0
+04-18 03:16:31.015 E/leged_process_(16060): Not starting debugger since process cannot load the jdwp agent.
+04-18 03:16:31.016 D/ProcessState(16060): Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-18 03:16:31.053 D/CompatibilityChangeReporter(16060): Compat change id reported: 171979766; UID 10246; state: ENABLED
+04-18 03:16:31.065 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.077 D/ApplicationLoaders(16060): Returning zygote-cached class loader: /system/framework/android.test.base.jar
+04-18 03:16:31.110 V/GraphicsEnvironment(16060): ANGLE Developer option for 'com.tencent.mm' set to: 'default'
+04-18 03:16:31.110 V/GraphicsEnvironment(16060): App is not on the allowlist for updatable production driver.
+04-18 03:16:31.111 D/NetworkSecurityConfig(16060): Using Network Security Config from resource b7 debugBuild: false
+04-18 03:16:31.112 D/NetworkSecurityConfig(16060): Using Network Security Config from resource b7 debugBuild: false
+04-18 03:16:31.139 W/leged_process_(16060): Accessing hidden field Landroid/app/ActivityThread$H;->RELAUNCH_ACTIVITY:I (max-target-o, reflection, denied)
+04-18 03:16:31.145 W/leged_process_(16060): Accessing hidden field Landroid/app/ActivityThread$H;->APPLICATION_INFO_CHANGED:I (max-target-o, reflection, denied)
+04-18 03:16:31.244 V/NativeCrash(16060): Alternative stack installed.
+04-18 03:16:31.244 V/NativeCrash(16060): Signal handler installed.
+04-18 03:16:31.264 W/leged_process_0(16060): type=1400 audit(0.0:10342): avc: granted { execute } for path="/data/data/com.tencent.mm/app_xweb_data/xweb_1460055/apk/oat/arm64/base.odex" dev="dm-10" ino=64285 scontext=u:r:untrusted_app:s0:c246,c256,c512,c768 tcontext=u:object_r:app_data_file:s0:c246,c256,c512,c768 tclass=file app=com.tencent.mm
+04-18 03:16:31.275 I/XWeb.Core(16060): initResource ts:1776453391274 locales:[af, af_FEMININE, af_MASCULINE, af_NEUTER, am, am_FEMININE, am_MASCULINE, am_NEUTER, ar, ar_FEMININE, ar_MASCULINE, ar_NEUTER, as, as_FEMININE, as_MASCULINE, as_NEUTER, az, az_FEMININE, az_MASCULINE, az_NEUTER, be, be_FEMININE, be_MASCULINE, be_NEUTER, bg, bg_FEMININE, bg_MASCULINE, bg_NEUTER, bn, bn_FEMININE, bn_MASCULINE, bn_NEUTER, bs, bs_FEMININE, bs_MASCULINE, bs_NEUTER, ca, ca_FEMININE, ca_MASCULINE, ca_NEUTER, cs, cs_FEMININE, cs_MASCULINE, cs_NEUTER, da, da_FEMININE, da_MASCULINE, da_NEUTER, de, de_FEMININE, de_MASCULINE, de_NEUTER, el, el_FEMININE, el_MASCULINE, el_NEUTER, en-GB, en-GB_FEMININE, en-GB_MASCULINE, en-GB_NEUTER, en-US, en-US_FEMININE, en-US_MASCULINE, en-US_NEUTER, es, es-419, es-419_FEMININE, es-419_MASCULINE, es-419_NEUTER, es_FEMININE, es_MASCULINE, es_NEUTER, et, et_FEMININE, et_MASCULINE, et_NEUTER, eu, eu_FEMININE, eu_MASCULINE, eu_NEUTER, fa, fa_FEMININE, fa_MASCULINE, fa_NEUTER, fi, fi_FEMININE, fi_MASCULINE, fi_NEUTER, fil, fil_FEMININE, fil_MASCULINE, fil_NEUTER, fr, fr-CA, fr-CA_FEMININE, fr-CA_MASCULINE, fr-CA_NEUTER, fr_FEMININE, fr_MASCULINE, fr_NEUTER, gl, gl_FEMININE, gl_MASCULINE, gl_NEUTER, gu, gu_FEMININE, gu_MASCULINE, gu_NEUTER, he, he_FEMININE, he_MASCULINE, he_NEUTER, hi, hi_FEMININE, hi_MASCULINE, hi_NEUTER, hr, hr_FEMININE, hr_MASCULINE, hr_NEUTER, hu, hu_FEMININE, hu_MASCULINE, hu_NEUTER, hy, hy_FEMININE, hy_MASCULINE, hy_NEUTER, id, id_FEMININE, id_MASCULINE, id_NEUTER, is, is_FEMININE, is_MASCULINE, is_NEUTER, it, it_FEMININE, it_MASCULINE, it_NEUTER, ja, ja_FEMININE, ja_MASCULINE, ja_NEUTER, ka, ka_FEMININE, ka_MASCULINE, ka_NEUTER, kk, kk_FEMININE, kk_MASCULINE, kk_NEUTER, km, km_FEMININE, km_MASCULINE, km_NEUTER, kn, kn_FEMININE, kn_MASCULINE, kn_NEUTER, ko, ko_FEMININE, ko_MASCULINE, ko_NEUTER, ky, ky_FEMININE, ky_MASCULINE, ky_NEUTER, lo, lo_FEMININE, lo_MASCULINE, lo_NEUTER, lt, lt_FEMININE, lt_MASCULINE, lt_NEUTER, lv, lv_FEMININE, lv_MASCULINE, lv_NEUTER, mk, mk_FEMININE, mk_MASCULINE, mk_NEUTER, ml, ml_FEMININE, ml_MASCULINE, ml_NEUTER, mn, mn_FEMININE, mn_MASCULINE, mn_NEUTER, mr, mr_FEMININE, mr_MASCULINE, mr_NEUTER, ms, ms_FEMININE, ms_MASCULINE, ms_NEUTER, my, my_FEMININE, my_MASCULINE, my_NEUTER, nb, nb_FEMININE, nb_MASCULINE, nb_NEUTER, ne, ne_FEMININE, ne_MASCULINE, ne_NEUTER, nl, nl_FEMININE, nl_MASCULINE, nl_NEUTER, or, or_FEMININE, or_MASCULINE, or_NEUTER, pa, pa_FEMININE, pa_MASCULINE, pa_NEUTER, pl, pl_FEMININE, pl_MASCULINE, pl_NEUTER, pt-BR, pt-BR_FEMININE, pt-BR_MASCULINE, pt-BR_NEUTER, pt-PT, pt-PT_FEMININE, pt-PT_MASCULINE, pt-PT_NEUTER, ro, ro_FEMININE, ro_MASCULINE, ro_NEUTER, ru, ru_FEMININE, ru_MASCULINE, ru_NEUTER, si, si_FEMININE, si_MASCULINE, si_NEUTER, sk, sk_FEMININE, sk_MASCULINE, sk_NEUTER, sl, sl_FEMININE, sl_MASCULINE, sl_NEUTER, sq, sq_FEMININE, sq_MASCULINE, sq_NEUTER, sr, sr-Latn, sr-Latn_FEMININE, sr-Latn_MASCULINE, sr-Latn_NEUTER, sr_FEMININE, sr_MASCULINE, sr_NEUTER, sv, sv_FEMININE, sv_MASCULINE, sv_NEUTER, sw, sw_FEMININE, sw_MASCULINE, sw_NEUTER, ta, ta_FEMININE, ta_MASCULINE, ta_NEUTER, te, te_FEMININE, te_MASCULINE, te_NEUTER, th, th_FEMININE, th_MASCULINE, th_NEUTER, tr, tr_FEMININE, tr_MASCULINE, tr_NEUTER, uk, uk_FEMININE, uk_MASCULINE, uk_NEUTER, ur, ur_FEMININE, ur_MASCULINE, ur_NEUTER, uz, uz_FEMININE, uz_MASCULINE, uz_NEUTER, vi, vi_FEMININE, vi_MASCULINE, vi_NEUTER, zh-CN, zh-CN_FEMININE, zh-CN_MASCULINE, zh-CN_NEUTER, zh-HK, zh-HK_FEMININE, zh-HK_MASCULINE, zh-HK_NEUTER, zh-TW, zh-TW_FEMININE, zh-TW_MASCULINE, zh-TW_NEUTER, zu, zu_FEMININE, zu_MASCULINE, zu_NEUTER]
+04-18 03:16:31.275 I/XWeb.Core(16060): [XWEB_MULTI_PROCESS_POLICY] ChildProcessService service:com.tencent.xweb.pinus.sdk.process.PrivilegedProcessService0@474002b ts:1776453391275
+04-18 03:16:31.276 I/XWeb.Core(16060): loadXWebLibraryInNonIsolatedProcess do nothing now because of ffmpeg.so
+04-18 03:16:31.279 I/XWeb.Core(16060): [XWEB_MULTI_PROCESS_POLICY] onCreate, creating new ChildProcessService pid=16060
+04-18 03:16:31.280 I/XWeb.Core(16060): [XWEB_MULTI_PROCESS_POLICY] onBind mServiceBound:false ts:1776453391279
+04-18 03:16:31.280 I/XWeb.Core(16060): loadXWebLibraryInNonIsolatedProcess, from runtime, start
+04-18 03:16:31.280 I/XWeb.Core(16060): loadXWebLibraryInNonIsolatedProcess load:/data/user/0/com.tencent.mm/app_xweb_data/xweb_1460055/extracted_xwalkcore/libWXAMSDK.so
+04-18 03:16:31.281 I/XWeb.Core(16060): [XWEB_MULTI_PROCESS_POLICY] mainThreadMain pid:16060 ts:1776453391281
+04-18 03:16:31.282 I/XWeb.Core(16060): loadXWebLibraryInNonIsolatedProcess, from runtime, start
+04-18 03:16:31.282 I/XWeb.Core(16060): loadXWebLibraryInNonIsolatedProcess load:/data/user/0/com.tencent.mm/app_xweb_data/xweb_1460055/extracted_xwalkcore/libffmpeg.so
+04-18 03:16:31.283 I/XWeb.Core(16060): loadXWebLibraryInNonIsolatedProcess load:/data/user/0/com.tencent.mm/app_xweb_data/xweb_1460055/extracted_xwalkcore/libxwebcore.so
+04-18 03:16:31.291 I/XWeb.Core(16060): [0418/031631.291089:INFO:xweb/xweb_pinus/lib/webview_entry_point.cc:38] JNI_OnLoad start register jni
+04-18 03:16:31.291 I/XWeb.Core(16060): [0418/031631.291610:INFO:xweb/xweb_pinus/lib/webview_entry_point.cc:44] JNI_OnLoad end
+04-18 03:16:31.291 I/XWeb.Core(16060): loadXWebLibraryInNonIsolatedProcess, finish
+04-18 03:16:31.291 I/XWeb.Core(16060): setCustomFontInChildProcess serviceName:com.tencent.xweb.pinus.sdk.process.PrivilegedProcessService0, processType:gpu-process
+04-18 03:16:31.296 I/XWeb.Core(16060): [XWEB_MULTI_PROCESS_POLICY] bindToCaller, clazz:dalvik.system.DexClassLoader[DexPathList[[zip file "/data/user/0/com.tencent.mm/app_xweb_data/xweb_1460055/apk/base.apk"],nativeLibraryDirectories=[/data/user/0/com.tencent.mm/app_xweb_data/xweb_1460055/extracted_xwalkcore, /system/lib64, /system/system_ext/lib64]]]103215972
+04-18 03:16:31.310 I/XWeb.Core(16060): [XWEB_MULTI_PROCESS_POLICY] setupConnection ts:1776453391310
+04-18 03:16:31.311 I/XWeb.Core(16060): [0418/031631.311162:INFO:xweb/xweb_pinus/lib/webview_jni_onload.cc:20] OnJNIOnLoadInit
+04-18 03:16:31.315 E/XWeb.Core.fake_dlfcn(16060):  not found in my userspace
+04-18 03:16:31.315 E/XWeb.Core(16060): [0418/031631.315714:ERROR:xweb/xweb_comm/xweb_common_logic.cc:74] [XWEB] initNativeXlog fake_dlopen fail
+04-18 03:16:31.315 I/XWeb.Core(16060): [0418/031631.315761:INFO:xweb/xweb_comm/xweb_common_logic.cc:219] [XWEB_COMMON] CommonLogic g_library_process_type:PROCESS_CHILD:4
+04-18 03:16:31.315 I/XWeb.Core(16060): [0418/031631.315937:INFO:xweb/xweb_pinus/lib/webview_jni_onload.cc:24] OnJNIOnLoadInit end
+04-18 03:16:31.317 I/XWeb.Core(16060): [0418/031631.317830:INFO:xweb/xweb_comm/modules/proxy_detail/proxy_detail_config.cc:44] [XWEB_PROXY_DETAIL] ProxyDetailConfig, enable_log_all_ is false
+04-18 03:16:31.318 I/XWeb.Core(16060): [0418/031631.318287:INFO:base/files/memory_mapped_file_posix.cc:105] [XWEB_MULTI_PROCESS] mmap file, file_path:93, map_start:28672, map_size:9248768, data_offset:3940, flags:1
+04-18 03:16:31.318 I/XWeb.Core(16060): [0418/031631.318456:INFO:base/i18n/icu_util.cc:310] [XWEB_RESOURCES_FIX] |InitializeICUWithFileDescriptorInternal|. err: 0
+04-18 03:16:31.319 E/XWeb.Core(16060): [0418/031631.319659:ERROR:base/i18n/rtl.cc:160] Failed to set the ICU default locale to . Falling back to en-US.
+04-18 03:16:31.320 W/XWeb.Core(16060): [0418/031631.320581:WARNING:xweb_tracing_config.cc:22] [XWEB_COMP_HW_PERFETTO] xweb_comp_hw_perfetto:0
+04-18 03:16:31.336 I/XWeb.Core(16060): [0418/031631.336859:INFO:ui/gl/gl_switches.cc:297] [XWEB_DEFAULT_ANGLE_VULKAN_FIX] |IsDefaultANGLEVulkan| base::FeatureList::IsEnabled(kDefaultANGLEVulkan): 0
+04-18 03:16:31.338 I/encent.mm:patc(14430): Background concurrent copying GC freed 14764(994KB) AllocSpace objects, 23(35MB) LOS objects, 28% free, 58MB/82MB, paused 156us,80us total 154.278ms
+04-18 03:16:31.349 D/hw-ProcessState(16060): Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-18 03:16:31.391 I/XWeb.Core(16060): [0418/031631.390921:INFO:xweb/xweb_base/modules/gpu_workarounds/xweb_gpu_workarounds.cc:23] [XWEB_GPU_WORKAROUNDS] has switch kXwebGpuWorkarounds, GetSwitchValueASCII, cl_string:{"features":["use_virtualized_gl_contexts"],"gl_renderer":"Maleoon.*","gl_vendor":"HUAWEI"}
+04-18 03:16:31.391 I/XWeb.Core(16060): [0418/031631.391150:INFO:xweb/xweb_base/modules/gpu_workarounds/xweb_gpu_workarounds.cc:38] [XWEB_GPU_WORKAROUNDS] feature: use_virtualized_gl_contexts
+04-18 03:16:31.391 I/XWeb.Core(16060): [0418/031631.391213:INFO:xweb/xweb_base/modules/gpu_workarounds/xweb_gpu_workarounds.cc:45] [XWEB_GPU_WORKAROUNDS] value for renderer_string: Maleoon.*
+04-18 03:16:31.391 I/XWeb.Core(16060): [0418/031631.391265:INFO:xweb/xweb_base/modules/gpu_workarounds/xweb_gpu_workarounds.cc:50] [XWEB_GPU_WORKAROUNDS] value for vendor_string: HUAWEI
+04-18 03:16:31.391 I/XWeb.Core(16060): [0418/031631.391310:INFO:gpu/config/gpu_util.cc:91] [XWEB_GPU_WORKAROUNDS] gpu_info.gl_vendor:ARM, gpu_info.gl_renderer:Mali-G57 MC2
+04-18 03:16:31.391 I/XWeb.Core(16060): [0418/031631.391357:INFO:gpu/config/gpu_util.cc:104] [XWEB_GPU_WORKAROUNDS] regex not match
+04-18 03:16:31.404 I/XWeb.Core(16060): [0418/031631.403946:INFO:xweb/xweb_comm/gpu/xweb_content_gpu_client.cc:84] [XWEB_COMMON] logging::SetLogMessageHandler gpu XWeblogHandler
+04-18 03:16:31.406 I/XWeb.Core(16060): [0418/031631.404862:INFO:xweb/xweb_comm/gpu/xweb_content_gpu_client.cc:89] [XWEB_COMMON] royle-sameLayer XWebContentGpuClient::GpuServiceInitialized in_process_gpu_:0, com.tencent.mm:xweb_privileged_process_0, thread name:CrGpuMain
+04-18 03:16:31.406 I/XWeb.Core(16060): [0418/031631.406245:INFO:xweb/xweb_comm/modules/same_layer/extend_plugin_peer.cc:60] [XWEB_SAME_LAYER] royle-sameLayer ExtendPluginPeer::ExtendPluginPeer process_type:gpu-process, in_process_gpu_:0
+04-18 03:16:31.406 W/libc    (16060): Access denied finding property "ro.vendor.api_level"
+04-18 03:16:31.532 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.548 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.564 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.581 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.598 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.614 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.631 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.648 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.665 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.681 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.698 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.714 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.731 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.748 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.764 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.766 I/com.tencent.mm(13003): Background young concurrent copying GC freed 619676(22MB) AllocSpace objects, 80(2616KB) LOS objects, 22% free, 60MB/78MB, paused 213us,212us total 164.059ms
+04-18 03:16:31.781 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.798 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.814 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.831 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.848 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.864 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.881 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.897 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.914 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.931 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.947 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:31.964 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:32.047 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:32.197 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:32.280 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:32.926 W/MediaCodec-JNI(16060): pid:16060,client name:com.tencent.mm:xweb_privileged_process_0
+04-18 03:16:32.938 W/AudioCapabilities(16060): Unsupported mime audio/x-ms-wma
+04-18 03:16:32.938 W/AudioCapabilities(16060): Unsupported mime audio/x-ms-wma
+04-18 03:16:32.938 W/AudioCapabilities(16060): Unsupported mime audio/mpeg-L1
+04-18 03:16:32.938 W/AudioCapabilities(16060): Unsupported mime audio/mpeg-L2
+04-18 03:16:32.938 W/AudioCapabilities(16060): Unsupported mime audio/mpeg-L1
+04-18 03:16:32.939 W/AudioCapabilities(16060): Unsupported mime audio/mpeg-L2
+04-18 03:16:32.939 W/AudioCapabilities(16060): Unsupported mime audio/ra
+04-18 03:16:32.939 W/AudioCapabilities(16060): Unsupported mime audio/ra
+04-18 03:16:32.939 W/AudioCapabilities(16060): Unsupported mime audio/alac
+04-18 03:16:32.939 W/AudioCapabilities(16060): Unsupported mime audio/alac
+04-18 03:16:32.939 W/AudioCapabilities(16060): Unsupported mime audio/ape
+04-18 03:16:32.939 W/AudioCapabilities(16060): Unsupported mime audio/x-ape
+04-18 03:16:32.939 W/AudioCapabilities(16060): Unsupported mime audio/ape
+04-18 03:16:32.939 W/AudioCapabilities(16060): Unsupported mime audio/x-ape
+04-18 03:16:32.939 W/AudioCapabilities(16060): Unsupported mime audio/adpcm
+04-18 03:16:32.939 W/AudioCapabilities(16060): Unsupported mime audio/x-ms-adpcm
+04-18 03:16:32.940 W/AudioCapabilities(16060): Unsupported mime audio/pcm
+04-18 03:16:32.940 W/AudioCapabilities(16060): Unsupported mime audio/pcm
+04-18 03:16:32.940 W/AudioCapabilities(16060): Unsupported mime audio/dsd
+04-18 03:16:32.940 W/AudioCapabilities(16060): Unsupported mime audio/dsd
+04-18 03:16:32.940 W/VideoCapabilities(16060): Unsupported mime video/rv
+04-18 03:16:32.940 W/VideoCapabilities(16060): Unsupported mime video/rv
+04-18 03:16:32.941 W/VideoCapabilities(16060): Unsupported mime video/x-ms-wmv
+04-18 03:16:32.941 W/VideoCapabilities(16060): Unsupported mime video/x-ms-wmv2
+04-18 03:16:32.941 W/VideoCapabilities(16060): Unsupported mime video/x-ms-wmv
+04-18 03:16:32.941 W/VideoCapabilities(16060): Unsupported mime video/x-ms-wmv2
+04-18 03:16:32.941 W/VideoCapabilities(16060): Unsupported mime video/divx3
+04-18 03:16:32.941 W/VideoCapabilities(16060): Unsupported mime video/divx3
+04-18 03:16:32.941 W/VideoCapabilities(16060): Unsupported mime video/flv1
+04-18 03:16:32.941 W/VideoCapabilities(16060): Unsupported mime video/x-flv
+04-18 03:16:32.941 W/VideoCapabilities(16060): Unsupported mime video/flv1
+04-18 03:16:32.942 W/VideoCapabilities(16060): Unsupported mime video/x-flv
+04-18 03:16:32.942 W/VideoCapabilities(16060): Unsupported mime video/mjpeg
+04-18 03:16:32.942 W/VideoCapabilities(16060): Unsupported mime video/x-motion-jpeg
+04-18 03:16:32.942 W/VideoCapabilities(16060): Unsupported mime video/mjpeg
+04-18 03:16:32.942 W/VideoCapabilities(16060): Unsupported mime video/x-motion-jpeg
+04-18 03:16:32.942 W/AudioCapabilities(16060): Unsupported mime audio/x-adpcm-dvi-ima
+04-18 03:16:32.942 W/AudioCapabilities(16060): Unsupported mime audio/x-adpcm-dvi-ima
+04-18 03:16:32.943 W/AudioCapabilities(16060): Unsupported mime audio/x-adpcm-ms
+04-18 03:16:32.943 W/AudioCapabilities(16060): Unsupported mime audio/x-adpcm-ms
+04-18 03:16:32.943 W/AudioCapabilities(16060): Unsupported mime audio/alac
+04-18 03:16:32.943 W/AudioCapabilities(16060): Unsupported mime audio/alac
+04-18 03:16:32.943 W/AudioCapabilities(16060): Unsupported mime audio/ape
+04-18 03:16:32.943 W/AudioCapabilities(16060): Unsupported mime audio/ape
+04-18 03:16:32.946 W/VideoCapabilities(16060): Unsupported mime image/vnd.android.heic
+04-18 03:16:32.946 W/VideoCapabilities(16060): Unsupported mime image/vnd.android.heic
+04-18 03:16:32.946 W/VideoCapabilities(16060): Unsupported mime image/vnd.android.heic
+04-18 03:16:32.947 W/VideoCapabilities(16060): Unsupported mime video/x-ms-wmv
+04-18 03:16:32.947 W/VideoCapabilities(16060): Unsupported mime video/x-ms-wmv
+04-18 03:16:33.817 W/System  (13003): A resource failed to call close.
+04-18 03:16:33.817 W/System  (13003): A resource failed to call close.
+04-18 03:16:33.817 W/System  (13003): A resource failed to call close.
+04-18 03:16:33.818 W/System  (13003): A resource failed to call close.
+04-18 03:16:33.818 W/System  (13003): A resource failed to call close.
+04-18 03:16:33.818 W/System  (13003): A resource failed to call close.
+04-18 03:16:33.973 D/AccessibilityServiceImpl(10441): 已清除无效的 MediaProjection 权限
+04-18 03:16:33.975 I/ReactNativeJS(10441): [ZBB WARN] [微信] ⑩: 截图权限无效，请求授权...
+04-18 03:16:33.976 I/ReactNativeJS(10441): [ZBB] 请求 MediaProjection 权限...
+04-18 03:16:33.978 D/AutomationModule(10441): >>> 没有保存的 MediaProjection 权限
+04-18 03:16:33.986 D/MediaProjectionService(10441): 前台服务启动命令已发送
+04-18 03:16:34.002 I/BufferQueueConsumer(10441): [](id:28c900000005,api:0,p:-1,c:10441) connect: controlledByApp=true
+04-18 03:16:34.079 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.097 I/Choreographer(10441): Skipped 187 frames!  The application may be doing too much work on its main thread.
+04-18 03:16:34.103 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:34.103 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:34.103 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:34.103 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:34.104 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:34.104 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:34.105 D/MediaProjectionService(10441): 前台服务 onStartCommand, action: null
+04-18 03:16:34.105 D/MediaProjectionService(10441): 前台服务正常启动
+04-18 03:16:34.105 D/AccessibilityServiceImpl(10441): 前台服务已就绪
+04-18 03:16:34.114 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.116 I/OpenGLRenderer(10441): Davey! duration=3127ms; Flags=0, FrameTimelineVsyncId=41074, IntendedVsync=739623442660, Vsync=742740109389, InputEventId=0, HandleInputStart=742743476427, AnimationStart=742743479197, PerformTraversalsStart=742744765043, DrawStart=742744889966, FrameDeadline=739643442660, FrameInterval=742743323504, FrameStartTime=16666667, SyncQueued=742744931504, SyncStart=742745010812, IssueDrawCommandsStart=742745087427, SwapBuffers=742746910581, FrameCompleted=742751253043, DequeueBufferDuration=32308, QueueBufferDuration=634077, GpuCompleted=742750396043, SwapBuffersCompleted=742751253043, DisplayPresentTime=0,
+04-18 03:16:34.119 D/Linux   (10441): [Posix_connect Debug]Process com.zbb.automation :8081
+04-18 03:16:34.145 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.165 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.181 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.196 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.211 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.228 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.247 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.262 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.279 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.298 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.315 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.329 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.345 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.362 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.378 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.395 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.412 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.428 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.445 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.462 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.478 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.495 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.545 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.562 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.565 D/AutomationModule(10441): >>> 已发起 MediaProjection 权限请求
+04-18 03:16:34.579 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.594 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.611 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.623 E/FA      (13003): Task exception on worker thread: java.lang.IllegalStateException: AppMeasurement is not initialized: com.google.android.gms.internal.measurement.zzgl.zzch(Unknown Source:9)
+04-18 03:16:34.628 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.710 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.729 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.730 I/BufferQueueConsumer(10441): [](id:28c900000006,api:0,p:-1,c:10441) connect: controlledByApp=false
+04-18 03:16:34.730 I/BLASTBufferQueue(10441): [ViewRootImpl[MainActivity]#4] constructor()
+04-18 03:16:34.732 I/BufferQueueProducer(10441): [ViewRootImpl[MainActivity]#4(BLAST Consumer)4](id:28c900000006,api:1,p:10441,c:10441) connect: api=1 producerControlledByApp=true
+04-18 03:16:34.745 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.762 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.796 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.812 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.829 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.835 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 32
+04-18 03:16:34.835 D/AccessibilityServiceImpl(10441): 窗口变化: com.zbb.automation.MainActivity
+04-18 03:16:34.845 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.858 D/BoundBrokerSvc( 4266): onBind: Intent { act=com.google.android.gms.measurement.START pkg=com.google.android.gms }
+04-18 03:16:34.858 D/BoundBrokerSvc( 4266): Loading bound service for intent: Intent { act=com.google.android.gms.measurement.START pkg=com.google.android.gms }
+04-18 03:16:34.862 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.879 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.895 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.928 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.947 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.962 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.980 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:34.985 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 32
+04-18 03:16:34.985 D/AccessibilityServiceImpl(10441): 窗口变化: com.android.systemui.media.MediaProjectionPermissionActivity
+04-18 03:16:34.993 I/ActivityTaskManager( 1300): Displayed com.android.systemui/.media.MediaProjectionPermissionActivity: +402ms
+04-18 03:16:34.996 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.012 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.029 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.045 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.062 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.079 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.094 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.112 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.130 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.145 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.163 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.179 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.196 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.212 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.228 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.246 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.262 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.279 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.295 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.313 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.329 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.345 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.361 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.379 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.395 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.411 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.426 I/BufferQueueProducer(13003): [ViewRootImpl[LauncherUI]#0(BLAST Consumer)0](id:32cb00000000,api:1,p:13003,c:13003) disconnect: api 1
+04-18 03:16:35.430 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.440 I/BLASTBufferQueue(13003): [ViewRootImpl[LauncherUI]#0] destructor()
+04-18 03:16:35.440 I/BufferQueueConsumer(13003): [ViewRootImpl[LauncherUI]#0(BLAST Consumer)0](id:32cb00000000,api:0,p:-1,c:13003) disconnect
+04-18 03:16:35.444 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.461 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.477 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.493 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.509 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.527 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.543 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.560 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.576 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.595 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.609 I/BLASTBufferQueue(13003): releaseBufferCallbackThunk bufferId:55847459749888 framenumber:100 blastBufferQueue is dead
+04-18 03:16:35.613 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.626 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.709 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.927 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:35.943 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.026 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.132 W/encent.mm:patc(14430): Suspending all threads took: 5.511ms
+04-18 03:16:36.136 D/Linux   (10441): [Posix_connect Debug]Process com.zbb.automation :8081
+04-18 03:16:36.159 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.176 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.192 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.209 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.226 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.243 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.259 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.276 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.292 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.309 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.326 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.340 I/mars::stn(13056): [longlink_connect_monitor.cc:530, OnHeartbeatAlarmSet]:longlink_progress on_heartbeat_set, time: 744985, time interval:210000
+04-18 03:16:36.343 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.361 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.377 E/libprocessgroup(13003): set_timerslack_ns write failed: Operation not permitted
+04-18 03:16:36.378 E/libprocessgroup(13003): set_timerslack_ns write failed: Operation not permitted
+04-18 03:16:36.379 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.394 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.410 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.415 D/AutomationModule(10441): >>> onMediaProjectionResult 被调用, resultCode = -1
+04-18 03:16:36.415 D/AutomationModule(10441): >>> 正在创建 MediaProjection
+04-18 03:16:36.428 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.445 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.445 D/AutomationModule(10441): >>> 正在设置 MediaProjection 到服务
+04-18 03:16:36.445 D/AccessibilityServiceImpl(10441): MediaProjection 已设置
+04-18 03:16:36.445 D/AutomationModule(10441): >>> MediaProjection 权限已保存到 SharedPreferences, URI: intent:
+04-18 03:16:36.445 D/AutomationModule(10441): >>> 权限授权成功，开始截图...
+04-18 03:16:36.448 I/ReactNativeJS(10441): [ZBB INFO] [微信] ⑩: 授权成功，准备截图...
+04-18 03:16:36.460 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.477 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.493 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.498 D/Linux   (10441): [Posix_connect Debug]Process com.zbb.automation :8081
+04-18 03:16:36.510 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.512 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 1
+04-18 03:16:36.513 D/AccessibilityServiceImpl(10441): MediaProjection 已停止
+04-18 03:16:36.517 V/ImeFocusController(10441): onWindowFocus: DecorView@e073e61[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE|IS_FORWARD_NAVIGATION
+04-18 03:16:36.517 V/ImeFocusController(10441): Restarting due to isRestartOnNextWindowFocus as true
+04-18 03:16:36.517 D/ImeFocusController(10441): onViewFocusChanged, view=DecorView@e073e61[MainActivity], mServedView=DecorView@e073e61[MainActivity]
+04-18 03:16:36.517 V/ImeFocusController(10441): checkFocus: view=DecorView@e073e61[MainActivity] next=DecorView@e073e61[MainActivity] force=true package=com.zbb.automation
+04-18 03:16:36.528 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.545 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.561 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.577 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.592 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.610 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.627 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.642 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.658 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.741 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.764 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 32
+04-18 03:16:36.764 D/AccessibilityServiceImpl(10441): 窗口变化: com.zbb.automation.MainActivity
+04-18 03:16:36.777 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.810 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:36.869 I/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-0](id:28c900000004,api:1,p:725,c:10441) disconnect: api 1
+04-18 03:16:36.954 D/AutomationModule(10441): >>> 调用 captureScreenshot
+04-18 03:16:36.955 D/AccessibilityServiceImpl(10441): >>> captureScreenshot() 开始
+04-18 03:16:36.955 D/AccessibilityServiceImpl(10441): >>> projection = true
+04-18 03:16:36.955 D/AccessibilityServiceImpl(10441): >>> 在主线程执行截图操作
+04-18 03:16:36.957 D/AccessibilityServiceImpl(10441): >>> displays = 2
+04-18 03:16:36.958 D/AccessibilityServiceImpl(10441): >>> display = true
+04-18 03:16:36.958 D/AccessibilityServiceImpl(10441): >>> 屏幕尺寸: 720x1600
+04-18 03:16:36.958 D/AccessibilityServiceImpl(10441): >>> densityDpi = 320
+04-18 03:16:36.958 I/BufferQueueConsumer(10441): [](id:28c900000007,api:0,p:-1,c:10441) connect: controlledByApp=true
+04-18 03:16:36.958 D/AccessibilityServiceImpl(10441): >>> ImageReader 创建成功
+04-18 03:16:36.968 D/AccessibilityServiceImpl(10441): >>> createVirtualDisplay 完成
+04-18 03:16:37.034 I/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) connect: api=1 producerControlledByApp=false
+04-18 03:16:37.047 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.047 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.047 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.051 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.052 D/AccessibilityServiceImpl(10441): >>> 屏幕截图成功: 720x1600
+04-18 03:16:37.125 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.125 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.125 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.128 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.160 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.160 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.161 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.163 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.177 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.178 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.178 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.181 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.200 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.200 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.201 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.203 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.206 D/AccessibilityServiceImpl(10441): >>> 截图已保存到: /data/user/0/com.zbb.automation/files/media_projection_screenshot_1776453397052.png
+04-18 03:16:37.211 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.214 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.214 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.217 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.227 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.227 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.228 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.232 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.243 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.244 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.245 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.249 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.260 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.261 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.261 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.265 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.278 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.279 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.279 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.283 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.294 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.295 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.295 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.297 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.299 D/CompatibilityChangeReporter(13003): Compat change id reported: 150939131; UID 10246; state: ENABLED
+04-18 03:16:37.310 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.311 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.311 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.315 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.327 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.327 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.328 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.333 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.344 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.345 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.345 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.349 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.362 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.362 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.362 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.368 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.380 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.380 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.381 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.383 I/.zbb.automatio(10441): NativeAlloc concurrent copying GC freed 73053(3277KB) AllocSpace objects, 4(208KB) LOS objects, 49% free, 11MB/23MB, paused 46us,31us total 102.824ms
+04-18 03:16:37.386 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.394 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.394 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.395 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.400 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.410 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.411 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.411 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.415 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.416 W/System  (10441): A resource failed to call release.
+04-18 03:16:37.417 I/BufferQueueConsumer(10441): [ImageReader-108x240f1m1-10441-1](id:28c900000005,api:0,p:-1,c:10441) disconnect
+04-18 03:16:37.427 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.428 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.428 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.431 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.443 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.444 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.444 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.447 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.460 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.461 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.461 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.464 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.471 D/AccessibilityServiceImpl(10441): >>> 截图已复制到 Download: /storage/emulated/0/Download/media_projection_screenshot_1776453397052.png
+04-18 03:16:37.471 D/AutomationModule(10441): >>> 截图成功! 尺寸: 720x1600
+04-18 03:16:37.477 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.477 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.478 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.480 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.494 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.494 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.495 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.497 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.510 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.510 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.511 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.513 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.526 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.527 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.528 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.530 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.543 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.544 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.544 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.548 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.560 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.561 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.562 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.566 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.576 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.577 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.577 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.580 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.593 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.594 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.594 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.597 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.609 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.610 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.610 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.613 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.616 D/AutomationModule(10441): >>> 截图已保存到: /data/user/0/com.zbb.automation/files/zbb_test_screenshot_1776453397471.png
+04-18 03:16:37.628 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.628 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.629 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.631 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.644 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:37.645 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:37.645 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:37.648 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:37.728 W/System  (10441): A resource failed to call release.
+04-18 03:16:37.728 I/BufferQueueConsumer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) disconnect
+04-18 03:16:37.879 D/AutomationModule(10441): >>> 截图已复制到 Download: /storage/emulated/0/Download/zbb_test_screenshot_1776453397471.png
+04-18 03:16:37.907 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:37.923 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:37.940 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:37.957 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:37.973 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:37.990 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.007 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.015 I/ReactNativeJS(10441): [ZBB] 正在启动应用: com.tencent.mm
+04-18 03:16:38.017 W/AccessibilityServiceImpl(10441): launchApp 尝试在非主线程调用 ，已在主线程重新执行
+04-18 03:16:38.017 D/AccessibilityServiceImpl(10441): 正在启动应用: com.tencent.mm
+04-18 03:16:38.023 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.040 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.057 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.075 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.090 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.107 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.125 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.125 D/AccessibilityServiceImpl(10441): 应用启动成功: com.tencent.mm
+04-18 03:16:38.141 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.155 D/AudioManager(10441): abandonAudioFocus  by com.zbb.automation
+04-18 03:16:38.158 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.175 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.191 D/Linux   (10441): [Posix_connect Debug]Process com.zbb.automation :8081
+04-18 03:16:38.192 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.207 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.224 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.241 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.258 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.277 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.292 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.308 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.326 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.341 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.358 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.375 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.392 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.408 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.425 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.442 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.457 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.475 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.485 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 32
+04-18 03:16:38.485 D/AccessibilityServiceImpl(10441): 窗口变化: com.bbk.launcher2.Launcher
+04-18 03:16:38.492 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.508 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.516 I/BufferQueueConsumer(13003): [](id:32cb00000001,api:0,p:-1,c:13003) connect: controlledByApp=false
+04-18 03:16:38.517 I/BLASTBufferQueue(13003): [ViewRootImpl[LauncherUI]#1] constructor()
+04-18 03:16:38.517 I/BufferQueueProducer(13003): [ViewRootImpl[LauncherUI]#1(BLAST Consumer)1](id:32cb00000001,api:1,p:13003,c:13003) connect: api=1 producerControlledByApp=true
+04-18 03:16:38.526 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.531 I/com.tencent.mm(13003): Background young concurrent copying GC freed 289468(11MB) AllocSpace objects, 8(160KB) LOS objects, 27% free, 60MB/82MB, paused 2.227ms,163us total 184.361ms
+04-18 03:16:38.532 W/System  (13003): A resource failed to call close.
+04-18 03:16:38.540 W/System  (13003): A resource failed to call close.
+04-18 03:16:38.543 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.559 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.576 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.590 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.608 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.625 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.635 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 32
+04-18 03:16:38.635 D/AccessibilityServiceImpl(10441): 窗口变化: com.tencent.mm.ui.LauncherUI
+04-18 03:16:38.640 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.657 V/ImeFocusController(13003): onWindowFocus: DecorView@eb7cc8a[LauncherUI] softInputMode=STATE_HIDDEN|ADJUST_NOTHING|IS_FORWARD_NAVIGATION
+04-18 03:16:38.657 V/ImeFocusController(13003): Restarting due to isRestartOnNextWindowFocus as true
+04-18 03:16:38.657 D/ImeFocusController(13003): onViewFocusChanged, view=DecorView@eb7cc8a[LauncherUI], mServedView=DecorView@eb7cc8a[LauncherUI]
+04-18 03:16:38.657 V/ImeFocusController(13003): checkFocus: view=DecorView@eb7cc8a[LauncherUI] next=DecorView@eb7cc8a[LauncherUI] force=true package=com.tencent.mm
+04-18 03:16:38.658 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.676 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.692 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.708 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.725 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.731 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:38.731 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:38.739 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.759 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.767 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:38.767 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:38.767 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 4096
+04-18 03:16:38.771 I/BufferQueueProducer(10441): [ViewRootImpl[MainActivity]#4(BLAST Consumer)4](id:28c900000006,api:1,p:10441,c:10441) disconnect: api 1
+04-18 03:16:38.775 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.781 I/BLASTBufferQueue(10441): [ViewRootImpl[MainActivity]#4] destructor()
+04-18 03:16:38.781 I/BufferQueueConsumer(10441): [ViewRootImpl[MainActivity]#4(BLAST Consumer)4](id:28c900000006,api:0,p:-1,c:10441) disconnect
+04-18 03:16:38.789 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.795 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 32
+04-18 03:16:38.795 D/AccessibilityServiceImpl(10441): 窗口变化: com.tencent.mm.ui.LauncherUI
+04-18 03:16:38.799 E/libprocessgroup(13003): set_timerslack_ns write failed: Operation not permitted
+04-18 03:16:38.800 E/libprocessgroup(13003): set_timerslack_ns write failed: Operation not permitted
+04-18 03:16:38.807 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.823 I/BLASTBufferQueue(10441): releaseBufferCallbackThunk bufferId:44843753537557 framenumber:14 blastBufferQueue is dead
+04-18 03:16:38.825 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.856 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.871 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:38.871 I/mars::stn(13056): [longlink_connect_monitor.cc:530, OnHeartbeatAlarmSet]:longlink_progress on_heartbeat_set, time: 747517, time interval:210000
+04-18 03:16:38.871 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:38.872 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.889 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.890 I/mars::stn(13056): [longlink_connect_monitor.cc:530, OnHeartbeatAlarmSet]:longlink_progress on_heartbeat_set, time: 747535, time interval:210000
+04-18 03:16:38.905 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.922 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.939 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.956 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.972 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:38.974 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:38.974 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:38.989 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.006 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.022 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.039 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.056 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.072 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.087 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:39.087 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:39.088 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.105 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.181 I/ReactNativeJS(10441): [ZBB INFO] [微信] 下拉微信首页准备截图...
+04-18 03:16:39.187 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:39.187 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:39.188 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.205 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.222 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.239 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.256 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.272 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.286 D/AccessibilityServiceImpl(10441): 收到无障碍事件类型: 2048
+04-18 03:16:39.286 D/AccessibilityServiceImpl(10441): 窗口内容变化
+04-18 03:16:39.290 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.305 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.322 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.339 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.355 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.372 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.389 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.405 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.422 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.439 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.455 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.472 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.488 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.505 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.522 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.538 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.555 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.572 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.589 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.589 W/encent.mm:patc(14430): Accessing hidden field Landroid/content/pm/IPackageManager$Stub;->TRANSACTION_performDexOptSecondary:I (max-target-o, reflection, denied)
+04-18 03:16:39.605 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.622 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.638 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.655 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.672 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.688 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.694 D/AccessibilityServiceImpl(10441): 滑动完成: (300.0,200.0) -> (300.0,800.0)
+04-18 03:16:39.705 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.721 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:39.804 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.204 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.212 D/Linux   (10441): [Posix_connect Debug]Process com.zbb.automation :8081
+04-18 03:16:40.221 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.238 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.254 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.271 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.287 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.304 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.321 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.337 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.353 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.370 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.387 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.403 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.420 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.437 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.454 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.470 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.487 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.504 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.520 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.537 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.553 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.570 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.587 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.604 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.620 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.636 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.653 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.670 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.687 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.701 D/AccessibilityServiceImpl(10441): >>> captureScreenshot() 开始
+04-18 03:16:40.702 D/AccessibilityServiceImpl(10441): >>> projection = true
+04-18 03:16:40.737 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.753 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.770 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.786 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.803 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.819 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.837 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.848 D/Linux   (13003): [Posix_connect Debug]Process com.tencent.mm :80
+04-18 03:16:40.853 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.870 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.887 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.903 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.919 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.937 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.953 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.970 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:40.986 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:41.003 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:41.020 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:41.036 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:41.070 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:41.103 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:41.136 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:41.220 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:41.270 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:41.352 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:42.056 I/reflect jni_load(13003): [0] reflect_method 7f7b706b7f715a6c7e6b78 size 22
+04-18 03:16:42.056 I/reflect jni_load(13003): [1] reflect_method 6d7a7a707473586c80738171567a73 size 30
+04-18 03:16:42.056 I/reflect jni_load(13003): [2] reflect_method 505d626f7d7f737a7a size 18
+04-18 03:16:42.056 I/reflect jni_load(13003): [3] reflect_method 505d5a6b7f7580704f79797f7e7d816d7f7b7c size 38
+04-18 03:16:42.056 I/reflect jni_load(13003): [4] reflect_method 505d5a6b7f758070506f7e807c806f7e7a7e size 36
+04-18 03:16:42.056 I/reflect jni_load(13003): [5] reflect_method 505d536f7f555d5a6f726c7a7170527c6c796f size 38
+04-18 03:16:42.056 I/reflect jni_load(13003): [6] reflect_method 505d536f7f555d5a6e6b6e777f7b size 28
+04-18 03:16:42.057 I/reflect jni_load(13003): [7] reflect_method 505d536f7f555d5a797379 size 22
+04-18 03:16:42.057 I/reflect jni_load(13003): [8] reflect_method 505d536f7f555d5a4f6b7b807f7d715e74796f61716d5e758470 size 52
+04-18 03:16:42.057 I/reflect jni_load(13003): [9] reflect_method 505d5f6f7f5079747a714f71766c854d6c786d size 38
+04-18 03:16:42.057 I/reflect jni_load(13003): [10] reflect_method 505d5f6f7f555d5a6e6b6e777f7b size 28
+04-18 03:16:42.057 I/reflect jni_load(13003): [11] reflect_method 505d5f6f7f555d5a6f726c7a7170527c6c796f size 38
+04-18 03:16:42.057 I/reflect jni_load(13003): [12] reflect_method 505d5f6f7f555d5a6f726c7a717060737871 size 36
+04-18 03:16:42.057 I/reflect jni_load(13003): [13] reflect_method 505d5f6f7f4e6f727578 size 20
+04-18 03:16:42.057 I/reflect jni_load(13003): [14] reflect_method 505d5f6f7f51786f size 16
+04-18 03:16:42.057 I/reflect jni_load(13003): [15] reflect_method 505d5f6f7f4f726c7a71705c79747a7e5f757770 size 40
+04-18 03:16:42.057 I/reflect jni_load(13003): [16] reflect_method 505d55787480 size 12
+04-18 03:16:42.057 I/reflect jni_load(13003): [17] reflect_method 505d5e6f77716b7e71 size 18
+04-18 03:16:42.057 I/reflect jni_load(13003): [18] reflect_method 505d5c7f7e744d6c7c7e807e6f5f757770 size 34
+04-18 03:16:42.057 I/reflect jni_load(13003): [19] reflect_method 505d5c7f7e74535e5b537873638082 size 30
+04-18 03:16:42.057 I/reflect jni_load(13003): [20] reflect_method 505d5c7f7e74535e5b4d6c7c7e807e6f5f757770 size 40
+04-18 03:16:42.057 I/reflect jni_load(13003): [21] reflect_method 505d536f7f4f79797273724e6f727578 size 32
+04-18 03:16:42.057 I/reflect jni_load(13003): [22] reflect_method 505d536f7f4f797972737251786f size 28
+04-18 03:16:42.057 I/reflect jni_load(13003): [23] reflect_method 505d536f7f4f726c7a71705c79747a7e size 32
+04-18 03:16:42.057 I/reflect jni_load(13003): [24] reflect_method 505d536f7f607c747371707e5e74796f size 32
+04-18 03:16:42.057 I/reflect jni_load(13003): [25] reflect_method 505d536f7f5e6b82657f81506b7f6d7d size 32
+04-18 03:16:42.057 I/reflect jni_load(13003): [26] reflect_method 505d536f7f4d51747a size 18
+04-18 03:16:42.057 I/reflect jni_load(13003): [27] reflect_method 505d5c7f7e74638082 size 18
+04-18 03:16:42.057 I/reflect jni_load(13003): [28] reflect_method 505d50794f717e706f7e747b786481807e size 34
+04-18 03:16:42.057 I/reflect jni_load(13003): [29] reflect_method 505d536f794f7979727372506b7f6d size 30
+04-18 03:16:42.057 I/reflect jni_load(13003): [30] reflect_method 4d73716d767f7f78 size 16
+04-18 03:16:42.057 I/reflect jni_load(13003): [31] reflect_method 5d70805a747c6f77757870626f7d7f737a7a size 36
+04-18 03:16:42.057 I/reflect jni_load(13003): [32] reflect_method 5d70804b6e805d7f7e size 18
+04-18 03:16:42.609 W/encent.mm:patc(14430): Accessing hidden field Landroid/content/pm/IPackageManager$Stub;->TRANSACTION_performDexOptSecondary:I (max-target-o, reflection, denied)
+04-18 03:16:42.816 I/encent.mm:patc(14430): Background concurrent copying GC freed 54566(10MB) AllocSpace objects, 29(52MB) LOS objects, 49% free, 23MB/46MB, paused 122us,116us total 253.178ms
+04-18 03:16:42.921 D/Linux   ( 7189): [Posix_connect Debug]Process com.google.android.gms.unstable :443
+04-18 03:16:44.300 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:44.416 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.662 W/encent.mm:patc(14430): Accessing hidden field Landroid/content/pm/IPackageManager$Stub;->TRANSACTION_performDexOptSecondary:I (max-target-o, reflection, denied)
+04-18 03:16:45.702 E/AccessibilityServiceImpl(10441): 截图失败，无法进行 OCR
+04-18 03:16:45.705 I/ReactNativeJS(10441): [ZBB ERROR] [微信] ⑩: 未找到"绿城云"， 请检查屏幕
+04-18 03:16:45.706 I/ReactNativeJS(10441): [ZBB ERROR] [微信] X 进入绿城云小程序失 败: Error: 未找到"绿城云"小程序，请检查屏幕
+04-18 03:16:45.706 D/AccessibilityServiceImpl(10441): >>> 在主线程执行截图操作
+04-18 03:16:45.707 I/ReactNativeJS(10441): [ZBB ERROR] ========================================
+04-18 03:16:45.707 I/ReactNativeJS(10441): [ZBB ERROR]        流程执行失败: Error: 未找到"绿城云"小程序，请检查屏幕
+04-18 03:16:45.708 D/AccessibilityServiceImpl(10441): >>> displays = 3
+04-18 03:16:45.708 D/AccessibilityServiceImpl(10441): >>> display = true
+04-18 03:16:45.708 D/AccessibilityServiceImpl(10441): >>> 屏幕尺寸: 720x1600
+04-18 03:16:45.708 D/AccessibilityServiceImpl(10441): >>> densityDpi = 320
+04-18 03:16:45.708 I/BufferQueueConsumer(10441): [](id:28c900000008,api:0,p:-1,c:10441) connect: controlledByApp=true
+04-18 03:16:45.709 D/AccessibilityServiceImpl(10441): >>> ImageReader 创建成功
+04-18 03:16:45.709 I/ReactNativeJS(10441): [ZBB ERROR] ========================================
+04-18 03:16:45.726 D/AccessibilityServiceImpl(10441): >>> createVirtualDisplay 完成
+04-18 03:16:45.737 D/Linux   (10441): [Posix_connect Debug]Process com.zbb.automation :8081
+04-18 03:16:45.754 D/AccessibilityServiceImpl(10441): 悬浮窗已隐藏
+04-18 03:16:45.783 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.800 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.804 I/encent.mm:patc(14430): Background young concurrent copying GC freed 66311(12MB) AllocSpace objects, 0(0B) LOS objects, 26% free, 34MB/46MB, paused 1.509ms,1.049ms total 201.956ms
+04-18 03:16:45.825 I/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-3](id:28c900000008,api:1,p:725,c:10441) connect: api=1 producerControlledByApp=false
+04-18 03:16:45.828 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.836 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:45.837 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:45.837 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:45.839 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.841 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:45.849 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:45.849 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:45.850 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:45.850 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.854 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:45.855 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:45.855 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:45.856 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:45.860 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:45.864 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.867 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:45.868 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:45.868 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:45.873 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:45.881 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.885 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:45.885 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:45.886 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:45.891 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:45.897 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.902 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:45.903 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:45.904 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:45.910 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:45.914 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.922 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:45.922 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:45.923 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:45.930 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:45.931 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.937 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:45.938 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:45.938 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:45.941 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:45.948 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.952 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:45.953 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:45.953 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:45.958 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:45.964 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.969 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:45.970 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:45.970 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:45.975 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:45.978 W/unknown:ReactNative(10441): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-18 03:16:45.979 W/unknown:ReactNative(10441): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-18 03:16:45.980 I/BufferQueueProducer(10441): [ViewRootImpl[]#3(BLAST Consumer)3](id:28c900000003,api:1,p:10441,c:10441) disconnect: api 1
+04-18 03:16:45.980 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:45.982 I/BufferQueueProducer(10441): [ViewRootImpl[]#3(BLAST Consumer)3](id:28c900000003,api:2,p:10441,c:10441) connect: api=2 producerControlledByApp=true
+04-18 03:16:45.988 I/BufferQueueProducer(10441): [ViewRootImpl[]#3(BLAST Consumer)3](id:28c900000003,api:2,p:10441,c:10441) disconnect: api 2
+04-18 03:16:46.000 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:46.001 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:46.001 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:46.001 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:46.006 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:46.008 I/BLASTBufferQueue(10441): [ViewRootImpl[]#3] destructor()
+04-18 03:16:46.008 I/BufferQueueConsumer(10441): [ViewRootImpl[]#3(BLAST Consumer)3](id:28c900000003,api:0,p:-1,c:10441) disconnect
+04-18 03:16:46.013 I/BLASTBufferQueue(10441): releaseBufferCallbackThunk bufferId:44843753537562 framenumber:1865 blastBufferQueue is dead
+04-18 03:16:46.017 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:46.094 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:46.094 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:46.094 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:46.097 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:46.099 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:46.101 D/AccessibilityServiceImpl(10441): >>> OnImageAvailableListener 被调用
+04-18 03:16:46.102 D/AccessibilityServiceImpl(10441): >>> 成功获取图像
+04-18 03:16:46.102 D/AccessibilityServiceImpl(10441): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-18 03:16:46.107 D/AccessibilityServiceImpl(10441): >>> Bitmap 创建成功: 720x1600
+04-18 03:16:46.239 I/.zbb.automatio(10441): NativeAlloc concurrent copying GC freed 21765(1055KB) AllocSpace objects, 0(0B) LOS objects, 49% free, 11MB/23MB, paused 92us,48us total 144.285ms
+04-18 03:16:46.259 W/System  (10441): A resource failed to call release.
+04-18 03:16:46.259 I/BufferQueueConsumer(10441): [ImageReader-720x1600f1m2-10441-3](id:28c900000008,api:1,p:725,c:10441) disconnect
+04-18 03:16:46.260 W/System  (10441): A resource failed to call release.
+04-18 03:16:46.265 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:46.265 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-3](id:28c900000008,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:46.347 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:46.348 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-3](id:28c900000008,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:47.313 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:47.313 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-3](id:28c900000008,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:47.445 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:47.446 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-3](id:28c900000008,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:47.609 I/encent.mm:patc(14430): Background concurrent copying GC freed 34162(7752KB) AllocSpace objects, 2(136KB) LOS objects, 37% free, 40MB/64MB, paused 366us,126us total 418.131ms
+04-18 03:16:47.763 D/Linux   (10441): [Posix_connect Debug]Process com.zbb.automation :8081
+04-18 03:16:48.664 E/libprocessgroup(15375): set_timerslack_ns write failed: Operation not permitted
+04-18 03:16:48.666 E/libprocessgroup(15375): set_timerslack_ns write failed: Operation not permitted
+04-18 03:16:48.667 E/libprocessgroup(15375): set_timerslack_ns write failed: Operation not permitted
+04-18 03:16:48.668 E/libprocessgroup(15375): set_timerslack_ns write failed: Operation not permitted
+04-18 03:16:48.670 E/libprocessgroup(15375): set_timerslack_ns write failed: Operation not permitted
+04-18 03:16:48.680 W/encent.mm:patc(14430): Accessing hidden field Landroid/content/pm/IPackageManager$Stub;->TRANSACTION_performDexOptSecondary:I (max-target-o, reflection, denied)
+04-18 03:16:49.388 I/encent.mm:patc(14430): Background young concurrent copying GC freed 38101(14MB) AllocSpace objects, 0(0B) LOS objects, 21% free, 50MB/64MB, paused 2.913ms,256us total 165.665ms
+04-18 03:16:49.783 D/Linux   (10441): [Posix_connect Debug]Process com.zbb.automation :8081
+04-18 03:16:50.325 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:50.326 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-3](id:28c900000008,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:50.458 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-2](id:28c900000007,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:50.459 E/BufferQueueProducer(10441): [ImageReader-720x1600f1m2-10441-3](id:28c900000008,api:1,p:725,c:10441) dequeueBuffer: BufferQueue has been abandoned
+04-18 03:16:50.955 I/encent.mm:patc(14430): Background concurrent copying GC freed 26401(10MB) AllocSpace objects, 0(0B) LOS objects, 28% free, 60MB/84MB, paused 255us,110us total 525.279ms
+04-18 03:16:51.698 W/encent.mm:patc(14430): Accessing hidden field Landroid/content/pm/IPackageManager$Stub;->TRANSACTION_performDexOptSecondary:I (max-target-o, reflection, denied)
+04-18 03:16:51.800 D/Linux   (10441): [Posix_connect Debug]Process com.zbb.automation :8081

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    
+    <!-- 渐变背景：紫色到蓝色 -->
+    <gradient
+        android:type="linear"
+        android:angle="135"
+        android:startColor="#6366F1"
+        android:endColor="#8B5CF6" />
+    
+    <!-- 阴影效果 -->
+    <stroke
+        android:width="0dp"
+        android:color="#00000000" />
+    
+    <size
+        android:width="56dp"
+        android:height="56dp" />
+    
+</shape>

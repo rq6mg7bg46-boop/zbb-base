@@ -1,0 +1,306 @@
+--------- beginning of main
+04-20 22:16:26.956 E/WakeLock( 3624): *gms_scheduler*/com.google.android.gms/.gass.chimera.SchedulePeriodicTasksService ** IS FORCE-RELEASED ON TIMEOUT **
+04-20 22:16:53.930 E/ReactNativeJS(32596): '[ZBB] 错误: ZBBAutomation 模块未找到！', { [Stack] name: 'Stack' }
+04-20 22:16:54.148 E/ReactNativeJS(32596): '[ZBB] 错误: ZBBAutomation 模块未找到！', { [Stack] name: 'Stack' }
+04-20 22:16:54.151 E/ReactNativeJS(32596): '[ZBB] 请确保已在 Android 端注册 AutomationPackage', { [Stack] name: 'Stack' }
+04-20 22:16:54.188 E/ReactNativeJS(32596): '[ZBB] 无法添加停止监听器，模块未初始化', { [Stack] name: 'Stack' }
+04-20 22:16:54.415 E/AVManager(32596): Cannot install JSI bindings for AV module because JS context is not available
+04-20 22:16:54.929 E/ReactNativeJS(32596): '[ZBB] 模块未初始化', { [Stack] name: 'Stack' }
+04-20 22:17:06.244 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:08.272 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:10.201 I/BufferQueueConsumer(32596): [](id:7f5400000004,api:0,p:-1,c:32596) connect: controlledByApp=false
+04-20 22:17:10.202 I/BLASTBufferQueue(32596): [ViewRootImpl[MainActivity]#4] constructor()
+04-20 22:17:10.206 I/BufferQueueProducer(32596): [ViewRootImpl[MainActivity]#4(BLAST Consumer)4](id:7f5400000004,api:1,p:32596,c:32596) connect: api=1 producerControlledByApp=true
+04-20 22:17:10.291 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:10.320 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:10.320 D/AccessibilityServiceImpl(32596): 窗口变化: androidx.appcompat.app.AlertDialog
+04-20 22:17:11.070 E/ReactNativeJS(32596): [ZBB] 模块未初始化
+04-20 22:17:11.070 I/BufferQueueProducer(32596): [ViewRootImpl[MainActivity]#4(BLAST Consumer)4](id:7f5400000004,api:1,p:32596,c:32596) disconnect: api 1
+04-20 22:17:11.070 D/OpenGLRenderer(32596): endAllActiveAnimators on 0xb400007083573e70 (RippleDrawable) with handle 0xb400006f934f4800
+04-20 22:17:11.100 I/BLASTBufferQueue(32596): [ViewRootImpl[MainActivity]#4] destructor()
+04-20 22:17:11.100 I/BufferQueueConsumer(32596): [ViewRootImpl[MainActivity]#4(BLAST Consumer)4](id:7f5400000004,api:0,p:-1,c:32596) disconnect
+04-20 22:17:11.120 V/ImeFocusController(32596): onWindowFocus: DecorView@930067b[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE
+04-20 22:17:11.121 D/ImeFocusController(32596): onViewFocusChanged, view=DecorView@930067b[MainActivity], mServedView=DecorView@930067b[MainActivity]
+04-20 22:17:11.121 V/ImeFocusController(32596): checkFocus: view=DecorView@930067b[MainActivity] next=DecorView@930067b[MainActivity] force=true package=com.zbb.automation
+04-20 22:17:11.132 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 1
+04-20 22:17:11.251 I/BLASTBufferQueue(32596): releaseBufferCallbackThunk bufferId:139998753980432 framenumber:12 blastBufferQueue is dead
+04-20 22:17:12.320 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:14.351 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:14.614 I/BufferQueueConsumer(32596): [](id:7f5400000005,api:0,p:-1,c:32596) connect: controlledByApp=false
+04-20 22:17:14.615 I/BLASTBufferQueue(32596): [ViewRootImpl[MainActivity]#5] constructor()
+04-20 22:17:14.621 I/BufferQueueProducer(32596): [ViewRootImpl[MainActivity]#5(BLAST Consumer)5](id:7f5400000005,api:1,p:32596,c:32596) connect: api=1 producerControlledByApp=true
+04-20 22:17:14.646 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:14.646 D/AccessibilityServiceImpl(32596): 窗口变化: com.zbb.automation.MainActivity
+04-20 22:17:14.733 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:14.733 D/AccessibilityServiceImpl(32596): 窗口变化: androidx.appcompat.app.AlertDialog
+04-20 22:17:15.327 E/ReactNativeJS(32596): [ZBB] 模块未初始化
+04-20 22:17:15.328 I/BufferQueueProducer(32596): [ViewRootImpl[MainActivity]#5(BLAST Consumer)5](id:7f5400000005,api:1,p:32596,c:32596) disconnect: api 1
+04-20 22:17:15.329 D/OpenGLRenderer(32596): endAllActiveAnimators on 0xb4000070835886c0 (RippleDrawable) with handle 0xb400006f934f1e00
+04-20 22:17:15.344 I/BLASTBufferQueue(32596): [ViewRootImpl[MainActivity]#5] destructor()
+04-20 22:17:15.345 I/BufferQueueConsumer(32596): [ViewRootImpl[MainActivity]#5(BLAST Consumer)5](id:7f5400000005,api:0,p:-1,c:32596) disconnect
+04-20 22:17:15.380 V/ImeFocusController(32596): onWindowFocus: DecorView@930067b[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE
+04-20 22:17:15.380 D/ImeFocusController(32596): onViewFocusChanged, view=DecorView@930067b[MainActivity], mServedView=DecorView@930067b[MainActivity]
+04-20 22:17:15.380 V/ImeFocusController(32596): checkFocus: view=DecorView@930067b[MainActivity] next=DecorView@930067b[MainActivity] force=true package=com.zbb.automation
+04-20 22:17:15.411 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 1
+04-20 22:17:15.525 I/BLASTBufferQueue(32596): releaseBufferCallbackThunk bufferId:139998753980436 framenumber:12 blastBufferQueue is dead
+04-20 22:17:16.384 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:16.553 D/AudioManager(32596): abandonAudioFocus  by com.zbb.automation
+04-20 22:17:16.720 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:16.720 D/AccessibilityServiceImpl(32596): 窗口变化: com.bbk.launcher2.Launcher
+04-20 22:17:16.941 I/BufferQueueProducer(32596): [ViewRootImpl[MainActivity]#2(BLAST Consumer)2](id:7f5400000002,api:1,p:32596,c:32596) disconnect: api 1
+04-20 22:17:16.947 I/BLASTBufferQueue(32596): [ViewRootImpl[MainActivity]#2] destructor()
+04-20 22:17:16.947 I/BufferQueueConsumer(32596): [ViewRootImpl[MainActivity]#2(BLAST Consumer)2](id:7f5400000002,api:0,p:-1,c:32596) disconnect
+04-20 22:17:16.988 I/BLASTBufferQueue(32596): releaseBufferCallbackThunk bufferId:139998753980425 framenumber:59 blastBufferQueue is dead
+04-20 22:17:17.103 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:17.104 D/AccessibilityServiceImpl(32596): 窗口变化: com.bbk.launcher2.Launcher
+04-20 22:17:17.374 D/Linux   ( 4213): [Posix_connect Debug]Process com.google.android.gms :443
+04-20 22:17:18.253 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 1
+04-20 22:17:18.270 D/AccessibilityServiceImpl(32596): 记录用户点击坐标: (436, 1490)
+04-20 22:17:18.364 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:18.364 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:18.364 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:18.365 D/AccessibilityServiceImpl(32596): 窗口变化: android.view.View
+04-20 22:17:18.414 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:18.915 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:18.915 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:19.013 I/ActivityTaskManager( 1297): Displayed com.android.settings/.Settings: +838ms
+04-20 22:17:19.044 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:19.044 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:19.044 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:19.044 D/AccessibilityServiceImpl(32596): 窗口变化: com.android.settings.homepage.SettingsHomepageActivity
+04-20 22:17:19.095 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:19.096 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:19.178 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:19.178 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:19.178 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:19.304 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:19.304 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:19.348 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:19.348 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:19.380 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:19.891 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:19.891 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:19.895 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:19.895 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:19.895 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 8
+04-20 22:17:19.907 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:19.907 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:19.907 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 1
+04-20 22:17:20.026 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:20.026 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:20.050 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:20.050 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:20.050 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:20.079 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:20.079 D/AccessibilityServiceImpl(32596): 窗口变化: android.inputmethodservice.SoftInputWindow
+04-20 22:17:20.155 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:20.155 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:20.248 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:20.248 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:20.350 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:20.350 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:20.435 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:20.466 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:20.466 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:20.567 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+--------- beginning of system
+04-20 22:17:20.649 D/BatteryStatsImpl( 1297): getPowerDataToParcel, type = 6, date = null
+04-20 22:17:21.106 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:21.106 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:21.172 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:21.172 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:21.182 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:21.183 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:21.184 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 8192
+04-20 22:17:21.186 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 1
+04-20 22:17:21.193 D/AccessibilityServiceImpl(32596): 记录用户点击坐标: (359, 357)
+04-20 22:17:21.208 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:21.208 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:21.208 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:21.408 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:21.408 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:21.506 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:21.507 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:21.540 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:21.999 I/ReactNativeJNI(32596): Memory warning (pressure level: TRIM_MEMORY_RUNNING_MODERATE) received by JS VM, ignoring because it's non-severe
+04-20 22:17:22.246 I/tencent.mm:pus(23245): Explicit concurrent copying GC freed 49232(2317KB) AllocSpace objects, 6(120KB) LOS objects, 24% free, 6111KB/8149KB, paused 167us,159us total 242.904ms
+04-20 22:17:22.247 I/tencent.mm:pus(23245): WaitForGcToComplete blocked Background on Explicit for 68.842ms
+04-20 22:17:22.249 W/System  (23245): A resource failed to call close.
+04-20 22:17:22.460 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:22.491 I/tencent.mm:pus(23245): Explicit concurrent copying GC freed 3853(261KB) AllocSpace objects, 4(80KB) LOS objects, 24% free, 5802KB/7736KB, paused 153us,88us total 241.669ms
+04-20 22:17:22.772 I/com.tencent.mm(32703): Explicit concurrent copying GC freed 42126(2088KB) AllocSpace objects, 10(200KB) LOS objects, 20% free, 31MB/39MB, paused 197us,321us total 748.940ms
+04-20 22:17:22.921 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:22.922 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:23.048 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:23.048 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:23.053 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 1
+04-20 22:17:23.440 I/com.tencent.mm(32703): Explicit concurrent copying GC freed 6121(361KB) AllocSpace objects, 4(80KB) LOS objects, 20% free, 31MB/39MB, paused 281us,189us total 667.191ms
+04-20 22:17:23.608 D/AccessibilityServiceImpl(32596): 记录用户点击坐标: (359, 447)
+04-20 22:17:23.609 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:23.611 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:23.611 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:23.628 I/ActivityTaskManager( 1297): Displayed com.android.settings/com.vivo.settings.VivoSubSettings: +730ms
+04-20 22:17:23.644 I/ReactNativeJNI(32596): Memory warning (pressure level: TRIM_MEMORY_RUNNING_MODERATE) received by JS VM, ignoring because it's non-severe
+04-20 22:17:23.657 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:23.657 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:23.658 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:23.658 D/AccessibilityServiceImpl(32596): 窗口变化: com.vivo.settings.VivoSubSettings
+04-20 22:17:23.676 I/ActivityTaskManager( 1297): Fully drawn com.android.settings/com.vivo.settings.VivoSubSettings: +730ms
+04-20 22:17:23.762 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:23.763 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:23.763 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:23.862 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:23.863 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:23.889 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:24.262 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:24.262 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:24.363 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:24.364 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:24.366 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:24.472 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:24.472 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:24.480 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:24.485 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:24.485 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:24.486 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:24.586 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:24.586 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:24.595 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:24.595 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:24.596 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:24.696 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:24.696 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:24.712 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:24.712 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:24.712 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:24.813 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:24.813 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:24.830 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:24.830 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:24.831 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:24.930 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:24.931 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:24.944 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:24.944 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:24.945 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:25.044 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:25.044 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:25.062 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:25.062 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:25.063 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:25.162 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:25.162 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:25.179 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:25.263 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:25.263 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:25.294 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:25.295 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:25.296 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:25.395 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:25.395 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:25.429 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:25.495 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:25.496 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:25.545 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:26.504 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:28.447 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:28.447 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:28.527 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:28.537 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:28.537 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:28.538 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 1
+04-20 22:17:28.591 I/ActivityTaskManager( 1297): Displayed com.android.settings/com.vivo.settings.VivoSubSettings: +174ms
+04-20 22:17:28.617 D/AccessibilityServiceImpl(32596): 记录用户点击坐标: (360, 878)
+04-20 22:17:28.627 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:28.629 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 8
+04-20 22:17:28.632 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:28.632 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:28.668 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:28.668 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:28.670 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:28.670 D/AccessibilityServiceImpl(32596): 窗口变化: com.vivo.settings.VivoSubSettings
+04-20 22:17:28.727 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:28.727 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:28.727 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 8
+04-20 22:17:28.769 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:29.975 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:29.975 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:30.037 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:30.037 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:30.047 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:30.047 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:30.047 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:30.047 D/AccessibilityServiceImpl(32596): 窗口变化: android.app.AlertDialog
+04-20 22:17:30.074 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:30.074 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:30.092 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 4096
+04-20 22:17:30.147 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:30.147 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:30.544 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:31.154 D/AccessibilityServiceImpl(32596): 无障碍服务已销毁
+04-20 22:17:32.568 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:33.295 D/AccessibilityServiceImpl(32596): 无障碍服务已创建
+04-20 22:17:33.325 D/AccessibilityServiceImpl(32596): 无障碍服务已连接
+04-20 22:17:33.325 D/AccessibilityServiceImpl(32596): 悬浮窗管理器已初始化
+04-20 22:17:33.329 D/MediaProjectionService(32596): 前台服务启动命令已发送
+04-20 22:17:33.329 D/AccessibilityServiceImpl(32596): 前台服务已启动
+04-20 22:17:33.334 D/ScreenshotService(32596): 截图服务启动命令已发送
+04-20 22:17:33.334 D/AccessibilityServiceImpl(32596): ScreenshotService 已启动
+04-20 22:17:33.334 D/MediaProjectionService(32596): 前台服务 onStartCommand
+04-20 22:17:33.335 D/ScreenshotService(32596): 截图服务 onStartCommand, action: null
+04-20 22:17:33.441 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 8
+04-20 22:17:33.450 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:33.451 D/AccessibilityServiceImpl(32596): 窗口变化: com.vivo.settings.VivoSubSettings
+04-20 22:17:34.444 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:34.444 D/AccessibilityServiceImpl(32596): 窗口变化: com.bbk.launcher2.Launcher
+04-20 22:17:34.588 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:35.059 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:35.059 D/AccessibilityServiceImpl(32596): 窗口变化: com.bbk.launcher2.Launcher
+04-20 22:17:35.563 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:35.573 I/BufferQueueConsumer(32596): [](id:7f5400000006,api:0,p:-1,c:32596) connect: controlledByApp=false
+04-20 22:17:35.574 I/BLASTBufferQueue(32596): [ViewRootImpl[MainActivity]#6] constructor()
+04-20 22:17:35.574 I/BufferQueueProducer(32596): [ViewRootImpl[MainActivity]#6(BLAST Consumer)6](id:7f5400000006,api:1,p:32596,c:32596) connect: api=1 producerControlledByApp=true
+04-20 22:17:35.593 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 1
+04-20 22:17:35.625 V/ImeFocusController(32596): onWindowFocus: DecorView@930067b[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE|IS_FORWARD_NAVIGATION
+04-20 22:17:35.625 V/ImeFocusController(32596): Restarting due to isRestartOnNextWindowFocus as true
+04-20 22:17:35.625 D/ImeFocusController(32596): onViewFocusChanged, view=DecorView@930067b[MainActivity], mServedView=DecorView@930067b[MainActivity]
+04-20 22:17:35.625 V/ImeFocusController(32596): checkFocus: view=DecorView@930067b[MainActivity] next=DecorView@930067b[MainActivity] force=true package=com.zbb.automation
+04-20 22:17:35.738 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:35.739 D/AccessibilityServiceImpl(32596): 窗口变化: com.zbb.automation.MainActivity
+04-20 22:17:36.519 E/ReactNativeJS(32596): '[ZBB] 模块未初始化', { [Stack] name: 'Stack' }
+04-20 22:17:36.608 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:36.651 W/unknown:ReactNative(32596): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 22:17:36.651 W/unknown:ReactNative(32596): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 22:17:36.793 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:36.794 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:36.897 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:36.897 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:38.637 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:39.321 D/Linux   ( 3624): [Posix_connect Debug]Process com.google.android.gms.persistent :443
+04-20 22:17:39.514 D/Linux   ( 3624): [Posix_connect Debug]Process com.google.android.gms.persistent :443
+04-20 22:17:40.594 E/ReactNativeJS(32596): '[ZBB] 模块未初始化', { [Stack] name: 'Stack' }
+04-20 22:17:40.659 W/unknown:ReactNative(32596): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 22:17:40.659 W/unknown:ReactNative(32596): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 22:17:40.662 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:40.794 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:40.794 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:40.894 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 2048
+04-20 22:17:40.894 D/AccessibilityServiceImpl(32596): 窗口内容变化
+04-20 22:17:42.016 I/BufferQueueConsumer(32596): [](id:7f5400000007,api:0,p:-1,c:32596) connect: controlledByApp=false
+04-20 22:17:42.016 I/BLASTBufferQueue(32596): [ViewRootImpl[MainActivity]#7] constructor()
+04-20 22:17:42.019 I/BufferQueueProducer(32596): [ViewRootImpl[MainActivity]#7(BLAST Consumer)7](id:7f5400000007,api:1,p:32596,c:32596) connect: api=1 producerControlledByApp=true
+04-20 22:17:42.126 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 32
+04-20 22:17:42.126 D/AccessibilityServiceImpl(32596): 窗口变化: androidx.appcompat.app.AlertDialog
+04-20 22:17:42.687 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:42.826 E/ReactNativeJS(32596): [ZBB] 模块未初始化
+04-20 22:17:42.827 I/BufferQueueProducer(32596): [ViewRootImpl[MainActivity]#7(BLAST Consumer)7](id:7f5400000007,api:1,p:32596,c:32596) disconnect: api 1
+04-20 22:17:42.827 D/OpenGLRenderer(32596): endAllActiveAnimators on 0xb400007083593490 (RippleDrawable) with handle 0xb400006f934f3ea0
+04-20 22:17:42.846 I/BLASTBufferQueue(32596): [ViewRootImpl[MainActivity]#7] destructor()
+04-20 22:17:42.846 I/BufferQueueConsumer(32596): [ViewRootImpl[MainActivity]#7(BLAST Consumer)7](id:7f5400000007,api:0,p:-1,c:32596) disconnect
+04-20 22:17:42.878 V/ImeFocusController(32596): onWindowFocus: DecorView@930067b[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE
+04-20 22:17:42.878 D/ImeFocusController(32596): onViewFocusChanged, view=DecorView@930067b[MainActivity], mServedView=DecorView@930067b[MainActivity]
+04-20 22:17:42.878 V/ImeFocusController(32596): checkFocus: view=DecorView@930067b[MainActivity] next=DecorView@930067b[MainActivity] force=true package=com.zbb.automation
+04-20 22:17:42.916 D/AccessibilityServiceImpl(32596): 收到无障碍事件类型: 1
+04-20 22:17:43.012 I/BLASTBufferQueue(32596): releaseBufferCallbackThunk bufferId:139998753980444 framenumber:12 blastBufferQueue is dead
+04-20 22:17:44.719 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 22:17:46.751 D/Linux   (32596): [Posix_connect Debug]Process com.zbb.automation :8081

@@ -1,0 +1,86 @@
+PS E:\ZBB\projects_coze0330\client\android> adb logcat -c
+PS E:\ZBB\projects_coze0330\client\android> Start-Sleep -Seconds 5
+>> adb logcat -d > zbb_crash.txt
+>> $errors = Get-Content zbb_crash.txt | Select-String "FATAL|Exception|Error:|crash|zbb|automation" | Select-Object -First 80
+>> $errors | ForEach-Object { Write-Host $_ }
+04-25 18:13:15.935  1801  2138 I StatusBarDisable: setFlags what=0 which=1 pkg=Window{af042e6 u0 com.zbb.automation/com.zbb.automation.MainActivity}
+04-25 18:13:15.937  1801  2141 I WindowManager: Focus requested for window=:af042e6 com.zbb.automation/com.zbb.automation.MainActivity
+04-25 18:13:15.937  1801  2242 D HwActivityTaskManagerServiceEx: getVisibleTasks add visible task to list, topActivity : ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+04-25 18:13:15.938  1801  2242 D HwActivityTaskManagerServiceEx: getVisibleTasks add visible task to list, topActivity : ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+04-25 18:13:15.938  1801  2242 D HwActivityTaskManagerServiceEx: getVisibleTasks add visible task to list, topActivity : ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+04-25 18:13:15.938  1801  2242 D HwActivityTaskManagerServiceEx: getVisibleTasks add visible task to list, topActivity : ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+04-25 18:13:15.968  1801  2888 I HwOcrImeController: updateMultiWindow focus window = com.zbb.automation/com.zbb.automation.MainActivity mIsInMultiScreen = false
+04-25 18:13:16.094  1801  2141 I WindowManager: Exit animation finished in Window{e6c23dd u0 com.zbb.automation/com.zbb.automation.MainActivity EXITING}: remove=true
+04-25 18:13:16.095  1801  2141 I WindowManager: Removing Window{e6c23dd u0 com.zbb.automation/com.zbb.automation.MainActivity} from ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+04-25 18:13:17.057  1801  2888 D HwActivityStarterEx: isNeedInterceptStart true, interceptionState:BACKGROUND, callerPkg:com.zbb.automation, uid:10210
+04-25 18:13:17.057  1801  2888 D ActivityTaskManager: real mask = 6160 real binary mask = 1100000010000shouldIntercept start, isNeedIntercept = true callingUid = 10210 callingPackage = com.zbb.automation
+04-25 18:13:17.057  1801  2888 D HwActivityStarterEx: reportResult packageName = com.zbb.automation uid = 10210 activityOriginalStartResult = 7 hwInterceptionMask = 0 validLen = 4
+04-25 18:13:17.058  1801  2888 D HwMWPM  : activityInfo: ActivityInfo{be69aa4 com.android.systemui.media.MediaProjectionPermissionActivity}, intent: Intent { cmp=com.android.systemui/.media.MediaProjectionPermissionActivity }, options: null, callingPackage: com.zbb.automation, isStartToSplit: false
+04-25 18:13:17.058  1801  2888 D HwASInterceptor: both page open. caller:com.zbb.automation, target:com.android.systemui
+04-25 18:13:17.059  1801  2888 D ActivityTaskManager: TaskLaunchParamsModifier:task=Task{cbb45e4 #136 type=standard A=10210:com.zbb.automation U=0 visible=true mode=fullscreen translucent=false sz=1} activity=ActivityRecord{2402bc2 u0 com.android.systemui/.media.MediaProjectionPermissionActivity t-1} display-area-from-source=DefaultTaskDisplayArea@174075268 display-id=0 display-windowing-mode=1 suggested-display-area=DefaultTaskDisplayArea@174075268 inherit-from-source=fullscreen activity-options-fullscreen=Rect(0, 0 - 0, 0) non-freeform-mode=1 display-area=DefaultTaskDisplayArea@174075268
+04-25 18:13:17.059  1801  2888 W HwMultiWindowManager: launch multi window activity: invalid params. r=ActivityRecord{2402bc2 u0 com.android.systemui/.media.MediaProjectionPermissionActivity t-1} options=null source=ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+04-25 18:13:17.065 18350 18350 I TopResumedActivityChangeItem: execute start, ActivityClientRecord = ActivityRecord{335b17c token=android.os.BinderProxy@518c087 {com.zbb.automation/com.zbb.automation.MainActivity}}
+04-25 18:13:17.082  1801  1846 W HwActivityTaskManagerServiceEx: appSwitch from: com.zbb.automation to: com.android.systemui
+04-25 18:13:17.082  1801  1846 I WindowManager: Changing focus from Window{af042e6 u0 com.zbb.automation/com.zbb.automation.MainActivity} to null displayId=0
+04-25 18:13:17.088  1801  2888 D HwActivityTaskManagerServiceEx: loadRunningPackages packageInfo : pkg:com.android.systemui visible:true, pkg:com.huawei.android.launcher visible:false, pkg:com.zbb.automation visible:true,
+04-25 18:13:17.088  1801  4147 D HwActivityTaskManagerServiceEx: loadRunningPackages packageInfo : pkg:com.android.systemui visible:true, pkg:com.huawei.android.launcher visible:false, pkg:com.zbb.automation visible:true,
+04-25 18:13:17.092  1801  2152 I HwAudioServiceEx: ComponentInfo : className = com.zbb.automation.MainActivity, flag = onPause, isHomeActivity = , isTop = false
+04-25 18:13:17.093  1801 11607 I MediaProjectionManagerService: check noteOpNoThrow, OP: 46, uid: 10210, packageName: com.zbb.automation
+04-25 18:13:17.093  1801 11607 I MediaProjectionManagerService: hasProjectionPermission false, uid: 10210, packageName: com.zbb.automation
+04-25 18:13:17.116  1801  2141 I WindowManager: wm_insets notifyInsetsControlChanged for:Window{af042e6 u0 com.zbb.automation/com.zbb.automation.MainActivity}
+04-25 18:13:17.164  1801  2141 D ActivityTaskManager: printFIFOList record=ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}, record.finishing:false, record.mReportedDrawn:true
+04-25 18:13:17.164  1801  2141 D ActivityTaskManager: onAnimationLeashCreated win=Window{af042e6 u0 com.zbb.automation/com.zbb.automation.MainActivity} mFrame=Rect(0, 0 - 1080, 2400)
+04-25 18:13:17.188  1801 11607 W ActivityTaskManager: do not allow hiding recent tasks, task id: 136 , package = com.zbb.automation
+04-25 18:13:17.191  1801 11607 W ActivityTaskManager: do not allow hiding recent tasks, task id: 136 , package = com.zbb.automation
+04-25 18:13:17.198  1801  4146 D HwActivityTaskManagerServiceEx: loadRunningPackages packageInfo : pkg:com.android.systemui visible:true, pkg:com.huawei.android.launcher visible:false, pkg:com.zbb.automation visible:true,
+04-25 18:13:17.199  1801  4146 D HwActivityTaskManagerServiceEx: loadRunningPackages packageInfo : pkg:com.android.systemui visible:true, pkg:com.huawei.android.launcher visible:false, pkg:com.zbb.automation visible:true,
+04-25 18:13:19.007  1801  4147 I MediaProjectionManagerService: MediaProjection type: 0, uid: 10210, packageName: com.zbb.automation, targetSdkVersion: 36, isPrivileged: false
+04-25 18:13:19.039  1801  2888 I ActivityTaskManager: updateTopApp to ProcessRecord{91d469e 18350:com.zbb.automation/u0a210}
+04-25 18:13:19.039  1801  2888 W HwActivityTaskManagerServiceEx: appSwitch from: com.android.systemui to: com.zbb.automation
+04-25 18:13:19.040 18350 18350 I TopResumedActivityChangeItem: execute start, ActivityClientRecord = ActivityRecord{335b17c token=android.os.BinderProxy@518c087 {com.zbb.automation/com.zbb.automation.MainActivity}}
+04-25 18:13:19.041  1801  2888 I WindowManager: Changing focus from Window{f7f0972 u0 com.android.systemui/com.android.systemui.media.MediaProjectionPermissionActivity} to Window{af042e6 u0 com.zbb.automation/com.zbb.automation.MainActivity} displayId=0
+04-25 18:13:19.042  1801  2888 D HwActivityTaskManagerServiceEx: getVisibleTasks add visible task to list, topActivity : ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+04-25 18:13:19.042  1801  2888 I NavigationCallOut: focusChanged, focus=Window{af042e6 u0 com.zbb.automation/com.zbb.automation.MainActivity}, mIsFocusWinInBlackList=false
+04-25 18:13:19.043  1801  2153 D HwGameAssistantController: UPDATE: mCurFgPkg=com.zbb.automation, mCurFgPid=18350, mIsCurGame=false
+04-25 18:13:19.046  1801  2138 I StatusBarDisable: setFlags what=0 which=1 pkg=Window{af042e6 u0 com.zbb.automation/com.zbb.automation.MainActivity}
+04-25 18:13:19.048  1801  2888 V ActivityTaskManager: notifyAppResumed: wasStopped=false ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+04-25 18:13:19.050  1801  2153 I HwGameAssistantController: notifyBuoyAppSwitch other switch: com.zbb.automation
+04-25 18:13:19.052  1801  4147 I DE J DES: [effect] Pg pkg:com.zbb.automation
+04-25 18:13:19.053  2690  2957 I UidCloseNrStateMachine: UID hot switch, uid:10210, pkgName:com.zbb.automation
+04-25 18:13:19.053  1801  2888 I WindowManager: wm_insets notifyInsetsControlChanged for:Window{af042e6 u0 com.zbb.automation/com.zbb.automation.MainActivity}
+04-25 18:13:19.053  2690  2957 I NetworkQoeChr: updateTopAppInfo: com.zbb.automation, appState1, uid10210
+04-25 18:13:19.053  1801  2888 I WindowManager: Check opening app=ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}: allDrawn=true startingDisplayed=false startingMoved=false isRelaunching()=false mStartingWindow=null isOneStepWindowChanging=falseisOpenCombinationSplitScreen=false shouldWaitCombine=false
+04-25 18:13:19.055  1801  2888 D HwWindowManagerServiceEx: is app exit to launcher info: transit = 25, app = ActivityRecord{2402bc2 u0 com.android.systemui/.media.MediaProjectionPermissionActivity t136 f}}, window = Window{f7f0972 u0 com.android.systemui/com.android.systemui.media.MediaProjectionPermissionActivity}, mClosingApps = {ActivityRecord{2402bc2 u0 com.android.systemui/.media.MediaProjectionPermissionActivity t136 f}}}, topOpeningApp = ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+04-25 18:13:19.055  2690  2957 I SmartDualCardConfig: getAppType,pkgName=com.zbb.automation,appType=-1
+04-25 18:13:19.055  2690  2957 I PowerMsgAdapter: UID hot switch, uid:10210, pkgName:com.zbb.automation
+04-25 18:13:19.056  2690  2957 I HcPreDnsQueryCtrl: mForeAppPackageName update=com.zbb.automation
+04-25 18:13:19.057  2690  2957 I Power2r4rHandover: 4rTo2rCondition, usbStatus = true, foreGrountApp = com.zbb.automation, 4rTo2rCtrlRule = 1, is4rTo2rCheck = false, batteryMode = 1, mIs4r2rHandover = false
+04-25 18:13:19.058  1801  2888 D ActivityTaskManager: printFIFOList record=ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}, record.finishing:false, record.mReportedDrawn:true
+04-25 18:13:19.058  1801  2888 D ActivityTaskManager: onAnimationLeashCreated win=Window{af042e6 u0 com.zbb.automation/com.zbb.automation.MainActivity} mFrame=Rect(0, 0 - 1080, 2400)
+04-25 18:13:19.065  1801  2141 I WindowManager: Focus requested for window=:af042e6 com.zbb.automation/com.zbb.automation.MainActivity
+04-25 18:13:19.069  1801 11607 D HwActivityTaskManagerServiceEx: loadRunningPackages packageInfo : pkg:com.android.systemui visible:false, pkg:com.huawei.android.launcher visible:false, pkg:com.zbb.automation visible:true,
+04-25 18:13:19.069  1801  2138 I StatusBarDisable: setFlags what=0 which=1 pkg=Window{af042e6 u0 com.zbb.automation/com.zbb.automation.MainActivity}
+04-25 18:13:19.083  1801 11607 I MediaProjectionManagerService: start, uid: 10210, packageName: com.zbb.automation, pid: 0
+04-25 18:13:19.083  1801 11607 I MediaProjectionManagerService: registerCallback, uid: 10210, packageName: com.zbb.automation, pid: 0
+04-25 18:13:19.083  1801 11607 I MediaProjectionManagerService: registerCallback done, uid: 10210, packageName: com.zbb.automation, pid: 0
+04-25 18:13:19.084  1801 11607 I MediaProjectionManagerService: stop, uid: 10210, packageName: com.zbb.automation, pid: 0
+04-25 18:13:19.084  1801 11607 I MediaProjectionManagerService: unregisterCallback, uid: 10210, packageName: com.zbb.automation, pid: 0
+04-25 18:13:19.084  1801 11607 I MediaProjectionManagerService: unregisterCallback done, uid: 10210, packageName: com.zbb.automation, pid: 0
+04-25 18:13:19.084  1801  2152 I HwAudioServiceEx: ComponentInfo : className = com.zbb.automation.MainActivity, flag = onResume, isHomeActivity = , isTop = true
+04-25 18:13:19.095  1801  1845 I HwOcrImeController: updateMultiWindow focus window = com.zbb.automation/com.zbb.automation.MainActivity mIsInMultiScreen = false
+04-25 18:13:19.100  1801  1845 V ActivityTaskManager: Activity idle: ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+04-25 18:13:19.142  1801  1845 D HwActivityTaskManagerServiceEx: loadRunningPackages packageInfo : pkg:com.android.systemui visible:false, pkg:com.huawei.android.launcher visible:false, pkg:com.zbb.automation visible:true,
+04-25 18:13:19.143  1801  1845 D HwActivityTaskManagerServiceEx: loadRunningPackages packageInfo : pkg:com.android.systemui visible:false, pkg:com.huawei.android.launcher visible:false, pkg:com.zbb.automation visible:true,
+04-25 18:13:19.150  1801  1845 W ActivityTaskManager: do not allow hiding recent tasks, task id: 136 , package = com.zbb.automation
+04-25 18:13:19.151  1801  4147 W ActivityTaskManager: do not allow hiding recent tasks, task id: 136 , package = com.zbb.automation
+04-25 18:13:19.184  1801  1845 I WindowManager: Changing focus from Window{af042e6 u0 com.zbb.automation/com.zbb.automation.MainActivity} to Window{84cd78e u0 com.zbb.automation/com.zbb.automation.MainActivity} displayId=0
+04-25 18:13:19.184  1801  1845 D HwActivityTaskManagerServiceEx: getVisibleTasks add visible task to list, topActivity : ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+04-25 18:13:19.185  1801  1845 I NavigationCallOut: focusChanged, focus=Window{84cd78e u0 com.zbb.automation/com.zbb.automation.MainActivity}, mIsFocusWinInBlackList=false
+04-25 18:13:19.187  1801  2138 I StatusBarDisable: setFlags what=0 which=1 pkg=Window{84cd78e u0 com.zbb.automation/com.zbb.automation.MainActivity}
+04-25 18:13:19.188  1801  1845 I WindowManager: addWindow: Window{84cd78e u0 com.zbb.automation/com.zbb.automation.MainActivity} currentDisplayId:0 requestDisplayId:0 token:Token{ae58499 ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}} appearance:0 fl_fullscreen=false vsysui_fullscreen=false
+04-25 18:13:19.189  1801  2141 I WindowManager: wm_insets notifyInsetsControlChanged for:Window{af042e6 u0 com.zbb.automation/com.zbb.automation.MainActivity}
+04-25 18:13:19.189  1801  2141 I WindowManager: wm_insets notifyInsetsControlChanged for:Window{84cd78e u0 com.zbb.automation/com.zbb.automation.MainActivity}
+04-25 18:13:19.190  1801  2141 I WindowManager: Focus not requested for window=Window{84cd78e u0 com.zbb.automation/com.zbb.automation.MainActivity}
+04-25 18:13:19.212  1801  2242 D HwActivityTaskManagerServiceEx: getVisibleTasks add visible task to list, topActivity : ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+04-25 18:13:19.213  1801  2242 D HwActivityTaskManagerServiceEx: getVisibleTasks add visible task to list, topActivity : ActivityRecord{976435e u0 com.zbb.automation/.MainActivity t136}
+PS E:\ZBB\projects_coze0330\client\android>

@@ -1,0 +1,1061 @@
+--------- beginning of main
+04-17 22:12:52.760 W/System  (22892): A resource failed to call close.
+04-17 22:12:52.760 W/System  (22892): A resource failed to call close.
+04-17 22:12:52.760 W/System  (22892): A resource failed to call close.
+04-17 22:12:52.760 W/System  (22892): A resource failed to call close.
+04-17 22:12:52.760 W/System  (22892): A resource failed to call close.
+04-17 22:12:52.760 W/System  (22892): A resource failed to call close.
+04-17 22:12:52.973 W/d.ugc.aweme:sm(24102): Accessing hidden field Landroid/app/ActivityThread;->mLastProcessState:I (blocked, reflection, denied)
+04-17 22:12:53.784 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:53.949 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.540 E/AccessibilityServiceImpl(22169): 截图失败，无法进行 OCR
+04-17 22:12:54.544 I/ReactNativeJS(22169): [ZBB WARN] [微信] ⑩: OCR 首次失败，尝试重新请求截图权限...
+04-17 22:12:54.545 I/ReactNativeJS(22169): [ZBB] 请求 MediaProjection 权限...
+04-17 22:12:54.549 D/AutomationModule(22169): >>> 没有保存的 MediaProjection 权限
+04-17 22:12:54.552 D/AccessibilityServiceImpl(22169): >>> 在主线程执行截图操作
+04-17 22:12:54.556 D/AccessibilityServiceImpl(22169): >>> displays = 2
+04-17 22:12:54.556 D/AccessibilityServiceImpl(22169): >>> display = true
+04-17 22:12:54.557 D/AccessibilityServiceImpl(22169): >>> 屏幕尺寸: 720x1600
+04-17 22:12:54.557 D/AccessibilityServiceImpl(22169): >>> densityDpi = 320
+04-17 22:12:54.558 I/BufferQueueConsumer(22169): [](id:56990000000d,api:0,p:-1,c:22169) connect: controlledByApp=true
+04-17 22:12:54.560 D/AccessibilityServiceImpl(22169): >>> ImageReader 创建成功
+04-17 22:12:54.577 D/AccessibilityServiceImpl(22169): >>> createVirtualDisplay 完成
+04-17 22:12:54.578 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 2048
+04-17 22:12:54.578 D/AccessibilityServiceImpl(22169): 窗口内容变化
+04-17 22:12:54.581 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 2048
+04-17 22:12:54.581 D/AccessibilityServiceImpl(22169): 窗口内容变化
+04-17 22:12:54.584 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 2048
+04-17 22:12:54.584 D/AccessibilityServiceImpl(22169): 窗口内容变化
+04-17 22:12:54.584 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 2048
+04-17 22:12:54.584 D/AccessibilityServiceImpl(22169): 窗口内容变化
+04-17 22:12:54.593 D/MediaProjectionService(22169): 前台服务已启动
+04-17 22:12:54.598 D/MediaProjectionService(22169): MediaProjectionService onStartCommand
+04-17 22:12:54.601 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:12:54.633 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.654 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.666 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.696 I/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-1](id:56990000000d,api:1,p:718,c:22169) connect: api=1 producerControlledByApp=false
+04-17 22:12:54.700 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.710 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.710 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.711 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.712 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.716 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.727 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.728 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.730 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.730 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.735 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.737 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.737 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.738 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.738 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.744 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.745 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.745 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.745 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.747 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.751 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.754 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.754 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.754 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.758 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.764 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.768 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.769 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.769 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.773 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.781 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.792 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.792 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.794 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.798 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.800 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.802 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.803 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.804 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.808 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.814 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.817 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.818 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.818 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.823 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.831 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.840 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.840 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.841 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.848 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.854 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.856 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.856 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.857 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.862 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.863 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.872 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.872 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.872 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.877 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.880 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.885 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.885 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.886 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.890 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.897 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.900 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.902 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.903 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.908 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.913 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.917 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.918 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.918 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.931 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.931 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.938 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.940 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.941 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.947 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.951 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.953 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.954 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.954 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.960 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.963 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.966 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.967 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.967 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.977 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.980 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:54.983 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:54.983 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:54.984 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:54.992 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:54.997 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.002 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.002 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.003 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.007 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.008 I/.zbb.automatio(22169): NativeAlloc concurrent copying GC freed 151270(6585KB) AllocSpace objects, 0(0B) LOS objects, 50% free, 14MB/29MB, paused 120us,35us total 166.887ms
+04-17 22:12:55.014 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.017 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.018 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.019 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.024 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.030 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.036 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.037 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.038 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.046 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.048 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.057 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.058 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.060 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.064 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.065 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.067 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.068 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.071 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.076 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.080 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.084 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.085 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.092 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.096 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.097 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.113 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.149 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.149 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.149 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.149 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.153 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.154 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.155 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.155 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.159 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.165 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.167 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.167 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.167 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.170 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.224 E/FA      (22892): Task exception on worker thread: java.lang.IllegalStateException: AppMeasurement is not initialized: com.google.android.gms.internal.measurement.zzgl.zzch(Unknown Source:9)
+04-17 22:12:55.249 D/BoundBrokerSvc(31527): onBind: Intent { act=com.google.android.gms.measurement.START pkg=com.google.android.gms }
+04-17 22:12:55.249 D/BoundBrokerSvc(31527): Loading bound service for intent: Intent { act=com.google.android.gms.measurement.START pkg=com.google.android.gms }
+04-17 22:12:55.263 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.270 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.270 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.271 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.274 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.288 I/BufferQueueConsumer(22169): [](id:56990000000e,api:0,p:-1,c:22169) connect: controlledByApp=false
+04-17 22:12:55.294 I/BLASTBufferQueue(22169): [ViewRootImpl[MainActivity]#12] constructor()
+04-17 22:12:55.296 I/BufferQueueProducer(22169): [ViewRootImpl[MainActivity]#12(BLAST Consumer)12](id:56990000000e,api:1,p:22169,c:22169) connect: api=1 producerControlledByApp=true
+04-17 22:12:55.297 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.314 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.364 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.368 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.368 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.369 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.373 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.382 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.383 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.383 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.384 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.388 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.398 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.399 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.399 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.399 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.404 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.405 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 32
+04-17 22:12:55.405 D/AccessibilityServiceImpl(22169): 窗口变化: com.zbb.automation.MainActivity
+04-17 22:12:55.414 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.415 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.416 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.416 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.421 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.431 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.432 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.432 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.433 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.436 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.448 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.449 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.449 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.450 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.455 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.465 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.466 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.466 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.466 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.469 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.482 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.483 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.483 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.483 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.489 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.500 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.509 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.511 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.511 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.519 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.522 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.526 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.529 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.530 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.532 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.535 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.540 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.543 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.543 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.546 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.546 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 32
+04-17 22:12:55.546 D/AccessibilityServiceImpl(22169): 窗口变化: com.android.systemui.media.MediaProjectionPermissionActivity
+04-17 22:12:55.549 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.554 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.556 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.556 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.559 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.563 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.569 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.572 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.572 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.575 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.583 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.587 I/ActivityTaskManager( 1296): Displayed com.android.systemui/.media.MediaProjectionPermissionActivity: +356ms
+04-17 22:12:55.588 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.591 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.592 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.599 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.599 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.605 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.608 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.609 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.615 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.615 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.620 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.623 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.624 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.630 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.632 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.638 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.642 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.643 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.647 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.649 I/com.tencent.mm(22892): Background young concurrent copying GC freed 293630(17MB) AllocSpace objects, 2(104KB) LOS objects, 23% free, 55MB/72MB, paused 1.553ms,96us total 137.842ms
+04-17 22:12:55.649 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.654 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.658 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.659 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.664 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.665 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.670 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.676 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.676 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.682 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.683 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.683 E/libprocessgroup(25444): set_timerslack_ns write failed: Operation not permitted
+04-17 22:12:55.688 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.691 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.692 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.693 E/libprocessgroup(25444): set_timerslack_ns write failed: Operation not permitted
+04-17 22:12:55.697 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.699 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.704 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.705 E/libprocessgroup(25444): set_timerslack_ns write failed: Operation not permitted
+04-17 22:12:55.706 E/libprocessgroup(25444): set_timerslack_ns write failed: Operation not permitted
+04-17 22:12:55.706 I/.zbb.automatio(22169): NativeAlloc concurrent copying GC freed 5959(288KB) AllocSpace objects, 0(0B) LOS objects, 49% free, 14MB/29MB, paused 85us,31us total 192.254ms
+04-17 22:12:55.706 E/libprocessgroup(25444): set_timerslack_ns write failed: Operation not permitted
+04-17 22:12:55.707 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.707 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.710 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.715 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.718 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.724 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.724 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.727 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.731 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.735 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.738 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.739 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.742 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.747 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.751 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.755 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.755 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.757 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.764 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.768 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.772 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.772 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.776 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.782 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.786 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.790 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.790 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.793 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.798 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.802 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.806 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.806 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.810 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.815 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.819 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.823 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.823 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.826 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.832 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.836 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.840 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.840 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.843 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.848 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.853 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.857 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.857 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.860 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.866 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.870 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.874 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.874 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.877 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.882 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.886 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.890 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.891 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.893 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.897 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.901 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.904 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.905 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.907 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.915 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.920 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.924 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.924 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.927 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.931 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.936 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.940 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.940 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.944 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.948 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.953 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.957 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.958 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.961 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.964 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.969 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.972 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:55.973 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:55.976 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:55.981 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:55.985 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:55.997 I/BufferQueueProducer(22892): [ViewRootImpl[LauncherUI]#0(BLAST Consumer)0](id:596c00000000,api:1,p:22892,c:22892) disconnect: api 1
+04-17 22:12:56.003 W/ratelimit(22169): Single process limit 250/s drop 5 lines.
+04-17 22:12:56.003 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.004 I/BLASTBufferQueue(22892): [ViewRootImpl[LauncherUI]#0] destructor()
+04-17 22:12:56.004 I/BufferQueueConsumer(22892): [ViewRootImpl[LauncherUI]#0(BLAST Consumer)0](id:596c00000000,api:0,p:-1,c:22892) disconnect
+04-17 22:12:56.005 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.006 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.010 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.015 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.022 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.024 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.026 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.029 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.030 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.034 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.034 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.034 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.037 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.045 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.046 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.047 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.047 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.050 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.062 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.063 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.063 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.063 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.069 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.078 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.079 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.079 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.079 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.082 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.095 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.096 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.096 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.096 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.099 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.112 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.112 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.112 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.113 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.116 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.129 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.129 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.130 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.130 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.133 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.161 I/BLASTBufferQueue(22892): releaseBufferCallbackThunk bufferId:98320391340034 framenumber:94 blastBufferQueue is dead
+04-17 22:12:56.163 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.165 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.165 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.166 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.169 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.180 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.180 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.181 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.181 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.185 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.313 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.316 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.316 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.316 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.319 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.516 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.517 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.517 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.518 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.520 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.533 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.536 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.536 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.537 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.540 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.613 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:12:56.629 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.632 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.632 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.633 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.637 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.645 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.646 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.646 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.647 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.652 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.661 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.662 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.663 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.663 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.668 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.678 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.680 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.680 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.681 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.686 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.695 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.696 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.696 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.697 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.702 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.711 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.713 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.713 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.714 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.719 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.728 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.730 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.730 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.730 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.737 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.745 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.747 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.747 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.748 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.759 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.762 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.768 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.775 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.775 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.775 I/mars::stn(32034): [longlink_connect_monitor.cc:530, OnHeartbeatAlarmSet]:longlink_progress on_heartbeat_set, time: 604830401, time interval:210000
+04-17 22:12:56.778 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.778 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.783 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.786 E/libprocessgroup(22892): set_timerslack_ns write failed: Operation not permitted
+04-17 22:12:56.787 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.787 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.787 E/libprocessgroup(22892): set_timerslack_ns write failed: Operation not permitted
+04-17 22:12:56.790 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.795 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.796 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.796 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.796 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.801 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.811 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.812 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.812 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.813 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.826 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.827 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.834 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.834 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.835 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.840 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.841 I/.zbb.automatio(22169): NativeAlloc concurrent copying GC freed 1692(142KB) AllocSpace objects, 0(0B) LOS objects, 49% free, 14MB/29MB, paused 67us,29us total 110.376ms
+04-17 22:12:56.844 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.846 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.846 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.846 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.853 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.861 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.862 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.862 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.863 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.867 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.878 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.879 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.879 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.880 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.884 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.894 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.897 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.897 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.898 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.902 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.911 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.915 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.917 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.918 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.924 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.928 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.938 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.939 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.939 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.943 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.947 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.952 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.955 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.956 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.960 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.962 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.970 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.971 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.973 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.979 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.980 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:56.988 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:56.989 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:56.990 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:56.994 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:56.996 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.001 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.002 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.003 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.007 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.012 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.015 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.017 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.018 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.022 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.028 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.031 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.033 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.034 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.037 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.045 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.048 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.051 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.051 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.054 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.062 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.065 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.068 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.068 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.070 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.078 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.081 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.084 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.084 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.087 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.095 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.098 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.106 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.106 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.111 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.118 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.127 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.128 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.128 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.128 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.132 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.132 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.134 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.135 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.138 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.144 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.148 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.150 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.151 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.154 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.161 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.164 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.167 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.168 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.170 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.177 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.180 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.182 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.183 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.185 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.194 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.197 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.199 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.199 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.202 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.211 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.214 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.216 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.216 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.219 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.227 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.230 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.233 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.233 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.237 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.244 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.247 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.250 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.251 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.253 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.261 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.264 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.267 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.267 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.270 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.277 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.281 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.284 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.284 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.288 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.295 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.303 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.306 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.306 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.310 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.428 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.437 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.439 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.439 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.443 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.612 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.614 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.614 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.615 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.621 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.627 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.629 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.629 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.630 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.633 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.645 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.649 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.652 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.652 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.657 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.663 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.667 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.670 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.671 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.675 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.680 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.684 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.686 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.687 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.689 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.695 D/AutomationModule(22169): >>> onMediaProjectionResult 被调用, resultCode = -1
+04-17 22:12:57.695 D/AutomationModule(22169): >>> 正在创建 MediaProjection
+04-17 22:12:57.696 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.697 D/AutomationModule(22169): >>> 正在设置 MediaProjection 到服务
+04-17 22:12:57.697 D/AccessibilityServiceImpl(22169): MediaProjection 已设置
+04-17 22:12:57.697 D/AutomationModule(22169): >>> MediaProjection 权限已保存到 SharedPreferences, URI: intent:
+04-17 22:12:57.697 D/AutomationModule(22169): >>> 权限授权成功，开始截图...
+04-17 22:12:57.699 I/ReactNativeJS(22169): [ZBB INFO] [微信] ⑩: 重新授权成功，再次尝试 OCR...
+04-17 22:12:57.713 E/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) dequeueBuffer: BufferQueue has been abandoned
+04-17 22:12:57.721 D/AccessibilityServiceImpl(22169): MediaProjection 已停止
+04-17 22:12:57.721 D/AccessibilityServiceImpl(22169): MediaProjection 已停止
+04-17 22:12:57.721 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:57.721 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:57.721 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:12:57.721 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:57.724 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:57.727 I/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-0](id:56990000000c,api:1,p:718,c:22169) disconnect: api 1
+04-17 22:12:57.728 I/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-1](id:56990000000d,api:1,p:718,c:22169) disconnect: api 1
+04-17 22:12:57.741 V/ImeFocusController(22169): onWindowFocus: DecorView@de1a030[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE|IS_FORWARD_NAVIGATION
+04-17 22:12:57.741 V/ImeFocusController(22169): Restarting due to isRestartOnNextWindowFocus as true
+04-17 22:12:57.741 D/ImeFocusController(22169): onViewFocusChanged, view=DecorView@de1a030[MainActivity], mServedView=DecorView@de1a030[MainActivity]
+04-17 22:12:57.741 V/ImeFocusController(22169): checkFocus: view=DecorView@de1a030[MainActivity] next=DecorView@de1a030[MainActivity] force=true package=com.zbb.automation
+04-17 22:12:57.745 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 1
+04-17 22:12:58.198 D/AutomationModule(22169): >>> 调用 captureScreenshot
+04-17 22:12:58.198 D/AccessibilityServiceImpl(22169): >>> captureScreenshot() 开始
+04-17 22:12:58.198 D/AccessibilityServiceImpl(22169): >>> projection = true
+04-17 22:12:58.198 D/AccessibilityServiceImpl(22169): >>> 在主线程执行截图操作
+04-17 22:12:58.202 D/AccessibilityServiceImpl(22169): >>> displays = 3
+04-17 22:12:58.202 D/AccessibilityServiceImpl(22169): >>> display = true
+04-17 22:12:58.202 D/AccessibilityServiceImpl(22169): >>> 屏幕尺寸: 720x1600
+04-17 22:12:58.202 D/AccessibilityServiceImpl(22169): >>> densityDpi = 320
+04-17 22:12:58.203 I/BufferQueueConsumer(22169): [](id:56990000000f,api:0,p:-1,c:22169) connect: controlledByApp=true
+04-17 22:12:58.203 D/AccessibilityServiceImpl(22169): >>> ImageReader 创建成功
+04-17 22:12:58.214 D/AccessibilityServiceImpl(22169): >>> createVirtualDisplay 完成
+04-17 22:12:58.297 I/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-2](id:56990000000f,api:1,p:718,c:22169) connect: api=1 producerControlledByApp=false
+04-17 22:12:58.312 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:58.312 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:58.313 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:58.318 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:58.318 D/AccessibilityServiceImpl(22169): >>> 屏幕截图成功: 720x1600
+04-17 22:12:58.381 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:58.382 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:58.383 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:58.388 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:58.510 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:58.510 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:58.510 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:58.513 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:58.519 D/AccessibilityServiceImpl(22169): >>> 截图已保存到: /data/user/0/com.zbb.automation/files/media_projection_screenshot_1776435178318.png
+04-17 22:12:58.583 D/CompatibilityChangeReporter(22892): Compat change id reported: 150939131; UID 10246; state: ENABLED
+04-17 22:12:58.628 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:12:58.629 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:58.632 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:58.632 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:58.636 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:58.645 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:58.645 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:58.646 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:58.650 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:58.661 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:58.662 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:58.663 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:58.668 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:58.678 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:58.679 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:58.679 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:58.684 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:58.695 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:58.696 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:58.696 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:58.701 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:58.711 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:12:58.712 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:12:58.712 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:12:58.717 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:12:58.726 D/AccessibilityServiceImpl(22169): >>> captureScreenshot() 开始
+04-17 22:12:58.726 D/AccessibilityServiceImpl(22169): >>> projection = true
+04-17 22:12:58.767 I/.zbb.automatio(22169): NativeAlloc concurrent copying GC freed 5157(420KB) AllocSpace objects, 0(0B) LOS objects, 49% free, 14MB/29MB, paused 53us,56us total 134.358ms
+04-17 22:12:58.798 W/System  (22169): A resource failed to call release.
+04-17 22:12:58.799 I/BufferQueueConsumer(22169): [ImageReader-720x1600f1m2-22169-1](id:56990000000d,api:0,p:-1,c:22169) disconnect
+04-17 22:12:58.838 D/AccessibilityServiceImpl(22169): >>> 截图已复制到 Download: /storage/emulated/0/Download/media_projection_screenshot_1776435178318.png
+04-17 22:12:58.838 D/AutomationModule(22169): >>> 截图成功! 尺寸: 720x1600
+04-17 22:12:59.013 D/AutomationModule(22169): >>> 截图已保存到: /data/user/0/com.zbb.automation/files/zbb_test_screenshot_1776435178838.png
+04-17 22:12:59.193 D/AutomationModule(22169): >>> 截图已复制到 Download: /storage/emulated/0/Download/zbb_test_screenshot_1776435178838.png
+04-17 22:13:01.270 W/JavaBinder(32034): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+04-17 22:13:01.271 I/BpBinder(32034): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+04-17 22:13:01.271 W/JavaBinder(32034): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+04-17 22:13:01.271 I/BpBinder(32034): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+04-17 22:13:01.272 W/System  (32034): A resource failed to call close.
+04-17 22:13:01.765 I/com.tencent.mm(22892): CollectorTransition concurrent copying GC freed 330044(13MB) AllocSpace objects, 50(1968KB) LOS objects, 30% free, 55MB/79MB, paused 232us,659us total 746.891ms
+04-17 22:13:01.770 W/JavaBinder(22892): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+04-17 22:13:01.770 I/BpBinder(22892): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+04-17 22:13:01.770 W/JavaBinder(22892): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+04-17 22:13:01.770 I/BpBinder(22892): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+04-17 22:13:01.770 W/JavaBinder(22892): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+04-17 22:13:01.770 I/BpBinder(22892): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+04-17 22:13:01.770 W/JavaBinder(22892): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.tencent.mm.ipcinvoker.c$$a
+04-17 22:13:01.770 I/BpBinder(22892): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+04-17 22:13:01.772 I/BufferQueueConsumer(22892): [](id:596c00000001,api:0,p:-1,c:22892) connect: controlledByApp=false
+04-17 22:13:01.772 I/BLASTBufferQueue(22892): [ViewRootImpl[LauncherUI]#1] constructor()
+04-17 22:13:01.773 I/BufferQueueProducer(22892): [ViewRootImpl[LauncherUI]#1(BLAST Consumer)1](id:596c00000001,api:1,p:22892,c:22892) connect: api=1 producerControlledByApp=true
+04-17 22:13:01.776 W/System  (22892): A resource failed to call close.
+04-17 22:13:01.778 W/System  (22892): A resource failed to call close.
+04-17 22:13:01.779 W/System  (22892): A resource failed to call close.
+04-17 22:13:01.781 W/System  (22892): A resource failed to call close.
+04-17 22:13:01.874 V/ImeFocusController(22892): onWindowFocus: DecorView@8657414[LauncherUI] softInputMode=STATE_HIDDEN|ADJUST_NOTHING|IS_FORWARD_NAVIGATION
+04-17 22:13:01.874 V/ImeFocusController(22892): Restarting due to isRestartOnNextWindowFocus as true
+04-17 22:13:01.874 D/ImeFocusController(22892): onViewFocusChanged, view=DecorView@8657414[LauncherUI], mServedView=DecorView@8657414[LauncherUI]
+04-17 22:13:01.874 V/ImeFocusController(22892): checkFocus: view=DecorView@8657414[LauncherUI] next=DecorView@8657414[LauncherUI] force=true package=com.tencent.mm
+04-17 22:13:01.959 E/libprocessgroup(22892): set_timerslack_ns write failed: Operation not permitted
+04-17 22:13:01.960 E/libprocessgroup(22892): set_timerslack_ns write failed: Operation not permitted
+04-17 22:13:01.965 I/mars::stn(32034): [longlink_connect_monitor.cc:530, OnHeartbeatAlarmSet]:longlink_progress on_heartbeat_set, time: 604835591, time interval:210000
+04-17 22:13:02.026 I/mars::stn(32034): [longlink_connect_monitor.cc:530, OnHeartbeatAlarmSet]:longlink_progress on_heartbeat_set, time: 604835652, time interval:210000
+04-17 22:13:03.727 E/AccessibilityServiceImpl(22169): 截图失败，无法进行 OCR
+04-17 22:13:03.731 I/ReactNativeJS(22169): [ZBB ERROR] [微信] ⑩: 未找到"绿城云"， 请检查屏幕
+04-17 22:13:03.734 I/ReactNativeJS(22169): [ZBB ERROR] [微信] X 进入绿城云小程序失 败: Error: 未找到"绿城云"小程序，请检查屏幕
+04-17 22:13:03.736 D/AccessibilityServiceImpl(22169): >>> 在主线程执行截图操作
+04-17 22:13:03.737 I/ReactNativeJS(22169): [ZBB ERROR] ========================================
+04-17 22:13:03.738 I/ReactNativeJS(22169): [ZBB ERROR]        流程执行失败: Error: 未找到"绿城云"小程序，请检查屏幕
+04-17 22:13:03.740 I/ReactNativeJS(22169): [ZBB ERROR] ========================================
+04-17 22:13:03.741 D/AccessibilityServiceImpl(22169): >>> displays = 4
+04-17 22:13:03.742 D/AccessibilityServiceImpl(22169): >>> display = true
+04-17 22:13:03.742 D/AccessibilityServiceImpl(22169): >>> 屏幕尺寸: 720x1600
+04-17 22:13:03.742 D/AccessibilityServiceImpl(22169): >>> densityDpi = 320
+04-17 22:13:03.742 I/BufferQueueConsumer(22169): [](id:569900000010,api:0,p:-1,c:22169) connect: controlledByApp=true
+04-17 22:13:03.743 D/AccessibilityServiceImpl(22169): >>> ImageReader 创建成功
+04-17 22:13:03.756 D/AccessibilityServiceImpl(22169): >>> createVirtualDisplay 完成
+04-17 22:13:03.757 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:03.757 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:03.758 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:03.766 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:03.767 I/Choreographer(22169): Skipped 301 frames!  The application may be doing too much work on its main thread.
+04-17 22:13:03.781 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:13:03.801 I/OpenGLRenderer(22169): Davey! duration=5040ms; Flags=0, FrameTimelineVsyncId=3070235, IntendedVsync=158700351131277, Vsync=158705367798044, InputEventId=0, HandleInputStart=158705380553767, AnimationStart=158705380557459, PerformTraversalsStart=158705381192459, DrawStart=158705381316844, FrameDeadline=158700371131277, FrameInterval=158705380235536, FrameStartTime=16666667, SyncQueued=158705381343844, SyncStart=158705381398305, IssueDrawCommandsStart=158705381581690, SwapBuffers=158705388955844, FrameCompleted=158705392130920, DequeueBufferDuration=36077, QueueBufferDuration=892307, GpuCompleted=158705390660767, SwapBuffersCompleted=158705392130920, DisplayPresentTime=0,
+04-17 22:13:03.843 I/BufferQueueProducer(22169): [ImageReader-720x1600f1m2-22169-3](id:569900000010,api:1,p:718,c:22169) connect: api=1 producerControlledByApp=false
+04-17 22:13:03.850 D/AudioManager(22169): abandonAudioFocus  by com.zbb.automation
+04-17 22:13:03.858 V/ImeFocusController(22169): checkFocus: view=DecorView@de1a030[MainActivity] next=DecorView@de1a030[MainActivity] force=true package=com.zbb.automation
+04-17 22:13:03.862 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 32
+04-17 22:13:03.862 D/AccessibilityServiceImpl(22169): 窗口变化: com.bbk.launcher2.Launcher
+04-17 22:13:03.880 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 1
+04-17 22:13:03.883 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 32
+04-17 22:13:03.883 D/AccessibilityServiceImpl(22169): 窗口变化: com.tencent.mm.ui.LauncherUI
+04-17 22:13:03.883 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 2048
+04-17 22:13:03.883 D/AccessibilityServiceImpl(22169): 窗口内容变化
+04-17 22:13:03.883 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 32
+04-17 22:13:03.883 D/AccessibilityServiceImpl(22169): 窗口变化: com.tencent.mm.ui.LauncherUI
+04-17 22:13:03.883 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 4096
+04-17 22:13:03.883 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 2048
+04-17 22:13:03.883 D/AccessibilityServiceImpl(22169): 窗口内容变化
+04-17 22:13:03.883 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 2048
+04-17 22:13:03.884 D/AccessibilityServiceImpl(22169): 窗口内容变化
+04-17 22:13:03.884 D/AccessibilityServiceImpl(22169): 收到无障碍事件类型: 2048
+04-17 22:13:03.884 D/AccessibilityServiceImpl(22169): 窗口内容变化
+04-17 22:13:03.891 D/AccessibilityServiceImpl(22169): 悬浮窗已隐藏
+04-17 22:13:03.891 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:03.891 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:03.892 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:03.897 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:03.900 I/BufferQueueProducer(22169): [ViewRootImpl[MainActivity]#12(BLAST Consumer)12](id:56990000000e,api:1,p:22169,c:22169) disconnect: api 1
+04-17 22:13:03.903 I/BLASTBufferQueue(22169): [ViewRootImpl[MainActivity]#12] destructor()
+04-17 22:13:03.903 I/BufferQueueConsumer(22169): [ViewRootImpl[MainActivity]#12(BLAST Consumer)12](id:56990000000e,api:0,p:-1,c:22169) disconnect
+04-17 22:13:03.930 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:03.930 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:03.931 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:03.936 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:03.942 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:03.942 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:03.943 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:03.951 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:03.952 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:03.952 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:03.953 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:03.955 I/BLASTBufferQueue(22169): releaseBufferCallbackThunk bufferId:95215129985079 framenumber:17 blastBufferQueue is dead
+04-17 22:13:03.957 W/unknown:ReactNative(22169): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-17 22:13:03.958 W/unknown:ReactNative(22169): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-17 22:13:03.962 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:03.963 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:03.964 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:03.964 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:03.968 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:03.971 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:03.971 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:03.972 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:03.974 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.012 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.012 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.012 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.015 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.015 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.015 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.015 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.018 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.024 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.024 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.025 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.027 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.029 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.029 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.029 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.032 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.039 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.040 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.040 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.045 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.045 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.045 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.046 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.049 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.056 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.057 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.057 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.061 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.061 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.061 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.061 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.069 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.074 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.075 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.075 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.079 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.081 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.081 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.081 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.084 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.090 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.091 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.091 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.096 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.096 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.102 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.102 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.105 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.108 I/BufferQueueProducer(22169): [ViewRootImpl[]#11(BLAST Consumer)11](id:56990000000b,api:1,p:22169,c:22169) disconnect: api 1
+04-17 22:13:04.109 I/BufferQueueProducer(22169): [ViewRootImpl[]#11(BLAST Consumer)11](id:56990000000b,api:2,p:22169,c:22169) connect: api=2 producerControlledByApp=true
+04-17 22:13:04.116 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.116 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.116 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.122 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.130 I/BufferQueueProducer(22169): [ViewRootImpl[]#11(BLAST Consumer)11](id:56990000000b,api:2,p:22169,c:22169) disconnect: api 2
+04-17 22:13:04.137 I/BLASTBufferQueue(22169): [ViewRootImpl[]#11] destructor()
+04-17 22:13:04.137 I/BufferQueueConsumer(22169): [ViewRootImpl[]#11(BLAST Consumer)11](id:56990000000b,api:0,p:-1,c:22169) disconnect
+04-17 22:13:04.161 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.161 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.162 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.167 I/BLASTBufferQueue(22169): releaseBufferCallbackThunk bufferId:95215129985084 framenumber:4312 blastBufferQueue is dead
+04-17 22:13:04.175 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.177 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.178 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.179 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.188 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.189 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.190 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.191 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.200 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.227 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.227 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.229 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.238 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.240 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.240 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.241 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.250 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.344 I/.zbb.automatio(22169): NativeAlloc concurrent copying GC freed 21187(1015KB) AllocSpace objects, 0(0B) LOS objects, 49% free, 14MB/29MB, paused 352us,113us total 282.505ms
+04-17 22:13:04.363 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.363 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.365 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.380 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.383 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.383 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.385 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.404 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.461 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.462 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.465 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.480 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.481 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.482 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.483 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.495 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.592 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.592 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.593 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.604 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:04.605 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:04.606 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:04.607 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:04.621 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:05.784 I/nt.mm:appbrand(25444): Explicit concurrent copying GC freed 28853(1617KB) AllocSpace objects, 1(20KB) LOS objects, 49% free, 15MB/30MB, paused 283us,55us total 268.030ms
+04-17 22:13:05.800 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:13:05.809 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:05.810 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:05.812 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:05.826 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:05.828 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:05.829 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:05.830 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:05.841 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:05.889 I/nt.mm:appbrand(25443): Explicit concurrent copying GC freed 23438(1351KB) AllocSpace objects, 1(20KB) LOS objects, 49% free, 15MB/30MB, paused 216us,123us total 220.679ms
+04-17 22:13:05.993 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:05.994 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:05.996 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:06.008 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:06.011 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:06.014 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:06.016 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:06.028 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:07.824 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:13:08.818 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:08.819 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:08.819 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:08.825 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:08.825 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:08.826 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:08.826 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:08.830 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:09.002 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:09.002 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:09.003 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:09.007 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:09.008 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:09.008 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:09.009 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:09.014 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:09.846 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:13:10.406 D/Linux   ( 3661): [Posix_connect Debug]Process com.google.android.gms.persistent :443
+04-17 22:13:11.853 E/libprocessgroup(25444): set_timerslack_ns write failed: Operation not permitted
+04-17 22:13:11.854 E/libprocessgroup(25444): set_timerslack_ns write failed: Operation not permitted
+04-17 22:13:11.877 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:13:11.900 E/libprocessgroup(25444): set_timerslack_ns write failed: Operation not permitted
+04-17 22:13:11.904 E/libprocessgroup(25444): set_timerslack_ns write failed: Operation not permitted
+04-17 22:13:11.907 E/libprocessgroup(25444): set_timerslack_ns write failed: Operation not permitted
+04-17 22:13:13.902 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:13:15.921 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:13:17.951 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:13:19.984 D/Linux   (22169): [Posix_connect Debug]Process com.zbb.automation :8081
+04-17 22:13:20.930 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:20.931 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:20.933 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:20.949 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:20.952 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:20.952 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:20.954 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:20.968 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:21.092 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:21.093 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:21.095 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:21.111 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:21.114 D/AccessibilityServiceImpl(22169): >>> OnImageAvailableListener 被调用
+04-17 22:13:21.115 D/AccessibilityServiceImpl(22169): >>> 成功获取图像
+04-17 22:13:21.117 D/AccessibilityServiceImpl(22169): >>> buffer.remaining = 4608000, pixelStride = 4, rowStride = 2880
+04-17 22:13:21.123 D/AccessibilityServiceImpl(22169): >>> Bitmap 创建成功: 720x1600
+04-17 22:13:21.294 I/.zbb.automatio(22169): NativeAlloc concurrent copying GC freed 12356(755KB) AllocSpace objects, 0(0B) LOS objects, 49% free, 14MB/29MB, paused 67us,73us total 176.370ms
+04-17 22:13:21.342 W/System  (22169): A resource failed to call release.
+04-17 22:13:21.343 I/BufferQueueConsumer(22169): [ImageReader-720x1600f1m2-22169-3](id:569900000010,api:1,p:718,c:22169) disconnect
+04-17 22:13:21.345 W/System  (22169): A resource failed to call release.
+04-17 22:13:21.345 I/BufferQueueConsumer(22169): [ImageReader-720x1600f1m2-22169-2](id:56990000000f,api:1,p:718,c:22169) disconnect

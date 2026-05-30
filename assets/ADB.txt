@@ -1,0 +1,787 @@
+--------- beginning of main
+04-20 19:09:37.968 E/ion     (25430): ioctl c0044901 failed with code -1: Invalid argument
+04-20 19:09:37.970 E/OpenGLRenderer(25430): fbcNotifyFrameComplete error: undefined symbol: fbcNotifyFrameComplete
+04-20 19:09:37.970 E/OpenGLRenderer(25430): fbcNotifyNoRender error: undefined symbol: fbcNotifyNoRender
+04-20 19:09:39.662 I/.zbb.automatio(25430): Background young concurrent copying GC freed 54191(4649KB) AllocSpace objects, 10(200KB) LOS objects, 73% free, 8724KB/32MB, paused 371us,236us total 137.723ms
+04-20 19:09:39.674 W/System  (25430): A resource failed to call release.
+04-20 19:09:39.952 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:09:41.991 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:09:42.020 I/BufferQueueProducer(25430): [ViewRootImpl[PopupWindow:946592b]#2(BLAST Consumer)2](id:635600000002,api:1,p:25430,c:25430) disconnect: api 1
+04-20 19:09:42.023 I/BLASTBufferQueue(25430): [ViewRootImpl[PopupWindow:946592b]#2] destructor()
+04-20 19:09:42.023 I/BufferQueueConsumer(25430): [ViewRootImpl[PopupWindow:946592b]#2(BLAST Consumer)2](id:635600000002,api:0,p:-1,c:25430) disconnect
+04-20 19:09:42.041 I/BLASTBufferQueue(25430): releaseBufferCallbackThunk bufferId:109221018337291 framenumber:1 blastBufferQueue is dead
+04-20 19:09:42.085 D/jni_lib_merge(25430): Entering merged library JNI_OnLoad.
+04-20 19:09:42.086 D/jni_lib_merge(25430): Preparing 4 pre-merged libs (including stub)
+04-20 19:09:42.086 D/jni_lib_merge(25430): Preparing to register libhermes_executor_so.  onload_func: 0x6ee332c7e0
+04-20 19:09:42.086 D/jni_lib_merge(25430): Preparing to register libhermesinstancejni_so.  onload_func: 0x6ee336226c
+04-20 19:09:42.086 D/jni_lib_merge(25430): Preparing to register libjsijniprofiler_so.  onload_func: 0x6ee33642bc
+04-20 19:09:42.086 D/jni_lib_merge(25430): About to register 3 actual methods.
+04-20 19:09:42.264 I/ExpoModulesCore(25430): ✅ AppContext was initialized
+04-20 19:09:42.301 W/unknown:ReactNative(25430): Packager connection already open, nooping.
+04-20 19:09:42.364 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.debuggingoverlay.DebuggingOverlayManager
+04-20 19:09:42.381 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.uimanager.LayoutShadowNode
+04-20 19:09:42.392 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.drawer.ReactDrawerLayoutManager
+04-20 19:09:42.398 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.scroll.ReactHorizontalScrollViewManager
+04-20 19:09:42.408 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.scroll.ReactHorizontalScrollContainerViewManager
+04-20 19:09:42.418 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.progressbar.ReactProgressBarViewManager
+04-20 19:09:42.422 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.progressbar.ProgressBarShadowNode
+04-20 19:09:42.426 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.scroll.ReactScrollViewManager
+04-20 19:09:42.434 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.switchview.ReactSwitchManager
+04-20 19:09:42.439 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.switchview.ReactSwitchShadowNode
+04-20 19:09:42.442 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.safeareaview.ReactSafeAreaViewManager
+04-20 19:09:42.444 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.safeareaview.ReactSafeAreaViewShadowNode
+04-20 19:09:42.446 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.swiperefresh.SwipeRefreshLayoutManager
+04-20 19:09:42.453 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.text.frescosupport.FrescoBasedReactTextInlineImageViewManager
+04-20 19:09:42.454 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.text.frescosupport.FrescoBasedReactTextInlineImageShadowNode
+04-20 19:09:42.458 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.image.ReactImageManager
+04-20 19:09:42.465 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.modal.ReactModalHostManager
+04-20 19:09:42.470 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.text.ReactRawTextManager
+04-20 19:09:42.472 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.text.ReactRawTextShadowNode
+04-20 19:09:42.474 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.textinput.ReactTextInputManager
+04-20 19:09:42.481 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.textinput.ReactTextInputShadowNode
+04-20 19:09:42.486 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.text.ReactTextViewManager
+04-20 19:09:42.489 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.text.ReactTextShadowNode
+04-20 19:09:42.491 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.view.ReactViewManager
+04-20 19:09:42.493 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.text.ReactVirtualTextViewManager
+04-20 19:09:42.494 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.text.ReactVirtualTextShadowNode
+04-20 19:09:42.495 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.facebook.react.views.unimplementedview.ReactUnimplementedViewManager
+04-20 19:09:42.496 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.reactnativecommunity.slider.ReactSliderManager
+04-20 19:09:42.499 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class org.reactnative.maskedview.RNCMaskedViewManager
+04-20 19:09:42.500 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.reactnativecommunity.picker.ReactDialogPickerManager
+04-20 19:09:42.504 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.reactnativecommunity.picker.ReactPickerShadowNode
+04-20 19:09:42.504 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.reactnativecommunity.picker.ReactDropdownPickerManager
+04-20 19:09:42.507 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class expo.modules.kotlin.views.GroupViewManagerWrapper
+04-20 19:09:42.521 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class expo.modules.kotlin.views.SimpleViewManagerWrapper
+04-20 19:09:42.523 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.gesturehandler.react.RNGestureHandlerRootViewManager
+04-20 19:09:42.525 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.gesturehandler.react.RNGestureHandlerButtonViewManager
+04-20 19:09:42.527 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.th3rdwave.safeareacontext.SafeAreaProviderManager
+04-20 19:09:42.528 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.th3rdwave.safeareacontext.SafeAreaViewManager
+04-20 19:09:42.530 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.th3rdwave.safeareacontext.SafeAreaViewShadowNode
+04-20 19:09:42.531 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.ScreenContainerViewManager
+04-20 19:09:42.532 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.ScreenViewManager
+04-20 19:09:42.535 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.ModalScreenViewManager
+04-20 19:09:42.536 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.ScreenStackViewManager
+04-20 19:09:42.537 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.ScreenStackHeaderConfigViewManager
+04-20 19:09:42.539 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.ScreenStackHeaderSubviewManager
+04-20 19:09:42.540 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.SearchBarManager
+04-20 19:09:42.542 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.ScreenFooterManager
+04-20 19:09:42.543 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.ScreenContentWrapperManager
+04-20 19:09:42.545 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.gamma.tabs.TabsHostViewManager
+04-20 19:09:42.547 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.gamma.tabs.TabScreenViewManager
+04-20 19:09:42.548 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$DefsViewManager
+04-20 19:09:42.551 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.VirtualViewManager$RenderableShadowNode
+04-20 19:09:42.552 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeMergeManager
+04-20 19:09:42.554 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$LinearGradientManager
+04-20 19:09:42.556 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeGaussianBlurManager
+04-20 19:09:42.557 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeColorMatrixManager
+04-20 19:09:42.559 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ClipPathViewManager
+04-20 19:09:42.561 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$SymbolManager
+04-20 19:09:42.564 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$PatternManager
+04-20 19:09:42.567 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeBlendManager
+04-20 19:09:42.569 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.SvgViewManager
+04-20 19:09:42.570 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$UseViewManager
+04-20 19:09:42.573 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$CircleViewManager
+04-20 19:09:42.575 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TSpanViewManager
+04-20 19:09:42.578 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FilterManager
+04-20 19:09:42.580 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$MarkerManager
+04-20 19:09:42.582 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ForeignObjectManager
+04-20 19:09:42.584 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$EllipseViewManager
+04-20 19:09:42.586 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$LineViewManager
+04-20 19:09:42.588 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeFloodManager
+04-20 19:09:42.590 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$GroupViewManager
+04-20 19:09:42.591 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TextViewManager
+04-20 19:09:42.593 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ImageViewManager
+04-20 19:09:42.595 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeCompositeManager
+04-20 19:09:42.596 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$RadialGradientManager
+04-20 19:09:42.598 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$MaskManager
+04-20 19:09:42.601 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$RectViewManager
+04-20 19:09:42.603 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TextPathViewManager
+04-20 19:09:42.605 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeOffsetManager
+04-20 19:09:42.607 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$PathViewManager
+04-20 19:09:42.609 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.reactnativecommunity.webview.RNCWebViewManager
+04-20 19:09:42.630 I/ExpoDevMenu(25430): Delegate's context was loaded.
+04-20 19:09:42.650 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:09:42.933 I/WebViewFactory(25430): Loading com.google.android.webview version 91.0.4472.114 (code 447211483)
+04-20 19:09:42.938 D/nativeloader(25430): classloader namespace configured for unbundled product apk. library_path=/product/app/WebViewGoogle/lib/arm64:/product/app/WebViewGoogle/WebViewGoogle.apk!/lib/arm64-v8a:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/arm64-v8a:/product/lib64:/system/product/lib64
+04-20 19:09:42.942 D/nativeloader(25430): classloader namespace configured for unbundled product apk. library_path=/product/app/WebViewGoogle/lib/arm64:/product/app/WebViewGoogle/WebViewGoogle.apk!/lib/arm64-v8a:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/arm64-v8a:/product/lib64:/system/product/lib64
+04-20 19:09:42.961 W/.zbb.automatio(25430): Accessing hidden method Landroid/os/Trace;->isTagEnabled(J)Z (unsupported, reflection, allowed)
+04-20 19:09:42.961 W/.zbb.automatio(25430): Accessing hidden method Landroid/os/Trace;->traceBegin(JLjava/lang/String;)V (unsupported, reflection, allowed)
+04-20 19:09:42.961 W/.zbb.automatio(25430): Accessing hidden method Landroid/os/Trace;->traceEnd(J)V (unsupported, reflection, allowed)
+04-20 19:09:42.961 W/.zbb.automatio(25430): Accessing hidden method Landroid/os/Trace;->asyncTraceBegin(JLjava/lang/String;I)V (unsupported, reflection, allowed)
+04-20 19:09:42.961 W/.zbb.automatio(25430): Accessing hidden method Landroid/os/Trace;->asyncTraceEnd(JLjava/lang/String;I)V (unsupported, reflection, allowed)
+04-20 19:09:42.982 I/cr_LibraryLoader(25430): Loaded native library version number "91.0.4472.114"
+04-20 19:09:42.983 I/cr_CachingUmaRecorder(25430): Flushed 5 samples from 5 histograms.
+04-20 19:09:42.996 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8097
+04-20 19:09:43.471 D/ProfileInstaller(25430): Installing profile for com.zbb.automation
+04-20 19:09:43.511 I/ExpoModulesCore(25430): ✅ JSI interop was installed
+04-20 19:09:43.518 I/ExpoModulesCore(25430): ✅ Constants were exported
+04-20 19:09:43.610 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:09:43.916 I/ReactNativeJS(25430): Running "main" with {"rootTag":11}
+04-20 19:09:43.945 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:09:44.021 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:09:44.616 I/ReactNativeJS(25430): '[ZBB] Platform.OS:', 'android'
+04-20 19:09:44.621 I/ReactNativeJS(25430): '[ZBB] NativeModules:', {}
+04-20 19:09:44.626 I/ReactNativeJS(25430): '[ZBB] ZBBAutomation:', { addListener: { [Function: nonPromiseMethodWrapper] type: 'async' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   clearClickHistory: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   clearInput: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   click: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   clickByText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   clickByViewId: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   clickWithVisualFeedback: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   delay: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   dumpWindowTree: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   extractScreenContent: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   findElementByText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   findElementByViewId: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   findElementsByText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   findTextByMLKit: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   findTextByMLKitWithPermission: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   getClickHistory: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   getClickableElements: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   getClipboardText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   getCurrentPackageName: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   getLastClickCoordinates: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   getRecentClick: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   getScreenSize: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   hideFloatingWindow: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   inputText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   isAccessibilityServiceRunning: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   isMediaProjectionEnabled: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   launchApp: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   longClick: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   ocrContainsText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   openAccessibilitySettings: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   pasteText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   pressBack: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   pressHome: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   pressRecentApps: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   pullToRefresh: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   recognizeScreen: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   recognizeText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   removeListeners: { [Function: nonPromiseMethodWrapper] type: 'async' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   requestMediaProjectionPermission: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   screenContainsText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   screenshotAndFindText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   screenshotForOcr: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   scrollDown: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   scrollUp: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   setClipboardText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   setFloatingComplete: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   setOcrOptions: { [Function: nonPromiseMethodWrapper] type: 'async' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   showFloatingWindow: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   showToast: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   stopAutomation: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   swipe: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   takeScreenshot: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   takeScreenshotAndSave: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   takeScreenshotBase64: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   updateFloatingAppInfo: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   updateFloatingStep: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   waitForElement: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.626 I/ReactNativeJS(25430):   getConstants: [Function] }
+04-20 19:09:44.827 I/ReactNativeJS(25430): === [ZBB] NativeModules Debug ===
+04-20 19:09:44.828 I/ReactNativeJS(25430): '[ZBB] Platform.OS:', 'android'
+04-20 19:09:44.829 I/ReactNativeJS(25430): '[ZBB] NativeModules:', {}
+04-20 19:09:44.832 I/ReactNativeJS(25430): '[ZBB] ZBBAutomation:', { addListener: { [Function: nonPromiseMethodWrapper] type: 'async' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   clearClickHistory: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   clearInput: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   click: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   clickByText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   clickByViewId: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   clickWithVisualFeedback: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   delay: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   dumpWindowTree: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   extractScreenContent: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   findElementByText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   findElementByViewId: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   findElementsByText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   findTextByMLKit: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   findTextByMLKitWithPermission: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   getClickHistory: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   getClickableElements: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   getClipboardText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   getCurrentPackageName: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   getLastClickCoordinates: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   getRecentClick: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   getScreenSize: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   hideFloatingWindow: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   inputText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   isAccessibilityServiceRunning: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   isMediaProjectionEnabled: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   launchApp: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   longClick: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   ocrContainsText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   openAccessibilitySettings: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   pasteText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   pressBack: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   pressHome: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   pressRecentApps: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   pullToRefresh: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   recognizeScreen: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   recognizeText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   removeListeners: { [Function: nonPromiseMethodWrapper] type: 'async' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   requestMediaProjectionPermission: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   screenContainsText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   screenshotAndFindText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   screenshotForOcr: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   scrollDown: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   scrollUp: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   setClipboardText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   setFloatingComplete: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   setOcrOptions: { [Function: nonPromiseMethodWrapper] type: 'async' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   showFloatingWindow: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   showToast: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   stopAutomation: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   swipe: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   takeScreenshot: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   takeScreenshotAndSave: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   takeScreenshotBase64: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   updateFloatingAppInfo: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   updateFloatingStep: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   waitForElement: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:09:44.832 I/ReactNativeJS(25430):   getConstants: [Function] }
+04-20 19:09:44.867 W/ReactNativeJS(25430): 'Require cycle: services/index.ts -> services/NativeAutomationService.ts -> services/index.ts\n\nRequire cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.', { [Stack] name: 'Stack' }
+04-20 19:09:44.883 I/ReactNativeJS(25430): [ZBB] 已添加停止监听器
+04-20 19:09:45.063 W/ReactNativeJS(25430): The app is running using the Legacy Architecture. The Legacy Architecture is deprecated and will be removed in a future version of React Native. Please consider migrating to the New Architecture. For more information, please see https://reactnative.dev/blog/2024/10/23/the-new-architecture-is-here
+04-20 19:09:45.064 E/AVManager(25430): Cannot install JSI bindings for AV module because JS context is not available
+04-20 19:09:45.149 I/.zbb.automatio(25430): NativeAlloc concurrent copying GC freed 154425(19MB) AllocSpace objects, 7(204KB) LOS objects, 49% free, 9716KB/18MB, paused 394us,191us total 169.213ms
+04-20 19:09:45.191 D/AccessibilityServiceImpl(25430): 收到无障碍事件类型: 2048
+04-20 19:09:45.191 D/AccessibilityServiceImpl(25430): 窗口内容变化
+04-20 19:09:45.292 D/AccessibilityServiceImpl(25430): 收到无障碍事件类型: 2048
+04-20 19:09:45.292 D/AccessibilityServiceImpl(25430): 窗口内容变化
+04-20 19:09:45.425 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.ScreenStackHeaderConfigShadowNode
+04-20 19:09:45.438 W/unknown:ViewManagerPropertyUpdater(25430): Could not find generated setter for class com.swmansion.rnscreens.ScreensShadowNode
+04-20 19:09:45.486 W/System  (25430): ClassLoader referenced unknown path: /system/framework/tcmclient.jar
+04-20 19:09:45.487 W/System  (25430): ClassLoader referenced unknown path: /system/framework/tcmiface.jar
+04-20 19:09:45.498 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:09:45.499 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:09:45.504 D/CompatibilityChangeReporter(25430): Compat change id reported: 171228096; UID 10294; state: ENABLED
+04-20 19:09:45.511 W/.zbb.automatio(25430): Accessing hidden field Landroid/widget/ScrollView;->mScroller:Landroid/widget/OverScroller; (unsupported, reflection, allowed)
+04-20 19:09:45.516 D/AccessibilityServiceImpl(25430): 找到已启用的 ZBB 无障碍服务: com.zbb.automation/.AccessibilityServiceImpl
+04-20 19:09:45.535 W/unknown:ReactNative(25430): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:09:45.536 W/unknown:ReactNative(25430): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:09:45.580 W/unknown:ReactNative(25430): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:09:45.581 W/unknown:ReactNative(25430): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:09:45.602 I/ReactNative(25430): [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.ReactRootView{739b452 V.E...... .......D 0,0-720,1600 #b}
+04-20 19:09:45.741 D/AccessibilityServiceImpl(25430): 收到无障碍事件类型: 2048
+04-20 19:09:45.741 D/AccessibilityServiceImpl(25430): 窗口内容变化
+04-20 19:09:45.843 D/AccessibilityServiceImpl(25430): 收到无障碍事件类型: 2048
+04-20 19:09:45.843 D/AccessibilityServiceImpl(25430): 窗口内容变化
+04-20 19:09:45.944 D/AccessibilityServiceImpl(25430): 收到无障碍事件类型: 2048
+04-20 19:09:45.944 D/AccessibilityServiceImpl(25430): 窗口内容变化
+04-20 19:09:46.047 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:09:47.038 I/ReactNativeJS(25430): [ZBB] 请求 MediaProjection 权限...
+04-20 19:09:47.058 D/MediaProjectionService(25430): 前台服务启动命令已发送
+04-20 19:09:47.060 D/MediaProjectionService(25430): 前台服务 onStartCommand, action: null
+04-20 19:09:47.060 D/MediaProjectionService(25430): 前台服务正常启动
+04-20 19:09:47.060 D/AccessibilityServiceImpl(25430): 前台服务已就绪
+04-20 19:09:47.589 D/AutomationModule(25430): >>> 已发起 MediaProjection 权限请求
+04-20 19:09:47.596 D/AudioManager(25430): abandonAudioFocus  by com.zbb.automation
+04-20 19:09:47.684 I/ActivityTaskManager( 1297): Displayed com.android.systemui/.media.MediaProjectionPermissionActivity: +93ms
+04-20 19:09:47.751 D/AccessibilityServiceImpl(25430): 收到无障碍事件类型: 32
+04-20 19:09:47.751 D/AccessibilityServiceImpl(25430): 窗口变化: com.android.systemui.media.MediaProjectionPermissionActivity
+04-20 19:09:48.071 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:09:48.671 D/AutomationModule(25430): >>> onMediaProjectionResult 被调用, resultCode = -1
+04-20 19:09:48.671 D/AutomationModule(25430): >>> 正在创建 MediaProjection
+04-20 19:09:48.673 D/AutomationModule(25430): >>> 正在设置 MediaProjection 到服务
+04-20 19:09:48.673 D/AccessibilityServiceImpl(25430): MediaProjection 已设置
+04-20 19:09:48.674 D/AutomationModule(25430): >>> MediaProjection 权限已保存 (URI  长度: 7)
+04-20 19:09:48.674 D/AutomationModule(25430): >>> 权限授权成功，准备截图...
+04-20 19:09:48.674 D/AutomationModule(25430): >>> 等待截图完成...
+04-20 19:09:48.674 D/AutomationModule(25430): >>> 截图线程开始
+04-20 19:09:48.875 D/AutomationModule(25430): >>> 调用 captureScreenshot
+04-20 19:09:48.875 D/AccessibilityServiceImpl(25430): >>> captureScreenshot() 开始
+04-20 19:09:48.875 D/AccessibilityServiceImpl(25430): >>> 清理之前的 ImageReader 资源
+04-20 19:09:48.875 D/AccessibilityServiceImpl(25430): >>> projection = true
+04-20 19:09:53.676 E/AutomationModule(25430): >>> 截图等待超时
+04-20 19:09:53.738 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:09:53.742 D/AccessibilityServiceImpl(25430): 收到无障碍事件类型: 1
+04-20 19:09:53.744 D/AccessibilityServiceImpl(25430): >>> 在主线程执行截图操作
+04-20 19:09:53.746 D/AccessibilityServiceImpl(25430): >>> displays = 1
+04-20 19:09:53.746 D/AccessibilityServiceImpl(25430): >>> display = true
+04-20 19:09:53.747 D/AccessibilityServiceImpl(25430): >>> 屏幕尺寸: 720x1600
+04-20 19:09:53.747 D/AccessibilityServiceImpl(25430): >>> densityDpi = 320
+04-20 19:09:53.747 I/BufferQueueConsumer(25430): [](id:635600000003,api:0,p:-1,c:25430) connect: controlledByApp=true
+04-20 19:09:53.748 D/AccessibilityServiceImpl(25430): >>> ImageReader 创建成功
+04-20 19:09:53.763 D/AccessibilityServiceImpl(25430): >>> createVirtualDisplay 完成
+04-20 19:09:53.812 W/unknown:ReactNative(25430): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:09:53.812 W/unknown:ReactNative(25430): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:09:53.875 E/AutomationModule(25430): >>> 截图返回 null
+04-20 19:09:53.888 I/BufferQueueProducer(25430): [ImageReader-720x1600f1m2-25430-0](id:635600000003,api:1,p:717,c:25430) connect: api=1 producerControlledByApp=false
+04-20 19:09:54.006 I/.zbb.automatio(25430): Thread[3,tid=25436,WaitingInMainSignalCatcherLoop,Thread*=0xb4000070e33e7140,peer=0x13cc11b0,"Signal Catcher"]: reacting to signal 3
+04-20 19:09:54.007 I/.zbb.automatio(25430):
+04-20 19:09:54.390 I/.zbb.automatio(25430): Wrote stack traces to tombstoned
+04-20 19:09:54.764 E/AccessibilityServiceImpl(25430): >>> 等待图像超时，截图返回 null
+04-20 19:09:54.777 I/BufferQueueConsumer(25430): [ImageReader-720x1600f1m2-25430-0](id:635600000003,api:1,p:717,c:25430) disconnect
+04-20 19:09:54.778 D/AccessibilityServiceImpl(25430): >>> ImageReader 和 VirtualDisplay 已清理
+04-20 19:09:54.792 I/BufferQueueProducer(25430): [ImageReader-720x1600f1m2-25430-0](id:635600000003,api:1,p:717,c:25430) disconnect: api 1
+04-20 19:09:54.793 I/BpBinder(25430): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+04-20 19:09:54.819 D/Linux   (25430): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:09:54.835 I/Choreographer(25430): Skipped 67 frames!  The application may be doing too much work on its main thread.
+04-20 19:09:54.902 V/ImeFocusController(25430): onWindowFocus: DecorView@1eef323[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE|IS_FORWARD_NAVIGATION
+04-20 19:09:54.903 D/ImeFocusController(25430): onViewFocusChanged, view=DecorView@1eef323[MainActivity], mServedView=DecorView@1eef323[MainActivity]
+04-20 19:09:54.904 V/ImeFocusController(25430): checkFocus: view=DecorView@1eef323[MainActivity] next=DecorView@1eef323[MainActivity] force=true package=com.zbb.automation
+04-20 19:09:54.915 D/AccessibilityServiceImpl(25430): >>> OnImageAvailableListener 被调用
+04-20 19:09:54.915 D/AccessibilityServiceImpl(25430): >>> acquireLatestImage 返回 null，等待下一帧...
+04-20 19:09:54.916 I/OpenGLRenderer(25430): Davey! duration=1188ms; Flags=0, FrameTimelineVsyncId=156984, IntendedVsync=35079211819463, Vsync=35080328486152, InputEventId=0, HandleInputStart=35080335491244, AnimationStart=35080335498090, PerformTraversalsStart=35080338660167, DrawStart=35080377037397, FrameDeadline=35079231819463, FrameInterval=35080335068859, FrameStartTime=16666667, SyncQueued=35080387149782, SyncStart=35080388746397, IssueDrawCommandsStart=35080389414628, SwapBuffers=35080396694320, FrameCompleted=35080401856167, DequeueBufferDuration=61000, QueueBufferDuration=1102539, GpuCompleted=35080401317782, SwapBuffersCompleted=35080401856167, DisplayPresentTime=0,
+04-20 19:09:55.003 D/AccessibilityServiceImpl(25430): 收到无障碍事件类型: 2048
+04-20 19:09:55.003 D/AccessibilityServiceImpl(25430): 窗口内容变化
+04-20 19:09:55.023 I/BufferQueueConsumer(25430): [](id:635600000004,api:0,p:-1,c:25430) connect: controlledByApp=false
+04-20 19:09:55.023 I/BLASTBufferQueue(25430): [ViewRootImpl[MainActivity]#3] constructor()
+04-20 19:09:55.025 I/BufferQueueProducer(25430): [ViewRootImpl[MainActivity]#3(BLAST Consumer)3](id:635600000004,api:1,p:25430,c:25430) connect: api=1 producerControlledByApp=true
+04-20 19:09:55.065 D/AccessibilityServiceImpl(25430): 收到无障碍事件类型: 2048
+04-20 19:09:55.065 D/AccessibilityServiceImpl(25430): 窗口内容变化
+04-20 19:09:55.134 D/AccessibilityServiceImpl(25430): 收到无障碍事件类型: 32
+04-20 19:09:55.134 D/AccessibilityServiceImpl(25430): 窗口变化: androidx.appcompat.app.AlertDialog
+04-20 19:09:56.067 I/BufferQueueProducer(25430): [ViewRootImpl[MainActivity]#3(BLAST Consumer)3](id:635600000004,api:1,p:25430,c:25430) disconnect: api 1
+04-20 19:09:56.068 D/OpenGLRenderer(25430): endAllActiveAnimators on 0xb40000708352e4c0 (RippleDrawable) with handle 0xb400006f934e5500
+04-20 19:09:56.098 I/BLASTBufferQueue(25430): [ViewRootImpl[MainActivity]#3] destructor()
+04-20 19:09:56.099 I/BufferQueueConsumer(25430): [ViewRootImpl[MainActivity]#3(BLAST Consumer)3](id:635600000004,api:0,p:-1,c:25430) disconnect
+04-20 19:09:56.101 I/ReactNativeJS(25430): [ZBB] 请求 MediaProjection 权限...
+04-20 19:09:56.114 D/MediaProjectionService(25430): 前台服务启动命令已发送
+04-20 19:09:56.116 W/unknown:ReactNative(25430): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:09:56.117 V/ImeFocusController(25430): onWindowFocus: DecorView@1eef323[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE
+04-20 19:09:56.117 D/ImeFocusController(25430): onViewFocusChanged, view=DecorView@1eef323[MainActivity], mServedView=DecorView@1eef323[MainActivity]
+04-20 19:09:56.117 V/ImeFocusController(25430): checkFocus: view=DecorView@1eef323[MainActivity] next=DecorView@1eef323[MainActivity] force=true package=com.zbb.automation
+04-20 19:09:56.118 W/unknown:ReactNative(25430): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:09:56.120 D/MediaProjectionService(25430): 前台服务 onStartCommand, action: null
+04-20 19:09:56.121 D/MediaProjectionService(25430): 前台服务正常启动
+04-20 19:09:56.121 D/AccessibilityServiceImpl(25430): 前台服务已就绪
+04-20 19:09:56.148 D/AccessibilityServiceImpl(25430): 收到无障碍事件类型: 1
+04-20 19:10:00.875 I/.zbb.automatio(25619): Late-enabling -Xcheck:jni
+04-20 19:10:00.901 D/ProcessState(25619): Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-20 19:10:00.930 D/CompatibilityChangeReporter(25619): Compat change id reported: 171979766; UID 10294; state: ENABLED
+04-20 19:10:00.968 V/GraphicsEnvironment(25619): ANGLE Developer option for 'com.zbb.automation' set to: 'default'
+04-20 19:10:00.969 V/GraphicsEnvironment(25619): App is not on the allowlist for updatable production driver.
+04-20 19:10:00.972 D/NetworkSecurityConfig(25619): No Network Security Config specified, using platform default
+04-20 19:10:00.973 D/NetworkSecurityConfig(25619): No Network Security Config specified, using platform default
+04-20 19:10:01.013 W/libc    (25619): Access denied finding property "ro.vendor.perf.scroll_opt.heavy_app"
+04-20 19:10:01.018 W/SoLoader(25619): Initializing SoLoader: 0
+04-20 19:10:01.019 W/SoLoader(25619): Recording new base apk path: /data/app/~~A2-tso53yH-glK9ANJnEmw==/com.zbb.automation-W1-vVaassjpFKI8LgU23pQ==/base.apk
+04-20 19:10:01.019 W/SoLoader(25619): Previously recorded 0 base apk paths.
+04-20 19:10:01.020 I/SoLoader(25619): Preparing SO source: DirectorySoSource[root = /vendor/lib64 flags = 2]
+04-20 19:10:01.021 I/SoLoader(25619): Preparing SO source: DirectorySoSource[root = /system/lib64 flags = 2]
+04-20 19:10:01.021 I/SoLoader(25619): Preparing SO source: DirectApkSoSource[root = [/data/app/~~A2-tso53yH-glK9ANJnEmw==/com.zbb.automation-W1-vVaassjpFKI8LgU23pQ==/base.apk!/lib/arm64-v8a]]
+04-20 19:10:01.064 I/SoLoader(25619): Preparing SO source: ApplicationSoSource[DirectorySoSource[root = /data/app/~~A2-tso53yH-glK9ANJnEmw==/com.zbb.automation-W1-vVaassjpFKI8LgU23pQ==/lib/arm64 flags = 0]]
+04-20 19:10:01.064 I/SoLoader(25619): init finish: 4 SO sources prepared
+04-20 19:10:01.065 W/SoLoader(25619): SoLoader initialized: 8
+04-20 19:10:01.091 D/jni_lib_merge(25619): Entering merged library JNI_OnLoad.
+04-20 19:10:01.091 D/jni_lib_merge(25619): Preparing 12 pre-merged libs (including stub)
+04-20 19:10:01.091 D/jni_lib_merge(25619): Preparing to register libfabricjni_so.  onload_func: 0x6ee9216ce0
+04-20 19:10:01.091 D/jni_lib_merge(25619): Preparing to register libreact_devsupportjni_so.  onload_func: 0x6ee9410fc8
+04-20 19:10:01.091 D/jni_lib_merge(25619): Preparing to register libreact_featureflagsjni_so.  onload_func: 0x6ee941f518
+04-20 19:10:01.091 D/jni_lib_merge(25619): Preparing to register libreact_newarchdefaults_so.  onload_func: 0x6ee94876a8
+04-20 19:10:01.091 D/jni_lib_merge(25619): Preparing to register libreactnativeblob_so.  onload_func: 0x6ee9677cb4
+04-20 19:10:01.091 D/jni_lib_merge(25619): Preparing to register libreactnativejni_so.  onload_func: 0x6ee96c56bc
+04-20 19:10:01.091 D/jni_lib_merge(25619): Preparing to register libreactnativejni_common_so.  onload_func: 0x6ee96d6044
+04-20 19:10:01.091 D/jni_lib_merge(25619): Preparing to register librninstance_so.  onload_func: 0x6ee971d764
+04-20 19:10:01.091 D/jni_lib_merge(25619): Preparing to register libturbomodulejsijni_so.  onload_func: 0x6ee9835f68
+04-20 19:10:01.091 D/jni_lib_merge(25619): Preparing to register libuimanagerjni_so.  onload_func: 0x6ee984efb8
+04-20 19:10:01.091 D/jni_lib_merge(25619): Preparing to register libyoga_so.  onload_func: 0x6ee985ea3c
+04-20 19:10:01.091 D/jni_lib_merge(25619): About to register 11 actual methods.
+04-20 19:10:01.181 D/AppCompatDelegate(25619): Checking for metadata for AppLocalesMetadataHolderService : Service not found
+04-20 19:10:01.227 W/.zbb.automatio(25619): Accessing hidden method Landroid/view/ViewGroup;->makeOptionalFitsSystemWindows()V (unsupported, reflection, allowed)
+04-20 19:10:01.235 W/.zbb.automatio(25619): Accessing hidden field Ljava/lang/reflect/Field;->accessFlags:I (unsupported, reflection, allowed)
+04-20 19:10:01.244 I/ExpoDevMenu(25619): Set new dev-menu delegate: class expo.modules.devmenu.DevMenuDefaultDelegate
+04-20 19:10:01.248 W/SoLoader(25619): SoLoader already initialized
+04-20 19:10:01.251 W/SoLoader(25619): SoLoader already initialized
+04-20 19:10:01.295 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:01.299 W/unknown:ReconnectingWebSocket(25619): Couldn't connect to "ws://localhost:8081/message?device=V2166A%20-%2012%20-%20API%2031&app=com.zbb.automation&clientid=DevLauncherBridgeDevSupportManager", will silently retry
+04-20 19:10:01.303 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:01.317 D/AccessibilityServiceImpl(25619): 无障碍服务已创建
+04-20 19:10:01.332 I/BufferQueueConsumer(25619): [](id:641300000000,api:0,p:-1,c:25619) connect: controlledByApp=false
+04-20 19:10:01.333 I/BLASTBufferQueue(25619): [ViewRootImpl[MainActivity]#0] constructor()
+04-20 19:10:01.340 D/hw-ProcessState(25619): Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-20 19:10:01.350 I/BufferQueueProducer(25619): [ViewRootImpl[MainActivity]#0(BLAST Consumer)0](id:641300000000,api:1,p:25619,c:25619) connect: api=1 producerControlledByApp=true
+04-20 19:10:01.353 E/ion     (25619): ioctl c0044901 failed with code -1: Invalid argument
+04-20 19:10:01.353 D/hw-ProcessState(25619): Binder ioctl to enable oneway spam detection failed: Invalid argument
+04-20 19:10:01.356 E/OpenGLRenderer(25619): fbcNotifyFrameComplete error: undefined symbol: fbcNotifyFrameComplete
+04-20 19:10:01.356 E/OpenGLRenderer(25619): fbcNotifyNoRender error: undefined symbol: fbcNotifyNoRender
+04-20 19:10:01.371 D/AccessibilityServiceImpl(25619): 无障碍服务已连接
+04-20 19:10:01.371 D/AccessibilityServiceImpl(25619): 悬浮窗管理器已初始化
+04-20 19:10:01.371 I/ActivityTaskManager( 1297): Displayed com.zbb.automation/.MainActivity: +554ms
+04-20 19:10:01.373 D/MediaProjectionService(25619): 前台服务启动命令已发送
+04-20 19:10:01.373 D/AccessibilityServiceImpl(25619): 前台服务已启动
+04-20 19:10:01.375 D/AccessibilityServiceImpl(25619): 没有保存的 MediaProjection 权限，需要重新申请
+04-20 19:10:01.378 V/ImeFocusController(25619): onWindowFocus: DecorView@73f540c[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE|IS_FORWARD_NAVIGATION
+04-20 19:10:01.378 V/ImeFocusController(25619): Restarting due to isRestartOnNextWindowFocus as true
+04-20 19:10:01.378 D/ImeFocusController(25619): onViewFocusChanged, view=DecorView@73f540c[MainActivity], mServedView=null
+04-20 19:10:01.378 V/ImeFocusController(25619): checkFocus: view=null next=DecorView@73f540c[MainActivity] force=true package=<none>
+04-20 19:10:01.404 D/MediaProjectionService(25619): 前台服务 onCreate
+04-20 19:10:01.406 D/CompatibilityChangeReporter(25619): Compat change id reported: 160794467; UID 10294; state: ENABLED
+04-20 19:10:01.410 D/MediaProjectionService(25619): 前台服务 onStartCommand, action: null
+04-20 19:10:01.410 D/MediaProjectionService(25619): 前台服务正常启动
+04-20 19:10:01.410 D/AccessibilityServiceImpl(25619): 前台服务已就绪
+04-20 19:10:01.445 I/ExpoDevMenu(25619): Set new dev-menu delegate: class expo.modules.devmenu.DevMenuDefaultDelegate
+04-20 19:10:01.461 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:01.518 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:01.546 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:01.584 W/.zbb.automatio(25619): Accessing hidden method Landroid/os/SystemProperties;->addChangeCallback(Ljava/lang/Runnable;)V (unsupported, reflection, allowed)
+04-20 19:10:01.626 I/BufferQueueConsumer(25619): [](id:641300000001,api:0,p:-1,c:25619) connect: controlledByApp=false
+04-20 19:10:01.627 I/BLASTBufferQueue(25619): [ViewRootImpl[MainActivity]#1] constructor()
+04-20 19:10:01.629 I/BufferQueueProducer(25619): [ViewRootImpl[MainActivity]#1(BLAST Consumer)1](id:641300000001,api:1,p:25619,c:25619) connect: api=1 producerControlledByApp=true
+04-20 19:10:01.658 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 32
+04-20 19:10:01.658 D/AccessibilityServiceImpl(25619): 窗口变化: android.widget.FrameLayout
+04-20 19:10:01.659 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 2048
+04-20 19:10:01.659 D/AccessibilityServiceImpl(25619): 窗口内容变化
+04-20 19:10:01.661 I/ActivityTaskManager( 1297): Displayed com.zbb.automation/.MainActivity: +212ms
+04-20 19:10:01.670 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:01.671 I/BufferQueueProducer(25619): [ViewRootImpl[MainActivity]#0(BLAST Consumer)0](id:641300000000,api:1,p:25619,c:25619) disconnect: api 1
+04-20 19:10:01.675 I/BLASTBufferQueue(25619): [ViewRootImpl[MainActivity]#0] destructor()
+04-20 19:10:01.675 I/BufferQueueConsumer(25619): [ViewRootImpl[MainActivity]#0(BLAST Consumer)0](id:641300000000,api:0,p:-1,c:25619) disconnect
+04-20 19:10:01.716 V/ImeFocusController(25619): onWindowFocus: DecorView@739b452[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE
+04-20 19:10:01.716 D/ImeFocusController(25619): onViewFocusChanged, view=DecorView@739b452[MainActivity], mServedView=null
+04-20 19:10:01.716 V/ImeFocusController(25619): checkFocus: view=null next=DecorView@739b452[MainActivity] force=false package=<none>
+04-20 19:10:01.718 I/BLASTBufferQueue(25619): releaseBufferCallbackThunk bufferId:110032767156226 framenumber:7 blastBufferQueue is dead
+04-20 19:10:01.729 I/BufferQueueConsumer(25619): [](id:641300000002,api:0,p:-1,c:25619) connect: controlledByApp=false
+04-20 19:10:01.729 I/BLASTBufferQueue(25619): [ViewRootImpl[PopupWindow:cdd35a5]#2] constructor()
+04-20 19:10:01.731 I/BufferQueueProducer(25619): [ViewRootImpl[PopupWindow:cdd35a5]#2(BLAST Consumer)2](id:641300000002,api:1,p:25619,c:25619) connect: api=1 producerControlledByApp=true
+04-20 19:10:01.744 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 64
+04-20 19:10:01.750 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 2048
+04-20 19:10:01.750 D/AccessibilityServiceImpl(25619): 窗口内容变化
+04-20 19:10:01.804 I/FontLog ( 3624): Received query Noto Color Emoji Compat, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+04-20 19:10:01.805 I/FontLog ( 3624): Query [emojicompat-emoji-font] resolved to {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+04-20 19:10:01.808 I/FontLog ( 3624): Fetch {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+04-20 19:10:01.812 I/FontLog ( 3624): Pulling font file for id = 16, cache size = 5 [CONTEXT service_id=132 ]
+04-20 19:10:01.818 I/FontLog ( 3624): Pulling font file for id = 16, cache size = 5 [CONTEXT service_id=132 ]
+04-20 19:10:01.837 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 32
+04-20 19:10:01.837 D/AccessibilityServiceImpl(25619): 窗口变化: android.widget.FrameLayout
+04-20 19:10:01.850 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 2048
+04-20 19:10:01.850 D/AccessibilityServiceImpl(25619): 窗口内容变化
+04-20 19:10:03.064 I/.zbb.automatio(25619): Background young concurrent copying GC freed 54167(4653KB) AllocSpace objects, 10(200KB) LOS objects, 73% free, 8796KB/32MB, paused 378us,78us total 169.457ms
+04-20 19:10:03.073 W/System  (25619): A resource failed to call release.
+04-20 19:10:03.074 W/System  (25619): A resource failed to call release.
+04-20 19:10:03.074 W/System  (25619): A resource failed to call release.
+04-20 19:10:03.325 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:05.363 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:05.458 I/BufferQueueProducer(25619): [ViewRootImpl[PopupWindow:cdd35a5]#2(BLAST Consumer)2](id:641300000002,api:1,p:25619,c:25619) disconnect: api 1
+04-20 19:10:05.460 I/BLASTBufferQueue(25619): [ViewRootImpl[PopupWindow:cdd35a5]#2] destructor()
+04-20 19:10:05.460 I/BufferQueueConsumer(25619): [ViewRootImpl[PopupWindow:cdd35a5]#2(BLAST Consumer)2](id:641300000002,api:0,p:-1,c:25619) disconnect
+04-20 19:10:05.481 I/BLASTBufferQueue(25619): releaseBufferCallbackThunk bufferId:110032767156234 framenumber:1 blastBufferQueue is dead
+04-20 19:10:05.514 D/jni_lib_merge(25619): Entering merged library JNI_OnLoad.
+04-20 19:10:05.514 D/jni_lib_merge(25619): Preparing 4 pre-merged libs (including stub)
+04-20 19:10:05.514 D/jni_lib_merge(25619): Preparing to register libhermes_executor_so.  onload_func: 0x6ee22f67e0
+04-20 19:10:05.514 D/jni_lib_merge(25619): Preparing to register libhermesinstancejni_so.  onload_func: 0x6ee232c26c
+04-20 19:10:05.514 D/jni_lib_merge(25619): Preparing to register libjsijniprofiler_so.  onload_func: 0x6ee232e2bc
+04-20 19:10:05.514 D/jni_lib_merge(25619): About to register 3 actual methods.
+04-20 19:10:05.611 I/ExpoModulesCore(25619): ✅ AppContext was initialized
+04-20 19:10:05.637 W/unknown:ReactNative(25619): Packager connection already open, nooping.
+04-20 19:10:05.664 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.debuggingoverlay.DebuggingOverlayManager
+04-20 19:10:05.671 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.uimanager.LayoutShadowNode
+04-20 19:10:05.676 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.drawer.ReactDrawerLayoutManager
+04-20 19:10:05.679 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.scroll.ReactHorizontalScrollViewManager
+04-20 19:10:05.683 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.scroll.ReactHorizontalScrollContainerViewManager
+04-20 19:10:05.687 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.progressbar.ReactProgressBarViewManager
+04-20 19:10:05.689 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.progressbar.ProgressBarShadowNode
+04-20 19:10:05.691 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.scroll.ReactScrollViewManager
+04-20 19:10:05.694 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.switchview.ReactSwitchManager
+04-20 19:10:05.697 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.switchview.ReactSwitchShadowNode
+04-20 19:10:05.698 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.safeareaview.ReactSafeAreaViewManager
+04-20 19:10:05.699 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.safeareaview.ReactSafeAreaViewShadowNode
+04-20 19:10:05.700 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.swiperefresh.SwipeRefreshLayoutManager
+04-20 19:10:05.703 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.text.frescosupport.FrescoBasedReactTextInlineImageViewManager
+04-20 19:10:05.703 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.text.frescosupport.FrescoBasedReactTextInlineImageShadowNode
+04-20 19:10:05.705 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.image.ReactImageManager
+04-20 19:10:05.708 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.modal.ReactModalHostManager
+04-20 19:10:05.710 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.text.ReactRawTextManager
+04-20 19:10:05.711 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.text.ReactRawTextShadowNode
+04-20 19:10:05.712 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.textinput.ReactTextInputManager
+04-20 19:10:05.716 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.textinput.ReactTextInputShadowNode
+04-20 19:10:05.720 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.text.ReactTextViewManager
+04-20 19:10:05.722 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.text.ReactTextShadowNode
+04-20 19:10:05.722 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.view.ReactViewManager
+04-20 19:10:05.723 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.text.ReactVirtualTextViewManager
+04-20 19:10:05.724 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.text.ReactVirtualTextShadowNode
+04-20 19:10:05.724 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.facebook.react.views.unimplementedview.ReactUnimplementedViewManager
+04-20 19:10:05.726 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.reactnativecommunity.slider.ReactSliderManager
+04-20 19:10:05.728 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class org.reactnative.maskedview.RNCMaskedViewManager
+04-20 19:10:05.730 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.reactnativecommunity.picker.ReactDialogPickerManager
+04-20 19:10:05.732 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.reactnativecommunity.picker.ReactPickerShadowNode
+04-20 19:10:05.733 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.reactnativecommunity.picker.ReactDropdownPickerManager
+04-20 19:10:05.735 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class expo.modules.kotlin.views.GroupViewManagerWrapper
+04-20 19:10:05.745 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class expo.modules.kotlin.views.SimpleViewManagerWrapper
+04-20 19:10:05.747 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.gesturehandler.react.RNGestureHandlerRootViewManager
+04-20 19:10:05.748 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.gesturehandler.react.RNGestureHandlerButtonViewManager
+04-20 19:10:05.750 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.th3rdwave.safeareacontext.SafeAreaProviderManager
+04-20 19:10:05.751 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.th3rdwave.safeareacontext.SafeAreaViewManager
+04-20 19:10:05.752 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.th3rdwave.safeareacontext.SafeAreaViewShadowNode
+04-20 19:10:05.753 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.ScreenContainerViewManager
+04-20 19:10:05.755 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.ScreenViewManager
+04-20 19:10:05.757 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.ModalScreenViewManager
+04-20 19:10:05.758 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.ScreenStackViewManager
+04-20 19:10:05.759 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.ScreenStackHeaderConfigViewManager
+04-20 19:10:05.761 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.ScreenStackHeaderSubviewManager
+04-20 19:10:05.763 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.SearchBarManager
+04-20 19:10:05.764 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.ScreenFooterManager
+04-20 19:10:05.765 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.ScreenContentWrapperManager
+04-20 19:10:05.767 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.gamma.tabs.TabsHostViewManager
+04-20 19:10:05.769 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.gamma.tabs.TabScreenViewManager
+04-20 19:10:05.771 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$DefsViewManager
+04-20 19:10:05.773 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.VirtualViewManager$RenderableShadowNode
+04-20 19:10:05.775 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeMergeManager
+04-20 19:10:05.777 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$LinearGradientManager
+04-20 19:10:05.779 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeGaussianBlurManager
+04-20 19:10:05.781 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeColorMatrixManager
+04-20 19:10:05.782 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ClipPathViewManager
+04-20 19:10:05.785 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$SymbolManager
+04-20 19:10:05.787 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$PatternManager
+04-20 19:10:05.790 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeBlendManager
+04-20 19:10:05.792 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.SvgViewManager
+04-20 19:10:05.794 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$UseViewManager
+04-20 19:10:05.796 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$CircleViewManager
+04-20 19:10:05.798 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TSpanViewManager
+04-20 19:10:05.802 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FilterManager
+04-20 19:10:05.803 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$MarkerManager
+04-20 19:10:05.806 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ForeignObjectManager
+04-20 19:10:05.808 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$EllipseViewManager
+04-20 19:10:05.810 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$LineViewManager
+04-20 19:10:05.812 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeFloodManager
+04-20 19:10:05.813 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$GroupViewManager
+04-20 19:10:05.815 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TextViewManager
+04-20 19:10:05.816 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$ImageViewManager
+04-20 19:10:05.818 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeCompositeManager
+04-20 19:10:05.820 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$RadialGradientManager
+04-20 19:10:05.822 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$MaskManager
+04-20 19:10:05.824 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$RectViewManager
+04-20 19:10:05.826 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$TextPathViewManager
+04-20 19:10:05.828 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$FeOffsetManager
+04-20 19:10:05.830 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.horcrux.svg.RenderableViewManager$PathViewManager
+04-20 19:10:05.832 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.reactnativecommunity.webview.RNCWebViewManager
+04-20 19:10:05.853 I/ExpoDevMenu(25619): Delegate's context was loaded.
+04-20 19:10:05.877 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:06.117 I/WebViewFactory(25619): Loading com.google.android.webview version 91.0.4472.114 (code 447211483)
+04-20 19:10:06.121 D/nativeloader(25619): classloader namespace configured for unbundled product apk. library_path=/product/app/WebViewGoogle/lib/arm64:/product/app/WebViewGoogle/WebViewGoogle.apk!/lib/arm64-v8a:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/arm64-v8a:/product/lib64:/system/product/lib64
+04-20 19:10:06.126 D/nativeloader(25619): classloader namespace configured for unbundled product apk. library_path=/product/app/WebViewGoogle/lib/arm64:/product/app/WebViewGoogle/WebViewGoogle.apk!/lib/arm64-v8a:/product/app/TrichromeLibrary/TrichromeLibrary.apk!/lib/arm64-v8a:/product/lib64:/system/product/lib64
+04-20 19:10:06.145 W/.zbb.automatio(25619): Accessing hidden method Landroid/os/Trace;->isTagEnabled(J)Z (unsupported, reflection, allowed)
+04-20 19:10:06.145 W/.zbb.automatio(25619): Accessing hidden method Landroid/os/Trace;->traceBegin(JLjava/lang/String;)V (unsupported, reflection, allowed)
+04-20 19:10:06.145 W/.zbb.automatio(25619): Accessing hidden method Landroid/os/Trace;->traceEnd(J)V (unsupported, reflection, allowed)
+04-20 19:10:06.145 W/.zbb.automatio(25619): Accessing hidden method Landroid/os/Trace;->asyncTraceBegin(JLjava/lang/String;I)V (unsupported, reflection, allowed)
+04-20 19:10:06.145 W/.zbb.automatio(25619): Accessing hidden method Landroid/os/Trace;->asyncTraceEnd(JLjava/lang/String;I)V (unsupported, reflection, allowed)
+04-20 19:10:06.161 I/cr_LibraryLoader(25619): Loaded native library version number "91.0.4472.114"
+04-20 19:10:06.162 I/cr_CachingUmaRecorder(25619): Flushed 5 samples from 5 histograms.
+04-20 19:10:06.178 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8097
+04-20 19:10:06.693 I/ExpoModulesCore(25619): ✅ JSI interop was installed
+04-20 19:10:06.701 I/ExpoModulesCore(25619): ✅ Constants were exported
+04-20 19:10:06.789 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:07.084 I/ReactNativeJS(25619): Running "main" with {"rootTag":11}
+04-20 19:10:07.111 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:07.219 D/ProfileInstaller(25619): Installing profile for com.zbb.automation
+04-20 19:10:07.396 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:07.743 I/ReactNativeJS(25619): '[ZBB] Platform.OS:', 'android'
+04-20 19:10:07.748 I/ReactNativeJS(25619): '[ZBB] NativeModules:', {}
+04-20 19:10:07.752 I/ReactNativeJS(25619): '[ZBB] ZBBAutomation:', { addListener: { [Function: nonPromiseMethodWrapper] type: 'async' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   clearClickHistory: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   clearInput: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   click: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   clickByText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   clickByViewId: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   clickWithVisualFeedback: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   delay: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   dumpWindowTree: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   extractScreenContent: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   findElementByText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   findElementByViewId: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   findElementsByText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   findTextByMLKit: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   findTextByMLKitWithPermission: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   getClickHistory: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   getClickableElements: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   getClipboardText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   getCurrentPackageName: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   getLastClickCoordinates: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   getRecentClick: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   getScreenSize: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   hideFloatingWindow: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   inputText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   isAccessibilityServiceRunning: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   isMediaProjectionEnabled: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   launchApp: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   longClick: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   ocrContainsText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   openAccessibilitySettings: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   pasteText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   pressBack: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   pressHome: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   pressRecentApps: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   pullToRefresh: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   recognizeScreen: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   recognizeText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   removeListeners: { [Function: nonPromiseMethodWrapper] type: 'async' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   requestMediaProjectionPermission: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   screenContainsText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   screenshotAndFindText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   screenshotForOcr: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   scrollDown: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   scrollUp: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   setClipboardText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   setFloatingComplete: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   setOcrOptions: { [Function: nonPromiseMethodWrapper] type: 'async' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   showFloatingWindow: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   showToast: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   stopAutomation: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   swipe: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   takeScreenshot: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   takeScreenshotAndSave: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   takeScreenshotBase64: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   updateFloatingAppInfo: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   updateFloatingStep: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   waitForElement: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.752 I/ReactNativeJS(25619):   getConstants: [Function] }
+04-20 19:10:07.987 I/ReactNativeJS(25619): === [ZBB] NativeModules Debug ===
+04-20 19:10:07.987 I/ReactNativeJS(25619): '[ZBB] Platform.OS:', 'android'
+04-20 19:10:07.989 I/ReactNativeJS(25619): '[ZBB] NativeModules:', {}
+04-20 19:10:07.992 I/ReactNativeJS(25619): '[ZBB] ZBBAutomation:', { addListener: { [Function: nonPromiseMethodWrapper] type: 'async' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   clearClickHistory: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   clearInput: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   click: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   clickByText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   clickByViewId: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   clickWithVisualFeedback: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   delay: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   dumpWindowTree: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   extractScreenContent: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   findElementByText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   findElementByViewId: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   findElementsByText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   findTextByMLKit: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   findTextByMLKitWithPermission: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   getClickHistory: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   getClickableElements: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   getClipboardText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   getCurrentPackageName: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   getLastClickCoordinates: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   getRecentClick: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   getScreenSize: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   hideFloatingWindow: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   inputText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   isAccessibilityServiceRunning: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   isMediaProjectionEnabled: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   launchApp: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   longClick: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   ocrContainsText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   openAccessibilitySettings: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   pasteText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   pressBack: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   pressHome: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   pressRecentApps: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   pullToRefresh: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   recognizeScreen: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   recognizeText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   removeListeners: { [Function: nonPromiseMethodWrapper] type: 'async' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   requestMediaProjectionPermission: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   screenContainsText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   screenshotAndFindText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   screenshotForOcr: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   scrollDown: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   scrollUp: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   setClipboardText: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   setFloatingComplete: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   setOcrOptions: { [Function: nonPromiseMethodWrapper] type: 'async' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   showFloatingWindow: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   showToast: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   stopAutomation: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   swipe: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   takeScreenshot: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   takeScreenshotAndSave: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   takeScreenshotBase64: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   updateFloatingAppInfo: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   updateFloatingStep: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   waitForElement: { [Function: promiseMethodWrapper] type: 'promise' },
+04-20 19:10:07.992 I/ReactNativeJS(25619):   getConstants: [Function] }
+04-20 19:10:08.029 W/ReactNativeJS(25619): 'Require cycle: services/index.ts -> services/NativeAutomationService.ts -> services/index.ts\n\nRequire cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.', { [Stack] name: 'Stack' }
+04-20 19:10:08.044 I/ReactNativeJS(25619): [ZBB] 已添加停止监听器
+04-20 19:10:08.236 W/ReactNativeJS(25619): The app is running using the Legacy Architecture. The Legacy Architecture is deprecated and will be removed in a future version of React Native. Please consider migrating to the New Architecture. For more information, please see https://reactnative.dev/blog/2024/10/23/the-new-architecture-is-here
+04-20 19:10:08.238 E/AVManager(25619): Cannot install JSI bindings for AV module because JS context is not available
+04-20 19:10:08.356 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 2048
+04-20 19:10:08.356 D/AccessibilityServiceImpl(25619): 窗口内容变化
+04-20 19:10:08.459 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 2048
+04-20 19:10:08.459 D/AccessibilityServiceImpl(25619): 窗口内容变化
+04-20 19:10:08.731 W/System  (25619): ClassLoader referenced unknown path: /system/framework/tcmclient.jar
+04-20 19:10:08.731 W/System  (25619): ClassLoader referenced unknown path: /system/framework/tcmiface.jar
+04-20 19:10:08.736 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:08.777 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:08.803 D/CompatibilityChangeReporter(25619): Compat change id reported: 171228096; UID 10294; state: ENABLED
+04-20 19:10:08.809 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.ScreenStackHeaderConfigShadowNode
+04-20 19:10:08.810 W/.zbb.automatio(25619): Accessing hidden field Landroid/widget/ScrollView;->mScroller:Landroid/widget/OverScroller; (unsupported, reflection, allowed)
+04-20 19:10:08.817 W/unknown:ViewManagerPropertyUpdater(25619): Could not find generated setter for class com.swmansion.rnscreens.ScreensShadowNode
+04-20 19:10:08.848 D/AccessibilityServiceImpl(25619): 找到已启用的 ZBB 无障碍服务: com.zbb.automation/.AccessibilityServiceImpl
+04-20 19:10:08.850 W/unknown:ReactNative(25619): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:10:08.852 W/unknown:ReactNative(25619): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:10:08.920 W/unknown:ReactNative(25619): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:10:08.920 W/unknown:ReactNative(25619): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:10:08.926 I/ReactNative(25619): [GESTURE HANDLER] Initialize gesture handler for root view com.facebook.react.ReactRootView{a0510dd V.E...... .......D 0,0-720,1600 #b}
+04-20 19:10:09.086 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 2048
+04-20 19:10:09.086 D/AccessibilityServiceImpl(25619): 窗口内容变化
+04-20 19:10:09.188 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 2048
+04-20 19:10:09.189 D/AccessibilityServiceImpl(25619): 窗口内容变化
+04-20 19:10:09.289 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 2048
+04-20 19:10:09.290 D/AccessibilityServiceImpl(25619): 窗口内容变化
+04-20 19:10:09.434 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:10.215 I/ReactNativeJS(25619): [ZBB] 请求 MediaProjection 权限...
+04-20 19:10:10.228 D/MediaProjectionService(25619): 前台服务启动命令已发送
+04-20 19:10:10.230 D/MediaProjectionService(25619): 前台服务 onStartCommand, action: null
+04-20 19:10:10.230 D/MediaProjectionService(25619): 前台服务正常启动
+04-20 19:10:10.230 D/AccessibilityServiceImpl(25619): 前台服务已就绪
+04-20 19:10:10.763 D/AutomationModule(25619): >>> 已发起 MediaProjection 权限请求
+04-20 19:10:10.770 D/AudioManager(25619): abandonAudioFocus  by com.zbb.automation
+04-20 19:10:10.867 I/ActivityTaskManager( 1297): Displayed com.android.systemui/.media.MediaProjectionPermissionActivity: +102ms
+04-20 19:10:10.929 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 32
+04-20 19:10:10.929 D/AccessibilityServiceImpl(25619): 窗口变化: com.android.systemui.media.MediaProjectionPermissionActivity
+04-20 19:10:11.461 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:12.935 D/AutomationModule(25619): >>> onMediaProjectionResult 被调用, resultCode = -1
+04-20 19:10:12.935 D/AutomationModule(25619): >>> 正在创建 MediaProjection
+04-20 19:10:12.937 D/AutomationModule(25619): >>> 正在设置 MediaProjection 到服务
+04-20 19:10:12.937 D/AccessibilityServiceImpl(25619): MediaProjection 已设置
+04-20 19:10:12.938 D/AutomationModule(25619): >>> MediaProjection 权限已保存 (URI  长度: 7)
+04-20 19:10:12.938 D/AutomationModule(25619): >>> 权限授权成功，准备截图...
+04-20 19:10:12.938 D/AutomationModule(25619): >>> 等待截图完成...
+04-20 19:10:12.938 D/AutomationModule(25619): >>> 截图线程开始
+04-20 19:10:13.139 D/AutomationModule(25619): >>> 调用 captureScreenshot
+04-20 19:10:13.139 D/AccessibilityServiceImpl(25619): >>> captureScreenshot() 开始
+04-20 19:10:13.139 D/AccessibilityServiceImpl(25619): >>> 清理之前的 ImageReader 资源
+04-20 19:10:13.139 D/AccessibilityServiceImpl(25619): >>> projection = true
+04-20 19:10:17.940 E/AutomationModule(25619): >>> 截图等待超时
+04-20 19:10:17.991 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:17.996 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 1
+04-20 19:10:17.998 D/AccessibilityServiceImpl(25619): >>> 在主线程执行截图操作
+04-20 19:10:18.000 D/AccessibilityServiceImpl(25619): >>> displays = 1
+04-20 19:10:18.001 D/AccessibilityServiceImpl(25619): >>> display = true
+04-20 19:10:18.001 D/AccessibilityServiceImpl(25619): >>> 屏幕尺寸: 720x1600
+04-20 19:10:18.002 D/AccessibilityServiceImpl(25619): >>> densityDpi = 320
+04-20 19:10:18.002 I/BufferQueueConsumer(25619): [](id:641300000003,api:0,p:-1,c:25619) connect: controlledByApp=true
+04-20 19:10:18.003 D/AccessibilityServiceImpl(25619): >>> ImageReader 创建成功
+04-20 19:10:18.034 D/AccessibilityServiceImpl(25619): >>> createVirtualDisplay 完成
+04-20 19:10:18.050 W/unknown:ReactNative(25619): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:10:18.051 W/unknown:ReactNative(25619): StatusBarModule: Ignored status bar change, current activity is edge-to-edge.
+04-20 19:10:18.139 E/AutomationModule(25619): >>> 截图返回 null
+04-20 19:10:18.185 I/BufferQueueProducer(25619): [ImageReader-720x1600f1m2-25619-0](id:641300000003,api:1,p:717,c:25619) connect: api=1 producerControlledByApp=false
+04-20 19:10:18.212 I/.zbb.automatio(25619): Thread[6,tid=25625,WaitingInMainSignalCatcherLoop,Thread*=0xb4000070e33e5570,peer=0x13cc3640,"Signal Catcher"]: reacting to signal 3
+04-20 19:10:18.212 I/.zbb.automatio(25619):
+04-20 19:10:18.514 I/.zbb.automatio(25619): Wrote stack traces to tombstoned
+04-20 19:10:18.734 W/System  (23245): A resource failed to call close.
+04-20 19:10:19.034 E/AccessibilityServiceImpl(25619): >>> 等待图像超时，截图返回 null
+04-20 19:10:19.044 I/BufferQueueConsumer(25619): [ImageReader-720x1600f1m2-25619-0](id:641300000003,api:1,p:717,c:25619) disconnect
+04-20 19:10:19.045 D/AccessibilityServiceImpl(25619): >>> ImageReader 和 VirtualDisplay 已清理
+04-20 19:10:19.059 I/BufferQueueProducer(25619): [ImageReader-720x1600f1m2-25619-0](id:641300000003,api:1,p:717,c:25619) disconnect: api 1
+04-20 19:10:19.061 I/BpBinder(25619): onLastStrongRef automatically unlinking death recipients: <uncached descriptor>
+04-20 19:10:19.072 D/Linux   (25619): [Posix_connect Debug]Process com.zbb.automation :8081
+04-20 19:10:19.082 I/Choreographer(25619): Skipped 65 frames!  The application may be doing too much work on its main thread.
+04-20 19:10:19.118 V/ImeFocusController(25619): onWindowFocus: DecorView@739b452[MainActivity] softInputMode=STATE_UNSPECIFIED|ADJUST_RESIZE|IS_FORWARD_NAVIGATION
+04-20 19:10:19.118 D/ImeFocusController(25619): onViewFocusChanged, view=DecorView@739b452[MainActivity], mServedView=DecorView@739b452[MainActivity]
+04-20 19:10:19.119 V/ImeFocusController(25619): checkFocus: view=DecorView@739b452[MainActivity] next=DecorView@739b452[MainActivity] force=true package=com.zbb.automation
+04-20 19:10:19.120 I/OpenGLRenderer(25619): Davey! duration=1132ms; Flags=0, FrameTimelineVsyncId=158000, IntendedVsync=35103484422748, Vsync=35104567756103, InputEventId=0, HandleInputStart=35104583390399, AnimationStart=35104583394707, PerformTraversalsStart=35104586758707, DrawStart=35104606410014, FrameDeadline=35103504422748, FrameInterval=35104582981399, FrameStartTime=16666667, SyncQueued=35104611283322, SyncStart=35104611390322, IssueDrawCommandsStart=35104611659860, SwapBuffers=35104614399937, FrameCompleted=35104617420860, DequeueBufferDuration=28847, QueueBufferDuration=820077, GpuCompleted=35104617420860, SwapBuffersCompleted=35104617376553, DisplayPresentTime=0,
+04-20 19:10:19.127 D/AccessibilityServiceImpl(25619): >>> OnImageAvailableListener 被调用
+04-20 19:10:19.127 D/AccessibilityServiceImpl(25619): >>> acquireLatestImage 返回 null，等待下一帧...
+04-20 19:10:19.254 I/BufferQueueConsumer(25619): [](id:641300000004,api:0,p:-1,c:25619) connect: controlledByApp=false
+04-20 19:10:19.255 I/BLASTBufferQueue(25619): [ViewRootImpl[MainActivity]#3] constructor()
+04-20 19:10:19.259 I/BufferQueueProducer(25619): [ViewRootImpl[MainActivity]#3(BLAST Consumer)3](id:641300000004,api:1,p:25619,c:25619) connect: api=1 producerControlledByApp=true
+04-20 19:10:19.279 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 2048
+04-20 19:10:19.279 D/AccessibilityServiceImpl(25619): 窗口内容变化
+04-20 19:10:19.301 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 2048
+04-20 19:10:19.301 D/AccessibilityServiceImpl(25619): 窗口内容变化
+04-20 19:10:19.302 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 32
+04-20 19:10:19.302 D/AccessibilityServiceImpl(25619): 窗口变化: com.zbb.automation.MainActivity
+04-20 19:10:19.368 D/AccessibilityServiceImpl(25619): 收到无障碍事件类型: 32
+04-20 19:10:19.368 D/AccessibilityServiceImpl(25619): 窗口变化: androidx.appcompat.app.AlertDialog
+04-20 19:10:19.778 I/nt.mm:appbrand(21606): Explicit concurrent copying GC freed 12413(909KB) AllocSpace objects, 13(260KB) LOS objects, 24% free, 8430KB/10MB, paused 168us,131us total 251.644ms
+04-20 19:10:19.780 W/System  (21606): A resource failed to call close.

@@ -1,0 +1,1505 @@
+PS E:\ZBB\projects_coze0330\client\android> .\gradlew clean assembleDebug
+
+> Configure project :
+[ExpoRootProject] Using the following versions:
+  - buildTools:  36.0.0
+  - minSdk:      24
+  - compileSdk:  36
+  - targetSdk:   36
+  - ndk:         27.1.12297006
+  - kotlin:      2.1.20
+  - ksp:         2.1.20-2.0.1
+
+> Configure project :app
+ 鈩癸笍  Applying gradle plugin 'expo-dev-launcher-gradle-plugin'
+
+> Configure project :expo
+
+Using expo modules
+  - expo-constants (18.0.13)ING [33s]
+  - expo-dev-client (6.0.20)ING [34s]
+  - expo-dev-launcher (6.0.20)G [35s]
+  - expo-dev-menu (7.0.18)
+  - expo-dev-menu-interface (2.0.0)s]
+  - expo-json-utils (0.15.0)ING [37s]
+  - expo-manifests (1.0.10)
+  - expo-modules-core (3.0.29)G [39s]
+  - expo-updates-interface (2.0.0)0s]
+  - [馃摝] expo-application (7.0.8)
+  - [馃摝] expo-asset (12.0.12)
+  - [馃摝] expo-av (16.0.8)RING [40s]
+  - [馃摝] expo-blur (15.0.8)
+  - [馃摝] expo-camera (17.0.10)
+  - [馃摝] expo-crypto (15.0.8)
+  - [馃摝] expo-file-system (19.0.21)
+  - [馃摝] expo-font (14.0.11)
+  - [馃摝] expo-haptics (15.0.8)
+  - [馃摝] expo-image (3.0.11)
+  - [馃摝] expo-image-loader (6.0.0)
+  - [馃摝] expo-image-picker (17.0.10)
+  - [馃摝] expo-keep-awake (15.0.8)
+  - [馃摝] expo-linear-gradient (15.0.8)
+  - [馃摝] expo-linking (8.0.11)
+  - [馃摝] expo-location (19.0.8)
+  - [馃摝] expo-media-library (18.2.1)
+  - [馃摝] expo-sharing (14.0.8)
+  - [馃摝] expo-splash-screen (31.0.13)
+  - [馃摝] expo-system-ui (6.0.9)
+  - [馃摝] expo-web-browser (15.0.10)
+
+
+> Task :expo-modules-core:externalNativeBuildCleanDebug
+Clean expo-modules-core-armeabi-v7a
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   .cxx/Debug/133b1f5p/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-ziqj9o/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-ziqj9o/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-ziqj9o/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-5bqrt7/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-5bqrt7/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-CXX.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCXXInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-5bqrt7/CMakeLists.txt:4 (project)
+Clean expo-modules-core-arm64-v8a
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   .cxx/Debug/133b1f5p/arm64-v8a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/arm64-v8a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/arm64-v8a/CMakeFiles/CMakeScratch/TryCompile-klrzef/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/arm64-v8a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/arm64-v8a/CMakeFiles/CMakeScratch/TryCompile-klrzef/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/arm64-v8a/CMakeFiles/CMakeScratch/TryCompile-klrzef/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/arm64-v8a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/arm64-v8a/CMakeFiles/CMakeScratch/TryCompile-brpnno/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/arm64-v8a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/arm64-v8a/CMakeFiles/CMakeScratch/TryCompile-brpnno/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-CXX.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCXXInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/arm64-v8a/CMakeFiles/CMakeScratch/TryCompile-brpnno/CMakeLists.txt:4 (project)
+Clean expo-modules-core-x86
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   .cxx/Debug/133b1f5p/x86/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86/CMakeFiles/CMakeScratch/TryCompile-9dbzp2/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86/CMakeFiles/CMakeScratch/TryCompile-9dbzp2/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86/CMakeFiles/CMakeScratch/TryCompile-9dbzp2/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86/CMakeFiles/CMakeScratch/TryCompile-np738r/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86/CMakeFiles/CMakeScratch/TryCompile-np738r/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-CXX.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCXXInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86/CMakeFiles/CMakeScratch/TryCompile-np738r/CMakeLists.txt:4 (project)
+
+> Task :react-native-screens:externalNativeBuildCleanDebug
+Clean rnscreens-armeabi-v7a
+C/C++: CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   .cxx/Debug/4q211w1h/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-ja007a/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-ja007a/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-ja007a/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-yiyyjn/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-yiyyjn/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-CXX.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCXXInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-yiyyjn/CMakeLists.txt:4 (project)
+Clean rnscreens-arm64-v8a
+C/C++: CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   .cxx/Debug/4q211w1h/arm64-v8a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/arm64-v8a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/arm64-v8a/CMakeFiles/CMakeScratch/TryCompile-8oaf0y/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/arm64-v8a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/arm64-v8a/CMakeFiles/CMakeScratch/TryCompile-8oaf0y/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/arm64-v8a/CMakeFiles/CMakeScratch/TryCompile-8oaf0y/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/arm64-v8a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/arm64-v8a/CMakeFiles/CMakeScratch/TryCompile-1ehgec/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/arm64-v8a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/arm64-v8a/CMakeFiles/CMakeScratch/TryCompile-1ehgec/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-CXX.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCXXInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/arm64-v8a/CMakeFiles/CMakeScratch/TryCompile-1ehgec/CMakeLists.txt:4 (project)
+Clean rnscreens-x86
+C/C++: CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   .cxx/Debug/4q211w1h/x86/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86/CMakeFiles/CMakeScratch/TryCompile-jfq1pp/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86/CMakeFiles/CMakeScratch/TryCompile-jfq1pp/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86/CMakeFiles/CMakeScratch/TryCompile-jfq1pp/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86/CMakeFiles/CMakeScratch/TryCompile-x2yjpw/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86/CMakeFiles/CMakeScratch/TryCompile-x2yjpw/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-CXX.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCXXInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86/CMakeFiles/CMakeScratch/TryCompile-x2yjpw/CMakeLists.txt:4 (project)
+Clean rnscreens-x86_64
+C/C++: CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   .cxx/Debug/4q211w1h/x86_64/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86_64/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86_64/CMakeFiles/CMakeScratch/TryCompile-jfolby/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86_64/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86_64/CMakeFiles/CMakeScratch/TryCompile-jfolby/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86_64/CMakeFiles/CMakeScratch/TryCompile-jfolby/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86_64/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86_64/CMakeFiles/CMakeScratch/TryCompile-rwx0au/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86_64/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86_64/CMakeFiles/CMakeScratch/TryCompile-rwx0au/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-CXX.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCXXInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/Debug/4q211w1h/x86_64/CMakeFiles/CMakeScratch/TryCompile-rwx0au/CMakeLists.txt:4 (project)
+
+> Task :expo-modules-core:externalNativeBuildCleanDebug
+Clean expo-modules-core-x86_64
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   .cxx/Debug/133b1f5p/x86_64/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86_64/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86_64/CMakeFiles/CMakeScratch/TryCompile-t9h9wb/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86_64/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86_64/CMakeFiles/CMakeScratch/TryCompile-t9h9wb/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86_64/CMakeFiles/CMakeScratch/TryCompile-t9h9wb/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86_64/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86_64/CMakeFiles/CMakeScratch/TryCompile-hzgi3a/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86_64/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86_64/CMakeFiles/CMakeScratch/TryCompile-hzgi3a/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-CXX.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCXXInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/Debug/133b1f5p/x86_64/CMakeFiles/CMakeScratch/TryCompile-hzgi3a/CMakeLists.txt:4 (project)
+
+> Task :react-native-screens:externalNativeBuildCleanRelease
+Clean rnscreens-armeabi-v7a
+C/C++: CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   .cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-whm0wy/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-whm0wy/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-whm0wy/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-4opw8g/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-4opw8g/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-CXX.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCXXInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-4opw8g/CMakeLists.txt:4 (project)
+C/C++: CMake Error in CMakeLists.txt:
+C/C++:   Imported target "ReactAndroid::jsi" includes non-existent path
+C/C++:     "C:/Users/Administrator/.gradle/caches/8.14.3/transforms/cd9fd1633b8cbb585ae18556210d590b/transformed/react-android-0.81.5-release/prefab/modules/jsi/include"
+C/C++:   in its INTERFACE_INCLUDE_DIRECTORIES.  Possible reasons include:
+C/C++:   * The path was deleted, renamed, or moved to another location.
+C/C++:   * An install or uninstall procedure did not complete successfully.
+C/C++:   * The installation package was faulty and references files it does not
+C/C++:   provide.
+C/C++: CMake Generate step failed.  Build files cannot be regenerated correctly.
+C/C++: ninja: error: rebuilding 'build.ninja': subcommand failed
+
+> Task :react-native-screens:externalNativeBuildCleanRelease FAILED
+
+> Task :expo-modules-core:externalNativeBuildCleanRelease
+Clean expo-modules-core-armeabi-v7a
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   .cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   CMakeLists.txt:3 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-2f7ezy/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-2f7ezy/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-2f7ezy/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-jnhsim/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-jnhsim/CMakeLists.txt:4 (project)
+C/C++: CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+C/C++:   Compatibility with CMake < 3.10 will be removed from a future version of
+C/C++:   CMake.
+C/C++:   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+C/C++:   to tell CMake that the project requires at least <min> but has been updated
+C/C++:   to work with policies introduced by <max> or earlier.
+C/C++: Call Stack (most recent call first):
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-CXX.cmake:1 (include)
+C/C++:   C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCXXInformation.cmake:48 (include)
+C/C++:   E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-jnhsim/CMakeLists.txt:4 (project)
+C/C++: CMake Error in CMakeLists.txt:
+C/C++:   Imported target "ReactAndroid::jsi" includes non-existent path
+C/C++:     "C:/Users/Administrator/.gradle/caches/8.14.3/transforms/cd9fd1633b8cbb585ae18556210d590b/transformed/react-android-0.81.5-release/prefab/modules/jsi/include"
+C/C++:   in its INTERFACE_INCLUDE_DIRECTORIES.  Possible reasons include:
+C/C++:   * The path was deleted, renamed, or moved to another location.
+C/C++:   * An install or uninstall procedure did not complete successfully.
+C/C++:   * The installation package was faulty and references files it does not
+C/C++:   provide.
+C/C++: CMake Generate step failed.  Build files cannot be regenerated correctly.
+C/C++: ninja: error: rebuilding 'build.ninja': subcommand failed
+
+> Task :expo-modules-core:externalNativeBuildCleanRelease FAILED
+
+[Incubating] Problems report is available at: file:///E:/ZBB/projects_coze0330/client/android/build/reports/problems/problems-report.html
+
+FAILURE: Build completed with 2 failures.
+
+1: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':react-native-screens:externalNativeBuildCleanRelease'.
+> com.android.ide.common.process.ProcessException: ninja: Entering directory `E:\ZBB\projects_coze0330\client\node_modules\react-native-screens\android\.cxx\RelWithDebInfo\z1f61e6l\armeabi-v7a'
+  [0/1] Re-running CMake...
+  -- The C compiler identification is Clang 18.0.2
+  -- The CXX compiler identification is Clang 18.0.2
+  -- Detecting C compiler ABI info
+  -- Detecting C compiler ABI info - done
+  -- Check for working C compiler: C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe - skipped
+  -- Detecting C compile features
+  -- Detecting C compile features - done
+  -- Detecting CXX compiler ABI info
+  -- Detecting CXX compiler ABI info - done
+  -- Check for working CXX compiler: C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe - skipped
+  -- Detecting CXX compile features
+  -- Detecting CXX compile features - done
+  -- Configuring done (5.2s)
+  -- Generating done (0.1s)
+  FAILED: build.ninja
+  C:\Users\Administrator\AppData\Local\Android\Sdk\cmake\3.22.1\bin\cmake.exe --regenerate-during-build -SE:\ZBB\projects_coze0330\client\node_modules\react-native-screens\android -BE:\ZBB\projects_coze0330\client\node_modules\react-native-screens\android\.cxx\RelWithDebInfo\z1f61e6l\armeabi-v7a
+
+  C++ build system [clean] failed while executing:
+      @echo off
+      "C:\\Users\\Administrator\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe" ^
+        -C ^
+        "E:\\ZBB\\projects_coze0330\\client\\node_modules\\react-native-screens\\android\\.cxx\\RelWithDebInfo\\z1f61e6l\\armeabi-v7a" ^
+        clean
+    from E:\ZBB\projects_coze0330\client\node_modules\react-native-screens\android
+  CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+    CMakeLists.txt:3 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+    CMakeLists.txt:3 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    .cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+    CMakeLists.txt:3 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+    CMakeLists.txt:3 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-whm0wy/CMakeLists.txt:4 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-whm0wy/CMakeLists.txt:4 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-whm0wy/CMakeLists.txt:4 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-4opw8g/CMakeLists.txt:4 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-4opw8g/CMakeLists.txt:4 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-CXX.cmake:1 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCXXInformation.cmake:48 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/z1f61e6l/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-4opw8g/CMakeLists.txt:4 (project)
+
+
+  CMake Error in CMakeLists.txt:
+    Imported target "ReactAndroid::jsi" includes non-existent path
+
+      "C:/Users/Administrator/.gradle/caches/8.14.3/transforms/cd9fd1633b8cbb585ae18556210d590b/transformed/react-android-0.81.5-release/prefab/modules/jsi/include"
+
+    in its INTERFACE_INCLUDE_DIRECTORIES.  Possible reasons include:
+
+    * The path was deleted, renamed, or moved to another location.
+
+    * An install or uninstall procedure did not complete successfully.
+
+    * The installation package was faulty and references files it does not
+    provide.
+
+
+
+  CMake Generate step failed.  Build files cannot be regenerated correctly.
+  ninja: error: rebuilding 'build.ninja': subcommand failed
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+2: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':expo-modules-core:externalNativeBuildCleanRelease'.
+> com.android.ide.common.process.ProcessException: ninja: Entering directory `E:\ZBB\projects_coze0330\client\node_modules\expo-modules-core\android\.cxx\RelWithDebInfo\325z2a2w\armeabi-v7a'
+  [0/1] Re-running CMake...
+  -- The C compiler identification is Clang 18.0.2
+  -- The CXX compiler identification is Clang 18.0.2
+  -- Detecting C compiler ABI info
+  -- Detecting C compiler ABI info - done
+  -- Check for working C compiler: C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe - skipped
+  -- Detecting C compile features
+  -- Detecting C compile features - done
+  -- Detecting CXX compiler ABI info
+  -- Detecting CXX compiler ABI info - done
+  -- Check for working CXX compiler: C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe - skipped
+  -- Detecting CXX compile features
+  -- Detecting CXX compile features - done
+  -- Configuring done (5.9s)
+  -- Generating done (0.3s)
+  FAILED: build.ninja
+  C:\Users\Administrator\AppData\Local\Android\Sdk\cmake\3.22.1\bin\cmake.exe --regenerate-during-build -SE:\ZBB\projects_coze0330\client\node_modules\expo-modules-core\android -BE:\ZBB\projects_coze0330\client\node_modules\expo-modules-core\android\.cxx\RelWithDebInfo\325z2a2w\armeabi-v7a
+
+  C++ build system [clean] failed while executing:
+      @echo off
+      "C:\\Users\\Administrator\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe" ^
+        -C ^
+        "E:\\ZBB\\projects_coze0330\\client\\node_modules\\expo-modules-core\\android\\.cxx\\RelWithDebInfo\\325z2a2w\\armeabi-v7a" ^
+        clean
+    from E:\ZBB\projects_coze0330\client\node_modules\expo-modules-core\android
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+    CMakeLists.txt:3 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:146 (include)
+    CMakeLists.txt:3 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    .cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+    CMakeLists.txt:3 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+    CMakeLists.txt:3 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-2f7ezy/CMakeLists.txt:4 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-2f7ezy/CMakeLists.txt:4 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-C.cmake:1 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCInformation.cmake:48 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-2f7ezy/CMakeLists.txt:4 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-jnhsim/CMakeLists.txt:4 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android-legacy.toolchain.cmake:35 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/android.toolchain.cmake:55 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/3.31.1/CMakeSystem.cmake:6 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-jnhsim/CMakeLists.txt:4 (project)
+
+
+  CMake Deprecation Warning at C:/Users/Administrator/AppData/Local/Android/Sdk/ndk/27.1.12297006/build/cmake/flags.cmake:18 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+  Call Stack (most recent call first):
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang.cmake:23 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/Platform/Android-Clang-CXX.cmake:1 (include)
+    C:/Users/Administrator/AppData/Local/Android/Sdk/cmake/3.22.1/share/cmake-3.31/Modules/CMakeCXXInformation.cmake:48 (include)
+    E:/ZBB/projects_coze0330/client/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/325z2a2w/armeabi-v7a/CMakeFiles/CMakeScratch/TryCompile-jnhsim/CMakeLists.txt:4 (project)
+
+
+  CMake Error in CMakeLists.txt:
+    Imported target "ReactAndroid::jsi" includes non-existent path
+
+      "C:/Users/Administrator/.gradle/caches/8.14.3/transforms/cd9fd1633b8cbb585ae18556210d590b/transformed/react-android-0.81.5-release/prefab/modules/jsi/include"
+
+    in its INTERFACE_INCLUDE_DIRECTORIES.  Possible reasons include:
+
+    * The path was deleted, renamed, or moved to another location.
+
+    * An install or uninstall procedure did not complete successfully.
+
+    * The installation package was faulty and references files it does not
+    provide.
+
+
+
+  CMake Generate step failed.  Build files cannot be regenerated correctly.
+  ninja: error: rebuilding 'build.ninja': subcommand failed
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 1m 52s
+52 actionable tasks: 24 executed, 28 up-to-date
