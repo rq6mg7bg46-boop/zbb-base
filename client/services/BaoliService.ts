@@ -7,7 +7,7 @@
  */
 
 import { zbbAutomation } from '../native';
-import { getAllBaoliReports, initDatabase, updateReportStatus } from './DatabaseService';
+import { getAllBaoliReports, initDatabase, insertReport, updateReportStatus } from './DatabaseService';
 
 const APP_PACKAGES = {
   WECHAT: 'com.tencent.wework',  // 企业微信
@@ -85,6 +85,7 @@ class BaoliService {
   private static instance: BaoliService;
   private isRunning: boolean = false;
   private currentCustomer: { company: string; name: string; phone: string; project: string; agent?: string; reportTime?: string; expectedVisitTime?: string } | null = null;
+  private currentReportId: number | null = null; // 当前报备记录的数据库ID
 
   static getInstance(): BaoliService {
     if (!BaoliService.instance) {
@@ -421,6 +422,30 @@ class BaoliService {
     logToBoth('info', '[步骤8] 点击粘贴 (130, 710)');
     await zbbAutomation.tap(130, 710);
 
+    // ========== 步骤6.5：粘贴完成后写入数据库（客户基本信息）==========
+    try {
+      const name = customer.name;
+      let gender = '';
+      if (/[女士|小姐|太太]$/.test(name)) gender = '女';
+      else if (/先生$/.test(name)) gender = '男';
+
+      this.currentReportId = await insertReport(
+        {
+          customerName: name,
+          customerGender: gender,
+          customerPhone: customer.phone,
+          reportProject: customer.project,
+          agentName: customer.agent || '',
+          reportSubmitTime: customer.reportTime || '',
+          city: '',
+        },
+        'baoli'
+      );
+      logToBoth('success', '[步骤6.5] 数据库写入成功，ID=' + this.currentReportId);
+    } catch (e: any) {
+      logToBoth('error', '[步骤6.5] 数据库写入失败: ' + e);
+    }
+
     // ========== 步骤9：点击"请选择分期" ==========
     logToBoth('info', '[步骤9] 点击"请选择分期"...');
     await this.printScreenText();
@@ -657,6 +682,10 @@ class BaoliService {
 
         if (isRepeat && retry >= maxRetries) {
           logToBoth('error', '[步骤15-情况1-重试] 达到最大重试次数，标记为重复');
+          if (this.currentReportId !== null) {
+            await updateReportStatus(this.currentReportId, '重号');
+            logToBoth('success', '[步骤15-情况1-重号] ID=' + this.currentReportId + ' status→重号');
+          }
           if (this.currentCustomer) {
             await zbbAutomation.showToast('报备疑似重复，请人工处理');
           }
@@ -678,11 +707,11 @@ class BaoliService {
 
     // 更新数据库状态为 done
     try {
-      const pendingReports = await getAllBaoliReports();
-      if (pendingReports.length > 0) {
-        const record = pendingReports[0];
-        await updateReportStatus(record.id, 'done');
-        logToBoth('success', '[步骤15-情况2-更新数据库] ID=' + record.id + ' status→done');
+      if (this.currentReportId !== null) {
+        await updateReportStatus(this.currentReportId, 'done');
+        logToBoth('success', '[步骤15-情况2-更新数据库] ID=' + this.currentReportId + ' status→done');
+      } else {
+        logToBoth('warn', '[步骤15-情况2-更新数据库] currentReportId 为空，跳过');
       }
     } catch (e) {
       logToBoth('error', '[步骤15-情况2-更新数据库] 失败: ' + e);
