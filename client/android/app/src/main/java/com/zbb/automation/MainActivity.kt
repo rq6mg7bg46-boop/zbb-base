@@ -1,6 +1,7 @@
 package com.zbb.automation
 import expo.modules.splashscreen.SplashScreenManager
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,27 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate
 import expo.modules.ReactActivityDelegateWrapper
 
 class MainActivity : ReactActivity() {
+  companion object {
+    @Volatile
+    var instance: MainActivity? = null
+  }
+
+  // 发起 MediaProjection 授权请求
+  private var pendingProjectionCallback: ((Int, android.content.Intent?) -> Unit)? = null
+  
+  /**
+   * 请求 MediaProjection 权限
+   */
+  fun requestMediaProjectionPermission(callback: (Int, android.content.Intent?) -> Unit) {
+    pendingProjectionCallback = callback
+    val projectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as? android.media.projection.MediaProjectionManager
+    if (projectionManager != null) {
+      startActivityForResult(
+        projectionManager.createScreenCaptureIntent(),
+        ScreenshotService.PROJECTION_REQUEST_CODE
+      )
+    }
+  }
   override fun onCreate(savedInstanceState: Bundle?) {
     // Set the theme to AppTheme BEFORE onCreate to support
     // coloring the background, status bar, and navigation bar.
@@ -22,6 +44,7 @@ class MainActivity : ReactActivity() {
     SplashScreenManager.registerOnActivity(this)
     // @generated end expo-splashscreen
     super.onCreate(null)
+    instance = this
   }
   
   /**
@@ -32,6 +55,22 @@ class MainActivity : ReactActivity() {
     super.onActivityResult(requestCode, resultCode, data)
     Log.d("MainActivity", "onActivityResult: requestCode=$requestCode, resultCode=$resultCode")
     
+    // 将结果传递给 ScreenshotService
+    if (requestCode == ScreenshotService.Companion.PROJECTION_REQUEST_CODE) {
+      if (resultCode == RESULT_OK && data != null) {
+        ScreenshotService.startService(this)
+        val intent = android.content.Intent(this, ScreenshotService::class.java).apply {
+          action = ScreenshotService.ACTION_INIT_PROJECTION
+          putExtra("resultCode", resultCode)
+          putExtra("resultData", data)
+        }
+        startService(intent)
+      } else {
+        Log.w("MainActivity", "MediaProjection 授权取消")
+      }
+      return
+    }
+    
     // 将结果传递给 AutomationModule
     try {
       val module = AutomationModuleManager.getModule()
@@ -39,6 +78,10 @@ class MainActivity : ReactActivity() {
     } catch (e: Exception) {
       Log.e("MainActivity", "传递结果失败: ${e.message}")
     }
+  }
+  
+  override fun onResume() {
+    super.onResume()
   }
 
   /**

@@ -475,24 +475,11 @@ export default function HomeScreen() {
       setIsRunning(true);
       setCurrentStep('千机端测试...');
       setCurrentApp('qianji');
-      
-      // 步骤1：打开千机
-      await qianjiService.stepOpenQianji();
-      
-      // 步骤2：识别界面
-      await qianjiService.stepRecognizeInterface();
-      
-      // 步骤3：查找报备审核并收集客户信息（点击复制后数据已在剪贴板）
-      await qianjiService.stepFindAndCollectCustomer();
-      
-      // 步骤4：按 Home 返回 ZBB（由用户在 ZBB 的 TextInput 中粘贴读取剪贴板内容）
-      await qianjiService.stepReturnToZBB();
-      
-      // 千机端流程已完成，设置待粘贴标志，用户粘贴后会自动解析、写库、启动报备
-      setPendingAutoStart(true);
-      setIsRunning(false);  // 自动化部分已完成，等待用户粘贴
-      setCurrentStep('千机端完成，请在 ZBB 中粘贴客户信息');
-      
+      // 启动千机端完整流程（步骤1-5：抓数据→写剪贴板→直接跳转保利端填表）
+      await qianjiService.startQianjiFlow();
+
+      setIsRunning(false);
+      setCurrentStep('千机端流程完成');
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : String(error);
       console.error('[测试] 捕获到错误:', errorMsg);

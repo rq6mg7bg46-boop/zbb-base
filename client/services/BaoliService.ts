@@ -270,6 +270,130 @@ class BaoliService {
   }
 
   /**
+   * ========== 直接填表流程（传入数据，不读数据库）==========
+   * 由 QianjiService 步骤5调用，实现千机→保利直传
+   */
+  async executeWithData(customerInfo: {
+    customerName: string;
+    phone: string;
+    agent: string;
+    city: string;
+    reportTime: string;
+    projectType: string;
+  }): Promise<{ success: boolean; error?: string }> {
+    if (this.isRunning) {
+      throw new Error('流程已在运行中');
+    }
+    this.isRunning = true;
+
+    try {
+      logToBoth('info', '[保利直传] 启动保利端填表流程...');
+
+      // 构造 currentCustomer 格式（与 execute() 从数据库读取的格式一致）
+      const customerName = customerInfo.customerName || '';
+      let customerGender = '';
+      if (/[女士|小姐|太太]$/.test(customerName)) customerGender = '女';
+      else if (/先生$/.test(customerName)) customerGender = '男';
+
+      this.currentCustomer = {
+        company: '贝壳',
+        name: customerName,
+        phone: customerInfo.phone,
+        project: customerInfo.projectType === 'baoli' ? '保利' : '未知',
+        agent: customerInfo.agent,
+        reportTime: customerInfo.reportTime,
+        expectedVisitTime: '',
+      };
+
+      logToBoth('info', '[保利直传] 客户: ' + this.currentCustomer.name + ' ' + this.currentCustomer.phone);
+      logToBoth('info', '[保利直传] 经纪人: ' + this.currentCustomer.agent);
+      logToBoth('info', '[保利直传] 城市: ' + customerInfo.city);
+
+      // ========== 步骤1：按 Home 退出到桌面 ==========
+      logToBoth('info', '[保利直传:步骤1] 按 Home 键退出到桌面...');
+      await zbbAutomation.pressHomeKey();
+      await zbbAutomation.delay(2000);
+
+      // ========== 步骤2：识别桌面企业微信图标 ==========
+      logToBoth('info', '[保利直传:步骤2] 识别桌面企业微信图标...');
+      const wechatNode = await zbbAutomation.findNodeCenterByText('企业微信');
+      if (wechatNode) {
+        logToBoth('success', '[保利直传:步骤2] 找到"企业微信" @ (' + wechatNode.centerX + ', ' + wechatNode.centerY + ')');
+        await zbbAutomation.tap(wechatNode.centerX, wechatNode.centerY);
+      } else {
+        logToBoth('error', '[保利直传:步骤2] 未在桌面找到"企业微信"图标，尝试直接启动');
+        await zbbAutomation.launchAppWithMonkey(
+          APP_PACKAGES.WECHAT,
+          APP_PACKAGES.WECHAT_MAIN_ACTIVITY
+        );
+      }
+      await zbbAutomation.delay(getDelay('openApp'));
+
+      // ========== 步骤3：点击"工作台" ==========
+      logToBoth('info', '[保利直传:步骤3] 点击"工作台"...');
+      await zbbAutomation.delay(1000);
+      const workbenchNode = await this.findNodeByText('工作台');
+      if (workbenchNode) {
+        await zbbAutomation.tap(workbenchNode.centerX, workbenchNode.centerY);
+      } else {
+        await zbbAutomation.tap(540, 199);
+      }
+      await zbbAutomation.delay(randomDelay(2000, 3000));
+
+      // ========== 步骤4：上滑查找"云和家经纪云" ==========
+      logToBoth('info', '[保利直传:步骤4] 上滑查找"云和家经纪云"...');
+      let found = false;
+      for (let i = 0; i < 5; i++) {
+        const node = await this.findNodeByText('云和家经纪云');
+        if (node) {
+          logToBoth('success', '[保利直传:步骤4] 找到"云和家经纪云" @ (' + node.centerX + ', ' + node.centerY + ')');
+          await zbbAutomation.tap(node.centerX, node.centerY);
+          found = true;
+          break;
+        }
+        await zbbAutomation.swipe(540, 1800, 540, 600, 800);
+        await zbbAutomation.delay(1500);
+      }
+      if (!found) {
+        logToBoth('warn', '[保利直传:步骤4] 未找到，使用备用坐标 (668, 1502)');
+        await zbbAutomation.tap(668, 1502);
+      }
+      await zbbAutomation.delay(randomDelay(8000, 10000));
+
+      // ========== 步骤5：打印界面 + 点击"报备" ==========
+      await this.printScreenText();
+      logToBoth('info', '[保利直传:步骤5] 点击"报备"...');
+      const baobeiNode = await this.findExactNode('报备');
+      if (baobeiNode) {
+        await zbbAutomation.tap(baobeiNode.centerX, baobeiNode.centerY);
+      } else {
+        logToBoth('warn', '[保利直传:步骤5] 未找到"报备"，使用备用坐标 (700, 2200)');
+        await zbbAutomation.tap(700, 2200);
+      }
+      await zbbAutomation.delay(randomDelay(3000, 4000));
+
+      // ========== 步骤6-22：填写表单 ==========
+      await this.fillForm(this.currentCustomer);
+
+      // ========== 步骤25：检测结果分支 ==========
+      await this.detectResult();
+
+      logToBoth('success', '========================================');
+      logToBoth('success', '       保利直传流程全部完成！');
+      logToBoth('success', '========================================');
+      return { success: true };
+
+    } catch (error) {
+      logToBoth('error', '========================================');
+      logToBoth('error', '       保利直传流程失败: ' + error);
+      logToBoth('error', '========================================');
+      return { success: false, error: String(error) };
+    } finally {
+      this.isRunning = false;
+    }
+  }
+
+  /**
    * 填写报备表单
    */
   private async fillForm(customer: any): Promise<void> {

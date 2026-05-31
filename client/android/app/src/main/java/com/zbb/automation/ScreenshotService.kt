@@ -7,10 +7,11 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.PixelFormat
 import android.graphics.Point
 import android.hardware.display.DisplayManager
@@ -19,13 +20,18 @@ import android.media.Image
 import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
-import android.os.Binder
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
+import android.os.Binder
 import android.os.Looper
+import android.provider.MediaStore
 import android.util.Log
+import android.view.Gravity
+import android.view.View
 import android.view.WindowManager
+import android.widget.FrameLayout
+import android.widget.TextView
 import java.io.File
 import java.io.FileOutputStream
 import java.util.concurrent.CountDownLatch
@@ -33,13 +39,14 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * ZBB 截图前台服务
+ * ZBB 截图前台服务（全局单例）
  * 
  * 核心设计：
- * 1. 服务独立于 Activity 生命周期，持有 MediaProjection 对象
- * 2. 权限授权后，将 MediaProjection 传递给此服务
- * 3. 截图时使用服务持有的 MediaProjection 创建 VirtualDisplay
- * 4. 服务保持前台运行，确保权限稳定
+ * 1. start() 后前台Service常驻，悬浮窗显示小圆点
+ * 2. 首次调用自动请求 MediaProjection 授权
+ * 3. VirtualDisplay 持久化，截图时直接从 ImageReader 取帧
+ * 4. 截图闪一下效果，写入相册 MediaStore
+ * 5. 权限丢失自动重新授权
  */
 class ScreenshotService : Service() {
 
@@ -47,23 +54,24 @@ class ScreenshotService : Service() {
         private const val TAG = "ScreenshotService"
         private const val CHANNEL_ID = "ZBB_Screenshot_Channel"
         private const val NOTIFICATION_ID = 10002
+        const val PROJECTION_REQUEST_CODE = 10086
         
-        // Action 常量
         const val ACTION_INIT_PROJECTION = "com.zbb.automation.INIT_PROJECTION"
         const val ACTION_STOP_SERVICE = "com.zbb.automation.STOP_SERVICE"
         
         // 回调
         var onProjectionReady: (() -> Unit)? = null
         var onProjectionError: ((String) -> Unit)? = null
+        var onScreenshotTaken: ((String) -> Unit)? = null  // path
         
-        // 单例引用
         @Volatile
         var instance: ScreenshotService? = null
             private set
         
-        /**
-         * 启动截图服务
-         */
+        @Volatile
+        var isStarted: Boolean = false
+            private set
+
         fun startService(context: Context) {
             try {
                 val intent = Intent(context, ScreenshotService::class.java)
@@ -72,74 +80,97 @@ class ScreenshotService : Service() {
                 } else {
                     context.startService(intent)
                 }
-                Log.d(TAG, "截图服务启动命令已发送")
+                Log.d(TAG, "startService: 命令已发送")
             } catch (e: Exception) {
-                Log.e(TAG, "启动截图服务失败: ${e.message}")
+                Log.e(TAG, "startService 失败: ${e.message}")
             }
         }
-        
-        /**
-         * 停止截图服务
-         */
+
         fun stopService(context: Context) {
             try {
                 val intent = Intent(context, ScreenshotService::class.java)
                 intent.action = ACTION_STOP_SERVICE
                 context.startService(intent)
             } catch (e: Exception) {
-                Log.e(TAG, "停止截图服务失败: ${e.message}")
+                Log.e(TAG, "stopService 失败: ${e.message}")
             }
         }
+
+        fun isRunning(): Boolean = instance != null && isStarted
         
-        /**
-         * 检查服务是否运行
-         */
-        fun isRunning(): Boolean = instance != null
+        fun isProjectionReady(): Boolean = instance?.isProjectionReady() == true
     }
 
-    // Binder 用于 IPC 通信
+    // ==================== 核心属性 ====================
+    
     private val binder = ScreenshotBinder()
     
     inner class ScreenshotBinder : Binder() {
         fun getService(): ScreenshotService = this@ScreenshotService
     }
     
-    // MediaProjection 相关
+    // 兼容 AccessibilityServiceImpl 调用的旧方法
+    fun captureScreenshot(width: Int = 0, height: Int = 0, timeoutMs: Long = 3000): Bitmap? {
+        val bitmap = captureFrame() ?: return null
+        return bitmap
+    }
+    
+    fun saveScreenshot(bitmap: Bitmap, prefix: String): String? {
+        return saveToGallery(bitmap)
+    }
+    
+    // MediaProjection
     private var mediaProjection: MediaProjection? = null
     private var imageReader: ImageReader? = null
     private var virtualDisplay: VirtualDisplay? = null
+    private var projectionResultCode: Int = Activity.RESULT_CANCELED
+    private var projectionResultData: Intent? = null
     
-    // 截图状态标志
+    // 屏幕尺寸
+    private var screenWidth: Int = 1080
+    private var screenHeight: Int = 2400
+    
+    // 并发控制
     private val isCapturing = AtomicBoolean(false)
-    
-    // 主线程 Handler
     private val mainHandler = Handler(Looper.getMainLooper())
+    
+    // 悬浮窗
+    private var floatingView: View? = null
+    private var windowManager: WindowManager? = null
+    
+    // 截图闪光
+    private var flashView: View? = null
+    
+    // 是否正在等待授权
+    private var isAwaitingPermission = false
 
     override fun onCreate() {
         super.onCreate()
         instance = this
-        Log.d(TAG, "截图服务 onCreate")
+        isStarted = false
+        Log.d(TAG, "onCreate")
         createNotificationChannel()
         startForeground(NOTIFICATION_ID, createNotification())
+        createFloatingDot()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d(TAG, "截图服务 onStartCommand, action: ${intent?.action}")
+        Log.d(TAG, "onStartCommand, action: ${intent?.action}")
         
         when (intent?.action) {
             ACTION_INIT_PROJECTION -> {
-                // 初始化 MediaProjection
                 val resultCode = intent.getIntExtra("resultCode", Activity.RESULT_CANCELED)
                 val resultData = intent.getParcelableExtra<Intent>("resultData")
-                
                 if (resultCode == Activity.RESULT_OK && resultData != null) {
                     initMediaProjection(resultCode, resultData)
                 } else {
-                    Log.e(TAG, "初始化 MediaProjection 失败: resultCode=$resultCode")
+                    Log.e(TAG, "授权失败: resultCode=$resultCode")
                     onProjectionError?.invoke("授权失败或用户取消")
+                    isAwaitingPermission = false
                 }
             }
             ACTION_STOP_SERVICE -> {
+                cleanup()
                 stopForeground(STOP_FOREGROUND_REMOVE)
                 stopSelf()
             }
@@ -148,30 +179,169 @@ class ScreenshotService : Service() {
         return START_STICKY
     }
 
-    override fun onBind(intent: Intent?): IBinder {
-        return binder
-    }
+    override fun onBind(intent: Intent?): IBinder? = binder
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "截图服务 onDestroy")
+        Log.d(TAG, "onDestroy")
         cleanup()
+        removeFloatingDot()
         instance = null
+        isStarted = false
+    }
+    
+    // ==================== 公共 API ====================
+    
+    /**
+     * 启动截图服务（全局单例，重复调用无害）
+     * 内部逻辑：
+     * 1. 如果未授权，自动请求 MediaProjection 权限
+     * 2. 授权后初始化 VirtualDisplay + ImageReader
+     * 3. 显示悬浮窗小圆点
+     */
+    fun start() {
+        if (!isStarted) {
+            isStarted = true
+            Log.d(TAG, "start: 已标记为已启动")
+        }
+        if (isProjectionReady()) {
+            Log.d(TAG, "start: MediaProjection 已就绪")
+            return
+        }
+        if (isAwaitingPermission) {
+            Log.d(TAG, "start: 正在等待授权...")
+            return
+        }
+        // 检查是否已有授权数据
+        if (projectionResultCode == Activity.RESULT_OK && projectionResultData != null) {
+            initMediaProjection(projectionResultCode, projectionResultData!!)
+        } else {
+            requestMediaProjectionPermission()
+        }
     }
     
     /**
-     * 初始化 MediaProjection
-     * 由外部（AutomationModule）调用
+     * 执行截图，保存到相册，返回路径
+     */
+    fun takeScreenshot(): String? {
+        if (!isProjectionReady()) {
+            Log.e(TAG, "takeScreenshot: MediaProjection 未就绪")
+            return null
+        }
+        
+        if (!isCapturing.compareAndSet(false, true)) {
+            Log.w(TAG, "takeScreenshot: 截图正在进行中")
+            return null
+        }
+        
+        try {
+            val bitmap = captureFrame()
+            if (bitmap == null) {
+                Log.e(TAG, "takeScreenshot: captureFrame 返回 null")
+                isCapturing.set(false)
+                return null
+            }
+            
+            // 截图闪光效果
+            showFlashEffect()
+            
+            // 保存到相册
+            val path = saveToGallery(bitmap)
+            if (path != null) {
+                onScreenshotTaken?.invoke(path)
+            }
+            
+            bitmap.recycle()
+            return path
+        } finally {
+            isCapturing.set(false)
+        }
+    }
+    
+    /**
+     * 截图返回 base64（内存传递）
+     */
+    fun takeScreenshotAsBase64(): String? {
+        if (!isProjectionReady()) {
+            Log.e(TAG, "takeScreenshotAsBase64: MediaProjection 未就绪")
+            return null
+        }
+        
+        if (!isCapturing.compareAndSet(false, true)) {
+            Log.w(TAG, "takeScreenshotAsBase64: 截图正在进行中")
+            return null
+        }
+        
+        try {
+            val bitmap = captureFrame()
+            if (bitmap == null) {
+                isCapturing.set(false)
+                return null
+            }
+            
+            showFlashEffect()
+            
+            val stream = java.io.ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream)
+            bitmap.recycle()
+            return android.util.Base64.encodeToString(stream.toByteArray(), android.util.Base64.NO_WRAP)
+        } finally {
+            isCapturing.set(false)
+        }
+    }
+    
+    fun isProjectionReady(): Boolean = mediaProjection != null
+
+    // ==================== 授权 ====================
+    
+    private fun requestMediaProjectionPermission() {
+        Log.d(TAG, "requestMediaProjectionPermission: 请求权限")
+        
+        isAwaitingPermission = true
+        
+        try {
+            // 从 companion object 获取 MainActivity.instance
+            val companionClass = MainActivity::class.java.getDeclaredClasses().find { it.simpleName == "Companion" }
+            val instanceField = (companionClass ?: MainActivity::class.java).getDeclaredField("instance")
+            instanceField.isAccessible = true
+            val activity = instanceField.get(null) as? Activity
+            if (activity != null) {
+                val projectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as? MediaProjectionManager
+                if (projectionManager != null) {
+                    activity.startActivityForResult(
+                        projectionManager.createScreenCaptureIntent(),
+                        PROJECTION_REQUEST_CODE
+                    )
+                    Log.d(TAG, "requestMediaProjectionPermission: 已启动授权Activity")
+                    return
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "requestMediaProjectionPermission 失败: ${e.message}")
+        }
+        
+        // Fallback: 通过 Service 启动 MainActivity
+        isAwaitingPermission = true
+        val intent = Intent(this, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            putExtra("action", "requestProjection")
+        }
+        startActivity(intent)
+    }
+    
+    /**
+     * 初始化 MediaProjection（持久化）
      */
     fun initMediaProjection(resultCode: Int, data: Intent) {
         try {
-            Log.d(TAG, "初始化 MediaProjection, resultCode=$resultCode")
+            Log.d(TAG, "initMediaProjection: resultCode=$resultCode")
+            isAwaitingPermission = false
             
-            val projectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) 
-                as? MediaProjectionManager
+            projectionResultCode = resultCode
+            projectionResultData = data
             
+            val projectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as? MediaProjectionManager
             if (projectionManager == null) {
-                Log.e(TAG, "无法获取 MediaProjectionManager")
                 onProjectionError?.invoke("无法获取 MediaProjectionManager")
                 return
             }
@@ -179,110 +349,57 @@ class ScreenshotService : Service() {
             mediaProjection = projectionManager.getMediaProjection(resultCode, data)
             
             if (mediaProjection != null) {
-                Log.d(TAG, "MediaProjection 初始化成功")
+                // 获取屏幕尺寸
+                val wm = getSystemService(Context.WINDOW_SERVICE) as? WindowManager
+                val display = wm?.defaultDisplay
+                val size = Point()
+                @Suppress("DEPRECATION")
+                display?.getRealSize(size)
+                screenWidth = size.x
+                screenHeight = size.y
+                Log.d(TAG, "屏幕尺寸: ${screenWidth}x$screenHeight")
                 
-                // 注册停止回调
+                // 注册权限丢失回调
                 mediaProjection?.registerCallback(object : MediaProjection.Callback() {
                     override fun onStop() {
-                        Log.d(TAG, "MediaProjection 被系统停止")
+                        Log.w(TAG, "MediaProjection 被系统停止（权限丢失）")
+                        mediaProjection = null
+                        mainHandler.post {
+                            requestMediaProjectionPermission()
+                        }
                     }
                 }, mainHandler)
                 
+                // 初始化持久化的 ImageReader
+                initPersistentImageReader()
+                
+                Log.d(TAG, "initMediaProjection: 成功")
                 onProjectionReady?.invoke()
             } else {
-                Log.e(TAG, "MediaProjection 创建失败")
+                Log.e(TAG, "initMediaProjection: 创建失败")
                 onProjectionError?.invoke("MediaProjection 创建失败")
             }
         } catch (e: Exception) {
-            Log.e(TAG, "初始化 MediaProjection 异常: ${e.message}")
+            Log.e(TAG, "initMediaProjection 异常: ${e.message}")
             onProjectionError?.invoke(e.message ?: "未知错误")
         }
     }
     
-    /**
-     * 检查 MediaProjection 是否就绪
-     */
-    fun isProjectionReady(): Boolean = mediaProjection != null
+    // ==================== ImageReader 持久化 ====================
     
-    /**
-     * 执行截图
-     * 核心方法：使用服务持有的 MediaProjection 创建截图
-     * 
-     * @param width 截图宽度
-     * @param height 截图高度
-     * @param timeoutMs 超时时间（毫秒）
-     * @return 成功返回 Bitmap，失败返回 null
-     */
-    @SuppressLint("WrongConstant")
-    fun captureScreenshot(width: Int, height: Int, timeoutMs: Long = 2000): Bitmap? {
-        Log.d(TAG, ">>> captureScreenshot 开始, 尺寸: ${width}x$height")
-        
-        val projection = mediaProjection
-        if (projection == null) {
-            Log.e(TAG, "MediaProjection 未初始化")
-            return null
-        }
-        
-        // 防止并发截图
-        if (!isCapturing.compareAndSet(false, true)) {
-            Log.w(TAG, "截图正在进行中，跳过")
-            return null
-        }
-        
-        var resultBitmap: Bitmap? = null
-        val latch = CountDownLatch(1)
-        
+    private fun initPersistentImageReader() {
         try {
-            // 获取屏幕 Display
-            val displayManager = getSystemService(Context.DISPLAY_SERVICE) as? DisplayManager
-            val displays = displayManager?.displays
+            cleanupImageReader()
             
-            val display: android.view.Display? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                displays?.find { it.state == android.view.Display.STATE_ON }
-                    ?: displays?.firstOrNull()
-            } else {
-                @Suppress("DEPRECATION")
-                val wm = getSystemService(Context.WINDOW_SERVICE) as? WindowManager
-                wm?.defaultDisplay
-            }
-            
-            if (display == null) {
-                Log.e(TAG, "无法获取 Display")
-                isCapturing.set(false)
-                return null
-            }
-            
-            // 如果未指定尺寸，使用屏幕尺寸
-            val screenWidth = if (width <= 0) {
-                val size = Point()
-                @Suppress("DEPRECATION")
-                display.getRealSize(size)
-                size.x
-            } else width
-            
-            val screenHeight = if (height <= 0) {
-                val size = Point()
-                @Suppress("DEPRECATION")
-                display.getRealSize(size)
-                size.y
-            } else height
+            imageReader = ImageReader.newInstance(
+                screenWidth, screenHeight,
+                PixelFormat.RGBA_8888, 3
+            )
             
             val densityDpi = resources.displayMetrics.densityDpi
             
-            Log.d(TAG, ">>> 创建 ImageReader: ${screenWidth}x$screenHeight")
-            
-            // 清理旧的 ImageReader
-            cleanupImageReader()
-            
-            // 创建 ImageReader
-            imageReader = ImageReader.newInstance(
-                screenWidth, screenHeight,
-                PixelFormat.RGBA_8888, 2
-            )
-            
-            // 创建 VirtualDisplay
-            virtualDisplay = projection.createVirtualDisplay(
-                "ScreenshotVirtualDisplay",
+            virtualDisplay = mediaProjection?.createVirtualDisplay(
+                "ZBBScreenCapture",
                 screenWidth, screenHeight,
                 densityDpi,
                 DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
@@ -291,173 +408,252 @@ class ScreenshotService : Service() {
                 mainHandler
             )
             
-            Log.d(TAG, ">>> VirtualDisplay 创建成功")
-            
-            // 等待图像
-            val imageAvailableLatch = CountDownLatch(1)
-            var imageProcessed = false
-            
-            imageReader!!.setOnImageAvailableListener({ reader ->
-                if (imageProcessed) {
-                    return@setOnImageAvailableListener
-                }
-                
-                Log.d(TAG, ">>> OnImageAvailableListener 触发")
-                
-                val image = reader.acquireLatestImage()
-                if (image != null) {
-                    try {
-                        resultBitmap = processImage(image, screenWidth, screenHeight)
-                        imageProcessed = true
-                        imageAvailableLatch.countDown()
-                        Log.d(TAG, ">>> 图像处理完成")
-                    } catch (e: Exception) {
-                        Log.e(TAG, ">>> 处理图像失败: ${e.message}")
-                    } finally {
-                        image.close()
-                    }
-                } else {
-                    Log.d(TAG, ">>> acquireLatestImage 返回 null")
-                }
-            }, mainHandler)
-            
-            // 等待图像，超时处理
-            try {
-                val received = imageAvailableLatch.await(timeoutMs, TimeUnit.MILLISECONDS)
-                if (!received) {
-                    Log.e(TAG, ">>> 等待图像超时 (${timeoutMs}ms)")
-                }
-            } catch (e: InterruptedException) {
-                Log.e(TAG, ">>> 等待被中断: ${e.message}")
-            }
-            
+            Log.d(TAG, "initPersistentImageReader: ImageReader+VirtualDisplay 创建成功")
         } catch (e: Exception) {
-            Log.e(TAG, ">>> 截图异常: ${e.message}")
-            e.printStackTrace()
-        } finally {
-            // 清理资源
-            cleanupImageReader()
-            isCapturing.set(false)
+            Log.e(TAG, "initPersistentImageReader 失败: ${e.message}")
+        }
+    }
+    
+    // ==================== 截图 ====================
+    
+    private fun captureFrame(): Bitmap? {
+        val reader = imageReader ?: return null
+        
+        val latch = CountDownLatch(1)
+        var resultBitmap: Bitmap? = null
+        var imageProcessed = false
+        
+        val listener = android.media.ImageReader.OnImageAvailableListener { imgReader ->
+            if (imageProcessed) return@OnImageAvailableListener
+            val image = imgReader.acquireLatestImage()
+            if (image != null) {
+                try {
+                    resultBitmap = processImage(image)
+                    imageProcessed = true
+                    latch.countDown()
+                } catch (e: Exception) {
+                    Log.e(TAG, "captureFrame.processImage 异常: ${e.message}")
+                } finally {
+                    image.close()
+                }
+            }
         }
         
-        resultBitmap?.let { bitmap ->
-            Log.d(TAG, ">>> 截图成功: ${bitmap.width}x${bitmap.height}")
+        reader.setOnImageAvailableListener(listener, mainHandler)
+        
+        try {
+            val received = latch.await(3000, TimeUnit.MILLISECONDS)
+            if (!received) {
+                Log.e(TAG, "captureFrame: 等待图像超时")
+            }
+        } catch (e: InterruptedException) {
+            Log.e(TAG, "captureFrame: 等待被中断")
         }
         
         return resultBitmap
     }
     
-    /**
-     * 处理 Image 为 Bitmap
-     */
-    private fun processImage(image: Image, targetWidth: Int, targetHeight: Int): Bitmap? {
-        try {
-            val planes = image.planes
-            val buffer = planes[0].buffer
-            val pixelStride = planes[0].pixelStride
-            val rowStride = planes[0].rowStride
-            
-            Log.d(TAG, ">>> pixelStride=$pixelStride, rowStride=$rowStride")
-            
-            // 计算实际行内填充
-            val rowPadding = rowStride - pixelStride * targetWidth
-            
-            // 创建 Bitmap
-            val bitmap = Bitmap.createBitmap(
-                if (rowPadding > 0) rowStride / pixelStride else targetWidth,
-                targetHeight,
-                Bitmap.Config.ARGB_8888
-            )
-            bitmap.copyPixelsFromBuffer(buffer)
-            
-            // 如果有填充，裁剪到目标尺寸
-            return if (rowPadding > 0 && bitmap.width > targetWidth) {
-                Bitmap.createBitmap(bitmap, 0, 0, targetWidth, targetHeight)
-            } else {
-                bitmap
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, ">>> processImage 异常: ${e.message}")
-            return null
-        }
+    private fun processImage(image: Image): Bitmap? {
+        val planes = image.planes
+        val buffer = planes[0].buffer
+        val rowStride = planes[0].rowStride
+        
+        val bitmap = Bitmap.createBitmap(
+            screenWidth,
+            screenHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        bitmap.copyPixelsFromBuffer(buffer)
+        
+        return bitmap
     }
     
-    /**
-     * 清理 ImageReader 和 VirtualDisplay 资源
-     */
-    private fun cleanupImageReader() {
-        try {
-            virtualDisplay?.release()
-            virtualDisplay = null
-        } catch (e: Exception) {
-            Log.w(TAG, ">>> 清理 VirtualDisplay 失败: ${e.message}")
-        }
-        
-        try {
-            imageReader?.close()
-            imageReader = null
-        } catch (e: Exception) {
-            Log.w(TAG, ">>> 清理 ImageReader 失败: ${e.message}")
-        }
-    }
+    // ==================== 保存到相册 ====================
     
-    /**
-     * 清理所有资源
-     */
-    private fun cleanup() {
-        cleanupImageReader()
+    private fun saveToGallery(bitmap: Bitmap): String? {
+        val timestamp = System.currentTimeMillis()
+        val filename = "ZBB_${timestamp}.jpg"
         
-        try {
-            mediaProjection?.unregisterCallback(object : MediaProjection.Callback() {})
-        } catch (e: Exception) {
-            // 忽略
-        }
-        
-        try {
-            mediaProjection?.stop()
-        } catch (e: Exception) {
-            Log.w(TAG, "停止 MediaProjection 失败: ${e.message}")
-        }
-        mediaProjection = null
-    }
-    
-    /**
-     * 保存截图到文件
-     */
-    fun saveScreenshot(bitmap: Bitmap, prefix: String = "screenshot"): String? {
         return try {
-            val timestamp = System.currentTimeMillis()
-            val filename = "${prefix}_${timestamp}.png"
-            
-            // 保存到应用私有目录
-            val privateFile = File(filesDir, filename)
-            FileOutputStream(privateFile).use { out ->
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
-            }
-            Log.d(TAG, "截图已保存到: ${privateFile.absolutePath}")
-            
-            // 复制到 Download 目录
-            try {
-                val downloadDir = android.os.Environment.getExternalStoragePublicDirectory(
-                    android.os.Environment.DIRECTORY_DOWNLOADS
-                )
-                val downloadFile = File(downloadDir, filename)
-                FileOutputStream(downloadFile).use { out ->
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.Images.Media.DISPLAY_NAME, filename)
+                    put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                    put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/ZBB")
+                    put(MediaStore.Images.Media.IS_PENDING, 1)
                 }
-                Log.d(TAG, "截图已复制到 Download: ${downloadFile.absolutePath}")
-            } catch (e: Exception) {
-                Log.w(TAG, "复制到 Download 失败: ${e.message}")
+                
+                val uri = contentResolver.insert(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    contentValues
+                )
+                
+                if (uri != null) {
+                    contentResolver.openOutputStream(uri)?.use { out ->
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+                    }
+                    
+                    contentValues.clear()
+                    contentValues.put(MediaStore.Images.Media.IS_PENDING, 0)
+                    contentResolver.update(uri, contentValues, null, null)
+                    
+                    Log.d(TAG, "saveToGallery: 成功 -> $uri")
+                    return uri.toString()
+                }
+            } else {
+                val picturesDir = android.os.Environment.getExternalStoragePublicDirectory(
+                    android.os.Environment.DIRECTORY_PICTURES
+                )
+                val zbbDir = File(picturesDir, "ZBB")
+                if (!zbbDir.exists()) zbbDir.mkdirs()
+                
+                val file = File(zbbDir, filename)
+                FileOutputStream(file).use { out ->
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+                }
+                
+                val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+                mediaScanIntent.data = android.net.Uri.fromFile(file)
+                sendBroadcast(mediaScanIntent)
+                
+                Log.d(TAG, "saveToGallery: 成功 -> ${file.absolutePath}")
+                return file.absolutePath
             }
-            
-            privateFile.absolutePath
+            null
         } catch (e: Exception) {
-            Log.e(TAG, "保存截图失败: ${e.message}")
+            Log.e(TAG, "saveToGallery 失败: ${e.message}")
             null
         }
     }
     
-    // ==================== 通知相关 ====================
+    // ==================== 悬浮窗小圆点 ====================
+    
+    private fun createFloatingDot() {
+        try {
+            windowManager = getSystemService(Context.WINDOW_SERVICE) as? WindowManager
+            
+            val params = WindowManager.LayoutParams().apply {
+                type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                } else {
+                    @Suppress("DEPRECATION")
+                    WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+                }
+                flags = (
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+                )
+                width = dp(36f)
+                height = dp(36f)
+                gravity = Gravity.TOP or Gravity.END
+                x = dp(16f)
+                y = dp(200f)
+            }
+            
+            // 圆点背景（相机图标当圆点）
+            floatingView = FrameLayout(this).apply {
+                setBackgroundColor(Color.parseColor("#407CFF"))
+                alpha = 0.85f
+                val padding = dp(8f)
+                setPadding(padding, padding, padding, padding)
+                
+                // 添加文字"投"
+                val label = TextView(context).apply {
+                    text = "投"
+                    setTextColor(Color.WHITE)
+                    textSize = 14f
+                    gravity = android.view.Gravity.CENTER
+                }
+                (this as FrameLayout).addView(label)
+                
+                setOnClickListener {
+                    Log.d(TAG, "悬浮圆点被点击")
+                }
+            }
+            
+            windowManager?.addView(floatingView, params)
+            Log.d(TAG, "createFloatingDot: 圆点已显示")
+            
+        } catch (e: Exception) {
+            Log.e(TAG, "createFloatingDot 失败: ${e.message}")
+        }
+    }
+    
+    private fun removeFloatingDot() {
+        try {
+            floatingView?.let {
+                windowManager?.removeView(it)
+                floatingView = null
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "removeFloatingDot 失败: ${e.message}")
+        }
+    }
+    
+    // ==================== 闪光效果 ====================
+    
+    private fun showFlashEffect() {
+        try {
+            flashView?.let {
+                windowManager?.removeView(it)
+                flashView = null
+            }
+            
+            val params = WindowManager.LayoutParams().apply {
+                type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                } else {
+                    @Suppress("DEPRECATION")
+                    WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+                }
+                flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                width = WindowManager.LayoutParams.MATCH_PARENT
+                height = WindowManager.LayoutParams.MATCH_PARENT
+                alpha = 0.3f
+            }
+            
+            flashView = View(this).apply {
+                setBackgroundColor(Color.WHITE)
+            }
+            
+            windowManager?.addView(flashView, params)
+            
+            mainHandler.postDelayed({
+                try {
+                    flashView?.let {
+                        windowManager?.removeView(it)
+                        flashView = null
+                    }
+                } catch (e: Exception) {}
+            }, 100)
+            
+        } catch (e: Exception) {
+            Log.w(TAG, "showFlashEffect 失败: ${e.message}")
+        }
+    }
+    
+    // ==================== 工具 ====================
+    
+    private fun dp(dp: Float): Int {
+        return (dp * resources.displayMetrics.density).toInt()
+    }
+    
+    private fun cleanupImageReader() {
+        try { virtualDisplay?.release(); virtualDisplay = null } catch (e: Exception) {}
+        try { imageReader?.close(); imageReader = null } catch (e: Exception) {}
+    }
+    
+    private fun cleanup() {
+        cleanupImageReader()
+        try {
+            mediaProjection?.unregisterCallback(object : MediaProjection.Callback() {})
+        } catch (e: Exception) {}
+        try { mediaProjection?.stop() } catch (e: Exception) {}
+        mediaProjection = null
+        Log.d(TAG, "cleanup: 资源已释放")
+    }
+    
+    // ==================== 通知 ====================
     
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -469,18 +665,16 @@ class ScreenshotService : Service() {
                 description = "用于截图的常驻前台服务"
                 setShowBadge(false)
             }
-            
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
+            val nm = getSystemService(NotificationManager::class.java)
+            nm.createNotificationChannel(channel)
         }
     }
     
     private fun createNotification(): Notification {
-        val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,
-            notificationIntent,
+            Intent(this, MainActivity::class.java),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         

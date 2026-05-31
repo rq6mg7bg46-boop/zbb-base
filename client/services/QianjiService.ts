@@ -384,13 +384,28 @@ export class QianjiService {
   }
 
   /**
-   * ========== 步骤 5：按 Home 返回 ZBB ==========
+   * ========== 步骤 5：直接调用报备端填表 ==========
    */
-  public async stepReturnToZBB(): Promise<void> {
-    logToBoth('info', '[千机：步骤5] 按 Home 键返回桌面...');
-    await zbbAutomation.pressHomeKey();
-    await zbbAutomation.delay(1500);
-    logToBoth('success', '[千机：步骤5] ✓ 已返回桌面，请在 ZBB 中粘贴客户信息');
+  public async stepJumpToReportApp(): Promise<void> {
+    if (!this.customerInfo) {
+      logToBoth('warn', '[千机：步骤5] 无客户信息，跳过');
+      return;
+    }
+
+    const projectType = this.customerInfo.projectType;
+    if (projectType === 'baoli') {
+      logToBoth('info', '[千机：步骤5] 检测到保利端，直接跳转填表...');
+      // 延迟一下确保剪贴板写入完成
+      await zbbAutomation.delay(500);
+      // 动态导入避免循环依赖
+      const { BaoliService } = await import('./BaoliService');
+      const baoli = BaoliService.getInstance();
+      await baoli.executeWithData(this.customerInfo);
+    } else if (projectType === 'yuexiu') {
+      logToBoth('info', '[千机：步骤5] 检测到越秀端，暂未实现，请先处理保利端');
+    } else {
+      logToBoth('warn', '[千机：步骤5] 未识别项目类型，跳过');
+    }
   }
 
   /**
@@ -412,10 +427,10 @@ export class QianjiService {
       // 步骤4：写入剪贴板
       await this.stepWriteClipboard();
 
-      // 步骤5：按 Home 返回 ZBB
-      await this.stepReturnToZBB();
+      // 步骤5：直接调用报备端填表
+      await this.stepJumpToReportApp();
 
-      logToBoth('success', '[千机端] ✓ 千机端流程完成，请在 ZBB 中粘贴客户信息');
+      logToBoth('success', '[千机端] ✓ 千机端流程完成');
 
     } catch (error) {
       logToBoth('error', `[千机端] 流程执行失败: ${error}`);

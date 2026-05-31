@@ -264,6 +264,38 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
     
     private fun captureAndReturn(type: ReturnType, promise: Promise) {
         Log.d(TAG, "captureAndReturn 开始")
+        
+        // 优先使用 ScreenshotService（MediaProjection 持久化）
+        val ss = ScreenshotService.instance
+        if (ss != null && ss.isProjectionReady()) {
+            thread {
+                try {
+                    when (type) {
+                        ReturnType.PATH -> {
+                            val path = ss.takeScreenshot()
+                            if (path != null) {
+                                promise.resolve(path)
+                            } else {
+                                promise.reject("ERROR", "截图失败，请重试")
+                            }
+                        }
+                        ReturnType.BASE64 -> {
+                            val base64 = ss.takeScreenshotAsBase64()
+                            if (base64 != null) {
+                                promise.resolve(base64)
+                            } else {
+                                promise.reject("ERROR", "截图失败，请重试")
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    promise.reject("ERROR", e.message)
+                }
+            }
+            return
+        }
+        
+        // Fallback: 使用 AccessibilityService 内置截图
         val service = AccessibilityServiceImpl.instance
         if (service == null) {
             promise.reject("ERROR", "AccessibilityService 未运行")
