@@ -1636,27 +1636,6 @@ class NativeAutomationService {
       // 检查是否被停止
       await this.checkAbort();
       
-      // ========== 步骤1：请求截图权限（会启动 ScreenshotService） ==========
-      logToBoth('info', '[企业微信] ⑩: 检查截图权限...');
-      let hasPermission = await zbbAutomation.isMediaProjectionEnabled();
-      
-      if (!hasPermission) {
-        logToBoth('warn', '[企业微信] ⑩: 截图权限无效，请求授权...');
-        logToBoth('info', '[ZBB] 请求 MediaProjection 权限...');
-        
-        const granted = await zbbAutomation.requestMediaProjectionPermission();
-        
-        if (!granted) {
-          logToBoth('error', '[企业微信] ⑩: 截图权限授权失败');
-          throw new Error('截图权限授权失败');
-        }
-        
-        logToBoth('success', '[企业微信] ⑩: 授权成功，准备截图...');
-        
-        // 等待 ScreenshotService 初始化完成
-        await zbbAutomation.delay(500);
-      }
-      
       // ========== 步骤2：切换到企业微信 ==========
       logToBoth('info', '[企业微信] 正在启动应用: com.tencent.wework');
       await zbbAutomation.launchApp(APP_PACKAGES.WECHAT);
