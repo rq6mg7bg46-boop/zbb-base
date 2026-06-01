@@ -272,7 +272,21 @@ class NativeAutomationService {
       await this.checkAbort();
       await this.stepClickCopy();
       await this.checkAbort();
-      await this.stepParseMessage();
+
+      // 步骤7：从剪贴板读取并解析客户信息
+      const projectType = (this as any).pendingCustomerData?.projectType;
+      await this.stepParseClipboard();
+
+      // 根据项目类型调用对应报备流程
+      if (projectType) {
+        logToBoth('info', `[原生] 检测到项目类型: ${projectType}，启动对应报备流程`);
+        this.isRunning = false;
+        if (projectType === 'yuexiu') {
+          await this.startYuexiuFlow();
+        } else {
+          await this.startBaoliFlow();
+        }
+      }
       
       automationEngine.log('success', '[原生] ========== 客户信息获取完成 ==========');
       return this.customerInfo;
@@ -1021,12 +1035,53 @@ class NativeAutomationService {
    * 4. 写入数据库
    */
   private async stepLongPressMessage(): Promise<void> {
-    // 步骤5已跳过，消息已在步骤4获取并写入数据库
-    logToBoth('info', '[抖音：步骤5] 长按消息（已跳过，使用步骤4获取的消息）');
+    logToBoth('info', '[抖音：步骤5] 长按最新消息触发复制菜单...');
     automationEngine.updateCurrentApp('抖音');
-    automationEngine.updateCurrentStep('长按消息（跳过）');
-    
-    logToBoth('success', '[抖音：步骤5] ✓ 步骤跳过');
+    automationEngine.updateCurrentStep('长按消息');
+    await zbbAutomation.delay(getDelay('other'));
+
+    // 获取步骤4.5保存的最新消息坐标
+    const pendingData = (this as any).pendingCustomerData;
+    if (!pendingData) {
+      logToBoth('error', '[抖音：步骤5] ✗ 无客户数据，跳过长按');
+      logToBoth('success', '[抖音：步骤5] ✓ 步骤跳过');
+      return;
+    }
+
+    // 通过节点树找到最新消息（包含手机号的节点）
+    const allNodes = await zbbAutomation.getAllTextNodes();
+
+    // 手机号模式
+    const phonePattern = /1[3-9]\d[\d\*×xX]{3}\d{4}/;
+
+    // 按Y坐标降序（屏幕下方=最新），找第一个含手机号的节点
+    const messageNodes = allNodes
+      .filter((n: any) => {
+        const text = (n.text || '').trim();
+        return text && phonePattern.test(text);
+      })
+      .sort((a: any, b: any) => (b.centerY || 0) - (a.centerY || 0));
+
+    if (messageNodes.length === 0) {
+      logToBoth('error', '[抖音：步骤5] ✗ 未找到含手机号的消息节点');
+      throw new Error('未找到消息节点');
+    }
+
+    const latestNode = messageNodes[0];
+    const msgX = latestNode.centerX || 250;
+    const msgY = latestNode.centerY || 1800;
+
+    logToBoth('info', `[抖音：步骤5] 长按消息 @ (${msgX}, ${msgY})`);
+    const pressed = await zbbAutomation.longPress(msgX, msgY, 1000);
+
+    if (pressed) {
+      logToBoth('success', '[抖音：步骤5] ✓ 长按成功，复制菜单已弹出');
+    } else {
+      logToBoth('error', '[抖音：步骤5] ✗ 长按失败');
+      throw new Error('长按消息失败');
+    }
+
+    await zbbAutomation.delay(getDelay('other'));
   }
   
   /**
@@ -1050,52 +1105,106 @@ class NativeAutomationService {
   }
   
   private async stepClickCopy(): Promise<void> {
-    // 步骤6：使用步骤4的数据写入数据库 → 返回桌面
-    logToBoth('info', '[抖音：步骤6] 使用步骤4数据写入数据库...');
+    // 步骤6：点击"复制"按钮
+    logToBoth('info', '[抖音：步骤6] 点击"复制"按钮...');
     automationEngine.updateCurrentApp('抖音');
-    automationEngine.updateCurrentStep('保存客户信息');
-    
-    // 从实例变量获取步骤4保存的数据
-    const pendingData = (this as any).pendingCustomerData;
-    
-    if (!pendingData) {
-      logToBoth('error', '[抖音：步骤6] ✗ 步骤4未保存客户数据');
-      throw new Error('步骤4未保存客户数据');
+    automationEngine.updateCurrentStep('点击复制');
+    await zbbAutomation.delay(getDelay('other'));
+
+    // 通过节点树找"复制"按钮
+    const allNodes = await zbbAutomation.getAllTextNodes();
+    const copyNode = allNodes.find((n: any) => {
+      const text = (n.text || '').trim();
+      return text === '复制';
+    });
+
+    if (copyNode) {
+      logToBoth('info', `[抖音：步骤6] 找到"复制" @ (${copyNode.centerX}, ${copyNode.centerY})`);
+      await zbbAutomation.click(copyNode.centerX, copyNode.centerY);
+      logToBoth('success', '[抖音：步骤6] ✓ 点击成功');
+    } else {
+      // 兜底：使用固定坐标（复制菜单通常在屏幕中间偏下）
+      logToBoth('warn', '[抖音：步骤6] 未找到"复制"，使用兜底坐标');
+      await zbbAutomation.click(540, 1100);
+      logToBoth('success', '[抖音：步骤6] ✓ 兜底点击成功');
     }
-    
-    logToBoth('info', `[抖音：步骤6] 客户姓名: ${pendingData.customerName}`);
-    logToBoth('info', `[抖音：步骤6] 客户电话: ${pendingData.customerPhone}`);
-    logToBoth('info', `[抖音：步骤6] 项目类型: ${pendingData.projectType}`);
-    
-    // 写入 reports 表
+
+    await zbbAutomation.delay(getDelay('other'));
+  }
+
+  /**
+   * 步骤7：从剪贴板读取并解析客户信息
+   */
+  private async stepParseClipboard(): Promise<void> {
+    logToBoth('info', '[抖音：步骤7] 读取剪贴板...');
+    automationEngine.updateCurrentApp('抖音');
+    automationEngine.updateCurrentStep('读取剪贴板');
+    await zbbAutomation.delay(getDelay('other'));
+
+    // 通过 AccessibilityService 读取剪贴板
+    let clipboardText = '';
+    try {
+      clipboardText = await zbbAutomation.getClipboardText() as string;
+      logToBoth('info', `[抖音：步骤7] 剪贴板内容: "${clipboardText}"`);
+    } catch (e) {
+      logToBoth('warn', `[抖音：步骤7] 读取剪贴板异常: ${e}，使用步骤4数据`);
+    }
+
+    // 优先使用剪贴板数据，否则用步骤4.5的数据
+    const pendingData = (this as any).pendingCustomerData;
+    if (!pendingData) {
+      logToBoth('error', '[抖音：步骤7] ✗ 无客户数据');
+      throw new Error('无客户数据');
+    }
+
+    let customerName = pendingData.customerName;
+    let customerPhone = pendingData.customerPhone;
+    let customerGender = pendingData.customerGender;
+    let projectType = pendingData.projectType;
+    let reportProject = pendingData.reportProject;
+
+    // 如果剪贴板有内容，解析覆盖
+    if (clipboardText && clipboardText.trim()) {
+      const trimmed = clipboardText.trim();
+      const parseResult = ocrService.parseCustomerInfo(trimmed);
+      if (parseResult.success && parseResult.data) {
+        customerName = parseResult.data.name;
+        customerPhone = parseResult.data.phone;
+        logToBoth('info', `[抖音：步骤7] 剪贴板解析: ${customerName} / ${customerPhone}`);
+      }
+    }
+
+    // 写入数据库
     const copyTime = new Date().toLocaleString('zh-CN');
     const reportId = await insertReport(
-      {
-        customerName: pendingData.customerName,
-        customerGender: pendingData.customerGender,
-        customerPhone: pendingData.customerPhone,
-        reportProject: pendingData.reportProject,
-      },
-      pendingData.projectType,
-      pendingData.fullRecord,
+      { customerName, customerGender, customerPhone, reportProject },
+      projectType,
+      pendingData.fullRecord || clipboardText,
       copyTime
     );
-    
-    logToBoth('success', `[抖音：步骤6] ✓ 已写入 reports 表: ID=${reportId}, 项目=${pendingData.reportProject} [${pendingData.projectType}]`);
-    
+
+    logToBoth('success', `[抖音：步骤7] ✓ 已写入 reports 表: ID=${reportId}, ${customerName} (${customerGender}) @ ${reportProject} [${projectType}]`);
+
     // 保存到客户表格
-    const record = await customerTable.addRecord(pendingData.fullRecord, pendingData.projectType);
+    const record = await customerTable.addRecord(pendingData.fullRecord || clipboardText, projectType);
     if (record) {
-      logToBoth('success', `[抖音：步骤6] ✓ 已保存到客户表格: 序号=${record.id}, 姓名=${record.customerName}, 性别=${record.customerGender}, 电话=${record.phone}`);
+      logToBoth('success', `[抖音：步骤7] ✓ 已保存客户表格: 序号=${record.id}, ${record.customerName}, ${record.customerGender}, ${record.phone}`);
       const stats = customerTable.getStats();
       logToBoth('info', `[客户表格] 统计: 共${stats.total}条, 待录入${stats.pending}条, 已完成${stats.completed}条`);
-      customerTable.printAllRecords();
     }
-    
+
+    // 保存到实例变量，供后续流程使用
+    this.customerInfo = {
+      name: customerName,
+      phone: customerPhone,
+      rawMessage: clipboardText || pendingData.fullRecord,
+    };
+    automationEngine.setCustomerInfo(this.customerInfo);
+
     // 清除实例变量
     (this as any).pendingCustomerData = null;
-    
-    logToBoth('success', '[抖音：完成] 客户信息已写入数据库');
+
+    logToBoth('success', '[抖音：步骤7] ✓ 客户信息已解析并保存');
   }
 
   // ==================== 阶段十一+十二：发送截图 ====================
