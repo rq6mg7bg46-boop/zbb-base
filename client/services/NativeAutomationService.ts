@@ -2405,10 +2405,6 @@ class NativeAutomationService {
       this.notifyStepUpdate('打开抖音', 0);
       await this.stepOpenDouyin();
 
-      // 步骤X：截图测试
-      this.notifyStepUpdate('截图测试', 0);
-      await this.stepTestScreenshot();
-
       this.notifyStepUpdate('点击消息', 1);
       await this.stepClickMessages();
       
