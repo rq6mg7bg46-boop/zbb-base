@@ -39,14 +39,17 @@ class FloatingWindowManager(private val context: Context) {
     // appNameText 已移除（不再显示"抖音"图标和文字）
     private var runningIndicator: View? = null
     private var stopButton: LinearLayout? = null
-    
+    private var screenshotButton: View? = null  // 截图确认按钮
+
     // 状态
     private var isShowing = false
     private var isPaused = false
     private var isQuietMode = false  // 安静模式：非活动时隐藏边框
-    
+    private var isScreenshotConfirmed = false  // 截图确认状态
+
     // 回调
     var onStopClicked: (() -> Unit)? = null
+    var onScreenshotConfirmed: (() -> Unit)? = null  // 截图确认回调
     
     // 触摸拖拽相关
     private var initialX = 0
@@ -88,10 +91,19 @@ class FloatingWindowManager(private val context: Context) {
         containerView = floatingView?.findViewById(R.id.floating_container)
         runningIndicator = floatingView?.findViewById(R.id.running_indicator)
         stopButton = floatingView?.findViewById(R.id.stop_button)
-        
+        screenshotButton = floatingView?.findViewById(R.id.screenshot_button)
+
         // 设置停止按钮点击事件
         stopButton?.setOnClickListener {
             onStopClicked?.invoke()
+        }
+
+        // 设置截图确认按钮点击事件
+        screenshotButton?.setOnClickListener {
+            // 切换为蓝色并触发回调
+            isScreenshotConfirmed = true
+            screenshotButton?.setBackgroundResource(R.drawable.screenshot_button_blue)
+            onScreenshotConfirmed?.invoke()
         }
         
         // 设置拖拽功能
@@ -293,4 +305,31 @@ class FloatingWindowManager(private val context: Context) {
      * 是否正在显示
      */
     fun isShowing(): Boolean = isShowing
+
+    /**
+     * 显示截图确认按钮（红色）
+     */
+    fun showScreenshotButton() {
+        isScreenshotConfirmed = false
+        handler.post {
+            screenshotButton?.visibility = View.VISIBLE
+            screenshotButton?.setBackgroundResource(R.drawable.screenshot_button_red)
+        }
+    }
+
+    /**
+     * 隐藏截图确认按钮
+     */
+    fun hideScreenshotButton() {
+        handler.post {
+            screenshotButton?.visibility = View.GONE
+        }
+    }
+
+    /**
+     * 重置截图确认按钮（下次显示时为红色）
+     */
+    fun resetScreenshotButton() {
+        isScreenshotConfirmed = false
+    }
 }

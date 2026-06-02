@@ -84,6 +84,7 @@ class AccessibilityServiceImpl : AccessibilityService() {
         var onScreenshotTaken: ((Bitmap?) -> Unit)? = null
         var onScreenshotSaved: ((String) -> Unit)? = null
         var onStopCallback: (() -> Unit)? = null
+        var onScreenshotConfirmedCallback: (() -> Unit)? = null  // 截图确认回调
         
         fun getInstance(): AccessibilityServiceImpl? = instance
         
@@ -235,6 +236,18 @@ class AccessibilityServiceImpl : AccessibilityService() {
             stopAutomation()
             // 通知 JS 端停止流程（通过回调）
             onStopCallback?.invoke()
+        }
+        floatingWindowManager?.onScreenshotConfirmed = {
+            Log.d(TAG, "用户点击截图确认按钮");
+            // 通知 JS 层
+            onScreenshotConfirmedCallback?.invoke()
+            // 通过 AutomationModule 发送事件给 JS
+            try {
+                val module = AutomationModuleManager.getModule()
+                module?.sendEventToJS("onScreenshotConfirmed", null)
+            } catch (e: Exception) {
+                Log.e(TAG, "发送截图确认事件失败: ${e.message}")
+            }
         }
         Log.d(TAG, "悬浮窗管理器已初始化")
     }
@@ -449,6 +462,33 @@ class AccessibilityServiceImpl : AccessibilityService() {
                 floatingWindowManager?.hide()
             }, 3000)
             isAutomationRunning = false
+        }
+    }
+
+    /**
+     * 显示截图确认按钮（悬浮窗内）
+     */
+    fun showScreenshotButton() {
+        mainHandler.post {
+            floatingWindowManager?.showScreenshotButton()
+        }
+    }
+
+    /**
+     * 隐藏截图确认按钮
+     */
+    fun hideScreenshotButton() {
+        mainHandler.post {
+            floatingWindowManager?.hideScreenshotButton()
+        }
+    }
+
+    /**
+     * 通知截图确认事件给 JS 层
+     */
+    fun notifyScreenshotConfirmed() {
+        mainHandler.post {
+            onScreenshotConfirmedCallback?.invoke()
         }
     }
     

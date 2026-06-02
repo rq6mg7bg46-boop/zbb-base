@@ -1268,6 +1268,13 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
             mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java).emit(eventName, params)
         }
     }
+
+    /**
+     * 发送事件给 JS 层（公开方法，供其他组件调用）
+     */
+    fun sendEventToJS(eventName: String, params: Any?) {
+        sendEvent(eventName, params)
+    }
     
     private fun elementInfoToMap(info: AccessibilityNodeInfo): WritableMap {
         val rect = android.graphics.Rect()
@@ -1590,6 +1597,66 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
                 Log.e(TAG, "[screenshotAndMark] 失败: ${e.message}")
                 promise.reject("ERROR", e.message)
             }
+        }
+    }
+
+    // ==================== Shell 命令执行 ====================
+
+    @ReactMethod
+    fun execShell(command: String, promise: Promise) {
+        try {
+            Log.d(TAG, "[execShell] 执行: $command");
+            val process = Runtime.getRuntime().exec(command);
+            val reader = java.io.BufferedReader(java.io.InputStreamReader(process.inputStream));
+            val errorReader = java.io.BufferedReader(java.io.InputStreamReader(process.errorStream));
+            val output = StringBuilder();
+            var line: String?;
+            while (reader.readLine().also { line = it } != null) {
+                output.append(line).append("\n");
+            }
+            val errorOutput = StringBuilder();
+            while (errorReader.readLine().also { line = it } != null) {
+                errorOutput.append(line).append("\n");
+            }
+            process.waitFor();
+            val result = output.toString();
+            Log.d(TAG, "[execShell] 结果长度: ${result.length}");
+            promise.resolve(result);
+        } catch (e: Exception) {
+            Log.e(TAG, "[execShell] 失败: ${e.message}");
+            promise.reject("ERROR", e.message);
+        }
+    }
+
+    @ReactMethod
+    fun showScreenshotButton(promise: Promise) {
+        try {
+            val service = AccessibilityServiceImpl.getInstance();
+            if (service != null) {
+                service.showScreenshotButton();
+                promise.resolve(true);
+            } else {
+                promise.reject("ERROR", "AccessibilityService 未运行");
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "[showScreenshotButton] 失败: ${e.message}");
+            promise.reject("ERROR", e.message);
+        }
+    }
+
+    @ReactMethod
+    fun hideScreenshotButton(promise: Promise) {
+        try {
+            val service = AccessibilityServiceImpl.getInstance();
+            if (service != null) {
+                service.hideScreenshotButton();
+                promise.resolve(true);
+            } else {
+                promise.reject("ERROR", "AccessibilityService 未运行");
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "[hideScreenshotButton] 失败: ${e.message}");
+            promise.reject("ERROR", e.message);
         }
     }
 }

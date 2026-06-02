@@ -61,4 +61,16 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
+    <!-- 截图确认按钮（隐藏，流程需要时显示） -->
+    <View
+        android:id="@+id/screenshot_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/screenshot_button_red"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"/>
+
 </LinearLayout>

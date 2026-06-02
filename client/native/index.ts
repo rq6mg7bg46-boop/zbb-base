@@ -610,6 +610,52 @@ const zbbAutomation = {
   },
 
   /**
+   * 执行 Shell 命令并返回结果
+   */
+  execShell: async (command: string): Promise<string> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化');
+      return '';
+    }
+    try {
+      return await ZBBAutomation.execShell(command);
+    } catch (error) {
+      console.error('[ZBB] execShell 失败:', error);
+      return '';
+    }
+  },
+
+  /**
+   * 显示截图确认按钮（悬浮窗内）
+   */
+  showScreenshotButton: async (): Promise<void> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化');
+      return;
+    }
+    try {
+      await ZBBAutomation.showScreenshotButton();
+    } catch (error) {
+      console.error('[ZBB] showScreenshotButton 失败:', error);
+    }
+  },
+
+  /**
+   * 隐藏截图确认按钮
+   */
+  hideScreenshotButton: async (): Promise<void> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化');
+      return;
+    }
+    try {
+      await ZBBAutomation.hideScreenshotButton();
+    } catch (error) {
+      console.error('[ZBB] hideScreenshotButton 失败:', error);
+    }
+  },
+
+  /**
    * 使用 MediaStore API 截图
    */
   screenshotViaMediaStore: async (): Promise<string | boolean> => {
@@ -1333,6 +1379,26 @@ export const addStopListener = (callback: () => void): EmitterSubscription | nul
 
   activeListeners.push(subscription);
   console.log('[ZBB] 已添加停止监听器');
+  return subscription;
+};
+
+/**
+ * 监听截图确认事件（当用户点击悬浮窗截图确认按钮时触发）
+ */
+export const addScreenshotConfirmedListener = (callback: () => void): EmitterSubscription | null => {
+  const emitter = getEventEmitter();
+  if (!emitter) {
+    console.error('[ZBB] 无法添加截图确认监听器，模块未初始化');
+    return null;
+  }
+
+  const subscription = emitter.addListener('onScreenshotConfirmed', () => {
+    console.log('[ZBB] 收到截图确认事件');
+    callback();
+  });
+
+  activeListeners.push(subscription);
+  console.log('[ZBB] 已添加截图确认监听器');
   return subscription;
 };
 
