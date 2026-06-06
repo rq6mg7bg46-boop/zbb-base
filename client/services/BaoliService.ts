@@ -18,7 +18,7 @@ const APP_PACKAGES = {
 const PRESET_CLIPBOARD = `公司名称：贝壳
 客户姓名：谢女士
 客户性别：女
-客户联系方式：178****9739
+客户联系方式：178****9738
 报备项目：保利缦城和颂
 物业类型：住宅
 报备提交时间：2026-06-06 20:56:09
@@ -780,20 +780,20 @@ class BaoliService {
       logToBoth('error', '[步骤15-情况2-更新数据库] 失败: ' + e);
     }
 
+    // 上滑屏幕
+    logToBoth('info', '[步骤15-情况2-0] 上滑屏幕...');
+    await zbbAutomation.swipe(540, 1200, 540, 800);
+
     // 识别"上传附件"坐标，点击(x+500, y)
-    logToBoth('info', '[步骤15-情况2-0] 识别"上传附件"坐标，点击(x+500, y)...');
+    logToBoth('info', '[步骤15-情况2-1] 识别"上传附件"坐标，点击(x+500, y)...');
     const uploadNodes = await this.printScreenText();
     const uploadNode = uploadNodes?.find((n) => n.text.includes('上传附件'));
     if (uploadNode) {
-      logToBoth('success', '[步骤15-情况2-0] 找到"上传附件" @ (' + uploadNode.centerX + ', ' + uploadNode.centerY + ')，点击偏移位置');
+      logToBoth('success', '[步骤15-情况2-1] 找到"上传附件" @ (' + uploadNode.centerX + ', ' + uploadNode.centerY + ')，点击偏移位置');
       await zbbAutomation.tap(uploadNode.centerX + 500, uploadNode.centerY);
     } else {
-      logToBoth('warn', '[步骤15-情况2-0] 未找到"上传附件"，跳过');
+      logToBoth('warn', '[步骤15-情况2-1] 未找到"上传附件"，跳过');
     }
-
-    // 上滑屏幕50像素
-    logToBoth('info', '[步骤15-情况2-1] 报备成功处理，等待用户截图');
-    await zbbAutomation.swipe(540, 1200, 540, 800);
 
     // 等待用户手动截图（第一轮/第二轮区分）
     logToBoth('info', '[步骤15-情况2-2] 等待用户截图...');

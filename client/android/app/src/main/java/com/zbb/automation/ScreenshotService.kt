@@ -543,11 +543,11 @@ class ScreenshotService : Service() {
                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
                 )
-                width = dp(36f)
-                height = dp(36f)
+                width = dp(32f)
+                height = dp(32f)
                 gravity = Gravity.TOP or Gravity.END
                 x = dp(16f)
-                y = dp(130f)
+                y = dp(115f)
             }
             
             // 圆点背景（圆形蓝底）
