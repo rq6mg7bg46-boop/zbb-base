@@ -18,7 +18,7 @@ const APP_PACKAGES = {
 const PRESET_CLIPBOARD = `公司名称：贝壳
 客户姓名：谢女士
 客户性别：女
-客户联系方式：178****9738
+客户联系方式：178****9737
 报备项目：保利缦城和颂
 物业类型：住宅
 报备提交时间：2026-06-06 20:56:09
@@ -210,63 +210,8 @@ class BaoliService {
 
       await zbbAutomation.delay(randomDelay(8000, 10000));
 
-      // ========== 步骤X：从剪贴板读取客户数据（不再读数据库）==========
-      // execute() 入口：优先使用预设测试数据（方便调试），无预设则读真实剪贴板
-      logToBoth('info', '[步骤X] 准备客户数据...');
-      // 写入手机系统剪贴板，确保长按粘贴时用的是正确数据
-      await zbbAutomation.setClipboardText(PRESET_CLIPBOARD);
-      const clipboardText = PRESET_CLIPBOARD; // 调试用预设数据
-      // TODO: 正式发布时改为 const clipboardText = await zbbAutomation.getClipboardText();
-      if (!clipboardText || clipboardText.trim().length === 0) {
-        logToBoth('error', '[步骤X] 剪贴板为空，请先从千机端复制客户信息');
-        return { success: false, error: '剪贴板为空，请先从千机端复制客户信息' };
-      }
-      logToBoth('info', '[步骤X] 剪贴板内容: ' + clipboardText.substring(0, 100) + '...');
-
-      // 解析剪贴板内容
-      const lines = clipboardText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-      let customerName = '';
-      let customerPhone = '';
-      let agentName = '';
-      let reportTime = '';
-      let projectType = 'baoli';
-
-      for (const line of lines) {
-        if (line.includes('客户姓名') || line.includes('客户姓名:')) {
-          const parts = line.split(/[：:]/);
-          if (parts[1]) customerName = parts[1].trim();
-        } else if (line.includes('客户联系方式') || line.includes('客户联系方式:')) {
-          const parts = line.split(/[：:]/);
-          if (parts[1]) customerPhone = parts[1].trim(); // 保留*号，如178****9923
-        } else if (line.includes('经纪人姓名') || line.includes('经纪人姓名:')) {
-          const parts = line.split(/[：:]/);
-          if (parts[1]) agentName = parts[1].trim();
-        } else if (line.includes('报备提交时间') || line.includes('报备提交时间:')) {
-          const parts = line.split(/[：:]/);
-          if (parts[1]) reportTime = parts[1].trim();
-        }
-        if (line.includes('保利')) projectType = 'baoli';
-        else if (line.includes('越秀')) projectType = 'yuexiu';
-      }
-
-      // 判断性别
-      let customerGender = '';
-      if (/[女士|小姐|太太]$/.test(customerName)) customerGender = '女';
-      else if (/先生$/.test(customerName)) customerGender = '男';
-
-      this.currentCustomer = {
-        company: '贝壳',
-        name: customerName,
-        phone: customerPhone,
-        project: projectType === 'baoli' ? '保利' : '越秀',
-        agent: agentName,
-        reportTime: reportTime,
-        expectedVisitTime: '',
-      };
-
-      logToBoth('info', '[步骤X] 解析完成: ' + customerName + ' ' + customerPhone + ' ' + agentName);
-
-      // ========== 步骤：打印界面 ==========
+      // ========== 直接进入 fillForm（剪贴板由千机端写入，保利端只管粘贴）==========
+      logToBoth('info', '[步骤X] 直接进入填表流程...');
       await this.printScreenText();
 
       // ========== 步骤4：点击"郑州保利山水和颂" ==========
@@ -299,7 +244,7 @@ class BaoliService {
       await zbbAutomation.delay(randomDelay(3000, 4000));
 
       // ========== 步骤6-22：填写表单 ==========
-      await this.fillForm(this.currentCustomer!);
+      await this.fillForm(null);
 
       // ========== 步骤25：检测结果分支 ==========
       await this.detectResult();
@@ -468,45 +413,61 @@ class BaoliService {
     logToBoth('info', '[步骤8] 点击粘贴 (130, 710)');
     await zbbAutomation.tap(130, 710);
 
-    // ========== 步骤8.5：读取表单内容 → 写入数据库 ==========
-    // ZBB无法读取剪贴板，千机端也不再写数据库
-    // 因此在此处从表单界面读取客户信息（getAllTextNodes可获取界面文字）→ 写入数据库
-    logToBoth('info', '[步骤8.5] 读取表单内容写入数据库...');
-    await zbbAutomation.delay(1500); // 等待表单填充完成
+    // ========== 步骤8.4：原生树识别表单内容 ==========
+    logToBoth('info', '[步骤8.4] 原生树识别表单内容...');
+    await zbbAutomation.delay(2000); // 等待表单填充完成
     const formNodes = await zbbAutomation.getAllTextNodes();
+    logToBoth('info', `[步骤8.4] 界面节点数: ${formNodes?.length || 0}`);
+
+    let companyName = '';
     let customerName = '';
+    let customerGender = '';
     let customerPhone = '';
-    let agentName = '';
     let reportProject = '';
+    let propertyType = '';
+    let reportTime = '';
+    let expectedVisitTime = '';
+    let agentName = '';
 
     formNodes?.forEach((node: any) => {
       const text = node.text || '';
-      // 匹配 "客户姓名：xxx" 或 "客户姓名:xxx"
-      const nameMatch = text.match(/客户姓名[：:]\s*(.+)/);
+      if (!text || text.trim().length === 0) return;
+      logToBoth('info', `[步骤8.4] 节点: "${text}" @ (${Math.round(node.centerX)}, ${Math.round(node.centerY)})`);
+
+      // 公司名称
+      const companyMatch = text.match(/公司名称[：:]?\s*(.+)/);
+      if (companyMatch) companyName = companyMatch[1].trim();
+      // 客户姓名
+      const nameMatch = text.match(/客户姓名[：:]?\s*(.+)/);
       if (nameMatch) customerName = nameMatch[1].trim();
-      // 匹配 "客户联系方式：xxx" 或 "手机号：xxx"（脱敏号如177****7907）
-      const phoneMatch = text.match(/客户联系方式[：:]\s*(1[3-9]\d*[\*]+\d{4})/);
+      // 客户联系方式
+      const phoneMatch = text.match(/客户联系方式[：:]?\s*(.+)/);
       if (phoneMatch) customerPhone = phoneMatch[1].trim();
-      // 匹配 "经纪人姓名：xxx"
-      const agentMatch = text.match(/经纪人姓名[：:]\s*(.+)/);
-      if (agentMatch) agentName = agentMatch[1].trim();
-      // 匹配 "报备项目：xxx"
-      const projectMatch = text.match(/报备项目[：:]\s*(.+)/);
+      // 报备项目
+      const projectMatch = text.match(/报备项目[：:]?\s*(.+)/);
       if (projectMatch) reportProject = projectMatch[1].trim();
+      // 物业类型
+      const propMatch = text.match(/物业类型[：:]?\s*(.+)/);
+      if (propMatch) propertyType = propMatch[1].trim();
+      // 报备提交时间
+      const reportMatch = text.match(/报备提交时间[：:]?\s*(.+)/);
+      if (reportMatch) reportTime = reportMatch[1].trim();
+      // 预计到访时间
+      const visitMatch = text.match(/预计到访时间[：:]?\s*(.+)/);
+      if (visitMatch) expectedVisitTime = visitMatch[1].trim();
+      // 经纪人姓名
+      const agentMatch = text.match(/经纪人姓名[：:]?\s*(.+)/);
+      if (agentMatch) agentName = agentMatch[1].trim();
     });
 
-    // 若从表单读不到，使用 customer 参数兜底
-    if (!customerName && customer.name) customerName = customer.name;
-    if (!customerPhone && customer.phone) customerPhone = customer.phone;
-    if (!agentName && customer.agent) agentName = customer.agent;
-    if (!reportProject && customer.project) reportProject = customer.project;
-
     // 判断性别
-    let customerGender = '';
     if (/[女士|小姐|太太]$/.test(customerName)) customerGender = '女';
     else if (/先生$/.test(customerName)) customerGender = '男';
 
-    // 写入数据库
+    logToBoth('info', `[步骤8.4] 解析结果: 公司=${companyName} 客户=${customerName} 性别=${customerGender} 电话=${customerPhone} 项目=${reportProject} 物业=${propertyType} 报备时间=${reportTime} 到访时间=${expectedVisitTime} 经纪人=${agentName}`);
+
+    // ========== 步骤8.5：使用解析结果写入数据库 ==========
+    logToBoth('info', '[步骤8.5] 写入数据库...');
     try {
       this.currentReportId = await insertReport(
         {
@@ -515,7 +476,7 @@ class BaoliService {
           customerPhone: customerPhone,
           reportProject: reportProject,
           agentName: agentName,
-          reportSubmitTime: customer.reportTime || '',
+          reportSubmitTime: reportTime || '',
           city: '',
         },
         'baoli'
@@ -835,10 +796,6 @@ class BaoliService {
 
     await zbbAutomation.delay(randomDelay(3000, 4000));
 
-    // 重新写入剪贴板
-    logToBoth('info', '[第二轮-步骤2] 写入剪贴板...');
-    await zbbAutomation.setClipboardText(generateFullRecord(this.currentCustomer!));
-
     // 长按"粘贴完整客户信息"
     logToBoth('info', '[第二轮-步骤3] 长按"粘贴完整客户信息"...');
     const pasteNodes = await this.printScreenText();
@@ -890,7 +847,7 @@ class BaoliService {
           customerPhone: customerPhoneR2,
           reportProject: '保利山水和颂',
           agentName: agentNameR2,
-          reportSubmitTime: this.currentCustomer?.reportTime || '',
+          reportSubmitTime: '',
           city: '',
         },
         'baoli'
@@ -985,3 +942,4 @@ class BaoliService {
 }
 
 export const baoliService = BaoliService.getInstance();
+export { BaoliService };
