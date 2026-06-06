@@ -7,7 +7,7 @@
  */
 
 import { zbbAutomation, addScreenshotConfirmedListener, removeStopListener } from '../native';
-import { getAllBaoliReports, initDatabase, insertReport, updateReportStatus } from './DatabaseService';
+import { getAllBaoliReports, getLatestReportByType, initDatabase, insertReport, updateReportStatus } from './DatabaseService';
 
 const APP_PACKAGES = {
   WECHAT: 'com.tencent.wework',  // 企业微信
@@ -466,9 +466,33 @@ class BaoliService {
 
     logToBoth('info', `[步骤8.4] 解析结果: 公司=${companyName} 客户=${customerName} 性别=${customerGender} 电话=${customerPhone} 项目=${reportProject} 物业=${propertyType} 报备时间=${reportTime} 到访时间=${expectedVisitTime} 经纪人=${agentName}`);
 
-    // ========== 步骤8.5：使用解析结果写入数据库 ==========
-    logToBoth('info', '[步骤8.5] 写入数据库...');
+    // ========== 步骤8.5：一致性验证后写入数据库 ==========
+    logToBoth('info', '[步骤8.5] 验证千机端数据与截图一致性...');
     try {
+      // 从数据库查出千机端写入的原始数据
+      const storedRecord = await getLatestReportByType('baoli');
+      if (storedRecord && storedRecord.full_record) {
+        const stored = JSON.parse(storedRecord.full_record);
+        const storedName = stored.customerName || '';
+        const storedPhoneLast4 = stored.phoneLast4 || '';
+        const ocrPhoneLast4 = (customerPhone || '').replace(/\*/g, '').slice(-4);
+
+        logToBoth('info', `[步骤8.5] 千机端姓名: ${storedName}，截图姓名: ${customerName}`);
+        logToBoth('info', `[步骤8.5] 千机端电话末4位: ${storedPhoneLast4}，截图电话末4位: ${ocrPhoneLast4}`);
+
+        const nameMatch = storedName === customerName;
+        const phoneMatch = storedPhoneLast4 === ocrPhoneLast4 && storedPhoneLast4.length === 4;
+
+        if (!nameMatch || !phoneMatch) {
+          const errMsg = `[步骤8.5] ❌ 数据不一致！姓名${nameMatch ? '✓' : '✗'} 电话${phoneMatch ? '✓' : '✗'}，流程终止`;
+          logToBoth('error', errMsg);
+          throw new Error(errMsg);
+        }
+        logToBoth('success', '[步骤8.5] ✓ 数据一致性验证通过');
+      } else {
+        logToBoth('warn', '[步骤8.5] 未找到千机端原始记录，跳过验证');
+      }
+
       this.currentReportId = await insertReport(
         {
           customerName: customerName,
@@ -483,7 +507,8 @@ class BaoliService {
       );
       logToBoth('success', '[步骤8.5] 数据库写入成功，ID=' + this.currentReportId + '，客户: ' + customerName + ' ' + customerPhone);
     } catch (e: any) {
-      logToBoth('error', '[步骤8.5] 数据库写入失败: ' + e);
+      logToBoth('error', '[步骤8.5] ' + e.message);
+      throw e;
     }
 
     // ========== 步骤9：点击"请选择分期" ==========

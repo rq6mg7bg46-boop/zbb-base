@@ -381,6 +381,8 @@ export class QianjiService {
     const projectType = this.customerInfo.projectType;
     if (projectType === 'baoli') {
       await zbbAutomation.delay(500);
+      // 先写数据库（存 phoneLast4 用于后续 OCR 验证）
+      await this.stepSaveToDatabase();
       const baoli = BaoliService.getInstance();
       await baoli.execute();
     } else if (projectType === 'yuexiu') {
@@ -459,7 +461,10 @@ export class QianjiService {
           agentRemark: '',
         },
         'baoli',  // 千机收集的数据用于保利报备
-        JSON.stringify(this.customerInfo),
+        JSON.stringify({
+          ...this.customerInfo,
+          phoneLast4: (this.customerInfo.phone || '').replace(/\*/g, '').slice(-4),
+        }),
         copyTime
       );
       
