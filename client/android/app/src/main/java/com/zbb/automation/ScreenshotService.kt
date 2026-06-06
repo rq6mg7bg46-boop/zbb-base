@@ -547,7 +547,7 @@ class ScreenshotService : Service() {
                 height = dp(36f)
                 gravity = Gravity.TOP or Gravity.END
                 x = dp(16f)
-                y = dp(200f)
+                y = dp(180f)
             }
             
             // 圆点背景（相机图标当圆点）
@@ -557,11 +557,11 @@ class ScreenshotService : Service() {
                 val padding = dp(8f)
                 setPadding(padding, padding, padding, padding)
                 
-                // 添加文字"投"
+                // 添加文字"GO"
                 val label = TextView(context).apply {
-                    text = "投"
+                    text = "GO"
                     setTextColor(Color.WHITE)
-                    textSize = 14f
+                    textSize = 11f
                     gravity = android.view.Gravity.CENTER
                 }
                 (this as FrameLayout).addView(label)
