@@ -1659,4 +1659,94 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
             promise.reject("ERROR", e.message);
         }
     }
+
+    // ==================== OCR 截图 ====================
+
+    @ReactMethod
+    fun ocrLatestScreenshot(promise: Promise) {
+        Log.d(TAG, "[ocrLatestScreenshot] 开始查询相册最新截图...")
+        Thread {
+            try {
+                val cr = mReactContext.contentResolver
+                val projection = arrayOf(
+                    android.provider.MediaStore.Images.Media._ID,
+                    android.provider.MediaStore.Images.Media.DISPLAY_NAME,
+                    android.provider.MediaStore.Images.Media.DATE_ADDED
+                )
+                val sortOrder = "${android.provider.MediaStore.Images.Media.DATE_ADDED} DESC"
+                val selection = "${android.provider.MediaStore.Images.Media.DISPLAY_NAME} LIKE '%Screenshot%' OR ${android.provider.MediaStore.Images.Media.DISPLAY_NAME} LIKE '%截图%'"
+
+                val cursor = cr.query(
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    projection,
+                    selection,
+                    null,
+                    sortOrder
+                )
+
+                if (cursor == null || !cursor.moveToFirst()) {
+                    Log.e(TAG, "[ocrLatestScreenshot] 未找到截图")
+                    promise.reject("ERROR", "未找到截图")
+                    return@Thread
+                }
+
+                val idCol = cursor.getColumnIndexOrThrow(android.provider.MediaStore.Images.Media._ID)
+                val id = cursor.getLong(idCol)
+                cursor.close()
+
+                val uri = android.content.ContentUris.withAppendedId(
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    id
+                )
+                Log.d(TAG, "[ocrLatestScreenshot] 找到截图 URI: $uri")
+
+                val inputStream = cr.openInputStream(uri)
+                val bitmap = android.graphics.BitmapFactory.decodeStream(inputStream)
+                inputStream?.close()
+
+                if (bitmap == null) {
+                    Log.e(TAG, "[ocrLatestScreenshot] 无法解码图片")
+                    promise.reject("ERROR", "无法解码图片")
+                    return@Thread
+                }
+
+                Log.d(TAG, "[ocrLatestScreenshot] 图片尺寸: ${bitmap.width}x${bitmap.height}")
+
+                // 调用 OcrHelper 进行识别
+                OcrHelper.recognize(bitmap) { results, error ->
+                    if (error != null) {
+                        Log.e(TAG, "[ocrLatestScreenshot] OCR 失败: $error")
+                        promise.reject("ERROR", error)
+                        return@recognize
+                    }
+
+                    val textBlocks = results.joinToString("\n") { it.text }
+                    Log.d(TAG, "[ocrLatestScreenshot] 识别到 ${results.size} 个文本块")
+                    Log.d(TAG, "[ocrLatestScreenshot] 内容:\n$textBlocks")
+
+                    // 返回 JSON 格式结果
+                    val jsonResult = com.facebook.react.bridge.Arguments.createArray()
+                    results.forEach { r ->
+                        val map = com.facebook.react.bridge.Arguments.createMap()
+                        map.putString("text", r.text)
+                        map.putDouble("confidence", r.confidence.toDouble())
+                        map.putInt("left", r.boundingBox.left)
+                        map.putInt("top", r.boundingBox.top)
+                        map.putInt("right", r.boundingBox.right)
+                        map.putInt("bottom", r.boundingBox.bottom)
+                        jsonResult.pushMap(map)
+                    }
+
+                    val resultMap = com.facebook.react.bridge.Arguments.createMap()
+                    resultMap.putArray("blocks", jsonResult)
+                    resultMap.putString("fullText", textBlocks)
+                    promise.resolve(resultMap)
+                }
+
+            } catch (e: Exception) {
+                Log.e(TAG, "[ocrLatestScreenshot] 异常: ${e.message}", e)
+                promise.reject("ERROR", e.message)
+            }
+        }.start()
+    }
 }

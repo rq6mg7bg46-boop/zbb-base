@@ -1339,6 +1339,31 @@ const zbbAutomation = {
       return null;
     }
   },
+
+  /**
+   * OCR 识别相册最新截图
+   * @returns 识别结果 { blocks: [{text, confidence, boundingBox}], fullText: string }
+   */
+  ocrLatestScreenshot: async (): Promise<{
+    blocks: Array<{
+      text: string;
+      confidence: number;
+      boundingBox: { left: number; top: number; right: number; bottom: number };
+    }>;
+    fullText: string;
+  } | null> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化');
+      return null;
+    }
+    try {
+      const result = await ZBBAutomation.ocrLatestScreenshot();
+      return result;
+    } catch (error) {
+      console.error('[ZBB] ocrLatestScreenshot 失败:', error);
+      return null;
+    }
+  },
 };
 
 // ==================== 事件监听 ====================
