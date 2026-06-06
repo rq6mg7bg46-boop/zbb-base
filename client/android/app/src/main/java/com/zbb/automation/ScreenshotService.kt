@@ -547,14 +547,14 @@ class ScreenshotService : Service() {
                 height = dp(36f)
                 gravity = Gravity.TOP or Gravity.END
                 x = dp(16f)
-                y = dp(180f)
+                y = dp(130f)
             }
             
-            // 圆点背景（相机图标当圆点）
+            // 圆点背景（圆形蓝底）
             floatingView = FrameLayout(this).apply {
-                setBackgroundColor(Color.parseColor("#407CFF"))
-                alpha = 0.85f
-                val padding = dp(8f)
+                setBackgroundResource(R.drawable.screenshot_button_blue)
+                alpha = 0.9f
+                val padding = dp(10f)
                 setPadding(padding, padding, padding, padding)
                 
                 // 添加文字"GO"
@@ -575,8 +575,8 @@ class ScreenshotService : Service() {
                     } catch (e: Exception) {
                         Log.e(TAG, "发送 onScreenshotConfirmed 失败: ${e.message}")
                     }
-                    // 点击后变蓝色
-                    setBackgroundColor(Color.parseColor("#007AFF"))
+                    // 点击后变红色圆形
+                    setBackgroundResource(R.drawable.screenshot_button_red)
                 }
             }
             
