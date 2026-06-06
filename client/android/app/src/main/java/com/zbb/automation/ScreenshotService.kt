@@ -568,6 +568,15 @@ class ScreenshotService : Service() {
                 
                 setOnClickListener {
                     Log.d(TAG, "悬浮圆点被点击")
+                    // 通知 JS 继续流程（复用 onScreenshotConfirmed 事件）
+                    try {
+                        val module = AutomationModuleManager.getModule()
+                        module?.sendEventToJS("onScreenshotConfirmed", null)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "发送 onScreenshotConfirmed 失败: ${e.message}")
+                    }
+                    // 点击后变蓝色
+                    setBackgroundColor(Color.parseColor("#007AFF"))
                 }
             }
             
