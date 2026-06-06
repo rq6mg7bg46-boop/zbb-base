@@ -52,6 +52,7 @@ export class QianjiService {
     projectType: string;
     customerName: string;
     phone: string;
+    phoneLast4: string;  // 电话末4位，原生树读取
     agent: string;
     reportTime: string;
     expectedVisitTime: string;
@@ -126,6 +127,30 @@ export class QianjiService {
       
       // 保存界面节点数据，供后续步骤使用
       this.lastTextNodes = validNodes;
+
+      // 从界面节点中提取客户姓名和电话（原生树读取）
+      for (const node of validNodes) {
+        const text = node.text || '';
+        if (text.includes('客户姓名') || text.includes('客户姓名:')) {
+          const parts = text.split(/[：:]/);
+          if (parts[1]) this.customerInfo = { ...this.customerInfo!, customerName: parts[1].trim() };
+        } else if (text.includes('客户联系方式') || text.includes('客户联系方式:')) {
+          const parts = text.split(/[：:]/);
+          if (parts[1]) {
+            const phone = parts[1].trim();
+            this.customerInfo = { ...this.customerInfo!, phone };
+            // 同时计算 phoneLast4 存入 customerInfo（供后续步骤用）
+            const phoneLast4 = phone.replace(/\*/g, '').slice(-4);
+            this.customerInfo = { ...this.customerInfo!, phoneLast4 };
+          }
+        }
+      }
+      if (this.customerInfo?.customerName) {
+        logToBoth('info', '[千机：步骤2] 原生树读取客户姓名: ' + this.customerInfo.customerName);
+      }
+      if (this.customerInfo?.phone) {
+        logToBoth('info', '[千机：步骤2] 原生树读取电话: ' + this.customerInfo.phone + ' 末4位: ' + (this.customerInfo.phoneLast4 || ''));
+      }
       
     } catch (error) {
       logToBoth('error', `[千机：步骤2] ✗ 识别界面失败: ${error}`);
@@ -240,47 +265,22 @@ export class QianjiService {
       await zbbAutomation.tap(copyBtn.centerX, copyBtn.centerY);
       await zbbAutomation.delay(1000);
 
-      // 步骤3-4：读取剪贴板获取脱敏号码
-      try {
-        const clipboardText = await zbbAutomation.getClipboardText();
-        // 脱敏号格式：177****1214 或 1**********
-        const maskedPhoneRegex = /1[3-9]\d{2}\*{4}\d{4}/;
-        if (clipboardText && maskedPhoneRegex.test(clipboardText)) {
-          customerInfo.phone = clipboardText;
-          logToBoth('info', `[千机：步骤3-4] 剪贴板获取脱敏号: ${customerInfo.phone}`);
-        } else {
-          // 脱敏号格式不匹配，静默跳过
-        }
-      } catch (e: any) {
-        // 读剪贴板失败，静默
-      }
-
-      // 步骤3-4：读取剪贴板获取完整客户数据（姓名+电话+经纪人+报备时间等）
+      // 步骤3-4：读取剪贴板获取经纪人、报备时间等（姓名和电话已在步骤2从原生树读取）
       try {
         const clipboardText = await zbbAutomation.getClipboardText();
         if (clipboardText && clipboardText.trim().length > 0) {
           logToBoth('info', `[千机：步骤3-4] 剪贴板内容: ${clipboardText.substring(0, 100)}...`);
-          // 解析剪贴板
           const lines = clipboardText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
           lines.forEach((line: string) => {
-            if (line.includes('客户姓名') || line.includes('客户姓名:')) {
+            if (line.includes('经纪人') && !line.includes('备注')) {
               const parts = line.split(/[：:]/);
-              if (parts[1]) customerInfo.customerName = parts[1].trim();
-            } else if (line.includes('客户联系方式') || line.includes('客户联系方式:')) {
-              const parts = line.split(/[：:]/);
-              if (parts[1]) customerInfo.phone = parts[1].trim();
-            } else if (line.includes('经纪人') && !line.includes('备注')) {
-              const parts = line.split(/[：:]/);
-              if (parts[1]) customerInfo.agent = parts[1].trim();
+              if (parts[1]) this.customerInfo = { ...this.customerInfo!, agent: parts[1].trim() };
             } else if (line.includes('报备提交') || line.includes('报备提交:')) {
               const parts = line.split(/[：:]/);
-              if (parts[1]) customerInfo.reportTime = parts[1].trim();
-            } else if (line.includes('售卖城市') || line.includes('城市')) {
-              const parts = line.split(/[：:]/);
-              if (parts[1]) customerInfo.city = parts[1].trim();
+              if (parts[1]) this.customerInfo = { ...this.customerInfo!, reportTime: parts[1].trim() };
             }
           });
-          logToBoth('info', `[千机：步骤3-4] 解析结果: ${customerInfo.customerName} ${customerInfo.phone} ${customerInfo.agent}`);
+          logToBoth('info', `[千机：步骤3-4] 解析结果: ${this.customerInfo?.customerName} ${this.customerInfo?.phone} ${this.customerInfo?.agent}`);
         }
       } catch (e: any) {
         // 读剪贴板失败，静默
@@ -294,8 +294,8 @@ export class QianjiService {
       await zbbAutomation.pressBack();
       await zbbAutomation.delay(1500);
 
-      // 保存
-      this.customerInfo = customerInfo;
+      // 保存（合并步骤2原生树读取的数据与步骤3补充的数据）
+      this.customerInfo = { ...this.customerInfo, ...customerInfo } as typeof this.customerInfo;
 
     } catch (error) {
       logToBoth('error', `[千机：步骤3] ✗ 收集客户信息失败: ${error}`);
@@ -463,7 +463,7 @@ export class QianjiService {
         'baoli',  // 千机收集的数据用于保利报备
         JSON.stringify({
           ...this.customerInfo,
-          phoneLast4: (this.customerInfo.phone || '').replace(/\*/g, '').slice(-4),
+          phoneLast4: this.customerInfo.phoneLast4 || '',
         }),
         copyTime
       );

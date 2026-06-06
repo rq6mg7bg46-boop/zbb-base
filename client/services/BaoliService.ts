@@ -700,22 +700,13 @@ class BaoliService {
   private async handleRepeatCase(): Promise<void> {
     logToBoth('info', '[步骤15-情况1] 疑似重号处理');
 
-    // 第1步：写数据库，状态标记为疑似重号
-    logToBoth('info', '[步骤15-情况1-1] 写数据库标记疑似重号...');
-    if (this.currentReportId !== null) {
-      await updateReportStatus(this.currentReportId, '疑似重号');
-      logToBoth('success', '[步骤15-情况1-1] ID=' + this.currentReportId + ' status→疑似重号');
-    } else {
-      logToBoth('warn', '[步骤15-情况1-1] currentReportId 为空，跳过数据库');
-    }
-
-    // 第2步：启动震动并弹窗提示
-    logToBoth('info', '[步骤15-情况1-2] 启动震动+弹窗提示');
+    // 第1步：启动震动+弹窗提示
+    logToBoth('info', '[步骤15-情况1-1] 启动震动+弹窗提示');
     await zbbAutomation.startPulseVibration();
     await zbbAutomation.showToast('检测到疑似重号，请点击"取消"按钮');
 
-    // 第3步：等待用户点击"取消"按钮（最多30秒）
-    logToBoth('info', '[步骤15-情况1-3] 等待用户点击"取消"...');
+    // 第2步：等待用户点击"取消"按钮（最多30秒）
+    logToBoth('info', '[步骤15-情况1-2] 等待用户点击"取消"...');
     let cancelClicked = false;
     const maxWaitTime = 30000;
     const startTime = Date.now();
@@ -735,12 +726,12 @@ class BaoliService {
       await zbbAutomation.delay(1000);
     }
 
-    // 第4步：停止震动（如果用户点了取消）
+    // 第3步：停止震动（如果用户点了取消）
     if (cancelClicked) {
-      logToBoth('info', '[步骤15-情况1-4] 用户已取消，停止震动');
+      logToBoth('info', '[步骤15-情况1-3] 用户已取消，停止震动');
       await zbbAutomation.stopVibration();
     } else {
-      logToBoth('warn', '[步骤15-情况1-4] 用户未操作，30秒到时，持续震动杀死ZBB');
+      logToBoth('warn', '[步骤15-情况1-3] 用户未操作，30秒到时，持续震动杀死ZBB');
     }
 
     // 第5步：后台杀掉ZBB进程
@@ -754,24 +745,12 @@ class BaoliService {
   private async handleSuccessCase(round: number = 1): Promise<void> {
     logToBoth('info', '[步骤15-情况2] 报备成功处理（第' + round + '轮）');
 
-    // 更新数据库状态为 done
-    try {
-      if (this.currentReportId !== null) {
-        await updateReportStatus(this.currentReportId, 'done');
-        logToBoth('success', '[步骤15-情况2-更新数据库] ID=' + this.currentReportId + ' status→done');
-      } else {
-        logToBoth('warn', '[步骤15-情况2-更新数据库] currentReportId 为空，跳过');
-      }
-    } catch (e) {
-      logToBoth('error', '[步骤15-情况2-更新数据库] 失败: ' + e);
-    }
-
-    // 上滑屏幕
-    logToBoth('info', '[步骤15-情况2-0] 上滑屏幕...');
+    // 直接上滑屏幕（不写库）
+    logToBoth('info', '[步骤15-情况2-1] 上滑屏幕...');
     await zbbAutomation.swipe(540, 1200, 540, 800);
 
     // 识别"上传附件"坐标，点击(x+500, y)
-    logToBoth('info', '[步骤15-情况2-1] 识别"上传附件"坐标，点击(x+500, y)...');
+    logToBoth('info', '[步骤15-情况2-2] 识别"上传附件"坐标，点击(x+500, y)...');
     const uploadNodes = await this.printScreenText();
     const uploadNode = uploadNodes?.find((n) => n.text.includes('上传附件'));
     if (uploadNode) {
@@ -782,7 +761,7 @@ class BaoliService {
     }
 
     // 等待用户手动截图（第一轮/第二轮区分）
-    logToBoth('info', '[步骤15-情况2-2] 等待用户截图...');
+    logToBoth('info', '[步骤15-情况2-3] 等待用户截图...');
     await this.waitForUserScreenshot(round);
 
     // 2. 按返回键回到报备界面
@@ -864,26 +843,9 @@ class BaoliService {
     if (/[女士|小姐|太太]$/.test(customerNameR2)) customerGenderR2 = '女';
     else if (/先生$/.test(customerNameR2)) customerGenderR2 = '男';
 
-    try {
-      this.currentReportId = await insertReport(
-        {
-          customerName: customerNameR2,
-          customerGender: customerGenderR2,
-          customerPhone: customerPhoneR2,
-          reportProject: '保利山水和颂',
-          agentName: agentNameR2,
-          reportSubmitTime: '',
-          city: '',
-        },
-        'baoli'
-      );
-      logToBoth('success', '[第二轮-步骤5] 数据库写入成功，ID=' + this.currentReportId + '，客户: ' + customerNameR2 + ' ' + customerPhoneR2);
-    } catch (e: any) {
-      logToBoth('error', '[第二轮-步骤5] 数据库写入失败: ' + e);
-    }
-
-    // 点击"请选择分期"
-    logToBoth('info', '[第二轮-步骤6] 点击"请选择分期"...');
+    // ========== 第二轮-步骤5：点击"请选择分期" ==========
+    // （不写库，数据一致性验证在第一轮完成）
+    logToBoth('info', '[第二轮-步骤5] 点击"请选择分期"...');
     const fenqiNodes = await this.printScreenText();
     const fenqiNode = fenqiNodes?.find((n) => n.text === '请选择分期' || n.text === '分期');
     if (fenqiNode) {
@@ -895,8 +857,8 @@ class BaoliService {
 
     await zbbAutomation.delay(randomDelay(2000, 3000));
 
-    // 选择项目（保利山水和颂）
-    logToBoth('info', '[第二轮-步骤7] 选择"保利山水和颂"...');
+    // ========== 第二轮-步骤6：选择"保利山水和颂" ==========
+    logToBoth('info', '[第二轮-步骤6] 选择"保利山水和颂"...');
     const projectNodes = await this.printScreenText();
     const projectNode = projectNodes?.find((n) => n.text.includes('郑州市三村杓袁7号地项目-保利山水和颂'));
     if (projectNode) {
@@ -907,42 +869,42 @@ class BaoliService {
       await zbbAutomation.tap(540, 2150);
     }
 
-    // 点击"确认"
-    logToBoth('info', '[第二轮-步骤8] 点击"确认"...');
+    // ========== 第二轮-步骤7：点击"确认" ==========
+    logToBoth('info', '[第二轮-步骤7] 点击"确认"...');
     await zbbAutomation.delay(1000);
     const confirmNode = await this.findExactNode('确认');
     if (confirmNode) {
       logToBoth('success', '[第二轮-步骤8] 找到"确认" @ (' + confirmNode.centerX + ', ' + confirmNode.centerY + ')');
       await zbbAutomation.tap(confirmNode.centerX, confirmNode.centerY);
     } else {
-      logToBoth('warn', '[第二轮-步骤8] 未找到"确认"，使用备用坐标 (950, 1500)');
+      logToBoth('warn', '[第二轮-步骤7] 未找到"确认"，使用备用坐标 (950, 1500)');
       await zbbAutomation.tap(950, 1500);
     }
 
-    // 点击"智能识别"
-    logToBoth('info', '[第二轮-步骤9] 点击"智能识别"...');
+    // ========== 第二轮-步骤8：点击"智能识别" ==========
+    logToBoth('info', '[第二轮-步骤8] 点击"智能识别"...');
     await zbbAutomation.delay(1000);
     const zhinengNodes = await this.printScreenText();
     const zhinengNode = zhinengNodes?.find((n) => n.text.includes('智能识别'));
     if (zhinengNode) {
-      logToBoth('success', '[第二轮-步骤9] 找到"智能识别" @ (' + zhinengNode.centerX + ', ' + zhinengNode.centerY + ')');
+      logToBoth('success', '[第二轮-步骤8] 找到"智能识别" @ (' + zhinengNode.centerX + ', ' + zhinengNode.centerY + ')');
       await zbbAutomation.tap(zhinengNode.centerX, zhinengNode.centerY);
     } else {
-      logToBoth('warn', '[第二轮-步骤9] 未找到"智能识别"，使用备用坐标 (910, 1100)');
+      logToBoth('warn', '[第二轮-步骤8] 未找到"智能识别"，使用备用坐标 (910, 1100)');
       await zbbAutomation.tap(910, 1100);
     }
 
     await zbbAutomation.delay(randomDelay(3000, 4000));
 
-    // 点击"报备"提交
-    logToBoth('info', '[第二轮-步骤10] 点击"报备"...');
+    // ========== 第二轮-步骤9：点击"报备"提交 ==========
+    logToBoth('info', '[第二轮-步骤9] 点击"报备"...');
     const baobeiNodes2 = await this.printScreenText();
     const baobeiNodeFinal = baobeiNodes2?.find((n) => n.text === '报备');
     if (baobeiNodeFinal) {
-      logToBoth('success', '[第二轮-步骤10] 找到"报备" @ (' + baobeiNodeFinal.centerX + ', ' + baobeiNodeFinal.centerY + ')');
+      logToBoth('success', '[第二轮-步骤9] 找到"报备" @ (' + baobeiNodeFinal.centerX + ', ' + baobeiNodeFinal.centerY + ')');
       await zbbAutomation.tap(baobeiNodeFinal.centerX, baobeiNodeFinal.centerY);
     } else {
-      logToBoth('warn', '[第二轮-步骤10] 未找到"报备"，使用备用坐标 (540, 2200)');
+      logToBoth('warn', '[第二轮-步骤9] 未找到"报备"，使用备用坐标 (540, 2200)');
       await zbbAutomation.tap(540, 2200);
     }
 
