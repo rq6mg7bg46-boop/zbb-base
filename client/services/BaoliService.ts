@@ -6,8 +6,8 @@
  * 流程：打开企业微信 → 点击工作台 → 进入云和家经纪云 → 填写报备表单
  */
 
+import { Alert } from 'react-native';
 import { zbbAutomation, addScreenshotConfirmedListener, removeStopListener } from '../native';
-import { getAllBaoliReports, getLatestReportByType, initDatabase, insertReport, updateReportStatus } from './DatabaseService';
 
 const APP_PACKAGES = {
   WECHAT: 'com.tencent.wework',  // 企业微信
@@ -97,7 +97,6 @@ class BaoliService {
   private static instance: BaoliService;
   private isRunning: boolean = false;
   private currentCustomer: { company: string; name: string; phone: string; project: string; agent?: string; reportTime?: string; expectedVisitTime?: string } | null = null;
-  private currentReportId: number | null = null; // 当前报备记录的数据库ID
 
   static getInstance(): BaoliService {
     if (!BaoliService.instance) {
@@ -466,51 +465,6 @@ class BaoliService {
 
     logToBoth('info', `[步骤8.4] 解析结果: 公司=${companyName} 客户=${customerName} 性别=${customerGender} 电话=${customerPhone} 项目=${reportProject} 物业=${propertyType} 报备时间=${reportTime} 到访时间=${expectedVisitTime} 经纪人=${agentName}`);
 
-    // ========== 步骤8.5：一致性验证后写入数据库 ==========
-    logToBoth('info', '[步骤8.5] 验证千机端数据与截图一致性...');
-    try {
-      // 从数据库查出千机端写入的原始数据
-      const storedRecord = await getLatestReportByType('baoli');
-      if (storedRecord && storedRecord.full_record) {
-        const stored = JSON.parse(storedRecord.full_record);
-        const storedName = stored.customerName || '';
-        const storedPhoneLast4 = stored.phoneLast4 || '';
-        const ocrPhoneLast4 = (customerPhone || '').replace(/\*/g, '').slice(-4);
-
-        logToBoth('info', `[步骤8.5] 千机端姓名: ${storedName}，截图姓名: ${customerName}`);
-        logToBoth('info', `[步骤8.5] 千机端电话末4位: ${storedPhoneLast4}，截图电话末4位: ${ocrPhoneLast4}`);
-
-        const nameMatch = storedName === customerName;
-        const phoneMatch = storedPhoneLast4 === ocrPhoneLast4 && storedPhoneLast4.length === 4;
-
-        if (!nameMatch || !phoneMatch) {
-          const errMsg = `[步骤8.5] ❌ 数据不一致！姓名${nameMatch ? '✓' : '✗'} 电话${phoneMatch ? '✓' : '✗'}，流程终止`;
-          logToBoth('error', errMsg);
-          throw new Error(errMsg);
-        }
-        logToBoth('success', '[步骤8.5] ✓ 数据一致性验证通过');
-      } else {
-        logToBoth('warn', '[步骤8.5] 未找到千机端原始记录，跳过验证');
-      }
-
-      this.currentReportId = await insertReport(
-        {
-          customerName: customerName,
-          customerGender: customerGender,
-          customerPhone: customerPhone,
-          reportProject: reportProject,
-          agentName: agentName,
-          reportSubmitTime: reportTime || '',
-          city: '',
-        },
-        'baoli'
-      );
-      logToBoth('success', '[步骤8.5] 数据库写入成功，ID=' + this.currentReportId + '，客户: ' + customerName + ' ' + customerPhone);
-    } catch (e: any) {
-      logToBoth('error', '[步骤8.5] ' + e.message);
-      throw e;
-    }
-
     // ========== 步骤9：点击"请选择分期" ==========
     logToBoth('info', '[步骤9] 点击"请选择分期"...');
     await this.printScreenText();
@@ -773,8 +727,60 @@ class BaoliService {
       logToBoth('info', '[步骤15-情况2] 第一轮报备完成，开始第二轮...');
       await this.handleSecondRound();
     } else {
-      // 6. 第二轮也完成，退出小程序及企微
+      // ========== 步骤8：返回→Home→开千机→识别→点"报备有效"→Alert ==========
+      logToBoth('info', '[步骤15-情况2-步骤8] 返回报备界面...');
+      await zbbAutomation.pressBack();
+      await zbbAutomation.delay(1000);
+
+      logToBoth('info', '[步骤15-情况2-步骤8] 按Home键返回桌面...');
+      await zbbAutomation.pressHomeKey();
+      await zbbAutomation.delay(1500);
+
+      logToBoth('info', '[步骤15-情况2-步骤8] 打开千机...');
+      await zbbAutomation.launchAppWithAmStart(
+        'com.lianjia.anchang',
+        'com.lianjia.link.platform.main.MainActivity'
+      );
+      await zbbAutomation.delay(5000);
+
+      logToBoth('info', '[步骤15-情况2-步骤8] 识别当前界面...');
+      const nodesAfterOpen = await zbbAutomation.getAllTextNodes();
+      const baobeiYouxiaoNode = nodesAfterOpen?.find((n: any) => n.text?.includes('报备有效'));
+      if (baobeiYouxiaoNode) {
+        logToBoth('success', '[步骤15-情况2-步骤8] 找到"报备有效" @ (' + baobeiYouxiaoNode.centerX + ', ' + baobeiYouxiaoNode.centerY + ')，点击...');
+        await zbbAutomation.tap(baobeiYouxiaoNode.centerX, baobeiYouxiaoNode.centerY);
+      } else {
+        logToBoth('warn', '[步骤15-情况2-步骤8] 未找到"报备有效"，跳过');
+      }
+
+      logToBoth('info', '[步骤15-情况2-步骤8] 系统Alert弹窗（震动+Toast）...');
+      await zbbAutomation.startPulseVibration();
+      await zbbAutomation.showToast('已完成报备，请选择正确二维码截图。记得核对姓名及电话！');
+      Alert.alert(
+        '报备成功',
+        '已完成报备，请选择正确二维码截图。记得核对姓名及电话！',
+        [{ text: '确定', style: 'default' }]
+      );
+
+      // ========== 步骤9：用户点"确定"后，显示GO按钮→等待点击→exitMiniProgram×2 ==========
+      logToBoth('info', '[步骤15-情况2-步骤9] 显示GO按钮，等待用户点击...');
+      await zbbAutomation.showScreenshotButton();
+
+      // 等待用户点击GO按钮（触发onScreenshotConfirmed）
+      await new Promise<void>((resolve) => {
+        const subscription = addScreenshotConfirmedListener(() => {
+          logToBoth('success', '[步骤15-情况2-步骤9] 用户已点击GO按钮');
+          removeStopListener(subscription);
+          resolve();
+        });
+      });
+
+      // 停止震动
+      await zbbAutomation.stopVibration();
+
       logToBoth('success', '[步骤15-情况2] 第二轮报备成功，退出小程序...');
+      await this.exitMiniProgram();
+      await zbbAutomation.delay(1000);
       await this.exitMiniProgram();
     }
   }

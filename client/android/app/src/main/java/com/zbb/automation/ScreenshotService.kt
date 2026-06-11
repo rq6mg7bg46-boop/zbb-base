@@ -547,7 +547,7 @@ class ScreenshotService : Service() {
                 height = dp(32f)
                 gravity = Gravity.TOP or Gravity.END
                 x = dp(16f)
-                y = dp(115f)
+                y = dp(95f)
             }
             
             // 圆点背景（圆形蓝底）

@@ -5,7 +5,6 @@
 
 import { zbbAutomation } from '@/native';
 import { logToBoth } from './AutomationLogger';
-import { insertReport } from './DatabaseService';
 import { BaoliService } from './BaoliService';
 
 // 千机包名
@@ -381,8 +380,6 @@ export class QianjiService {
     const projectType = this.customerInfo.projectType;
     if (projectType === 'baoli') {
       await zbbAutomation.delay(500);
-      // 先写数据库（存 phoneLast4 用于后续 OCR 验证）
-      await this.stepSaveToDatabase();
       const baoli = BaoliService.getInstance();
       await baoli.execute();
     } else if (projectType === 'yuexiu') {
@@ -415,79 +412,6 @@ export class QianjiService {
 
     } catch (error) {
       logToBoth('error', `[千机端] 流程执行失败: ${error}`);
-      throw error;
-    }
-  }
-  /**
-   * 步骤4：将客户信息写入数据库
-   */
-  public async stepSaveToDatabase(): Promise<void> {
-    logToBoth('info', '[千机：步骤4] 正在写入数据库...');
-    
-    try {
-      if (!this.customerInfo) {
-        logToBoth('warn', '[千机：步骤4] 警告: 没有客户信息可写入');
-        return;
-      }
-      
-      // 计算预计到访时间：报备时间 + 24小时
-      const reportDate = new Date(this.customerInfo.reportTime);
-      reportDate.setHours(reportDate.getHours() + 24);
-      const expectedVisitTime = reportDate.toISOString().replace('T', ' ').substring(0, 19);
-      
-      // 构造数据库记录（字段名需与 insertReport 函数签名匹配：驼峰命名）
-      const reportProject = this.customerInfo.projectType === 'yuexiu' ? '越秀' : '保利';
-      const copyTime = this.customerInfo.reportTime;
-      
-      // 从姓名自动判断性别
-      const customerName = this.customerInfo.customerName || '';
-      let customerGender = '';
-      if (customerName.includes('女士') || customerName.includes('小姐') || customerName.includes('太太')) {
-        customerGender = '女';
-      } else if (customerName.includes('先生')) {
-        customerGender = '男';
-      }
-      
-      // 写入数据库（调用 insertReport 的正确签名）
-      const reportId = await insertReport(
-        {
-          customerName: customerName,
-          customerGender: customerGender,
-          customerPhone: this.customerInfo.phone,
-          reportProject: reportProject,
-          reportSubmitTime: this.customerInfo.reportTime,
-          expectedVisitTime: expectedVisitTime,
-          agentName: this.customerInfo.agent,
-          agentRemark: '',
-        },
-        'baoli',  // 千机收集的数据用于保利报备
-        JSON.stringify({
-          ...this.customerInfo,
-          phoneLast4: this.customerInfo.phoneLast4 || '',
-        }),
-        copyTime
-      );
-      
-      // 打印写入的数据
-      logToBoth('info', `[千机：步骤4] ========== 写入数据库 ==========`);
-      logToBoth('info', `[千机：步骤4] 记录ID: ${reportId}`);
-      logToBoth('info', `[千机：步骤4] 项目: ${reportProject}`);
-      logToBoth('info', `[千机：步骤4] 客户姓名: ${customerName}`);
-      logToBoth('info', `[千机：步骤4] 客户性别: ${customerGender || '(未识别)'}`);
-      logToBoth('info', `[千机：步骤4] 电话: ${this.customerInfo.phone}`);
-      logToBoth('info', `[千机：步骤4] 报备时间: ${this.customerInfo.reportTime}`);
-      logToBoth('info', `[千机：步骤4] 预计到访时间: ${expectedVisitTime}`);
-      logToBoth('info', `[千机：步骤4] 经纪人: ${this.customerInfo.agent}`);
-      logToBoth('info', `[千机：步骤4] 状态: pending`);
-      logToBoth('info', `[千机：步骤4] =================================`);
-      logToBoth('success', `[千机：步骤4] ✓ 写入数据库成功`);
-      
-      // 打印流程完成前的状态检查
-      logToBoth('info', `[千机端] 检查点1: customerInfo = ${JSON.stringify(this.customerInfo)}`);
-      logToBoth('info', `[千机端] 检查点2: projectType = ${this.customerInfo?.projectType}`);
-      
-    } catch (error) {
-      logToBoth('error', `[千机：步骤4] ✗ 写入数据库失败: ${error}`);
       throw error;
     }
   }
