@@ -13,6 +13,9 @@ import android.graphics.Point
 import android.media.projection.MediaProjectionManager
 import android.os.Handler
 import android.os.Looper
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.provider.Settings
 import android.util.Base64
 import android.util.Log
@@ -1368,44 +1371,71 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
     }
 
     /**
-     * 开始脉冲震动
+     * 开始脉冲震动（不依赖 AccessibilityService，从 ReactContext 拿 Vibrator）
      */
     @ReactMethod
     fun startPulseVibration(promise: Promise) {
-        val service = AccessibilityServiceImpl.instance
-        if (service == null) {
-            promise.reject("ERROR", "AccessibilityService 未运行")
-            return
-        }
-        
         mainHandler.post {
             try {
-                service.startPulseVibration()
+                val vibrator = getVibrator()
+                if (vibrator == null) {
+                    Log.e(TAG, "startPulseVibration: 无法获取 Vibrator")
+                    promise.reject("ERROR", "无法获取 Vibrator")
+                    return@post
+                }
+                // 脉冲模式：停顿300 → 震300 → 停200 → 震300 → 停200 → 震300，repeat=0 表示从索引 0 重复
+                val pattern = longArrayOf(0, 300, 200, 300, 200, 300)
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0))
+                } else {
+                    @Suppress("DEPRECATION")
+                    vibrator.vibrate(pattern, 0)
+                }
+                Log.d(TAG, "startPulseVibration: 已启动")
                 promise.resolve(true)
             } catch (e: Exception) {
+                Log.e(TAG, "startPulseVibration 失败: ${e.message}")
                 promise.reject("ERROR", e.message)
             }
         }
     }
 
     /**
-     * 停止震动
+     * 停止震动（不依赖 AccessibilityService）
      */
     @ReactMethod
     fun stopVibration(promise: Promise) {
-        val service = AccessibilityServiceImpl.instance
-        if (service == null) {
-            promise.reject("ERROR", "AccessibilityService 未运行")
-            return
-        }
-        
         mainHandler.post {
             try {
-                service.stopVibration()
+                val vibrator = getVibrator()
+                if (vibrator == null) {
+                    Log.e(TAG, "stopVibration: 无法获取 Vibrator")
+                    promise.reject("ERROR", "无法获取 Vibrator")
+                    return@post
+                }
+                vibrator.cancel()
+                Log.d(TAG, "stopVibration: 已停止")
                 promise.resolve(true)
             } catch (e: Exception) {
+                Log.e(TAG, "stopVibration 失败: ${e.message}")
                 promise.reject("ERROR", e.message)
             }
+        }
+    }
+
+    /**
+     * 从 ReactContext 拿 app-level Vibrator
+     * 注意：用老 API VIBRATOR_SERVICE（不要用 VIBRATOR_MANAGER_SERVICE 的 defaultVibrator，
+     * 那是系统级 vibrator，EMUI/HarmonyOS 上 cancel() 不一定生效，且进程死时震动不自动停。
+     * 老 API 拿到的 Vibrator 是 app-level，进程死时震动自动停，cancel() 也能正常停。）
+     */
+    private fun getVibrator(): Vibrator? {
+        return try {
+            @Suppress("DEPRECATION")
+            mReactContext.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+        } catch (e: Exception) {
+            Log.e(TAG, "getVibrator 失败: ${e.message}")
+            null
         }
     }
 

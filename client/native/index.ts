@@ -1364,6 +1364,121 @@ const zbbAutomation = {
       return null;
     }
   },
+
+  // ==================== 重号处理辅助方法（步骤15-情况1） ====================
+
+  /**
+   * 启动持续脉冲震动（用于重号提示）
+   */
+  startPulseVibration: async (): Promise<boolean> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化，无法启动震动');
+      return false;
+    }
+    try {
+      const result = await ZBBAutomation.startPulseVibration();
+      console.log('[ZBB] startPulseVibration 启动:', result);
+      return result;
+    } catch (error) {
+      console.error('[ZBB] startPulseVibration 失败:', error);
+      return false;
+    }
+  },
+
+  /**
+   * 停止震动
+   */
+  stopVibration: async (): Promise<boolean> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化，无法停止震动');
+      return false;
+    }
+    try {
+      const result = await ZBBAutomation.stopVibration();
+      console.log('[ZBB] stopVibration:', result);
+      return result;
+    } catch (error) {
+      console.error('[ZBB] stopVibration 失败:', error);
+      return false;
+    }
+  },
+
+  /**
+   * 显示 Toast 提示
+   */
+  showToast: async (message: string): Promise<boolean> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化，无法显示 Toast');
+      return false;
+    }
+    try {
+      const result = await ZBBAutomation.showToast(message);
+      console.log('[ZBB] showToast:', message);
+      return result;
+    } catch (error) {
+      console.error('[ZBB] showToast 失败:', error);
+      return false;
+    }
+  },
+
+  /**
+   * 读取屏幕所有文本节点（仅文本字段）
+   * 内部包装 getAllTextNodes，提取 text 数组
+   */
+  printScreenText: async (): Promise<string[]> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化，无法读取屏幕文本');
+      return [];
+    }
+    try {
+      const nodes = await ZBBAutomation.getAllTextNodes();
+      if (!Array.isArray(nodes)) {
+        return [];
+      }
+      return nodes
+        .map((n: any) => n?.text)
+        .filter((t: unknown): t is string => typeof t === 'string' && t.length > 0);
+    } catch (error) {
+      console.error('[ZBB] printScreenText 失败:', error);
+      return [];
+    }
+  },
+
+  /**
+   * 延迟（毫秒）
+   */
+  delay: async (ms: number): Promise<boolean> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化，无法 delay');
+      return false;
+    }
+    try {
+      const result = await ZBBAutomation.delay(ms);
+      return result;
+    } catch (error) {
+      console.error('[ZBB] delay 失败:', error);
+      return false;
+    }
+  },
+
+  /**
+   * 强杀本应用进程（force-stop com.zbb.automation）
+   * Kotlin 端用 Runtime.exec 走 am force-stop，不需要无障碍服务
+   */
+  killZbbProcess: async (): Promise<boolean> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化，无法杀进程');
+      return false;
+    }
+    try {
+      const result = await ZBBAutomation.forceStopPackage('com.zbb.automation');
+      console.log('[ZBB] killZbbProcess:', result);
+      return result;
+    } catch (error) {
+      console.error('[ZBB] killZbbProcess 失败:', error);
+      return false;
+    }
+  },
 };
 
 // ==================== 事件监听 ====================
