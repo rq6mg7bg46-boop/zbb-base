@@ -108,17 +108,37 @@ class BaoliService {
   /**
    * 查找界面文字节点
    */
-  private async findNodeByText(text: string): Promise<any | null> {
-    const nodes = await zbbAutomation.getAllTextNodes();
-    return nodes?.find((n: any) => n.text && n.text.includes(text));
+  private async findNodeByText(text: string, retries: number = 3): Promise<any | null> {
+    for (let i = 0; i < retries; i++) {
+      const nodes = await zbbAutomation.getAllTextNodes();
+      const found = nodes?.find((n: any) => n.text && n.text.includes(text));
+      if (found) return found;
+      if (i < retries - 1) {
+        const wait = randomDelay(800, 1500);
+        logToBoth('warn', `[findNodeByText] "${text}" 未找到，重试 (${i + 1}/${retries - 1})，等 ${wait}ms`);
+        await zbbAutomation.delay(wait);
+      }
+    }
+    logToBoth('error', `[findNodeByText] "${text}" 重试 ${retries} 次后仍未找到`);
+    return null;
   }
 
   /**
    * 查找精确匹配的文字节点
    */
-  private async findExactNode(text: string): Promise<any | null> {
-    const nodes = await zbbAutomation.getAllTextNodes();
-    return nodes?.find((n: any) => n.text === text);
+  private async findExactNode(text: string, retries: number = 3): Promise<any | null> {
+    for (let i = 0; i < retries; i++) {
+      const nodes = await zbbAutomation.getAllTextNodes();
+      const found = nodes?.find((n: any) => n.text === text);
+      if (found) return found;
+      if (i < retries - 1) {
+        const wait = randomDelay(800, 1500);
+        logToBoth('warn', `[findExactNode] "${text}" 未找到，重试 (${i + 1}/${retries - 1})，等 ${wait}ms`);
+        await zbbAutomation.delay(wait);
+      }
+    }
+    logToBoth('error', `[findExactNode] "${text}" 重试 ${retries} 次后仍未找到`);
+    return null;
   }
 
   /**
@@ -393,76 +413,83 @@ class BaoliService {
    * 千机端不再写数据库，由这里读取表单内容后写入
    */
   private async fillForm(customer: any): Promise<void> {
-    // ========== 步骤7-8：3路径兜底粘贴（方案B 2026-06-14）==========
-    // 修复前：硬坐标 (130,710) + 长按 2s 100% 失败风险
-    // 修复后：路径1 找节点 / 路径2 adb input keyevent / 路径3 ACTION_SET_TEXT
+    // ========== 步骤7-8.4：粘贴 + 表单识别（2026-06-14 老板新方案）==========
+    // 修复前：3 路径兜底粘贴 + 失败仅日志 + 无 retry
+    // 修复后：3 动作触发弹窗 + 表单识别 retry 2 次 + 任何兜底不 return
+    // 2026-06-14 老板修复：findNodeByText/findExactNode 内部 retry 3 次
+    // 任一兜底触发都不 return；pasteNode=null 时跳过步骤 7 三动作 + 步骤 8.4 retry 块
 
-    // 路径 0：剪贴板校验（千机端步骤3应该已经写入客户信息）
-    logToBoth('info', '[步骤7-8] 校验剪贴板...');
-    let clipText = '';
-    try {
-      clipText = (await zbbAutomation.getClipboardText()) || '';
-    } catch (e: any) {
-      logToBoth('warn', `[步骤7-8] 读剪贴板失败: ${e?.message || e}`);
-    }
-    if (!clipText || !clipText.includes('客户')) {
-      logToBoth('warn', `[步骤7-8] 剪贴板无客户信息，跳过粘贴: ${clipText?.substring(0, 30) || '(空)'}`);
-    } else {
-      logToBoth('success', `[步骤7-8] 剪贴板内容前30字: ${clipText.substring(0, 30)}`);
-    }
+    let formNodes: any[] = [];
 
-    // 步骤 7：长按"粘贴完整客户信息..."输入框触发弹窗
-    logToBoth('info', '[步骤7] 长按"粘贴完整客户信息..." (1500ms)');
+    // 步骤 7：3 动作触发 EMUI 粘贴弹窗
+    logToBoth('info', '[步骤7] 找"粘贴完整客户信息..."节点');
     await zbbAutomation.delay(1000);
-    const pasteNode = await this.findNodeByText('粘贴完整客户信息');
-    if (pasteNode) {
-      logToBoth('success', '[步骤7] 找到 @ (' + pasteNode.centerX + ', ' + pasteNode.centerY + ')');
-      // 1500ms 让 EMUI 弹菜单（路径 1 兜底用）
-      await zbbAutomation.longPress(pasteNode.centerX, pasteNode.centerY, 1500);
+    let pasteNode = await this.findNodeByText('粘贴完整客户信息');
+    if (!pasteNode) {
+      // 兜底：另一个常见文案
+      pasteNode = await this.findNodeByText('点击智能识别，都可快速填充');
+    }
+
+    if (!pasteNode) {
+      // 步骤 7 失败兜底（findNodeByText 内部已 retry 3 次）
+      logToBoth('error', '[步骤7] 重试 3 次仍未找到输入框节点');
+      await this.handlePasteFailure('[步骤7] 重试 3 次仍未找到输入框节点');
+      formNodes = (await zbbAutomation.getAllTextNodes()) || [];
+      logToBoth('info', `[步骤8.4] 兜底后重新识别: 节点数: ${formNodes.length}`);
+      // 不 return；pasteNode=null，下方步骤 7 三动作 + 步骤 8.4 retry 块被 if 保护跳过
     } else {
-      logToBoth('error', '[步骤7] 未找到"粘贴完整客户信息"');
-    }
+      logToBoth('success', '[步骤7] 找到输入框 @ (' + pasteNode.centerX + ', ' + pasteNode.centerY + ')');
 
-    // 步骤 8：路径 2（系统级 PASTE）→ 路径 1（UI 弹窗兜底）
-    let success = false;
+      // 动作 2：长按 1500ms 触发 EMUI 弹菜单
+      logToBoth('info', '[步骤7] 长按输入框 1500ms 触发 EMUI 弹菜单');
+      await zbbAutomation.longPress(pasteNode.centerX, pasteNode.centerY, 1500);
 
-    // 路径 2：execShell input keyevent 279（系统级粘贴，最稳）
-    // 机制：adb 进程发 PASTE 事件 → 焦点 app（企业微信）自己读剪贴板
-    try {
-      const out = await zbbAutomation.execShell('input keyevent 279');
-      success = true;
-      logToBoth('success', `[步骤8-路径2] execShell input keyevent 279, out=${out?.substring(0, 30) || '(无输出)'}`);
-    } catch (e) {
-      logToBoth('warn', `[步骤8-路径2] 失败: ${e?.message}`);
-    }
+      // 动作 3：tap(140, 720) 弹窗"粘贴"按钮
+      logToBoth('info', '[步骤7] tap 弹窗"粘贴"按钮 @ (140, 720)');
+      await zbbAutomation.delay(randomDelay(800, 1500)); // 等弹窗动画（800-1500ms 随机）
+      await zbbAutomation.tap(140, 720);
+      await zbbAutomation.delay(800); // 等系统粘贴完成
 
-    // 路径 1：轮询找弹窗菜单"粘贴"（5 × 400ms = 2s，UI 兜底）
-    // 用 findExactNode 精确匹配，避免匹配"粘贴完整客户信息"输入框
-    if (!success) {
-      const pasteCandidates = ['粘贴', '粘贴全部', '贴上', 'Paste'];
-      for (let i = 0; i < 5 && !success; i++) {
-        await zbbAutomation.delay(400);
-        for (const text of pasteCandidates) {
-          const menu = await this.findExactNode(text);
-          if (menu) {
-            await zbbAutomation.tap(menu.centerX, menu.centerY);
-            success = true;
-            logToBoth('success', `[步骤8-路径1] tap "${text}" @ (${menu.centerX}, ${menu.centerY})`);
-            break;
-          }
+      // ========== 步骤8.4：原生树识别表单内容（retry 2 次）==========
+      let retryCount = 0;
+      const maxRetries = 2;
+
+      while (retryCount <= maxRetries) {
+        logToBoth('info', `[步骤8.4] 原生树识别表单内容 (第 ${retryCount + 1} 次)...`);
+        await zbbAutomation.delay(retryCount === 0 ? 2000 : 1500);
+        formNodes = (await zbbAutomation.getAllTextNodes()) || [];
+        logToBoth('info', `[步骤8.4] 界面节点数: ${formNodes.length}`);
+
+        if (this.isFormFilled(formNodes)) {
+          logToBoth('success', `[步骤8.4] ✅ 表单已填充（${retryCount === 0 ? '首次' : '重试 ' + retryCount + ' 次后'}）`);
+          break;
         }
+
+        if (retryCount < maxRetries) {
+          logToBoth('warn', `[步骤8.4] ⚠️ 表单未填充，准备重试 (${retryCount + 1}/${maxRetries})`);
+          // 重试时再触发一次粘贴流程
+          await zbbAutomation.longPress(pasteNode.centerX, pasteNode.centerY, 1500);
+          await zbbAutomation.delay(400);
+          await zbbAutomation.tap(140, 720);
+          await zbbAutomation.delay(800);
+        } else {
+          logToBoth('error', `[步骤8.4] ❌ 重试 ${maxRetries} 次后仍无表单内容`);
+        }
+        retryCount++;
+      }
+
+      // retry 用尽 + 表单仍未填 → 弹窗+震动+GO 兜底
+      // 用户点 GO 后已人工填好表单，重新抓 formNodes 让后续解析/步骤9 用新数据
+      if (!this.isFormFilled(formNodes)) {
+        await this.handlePasteFailure('[步骤8.4] 重试 2 次后表单仍未填充');
+        formNodes = (await zbbAutomation.getAllTextNodes()) || [];
+        logToBoth('info', `[步骤8.4] 兜底后重新识别: 节点数: ${formNodes.length}`);
+        if (!this.isFormFilled(formNodes)) {
+          logToBoth('warn', '[步骤8.4] 兜底后仍未识别到表单内容，继续流程（步骤9 可能找不到节点）');
+        }
+        // 不 return：让 fillForm 继续走解析代码 + 步骤9（用户已人工确认）
       }
     }
-
-    if (!success) {
-      logToBoth('error', '[步骤7-8] ⚠️ 两条路径全失败，需要人工介入');
-    }
-
-    // ========== 步骤8.4：原生树识别表单内容 ==========
-    logToBoth('info', '[步骤8.4] 原生树识别表单内容...');
-    await zbbAutomation.delay(2000); // 等待表单填充完成
-    const formNodes = await zbbAutomation.getAllTextNodes();
-    logToBoth('info', `[步骤8.4] 界面节点数: ${formNodes?.length || 0}`);
 
     let companyName = '';
     let customerName = '';
@@ -479,35 +506,74 @@ class BaoliService {
       if (!text || text.trim().length === 0) return;
       logToBoth('info', `[步骤8.4] 节点: "${text}" @ (${Math.round(node.centerX)}, ${Math.round(node.centerY)})`);
 
-      // 公司名称
-      const companyMatch = text.match(/公司名称[：:]?\s*(.+)/);
-      if (companyMatch) companyName = companyMatch[1].trim();
-      // 客户姓名
-      const nameMatch = text.match(/客户姓名[：:]?\s*(.+)/);
-      if (nameMatch) customerName = nameMatch[1].trim();
-      // 客户联系方式
-      const phoneMatch = text.match(/客户联系方式[：:]?\s*(.+)/);
-      if (phoneMatch) customerPhone = phoneMatch[1].trim();
-      // 报备项目
-      const projectMatch = text.match(/报备项目[：:]?\s*(.+)/);
-      if (projectMatch) reportProject = projectMatch[1].trim();
-      // 物业类型
-      const propMatch = text.match(/物业类型[：:]?\s*(.+)/);
-      if (propMatch) propertyType = propMatch[1].trim();
-      // 报备提交时间
-      const reportMatch = text.match(/报备提交时间[：:]?\s*(.+)/);
-      if (reportMatch) reportTime = reportMatch[1].trim();
-      // 预计到访时间
-      const visitMatch = text.match(/预计到访时间[：:]?\s*(.+)/);
-      if (visitMatch) expectedVisitTime = visitMatch[1].trim();
-      // 经纪人姓名
-      const agentMatch = text.match(/经纪人姓名[：:]?\s*(.+)/);
-      if (agentMatch) agentName = agentMatch[1].trim();
+      // 拆行处理（剪贴板预览是大块 text 包含 \n，单行匹配更稳）
+      const lines = text.split(/\n+/).map((l: string) => l.trim()).filter(Boolean);
+
+      for (const line of lines) {
+        // 公司名称
+        if (!companyName) {
+          const m = line.match(/^公司名称[：:](.+)$/);
+          if (m) companyName = m[1].trim();
+        }
+        // 客户姓名
+        if (!customerName) {
+          const m = line.match(/^客户姓名[：:](.+)$/);
+          if (m) customerName = m[1].trim();
+        }
+        // 客户联系方式（兼容"客户联系方式"和"联系方式"）
+        if (!customerPhone) {
+          const m = line.match(/^(?:客户)?联系方式[：:](.+)$/);
+          if (m) customerPhone = m[1].trim();
+        }
+        // 性别（直接匹配"性别"标签，优先于姓名推断）
+        if (!customerGender) {
+          const m = line.match(/^性别[：:](.+)$/);
+          if (m) {
+            const g = m[1].trim();
+            if (g === '男' || g === '女') customerGender = g;
+          }
+        }
+        // 报备项目
+        if (!reportProject) {
+          const m = line.match(/^报备项目[：:](.+)$/);
+          if (m) reportProject = m[1].trim();
+        }
+        // 物业类型
+        if (!propertyType) {
+          const m = line.match(/^物业类型[：:](.+)$/);
+          if (m) propertyType = m[1].trim();
+        }
+        // 报备提交时间（兼容"报备提交时间"和"报备提交"）
+        if (!reportTime) {
+          const m = line.match(/^报备提交(?:时间)?[：:](.+)$/);
+          if (m) reportTime = m[1].trim();
+        }
+        // 预计到访时间
+        if (!expectedVisitTime) {
+          const m = line.match(/^预计到访时间[：:](.+)$/);
+          if (m) expectedVisitTime = m[1].trim();
+        }
+        // 经纪人姓名（兼容"经纪人姓名"和"经纪人"）
+        if (!agentName) {
+          const m = line.match(/^经纪人(?:姓名)?[：:](.+)$/);
+          if (m) agentName = m[1].trim();
+        }
+      }
+
+      // 兜底：如果 reportProject 仍空，第一行可能是项目名（无 "XX:" 格式）
+      if (!reportProject && lines.length > 0) {
+        const firstLine = lines[0];
+        if (!firstLine.includes(':') && !firstLine.includes('：')) {
+          reportProject = firstLine;
+        }
+      }
     });
 
-    // 判断性别
-    if (/[女士|小姐|太太]$/.test(customerName)) customerGender = '女';
-    else if (/先生$/.test(customerName)) customerGender = '男';
+    // 判断性别（兜底：仅在"性别"标签未匹配时，从姓名末尾推断）
+    if (!customerGender && customerName) {
+      if (/[女士|小姐|太太]$/.test(customerName)) customerGender = '女';
+      else if (/先生$/.test(customerName)) customerGender = '男';
+    }
 
     logToBoth('info', `[步骤8.4] 解析结果: 公司=${companyName} 客户=${customerName} 性别=${customerGender} 电话=${customerPhone} 项目=${reportProject} 物业=${propertyType} 报备时间=${reportTime} 到访时间=${expectedVisitTime} 经纪人=${agentName}`);
 
@@ -977,6 +1043,90 @@ class BaoliService {
     await zbbAutomation.delay(1000);
     await zbbAutomation.tap(540, 2300); // Home键
     await zbbAutomation.delay(1000);
+  }
+
+  /**
+   * 判断表单是否已填充（步骤 8.4 辅助）
+   * 最小判断 3 字段：客户姓名 2-4 中文字 / 客户电话符合 1XX****XXXX / 公司名称含"公司"
+   * 2026-06-14 老板方案 C（3 字段最小判断，不重构原解析代码 L466-518）
+   */
+  private isFormFilled(nodes: any[]): boolean {
+    if (!nodes || nodes.length === 0) return false;
+    let hasName = false;
+    let hasPhone = false;
+    let hasCompany = false;
+    const phoneRegex = /1\d{2}\*{4}\d{4}/;        // 如 177****1234
+    const nameRegex = /^[\u4e00-\u9fa5]{2,4}$/;    // 2-4 字中文姓名
+    for (const n of nodes) {
+      const text = (n?.text || '').trim();
+      if (!text) continue;
+      if (nameRegex.test(text)) hasName = true;
+      if (phoneRegex.test(text)) hasPhone = true;
+      if (text.includes('公司')) hasCompany = true;
+    }
+    logToBoth('info', `[isFormFilled] 姓名=${hasName} 电话=${hasPhone} 公司=${hasCompany}`);
+    return hasName && hasPhone && hasCompany;
+  }
+
+  /**
+   * 粘贴失败兜底：30S 循环震动 + Toast + 弹窗 + GO 按钮（参考重号模式 L802-822）
+   * 同步阻塞等用户点 GO 按钮后返回
+   * 2026-06-14 老板新方案
+   */
+  private async handlePasteFailure(reason: string): Promise<void> {
+    logToBoth('warn', `[粘贴失败兜底] ${reason}`);
+
+    // 1. Toast 提示
+    try {
+      await zbbAutomation.showToast('粘贴失败，请人工介入');
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      logToBoth('warn', `[粘贴失败兜底] showToast 失败: ${msg}`);
+    }
+
+    // 2. 30S 循环震动
+    try {
+      await zbbAutomation.startPulseVibration();
+      logToBoth('warn', '[粘贴失败兜底] 已启动 30S 循环震动');
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      logToBoth('warn', `[粘贴失败兜底] startPulseVibration 失败: ${msg}`);
+    }
+
+    // 3. 系统 Alert 弹窗
+    Alert.alert(
+      '粘贴失败',
+      `${reason}\n\n已启动 30S 循环震动 + 浮窗 GO 按钮\n点 GO 后请人工核对表单内容`,
+      [{ text: '知道了' }]
+    );
+
+    // 4. 显示 GO 按钮
+    try {
+      await zbbAutomation.showScreenshotButton();
+      logToBoth('warn', '[粘贴失败兜底] 浮窗 GO 按钮已显示');
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      logToBoth('warn', `[粘贴失败兜底] showScreenshotButton 失败: ${msg}`);
+    }
+
+    // 5. 同步阻塞等用户点 GO
+    await new Promise<void>((resolve) => {
+      const subscription = addScreenshotConfirmedListener(() => {
+        logToBoth('success', '[粘贴失败兜底] 用户已点击 GO 按钮');
+        removeStopListener(subscription);
+        resolve();
+      });
+    });
+
+    // 6. 停止震动
+    try {
+      await zbbAutomation.stopVibration();
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      logToBoth('warn', `[粘贴失败兜底] stopVibration 失败: ${msg}`);
+    }
+
+    logToBoth('info', '[粘贴失败兜底] 兜底流程结束，继续后续步骤');
   }
 }
 
