@@ -393,24 +393,70 @@ class BaoliService {
    * 千机端不再写数据库，由这里读取表单内容后写入
    */
   private async fillForm(customer: any): Promise<void> {
-    // ========== 步骤7：长按"粘贴完整客户信息..." ==========
-    // 注意：不再写入剪贴板，剪贴板内容由千机端步骤3已写入
-    logToBoth('info', '[步骤7] 长按"粘贴完整客户信息..."');
+    // ========== 步骤7-8：3路径兜底粘贴（方案B 2026-06-14）==========
+    // 修复前：硬坐标 (130,710) + 长按 2s 100% 失败风险
+    // 修复后：路径1 找节点 / 路径2 adb input keyevent / 路径3 ACTION_SET_TEXT
+
+    // 路径 0：剪贴板校验（千机端步骤3应该已经写入客户信息）
+    logToBoth('info', '[步骤7-8] 校验剪贴板...');
+    let clipText = '';
+    try {
+      clipText = (await zbbAutomation.getClipboardText()) || '';
+    } catch (e: any) {
+      logToBoth('warn', `[步骤7-8] 读剪贴板失败: ${e?.message || e}`);
+    }
+    if (!clipText || !clipText.includes('客户')) {
+      logToBoth('warn', `[步骤7-8] 剪贴板无客户信息，跳过粘贴: ${clipText?.substring(0, 30) || '(空)'}`);
+    } else {
+      logToBoth('success', `[步骤7-8] 剪贴板内容前30字: ${clipText.substring(0, 30)}`);
+    }
+
+    // 步骤 7：长按"粘贴完整客户信息..."输入框触发弹窗
+    logToBoth('info', '[步骤7] 长按"粘贴完整客户信息..." (1500ms)');
     await zbbAutomation.delay(1000);
     const pasteNode = await this.findNodeByText('粘贴完整客户信息');
     if (pasteNode) {
-      logToBoth('success', '[步骤7] 找到"粘贴完整客户信息" @ (' + pasteNode.centerX + ', ' + pasteNode.centerY + ')');
-      logToBoth('info', '[步骤7] 长按2秒...');
-      await zbbAutomation.longPress(pasteNode.centerX, pasteNode.centerY, 2000);
-      await zbbAutomation.delay(1000);
-      logToBoth('info', '[步骤7] 长按完成');
+      logToBoth('success', '[步骤7] 找到 @ (' + pasteNode.centerX + ', ' + pasteNode.centerY + ')');
+      // 1500ms 让 EMUI 弹菜单（路径 1 兜底用）
+      await zbbAutomation.longPress(pasteNode.centerX, pasteNode.centerY, 1500);
     } else {
       logToBoth('error', '[步骤7] 未找到"粘贴完整客户信息"');
     }
 
-    // ========== 步骤8：点击粘贴 (130, 710) ==========
-    logToBoth('info', '[步骤8] 点击粘贴 (130, 710)');
-    await zbbAutomation.tap(130, 710);
+    // 步骤 8：路径 2（系统级 PASTE）→ 路径 1（UI 弹窗兜底）
+    let success = false;
+
+    // 路径 2：execShell input keyevent 279（系统级粘贴，最稳）
+    // 机制：adb 进程发 PASTE 事件 → 焦点 app（企业微信）自己读剪贴板
+    try {
+      const out = await zbbAutomation.execShell('input keyevent 279');
+      success = true;
+      logToBoth('success', `[步骤8-路径2] execShell input keyevent 279, out=${out?.substring(0, 30) || '(无输出)'}`);
+    } catch (e) {
+      logToBoth('warn', `[步骤8-路径2] 失败: ${e?.message}`);
+    }
+
+    // 路径 1：轮询找弹窗菜单"粘贴"（5 × 400ms = 2s，UI 兜底）
+    // 用 findExactNode 精确匹配，避免匹配"粘贴完整客户信息"输入框
+    if (!success) {
+      const pasteCandidates = ['粘贴', '粘贴全部', '贴上', 'Paste'];
+      for (let i = 0; i < 5 && !success; i++) {
+        await zbbAutomation.delay(400);
+        for (const text of pasteCandidates) {
+          const menu = await this.findExactNode(text);
+          if (menu) {
+            await zbbAutomation.tap(menu.centerX, menu.centerY);
+            success = true;
+            logToBoth('success', `[步骤8-路径1] tap "${text}" @ (${menu.centerX}, ${menu.centerY})`);
+            break;
+          }
+        }
+      }
+    }
+
+    if (!success) {
+      logToBoth('error', '[步骤7-8] ⚠️ 两条路径全失败，需要人工介入');
+    }
 
     // ========== 步骤8.4：原生树识别表单内容 ==========
     logToBoth('info', '[步骤8.4] 原生树识别表单内容...');
