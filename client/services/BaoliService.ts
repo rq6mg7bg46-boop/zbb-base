@@ -1183,7 +1183,7 @@ class BaoliService {
     // 1. 系统 Alert 弹窗（替换原 showToast 形式，2026-06-16 老板要求：Toast 一闪就过，改 Alert）
     Alert.alert(
       '粘贴失败',
-      `${reason}\n\n已启动 30S 循环震动 + 浮窗 GO 按钮\n点 GO 后请人工核对表单内容`,
+      `${reason}\n\n客户信息异常，请检查\n\n已启动 30S 循环震动 + 浮窗 GO 按钮\n点 GO 后请人工核对表单内容`,
       [{ text: '知道了' }]
     );
 

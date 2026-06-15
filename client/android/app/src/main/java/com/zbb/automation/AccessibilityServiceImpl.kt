@@ -1288,13 +1288,13 @@ class AccessibilityServiceImpl : AccessibilityService() {
                 }
             }.also { vibrationJob = it })
             
-            // 60秒后自动停止震动
+            // 30秒后自动停止震动（修复：原写 60 秒与 BaoliService 注释/期望不符，老板 2026-06-16 反馈）
             mainHandler.postDelayed({
                 if (isVibrating) {
-                    Log.i(TAG, "震动超时60秒，自动停止")
+                    Log.i(TAG, "震动超时30秒，自动停止")
                     stopVibration()
                 }
-            }, 60000)
+            }, 30000)
             
             callback?.invoke(true)
         } catch (e: Exception) {
