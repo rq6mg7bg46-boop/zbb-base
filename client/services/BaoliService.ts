@@ -58,10 +58,69 @@ function getDelay(type: 'openApp' | 'other' | 'notice'): number {
 //   agentRemark: '',
 // };
 
-// 辅助函数：生成随机延迟
-function randomDelay(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+// ========== P+ 拟人化工具函数（2026-06-15 老板方案 P3：偏移±5px / 概率15%）==========
+
+// 1. 不规则点击坐标（均匀分布 ±5px）
+async function humanTap(x: number, y: number): Promise<void> {
+  // P3: 均匀分布 [-5, +5]，比原 Gaussian ±15px 收窄 3 倍
+  const dx = Math.round(Math.random() * 10 - 5);
+  const dy = Math.round(Math.random() * 10 - 5);
+  logToBoth('info', `[P+ humanTap] (${x},${y}) + (${dx},${dy})`);
+  void zbbAutomation.tap(x + dx, y + dy);  // 工具函数内部用 void 避开 replace_all
 }
+
+// 2. 滑动速度曲线（ease-in-out 10 段）
+async function humanSwipe(x1: number, y1: number, x2: number, y2: number, duration: number): Promise<void> {
+  const steps = 10;
+  const stepDelay = Math.max(20, Math.floor(duration / steps));
+  for (let i = 1; i <= steps; i++) {
+    const progress = i / steps;
+    // ease-in-out cubic
+    const eased = progress < 0.5
+      ? 4 * progress * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+    const x = Math.round(x1 + (x2 - x1) * eased);
+    const y = Math.round(y1 + (y2 - y1) * eased);
+    void zbbAutomation.tap(x, y);  // 工具函数内部用 void 避开 replace_all
+    if (i < steps) await zbbAutomation.delay(stepDelay);
+  }
+}
+
+// 3. 随机停顿（Poisson 分布，P3 概率 15% → 8% 加速）
+async function maybePause(probability: number = 0.08): Promise<void> {
+  if (Math.random() < probability) {
+    // Poisson 分布近似：-ln(1-u) * mean
+    const mean = 2.0;
+    const u = Math.random();
+    const pause = Math.round(-Math.log(1 - u) * mean * 1000);
+    const clampedPause = Math.max(500, Math.min(3000, pause));
+    logToBoth('info', `[P+ 随机停顿] ${clampedPause}ms`);
+    await zbbAutomation.delay(clampedPause);
+  }
+}
+
+// 4. 页面停留时长（Gamma 分布替代均匀分布）
+function pGammaDelay(min: number, max: number): number {
+  // 简化 Gamma（α=2, β=1）：均值为 min+max/2，方差较小让中间值更集中
+  const mean = (min + max) / 2;
+  const variance = (max - min) / 4;
+  const u1 = Math.max(0.0001, Math.random());
+  const u2 = Math.random();
+  const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  const gamma = Math.round(mean + z * variance);
+  return Math.max(min, Math.min(max, gamma));
+}
+
+// 5. 滚动 bounce（overshoot + 回弹，模拟手指惯性）
+async function humanSwipeWithBounce(x1: number, y1: number, x2: number, y2: number, duration: number): Promise<void> {
+  // 多滑 20px, 30px（手指惯性 overshoot）
+  await zbbAutomation.swipe(x1, y1, x2 + 20, y2 - 30, duration);
+  await zbbAutomation.delay(200);
+  // 回弹 20px, 30px
+  await zbbAutomation.swipe(x2 + 20, y2 - 30, x2, y2, 300);
+}
+
+// ========== P+ 工具函数结束 ==========
 
 // 辅助函数：输出到 Metro Console
 function logToBoth(level: 'info' | 'success' | 'warn' | 'error', message: string) {
@@ -114,7 +173,7 @@ class BaoliService {
       const found = nodes?.find((n: any) => n.text && n.text.includes(text));
       if (found) return found;
       if (i < retries - 1) {
-        const wait = randomDelay(800, 1500);
+        const wait = pGammaDelay(800, 1500);
         logToBoth('warn', `[findNodeByText] "${text}" 未找到，重试 (${i + 1}/${retries - 1})，等 ${wait}ms`);
         await zbbAutomation.delay(wait);
       }
@@ -132,7 +191,7 @@ class BaoliService {
       const found = nodes?.find((n: any) => n.text === text);
       if (found) return found;
       if (i < retries - 1) {
-        const wait = randomDelay(800, 1500);
+        const wait = pGammaDelay(800, 1500);
         logToBoth('warn', `[findExactNode] "${text}" 未找到，重试 (${i + 1}/${retries - 1})，等 ${wait}ms`);
         await zbbAutomation.delay(wait);
       }
@@ -182,7 +241,7 @@ class BaoliService {
       const wechatNode = await zbbAutomation.findNodeCenterByText('企业微信');
       if (wechatNode) {
         logToBoth('success', '[步骤2] 找到\"企业微信\" @ (' + wechatNode.centerX + ', ' + wechatNode.centerY + ')');
-        await zbbAutomation.tap(wechatNode.centerX, wechatNode.centerY);
+        await humanTap(wechatNode.centerX, wechatNode.centerY);
       } else {
         logToBoth('error', '[步骤2] 未在桌面找到\"企业微信\"图标，尝试直接启动');
         await zbbAutomation.launchAppWithMonkey(
@@ -198,36 +257,48 @@ class BaoliService {
       let workbenchNode = await this.findNodeByText('工作台');
       if (workbenchNode) {
         logToBoth('success', '[步骤2] 找到"工作台" @ (' + workbenchNode.centerX + ', ' + workbenchNode.centerY + ')');
-        await zbbAutomation.tap(workbenchNode.centerX, workbenchNode.centerY);
+        await humanTap(workbenchNode.centerX, workbenchNode.centerY);
       } else {
         logToBoth('warn', '[步骤2] 未找到"工作台"，使用备用坐标 (540, 199)');
-        await zbbAutomation.tap(540, 199);
+        await humanTap(540, 199);
       }
 
-      await zbbAutomation.delay(randomDelay(2000, 3000));
+      await zbbAutomation.delay(pGammaDelay(2000, 3000));
 
       // ========== 步骤3：上滑4次 → 查找"云和家经纪云" ==========
+      // 第一批优化 J：先 find 1 次（retries=1），找不到才上滑；上滑最多 3 次
       logToBoth('info', '[步骤3] 上滑查找"云和家经纪云"...');
       let found = false;
-      for (let i = 0; i <5; i++) {
-        const node = await this.findNodeByText('云和家经纪云');
-        if (node) {
-          logToBoth('success', '[步骤3] 找到"云和家经纪云" @ (' + node.centerX + ', ' + node.centerY + ')');
-          await zbbAutomation.tap(node.centerX, node.centerY);
-          found = true;
-          break;
+      let cloudNode = await this.findNodeByText('云和家经纪云', 1);
+      if (cloudNode) {
+        logToBoth('success', '[步骤3] 找到"云和家经纪云" @ (' + cloudNode.centerX + ', ' + cloudNode.centerY + ')');
+        await humanTap(cloudNode.centerX, cloudNode.centerY);
+        found = true;
+      } else {
+        for (let i = 0; i < 3; i++) {
+          // P+ 拟人化滚动：手指惯性 overshoot + 回弹
+          await humanSwipeWithBounce(540, 1800, 540, 600, 800);
+          await zbbAutomation.delay(1500);
+          cloudNode = await this.findNodeByText('云和家经纪云', 1);
+          if (cloudNode) {
+            logToBoth('success', '[步骤3] 上滑 ' + (i + 1) + ' 次后找到 @ (' + cloudNode.centerX + ', ' + cloudNode.centerY + ')');
+            await humanTap(cloudNode.centerX, cloudNode.centerY);
+            found = true;
+            break;
+          }
         }
-        // 上滑
-        await zbbAutomation.swipe(540, 1800, 540, 600, 800);
-        await zbbAutomation.delay(1500);
       }
 
       if (!found) {
         logToBoth('warn', '[步骤3] 未找到"云和家经纪云"，使用备用坐标 (668, 1502)');
-        await zbbAutomation.tap(668, 1502);
+        await humanTap(668, 1502);
       }
 
-      await zbbAutomation.delay(randomDelay(8000, 10000));
+      // 第一批优化 A：等云和家小程序加载（9s → 3s）
+      await zbbAutomation.delay(3000);
+
+      // P+ 随机停顿（云和家加载等待期）
+      await maybePause();
 
       // ========== 直接进入 fillForm（剪贴板由千机端写入，保利端只管粘贴）==========
       logToBoth('info', '[步骤X] 直接进入填表流程...');
@@ -238,29 +309,32 @@ class BaoliService {
       const projectNode = await this.findExactNode('郑州保利山水和颂');
       if (projectNode) {
         logToBoth('success', '[步骤4] 找到 @ (' + projectNode.centerX + ', ' + projectNode.centerY + ')');
-        await zbbAutomation.tap(projectNode.centerX, projectNode.centerY);
+        await humanTap(projectNode.centerX, projectNode.centerY);
       } else {
         logToBoth('warn', '[步骤4] 未找到，使用固定坐标 (723, 1268)');
-        await zbbAutomation.tap(723, 1268);
+        await humanTap(723, 1268);
       }
 
-      await zbbAutomation.delay(randomDelay(2000, 3000));
+      await zbbAutomation.delay(pGammaDelay(2000, 3000));
 
       // ========== 步骤5：点击"报备" ==========
       logToBoth('info', '[步骤5] 点击"报备"...');
       const baobeiNode = await this.findExactNode('报备');
       if (baobeiNode) {
         logToBoth('success', '[步骤5] 找到"报备" @ (' + baobeiNode.centerX + ', ' + baobeiNode.centerY + ')');
-        await zbbAutomation.tap(baobeiNode.centerX, baobeiNode.centerY);
+        await humanTap(baobeiNode.centerX, baobeiNode.centerY);
       } else {
         logToBoth('warn', '[步骤5] 未找到"报备"，使用备用坐标 (700, 2200)');
-        await zbbAutomation.tap(700, 2200);
+        await humanTap(700, 2200);
         // ===== 调试：等待后打印界面所有节点 =====
         await zbbAutomation.delay(4000);
         await this.printScreenText();
       }
 
-      await zbbAutomation.delay(randomDelay(3000, 4000));
+      await zbbAutomation.delay(pGammaDelay(3000, 4000));
+
+      // P+ 随机停顿（进入表单前的迟疑）
+      await maybePause();
 
       // ========== 步骤6-22：填写表单 ==========
       await this.fillForm(null);
@@ -334,7 +408,7 @@ class BaoliService {
       const wechatNode = await zbbAutomation.findNodeCenterByText('企业微信');
       if (wechatNode) {
         logToBoth('success', '[保利直传:步骤2] 找到"企业微信" @ (' + wechatNode.centerX + ', ' + wechatNode.centerY + ')');
-        await zbbAutomation.tap(wechatNode.centerX, wechatNode.centerY);
+        await humanTap(wechatNode.centerX, wechatNode.centerY);
       } else {
         logToBoth('error', '[保利直传:步骤2] 未在桌面找到"企业微信"图标，尝试直接启动');
         await zbbAutomation.launchAppWithMonkey(
@@ -349,43 +423,53 @@ class BaoliService {
       await zbbAutomation.delay(1000);
       const workbenchNode = await this.findNodeByText('工作台');
       if (workbenchNode) {
-        await zbbAutomation.tap(workbenchNode.centerX, workbenchNode.centerY);
+        await humanTap(workbenchNode.centerX, workbenchNode.centerY);
       } else {
-        await zbbAutomation.tap(540, 199);
+        await humanTap(540, 199);
       }
-      await zbbAutomation.delay(randomDelay(2000, 3000));
+      await zbbAutomation.delay(pGammaDelay(2000, 3000));
 
       // ========== 步骤4：上滑查找"云和家经纪云" ==========
+      // 第一批优化 J：先 find 1 次（retries=1），找不到才上滑；上滑最多 3 次
       logToBoth('info', '[保利直传:步骤4] 上滑查找"云和家经纪云"...');
       let found = false;
-      for (let i = 0; i < 5; i++) {
-        const node = await this.findNodeByText('云和家经纪云');
-        if (node) {
-          logToBoth('success', '[保利直传:步骤4] 找到"云和家经纪云" @ (' + node.centerX + ', ' + node.centerY + ')');
-          await zbbAutomation.tap(node.centerX, node.centerY);
-          found = true;
-          break;
+      let cloudNode = await this.findNodeByText('云和家经纪云', 1);
+      if (cloudNode) {
+        logToBoth('success', '[保利直传:步骤4] 找到"云和家经纪云" @ (' + cloudNode.centerX + ', ' + cloudNode.centerY + ')');
+        await humanTap(cloudNode.centerX, cloudNode.centerY);
+        found = true;
+      } else {
+        for (let i = 0; i < 3; i++) {
+          // P+ 拟人化滚动：手指惯性 overshoot + 回弹
+          await humanSwipeWithBounce(540, 1800, 540, 600, 800);
+          await zbbAutomation.delay(1500);
+          cloudNode = await this.findNodeByText('云和家经纪云', 1);
+          if (cloudNode) {
+            logToBoth('success', '[保利直传:步骤4] 上滑 ' + (i + 1) + ' 次后找到 @ (' + cloudNode.centerX + ', ' + cloudNode.centerY + ')');
+            await humanTap(cloudNode.centerX, cloudNode.centerY);
+            found = true;
+            break;
+          }
         }
-        await zbbAutomation.swipe(540, 1800, 540, 600, 800);
-        await zbbAutomation.delay(1500);
       }
       if (!found) {
         logToBoth('warn', '[保利直传:步骤4] 未找到，使用备用坐标 (668, 1502)');
-        await zbbAutomation.tap(668, 1502);
+        await humanTap(668, 1502);
       }
-      await zbbAutomation.delay(randomDelay(8000, 10000));
+      // 第一批优化 A：等云和家小程序加载（9s → 3s）
+      await zbbAutomation.delay(3000);
 
       // ========== 步骤5：打印界面 + 点击"报备" ==========
       await this.printScreenText();
       logToBoth('info', '[保利直传:步骤5] 点击"报备"...');
       const baobeiNode = await this.findExactNode('报备');
       if (baobeiNode) {
-        await zbbAutomation.tap(baobeiNode.centerX, baobeiNode.centerY);
+        await humanTap(baobeiNode.centerX, baobeiNode.centerY);
       } else {
         logToBoth('warn', '[保利直传:步骤5] 未找到"报备"，使用备用坐标 (700, 2200)');
-        await zbbAutomation.tap(700, 2200);
+        await humanTap(700, 2200);
       }
-      await zbbAutomation.delay(randomDelay(3000, 4000));
+      await zbbAutomation.delay(pGammaDelay(3000, 4000));
 
       // ========== 步骤6-22：填写表单 ==========
       await this.fillForm(this.currentCustomer);
@@ -440,15 +524,18 @@ class BaoliService {
     } else {
       logToBoth('success', '[步骤7] 找到输入框 @ (' + pasteNode.centerX + ', ' + pasteNode.centerY + ')');
 
-      // 动作 2：长按 1500ms 触发 EMUI 弹菜单
-      logToBoth('info', '[步骤7] 长按输入框 1500ms 触发 EMUI 弹菜单');
-      await zbbAutomation.longPress(pasteNode.centerX, pasteNode.centerY, 1500);
+      // 动作 2：长按 2000ms 触发 EMUI 弹菜单（统一到第二轮）
+      logToBoth('info', '[步骤7] 长按输入框 2000ms 触发 EMUI 弹菜单');
+      await zbbAutomation.longPress(pasteNode.centerX, pasteNode.centerY, 2000);
 
-      // 动作 3：tap(140, 720) 弹窗"粘贴"按钮
+      // 动作 3：tap(140, 720) 弹窗"粘贴"按钮（P+ 保留：弹窗按钮固定不能偏移）
       logToBoth('info', '[步骤7] tap 弹窗"粘贴"按钮 @ (140, 720)');
-      await zbbAutomation.delay(randomDelay(800, 1500)); // 等弹窗动画（800-1500ms 随机）
+      await zbbAutomation.delay(1000); // 等弹窗动画（统一到第二轮的 1000ms）
       await zbbAutomation.tap(140, 720);
-      await zbbAutomation.delay(800); // 等系统粘贴完成
+      // 删 800ms delay：步骤 8.4 内置 retry delay 2000ms 已覆盖等待粘贴完成
+
+      // P+ 随机停顿（粘贴完成后的反应时间）
+      await maybePause();
 
       // ========== 步骤8.4：原生树识别表单内容（retry 2 次）==========
       let retryCount = 0;
@@ -470,7 +557,7 @@ class BaoliService {
           // 重试时再触发一次粘贴流程
           await zbbAutomation.longPress(pasteNode.centerX, pasteNode.centerY, 1500);
           await zbbAutomation.delay(400);
-          await zbbAutomation.tap(140, 720);
+          await zbbAutomation.tap(140, 720); // P+ 保留：弹窗按钮固定不能偏移
           await zbbAutomation.delay(800);
         } else {
           logToBoth('error', `[步骤8.4] ❌ 重试 ${maxRetries} 次后仍无表单内容`);
@@ -583,29 +670,29 @@ class BaoliService {
     const fenqiNode = await this.findNodeByText('请选择分期');
     if (fenqiNode) {
       logToBoth('success', '[步骤9] 找到"请选择分期" @ (' + fenqiNode.centerX + ', ' + fenqiNode.centerY + ')');
-      await zbbAutomation.tap(fenqiNode.centerX, fenqiNode.centerY);
+      await humanTap(fenqiNode.centerX, fenqiNode.centerY);
     } else {
       logToBoth('error', '[步骤9] 未找到"请选择分期"');
     }
 
     // ========== 步骤：等待2-3秒 ==========
-    await zbbAutomation.delay(randomDelay(2000, 3000));
+    await zbbAutomation.delay(pGammaDelay(2000, 3000));
 
-    // ========== 步骤：打印当前界面内容 ==========
-    logToBoth('info', '打印当前界面内容...');
-    await this.printScreenText();
+    // P+ 随机停顿（分期选择后）
+    await maybePause();
 
+    // 第一批优化 I：删除重复的 printScreenText（步骤 10 中会再次调用，节点未变）
     // ========== 步骤10：点击"郑州市三村杓袁7号地项目-保利缦城和颂【郑州保利和颂】" ==========
+    // 统一到第二轮：选项目前不再 delay（步骤 9 后的 pGammaDelay(2000,3000) 已足够等分期列表加载）
     logToBoth('info', '[步骤10] 选择报备项目...');
-    await zbbAutomation.delay(randomDelay(2000, 3000));
     const projectNodes = await this.printScreenText();
     const targetProject = projectNodes?.find((n: any) => n.text && n.text.includes('郑州市三村杓袁7号地项目-保利缦城和颂[郑州保利和颂]'));
     if (targetProject) {
       logToBoth('success', '[步骤10] 找到"' + targetProject.text + '" @ (' + targetProject.centerX + ', ' + targetProject.centerY + ')');
-      await zbbAutomation.tap(targetProject.centerX, targetProject.centerY);
+      await humanTap(targetProject.centerX, targetProject.centerY);
     } else {
       logToBoth('warn', '[步骤10] 未找到目标项目，使用备用坐标 (540, 2000)');
-      await zbbAutomation.tap(540, 2000);
+      await humanTap(540, 2000);
     }
 
     // ========== 步骤11：点击"确认" ==========
@@ -614,42 +701,48 @@ class BaoliService {
     const confirmNode = await this.findExactNode('确认');
     if (confirmNode) {
       logToBoth('success', '[步骤11] 找到"确认" @ (' + confirmNode.centerX + ', ' + confirmNode.centerY + ')');
-      await zbbAutomation.tap(confirmNode.centerX, confirmNode.centerY);
+      await humanTap(confirmNode.centerX, confirmNode.centerY);
     } else {
       logToBoth('warn', '[步骤11] 未找到"确认"，使用备用坐标 (950, 1500)');
-      await zbbAutomation.tap(950, 1500);
+      await humanTap(950, 1500);
     }
 
     // ========== 步骤12：智能识别 ==========
+    // 老板反馈步骤 11 → 12 间隔太短（之前统一到 delay(1000)，智能识别按钮还没加载就找）
+    // 加长到 pGammaDelay(2000, 3000) ≈ 2.5s
     logToBoth('info', '[步骤12] 点击"智能识别"...');
-    await zbbAutomation.delay(randomDelay(3000, 4000));
+    await zbbAutomation.delay(pGammaDelay(2000, 3000));
     const zhinengNode = await this.findNodeByText('智能识别');
     if (zhinengNode) {
       logToBoth('success', '[步骤12] 找到"智能识别" @ (' + zhinengNode.centerX + ', ' + zhinengNode.centerY + ')');
-      await zbbAutomation.tap(zhinengNode.centerX, zhinengNode.centerY);
+      await humanTap(zhinengNode.centerX, zhinengNode.centerY);
     } else {
       logToBoth('warn', '[步骤12] 未找到"智能识别"，使用备用坐标 (910, 1100)');
-      await zbbAutomation.tap(910, 1100);
+      await humanTap(910, 1100);
     }
 
     // ========== 步骤13：点击"报备" ==========
+    // 老板反馈：步骤 12 → 13 之间太短（之前统一删除 3.5s delay 后只剩 printScreenText 0.3s）
+    // 加长到 pGammaDelay(2000, 3000) ≈ 2.5s，等智能识别完成 + 报备按钮加载
     logToBoth('info', '[步骤13] 点击"报备"...');
-    await zbbAutomation.delay(randomDelay(3000, 4000));
+    await zbbAutomation.delay(pGammaDelay(2000, 3000));
     await this.printScreenText();
     const finalBaobeiNode = await this.findExactNode('报备');
     if (finalBaobeiNode) {
       logToBoth('success', '[步骤13] 找到"报备" @ (' + finalBaobeiNode.centerX + ', ' + finalBaobeiNode.centerY + ')');
-      await zbbAutomation.tap(finalBaobeiNode.centerX, finalBaobeiNode.centerY);
+      await humanTap(finalBaobeiNode.centerX, finalBaobeiNode.centerY);
     } else {
       logToBoth('warn', '[步骤13] 未找到"报备"，使用备用坐标 (540, 2200)');
-      await zbbAutomation.tap(540, 2200);
+      await humanTap(540, 2200);
     }
 
     // ========== 步骤14：等待报备结果 ==========
     logToBoth('info', '[步骤14] 等待报备结果...');
-    await zbbAutomation.delay(randomDelay(3000, 6000));
+    await zbbAutomation.delay(pGammaDelay(3000, 6000));
+    // P+ 随机停顿（报备结果查看）
+    await maybePause();
 
-    
+
   }
 
   /**
@@ -821,7 +914,7 @@ class BaoliService {
     const uploadNode = uploadNodes?.find((n) => n.text.includes('上传附件'));
     if (uploadNode) {
       logToBoth('success', '[步骤15-情况2-1] 找到"上传附件" @ (' + uploadNode.centerX + ', ' + uploadNode.centerY + ')，点击偏移位置');
-      await zbbAutomation.tap(uploadNode.centerX + 500, uploadNode.centerY);
+      await humanTap(uploadNode.centerX + 500, uploadNode.centerY);
     } else {
       logToBoth('warn', '[步骤15-情况2-1] 未找到"上传附件"，跳过');
     }
@@ -860,7 +953,7 @@ class BaoliService {
       const baobeiYouxiaoNode = nodesAfterOpen?.find((n: any) => n.text?.includes('报备有效'));
       if (baobeiYouxiaoNode) {
         logToBoth('success', '[步骤15-情况2-步骤8] 找到"报备有效" @ (' + baobeiYouxiaoNode.centerX + ', ' + baobeiYouxiaoNode.centerY + ')，点击...');
-        await zbbAutomation.tap(baobeiYouxiaoNode.centerX, baobeiYouxiaoNode.centerY);
+        await humanTap(baobeiYouxiaoNode.centerX, baobeiYouxiaoNode.centerY);
       } else {
         logToBoth('warn', '[步骤15-情况2-步骤8] 未找到"报备有效"，跳过');
       }
@@ -902,7 +995,9 @@ class BaoliService {
    */
   async handleSecondRound(): Promise<void> {
     logToBoth('info', '[第二轮] 开始第二轮报备...');
-    await zbbAutomation.delay(randomDelay(2000, 3000));
+    await zbbAutomation.delay(pGammaDelay(2000, 3000));
+    // P+ 随机停顿（第二轮开始准备）
+    await maybePause();
 
     // 点击"报备"按钮
     logToBoth('info', '[第二轮-步骤1] 点击"报备"...');
@@ -910,13 +1005,15 @@ class BaoliService {
     const baobeiNode2 = formNodes2?.find((n) => n.text === '报备');
     if (baobeiNode2) {
       logToBoth('success', '[第二轮-步骤1] 找到"报备" @ (' + baobeiNode2.centerX + ', ' + baobeiNode2.centerY + ')');
-      await zbbAutomation.tap(baobeiNode2.centerX, baobeiNode2.centerY);
+      await humanTap(baobeiNode2.centerX, baobeiNode2.centerY);
     } else {
       logToBoth('warn', '[第二轮-步骤1] 未找到"报备"，使用备用坐标 (700, 2200)');
-      await zbbAutomation.tap(700, 2200);
+      await humanTap(700, 2200);
     }
 
-    await zbbAutomation.delay(randomDelay(3000, 4000));
+    await zbbAutomation.delay(pGammaDelay(3000, 4000));
+    // P+ 随机停顿（第二轮报备后）
+    await maybePause();
 
     // 长按"粘贴完整客户信息"
     logToBoth('info', '[第二轮-步骤3] 长按"粘贴完整客户信息"...');
@@ -930,7 +1027,7 @@ class BaoliService {
       logToBoth('error', '[第二轮-步骤3] 未找到"粘贴完整客户信息"');
     }
 
-    // 点击粘贴
+    // 点击粘贴（P+ 保留：弹窗按钮固定不能偏移）
     logToBoth('info', '[第二轮-步骤4] 点击粘贴 (130, 710)');
     await zbbAutomation.tap(130, 710);
 
@@ -968,12 +1065,14 @@ class BaoliService {
     const fenqiNode = fenqiNodes?.find((n) => n.text === '请选择分期' || n.text === '分期');
     if (fenqiNode) {
       logToBoth('success', '[第二轮-步骤6] 找到"请选择分期" @ (' + fenqiNode.centerX + ', ' + fenqiNode.centerY + ')');
-      await zbbAutomation.tap(fenqiNode.centerX, fenqiNode.centerY);
+      await humanTap(fenqiNode.centerX, fenqiNode.centerY);
     } else {
       logToBoth('error', '[第二轮-步骤6] 未找到"请选择分期"');
     }
 
-    await zbbAutomation.delay(randomDelay(2000, 3000));
+    await zbbAutomation.delay(pGammaDelay(2000, 3000));
+    // P+ 随机停顿（第二轮分期选择后）
+    await maybePause();
 
     // ========== 第二轮-步骤6：选择"保利山水和颂" ==========
     logToBoth('info', '[第二轮-步骤6] 选择"保利山水和颂"...');
@@ -981,10 +1080,10 @@ class BaoliService {
     const projectNode = projectNodes?.find((n) => n.text.includes('郑州市三村杓袁7号地项目-保利山水和颂'));
     if (projectNode) {
       logToBoth('success', '[第二轮-步骤7] 找到"山水和颂" @ (' + projectNode.centerX + ', ' + projectNode.centerY + ')');
-      await zbbAutomation.tap(projectNode.centerX, projectNode.centerY);
+      await humanTap(projectNode.centerX, projectNode.centerY);
     } else {
       logToBoth('warn', '[第二轮-步骤7] 未找到"山水和颂"，使用备用坐标 (540, 2150)');
-      await zbbAutomation.tap(540, 2150);
+      await humanTap(540, 2150);
     }
 
     // ========== 第二轮-步骤7：点击"确认" ==========
@@ -993,40 +1092,46 @@ class BaoliService {
     const confirmNode = await this.findExactNode('确认');
     if (confirmNode) {
       logToBoth('success', '[第二轮-步骤8] 找到"确认" @ (' + confirmNode.centerX + ', ' + confirmNode.centerY + ')');
-      await zbbAutomation.tap(confirmNode.centerX, confirmNode.centerY);
+      await humanTap(confirmNode.centerX, confirmNode.centerY);
     } else {
       logToBoth('warn', '[第二轮-步骤7] 未找到"确认"，使用备用坐标 (950, 1500)');
-      await zbbAutomation.tap(950, 1500);
+      await humanTap(950, 1500);
     }
 
     // ========== 第二轮-步骤8：点击"智能识别" ==========
+    // 同步第一轮：pGammaDelay(2000, 3000) ≈ 2.5s（避免 delay(1000) 太短，按钮还没加载就找）
     logToBoth('info', '[第二轮-步骤8] 点击"智能识别"...');
-    await zbbAutomation.delay(1000);
+    await zbbAutomation.delay(pGammaDelay(2000, 3000));
     const zhinengNodes = await this.printScreenText();
     const zhinengNode = zhinengNodes?.find((n) => n.text.includes('智能识别'));
     if (zhinengNode) {
       logToBoth('success', '[第二轮-步骤8] 找到"智能识别" @ (' + zhinengNode.centerX + ', ' + zhinengNode.centerY + ')');
-      await zbbAutomation.tap(zhinengNode.centerX, zhinengNode.centerY);
+      await humanTap(zhinengNode.centerX, zhinengNode.centerY);
     } else {
       logToBoth('warn', '[第二轮-步骤8] 未找到"智能识别"，使用备用坐标 (910, 1100)');
-      await zbbAutomation.tap(910, 1100);
+      await humanTap(910, 1100);
     }
 
-    await zbbAutomation.delay(randomDelay(3000, 4000));
+    await zbbAutomation.delay(pGammaDelay(2000, 3000));
+    // P+ 随机停顿（第二轮智能识别）
+    await maybePause();
 
     // ========== 第二轮-步骤9：点击"报备"提交 ==========
+    // 统一成快的版本：2.5s（与第一轮步骤13 同步）
     logToBoth('info', '[第二轮-步骤9] 点击"报备"...');
     const baobeiNodes2 = await this.printScreenText();
     const baobeiNodeFinal = baobeiNodes2?.find((n) => n.text === '报备');
     if (baobeiNodeFinal) {
       logToBoth('success', '[第二轮-步骤9] 找到"报备" @ (' + baobeiNodeFinal.centerX + ', ' + baobeiNodeFinal.centerY + ')');
-      await zbbAutomation.tap(baobeiNodeFinal.centerX, baobeiNodeFinal.centerY);
+      await humanTap(baobeiNodeFinal.centerX, baobeiNodeFinal.centerY);
     } else {
       logToBoth('warn', '[第二轮-步骤9] 未找到"报备"，使用备用坐标 (540, 2200)');
-      await zbbAutomation.tap(540, 2200);
+      await humanTap(540, 2200);
     }
 
-    await zbbAutomation.delay(randomDelay(3000, 6000));
+    await zbbAutomation.delay(pGammaDelay(3000, 6000));
+    // P+ 随机停顿（第二轮报备提交后查看）
+    await maybePause();
 
     // ========== 第二轮调用 detectResult（检测疑似重号/成功/超时）==========
     logToBoth('info', '[第二轮] 调用 detectResult(2) 检测报备结果...');
@@ -1037,12 +1142,11 @@ class BaoliService {
    * 退出小程序
    */
   async exitMiniProgram(): Promise<void> {
-    await zbbAutomation.tap(300, 2300); // 多任务键
+    await zbbAutomation.tap(300, 2300); // 多任务键（P+ 保留：系统键不能偏移）
     await zbbAutomation.delay(1000);
-    await zbbAutomation.tap(540, 2150); // 垃圾箱
+    await zbbAutomation.tap(540, 2150); // 垃圾箱（P+ 保留：系统键不能偏移）
     await zbbAutomation.delay(1000);
-    await zbbAutomation.tap(540, 2300); // Home键
-    await zbbAutomation.delay(1000);
+    // 删 Home 键（避免 APK 不在首屏导致后续流程失败）—— 滑掉小程序后已回到桌面
   }
 
   /**
@@ -1076,13 +1180,12 @@ class BaoliService {
   private async handlePasteFailure(reason: string): Promise<void> {
     logToBoth('warn', `[粘贴失败兜底] ${reason}`);
 
-    // 1. Toast 提示
-    try {
-      await zbbAutomation.showToast('粘贴失败，请人工介入');
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      logToBoth('warn', `[粘贴失败兜底] showToast 失败: ${msg}`);
-    }
+    // 1. 系统 Alert 弹窗（替换原 showToast 形式，2026-06-16 老板要求：Toast 一闪就过，改 Alert）
+    Alert.alert(
+      '粘贴失败',
+      `${reason}\n\n已启动 30S 循环震动 + 浮窗 GO 按钮\n点 GO 后请人工核对表单内容`,
+      [{ text: '知道了' }]
+    );
 
     // 2. 30S 循环震动
     try {
@@ -1093,14 +1196,7 @@ class BaoliService {
       logToBoth('warn', `[粘贴失败兜底] startPulseVibration 失败: ${msg}`);
     }
 
-    // 3. 系统 Alert 弹窗
-    Alert.alert(
-      '粘贴失败',
-      `${reason}\n\n已启动 30S 循环震动 + 浮窗 GO 按钮\n点 GO 后请人工核对表单内容`,
-      [{ text: '知道了' }]
-    );
-
-    // 4. 显示 GO 按钮
+    // 3. 显示 GO 按钮
     try {
       await zbbAutomation.showScreenshotButton();
       logToBoth('warn', '[粘贴失败兜底] 浮窗 GO 按钮已显示');
@@ -1109,7 +1205,7 @@ class BaoliService {
       logToBoth('warn', `[粘贴失败兜底] showScreenshotButton 失败: ${msg}`);
     }
 
-    // 5. 同步阻塞等用户点 GO
+    // 4. 同步阻塞等用户点 GO
     await new Promise<void>((resolve) => {
       const subscription = addScreenshotConfirmedListener(() => {
         logToBoth('success', '[粘贴失败兜底] 用户已点击 GO 按钮');
@@ -1118,7 +1214,7 @@ class BaoliService {
       });
     });
 
-    // 6. 停止震动
+    // 5. 停止震动
     try {
       await zbbAutomation.stopVibration();
     } catch (e) {
