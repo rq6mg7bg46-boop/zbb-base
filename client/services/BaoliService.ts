@@ -496,7 +496,10 @@ class BaoliService {
    * 填写报备表单（由千机端写入剪贴板，保利端直接粘贴）
    * 千机端不再写数据库，由这里读取表单内容后写入
    */
-  private async fillForm(customer: any): Promise<void> {
+  private async fillForm(
+    customer: any,
+    projectName: string = '郑州市三村杓袁7号地项目-保利缦城和颂[郑州保利和颂]'
+  ): Promise<void> {
     // ========== 步骤7-8.4：粘贴 + 表单识别（2026-06-14 老板新方案）==========
     // 修复前：3 路径兜底粘贴 + 失败仅日志 + 无 retry
     // 修复后：3 动作触发弹窗 + 表单识别 retry 2 次 + 任何兜底不 return
@@ -686,7 +689,7 @@ class BaoliService {
     // 统一到第二轮：选项目前不再 delay（步骤 9 后的 pGammaDelay(2000,3000) 已足够等分期列表加载）
     logToBoth('info', '[步骤10] 选择报备项目...');
     const projectNodes = await this.printScreenText();
-    const targetProject = projectNodes?.find((n: any) => n.text && n.text.includes('郑州市三村杓袁7号地项目-保利缦城和颂[郑州保利和颂]'));
+    const targetProject = projectNodes?.find((n: any) => n.text && n.text.includes(projectName));
     if (targetProject) {
       logToBoth('success', '[步骤10] 找到"' + targetProject.text + '" @ (' + targetProject.centerX + ', ' + targetProject.centerY + ')');
       await humanTap(targetProject.centerX, targetProject.centerY);
@@ -991,7 +994,9 @@ class BaoliService {
   }
 
 /**
-   * 第二轮报备：重新填写表单（同一客户，第二项目：保利山水和颂）
+   * 第二轮报备：复用 fillForm 主体（项目名=保利山水和颂）
+   * 跟第一轮一致：粘贴 + 解析 + 选分期 + 选项目 + 智能识别 + 报备 + 等
+   * 2026-06-16 重构：fillForm 加 projectName 参数，handleSecondRound 从 144 行简化到 29 行
    */
   async handleSecondRound(): Promise<void> {
     logToBoth('info', '[第二轮] 开始第二轮报备...');
@@ -999,7 +1004,7 @@ class BaoliService {
     // P+ 随机停顿（第二轮开始准备）
     await maybePause();
 
-    // 点击"报备"按钮
+    // 步骤 1：点击首页"报备"按钮（已在项目卡片页，不重新选外层项目）
     logToBoth('info', '[第二轮-步骤1] 点击"报备"...');
     const formNodes2 = await this.printScreenText();
     const baobeiNode2 = formNodes2?.find((n) => n.text === '报备');
@@ -1015,126 +1020,11 @@ class BaoliService {
     // P+ 随机停顿（第二轮报备后）
     await maybePause();
 
-    // 长按"粘贴完整客户信息"
-    logToBoth('info', '[第二轮-步骤3] 长按"粘贴完整客户信息"...');
-    const pasteNodes = await this.printScreenText();
-    const pasteNode = pasteNodes?.find((n) => n.text.includes('粘贴完整客户信息'));
-    if (pasteNode) {
-      logToBoth('success', '[第二轮-步骤3] 找到"粘贴完整客户信息" @ (' + pasteNode.centerX + ', ' + pasteNode.centerY + ')');
-      await zbbAutomation.longPress(pasteNode.centerX, pasteNode.centerY, 2000);
-      await zbbAutomation.delay(1000);
-    } else {
-      logToBoth('error', '[第二轮-步骤3] 未找到"粘贴完整客户信息"');
-    }
+    // 步骤 2-14：复用 fillForm 主体（项目名=保利山水和颂）
+    // 粘贴 + 解析 + 选分期 + 选项目 + 智能识别 + 报备 + 等 都跟第一轮一致
+    await this.fillForm(null, '郑州市三村杓袁7号地项目-保利山水和颂');
 
-    // 点击粘贴（P+ 保留：弹窗按钮固定不能偏移）
-    logToBoth('info', '[第二轮-步骤4] 点击粘贴 (130, 710)');
-    await zbbAutomation.tap(130, 710);
-
-    // ========== 第二轮写数据库（报备项目=保利山水和颂）==========
-    logToBoth('info', '[第二轮-步骤5] 读取表单写入数据库...');
-    await zbbAutomation.delay(1500);
-    const formNodesR2 = await zbbAutomation.getAllTextNodes();
-    let customerNameR2 = '';
-    let customerPhoneR2 = '';
-    let agentNameR2 = '';
-
-    formNodesR2?.forEach((node: any) => {
-      const text = node.text || '';
-      const nameMatch = text.match(/客户姓名[：:]\s*(.+)/);
-      if (nameMatch) customerNameR2 = nameMatch[1].trim();
-      const phoneMatch = text.match(/客户联系方式[：:]\s*(1[3-9]\d*[\*]+\d{4})/);
-      if (phoneMatch) customerPhoneR2 = phoneMatch[1].trim();
-      const agentMatch = text.match(/经纪人姓名[：:]\s*(.+)/);
-      if (agentMatch) agentNameR2 = agentMatch[1].trim();
-    });
-
-    // 兜底
-    if (!customerNameR2 && this.currentCustomer?.name) customerNameR2 = this.currentCustomer.name;
-    if (!customerPhoneR2 && this.currentCustomer?.phone) customerPhoneR2 = this.currentCustomer.phone;
-    if (!agentNameR2 && this.currentCustomer?.agent) agentNameR2 = this.currentCustomer.agent;
-
-    let customerGenderR2 = '';
-    if (/[女士|小姐|太太]$/.test(customerNameR2)) customerGenderR2 = '女';
-    else if (/先生$/.test(customerNameR2)) customerGenderR2 = '男';
-
-    // ========== 第二轮-步骤5：点击"请选择分期" ==========
-    // （不写库，数据一致性验证在第一轮完成）
-    logToBoth('info', '[第二轮-步骤5] 点击"请选择分期"...');
-    const fenqiNodes = await this.printScreenText();
-    const fenqiNode = fenqiNodes?.find((n) => n.text === '请选择分期' || n.text === '分期');
-    if (fenqiNode) {
-      logToBoth('success', '[第二轮-步骤6] 找到"请选择分期" @ (' + fenqiNode.centerX + ', ' + fenqiNode.centerY + ')');
-      await humanTap(fenqiNode.centerX, fenqiNode.centerY);
-    } else {
-      logToBoth('error', '[第二轮-步骤6] 未找到"请选择分期"');
-    }
-
-    await zbbAutomation.delay(pGammaDelay(2000, 3000));
-    // P+ 随机停顿（第二轮分期选择后）
-    await maybePause();
-
-    // ========== 第二轮-步骤6：选择"保利山水和颂" ==========
-    logToBoth('info', '[第二轮-步骤6] 选择"保利山水和颂"...');
-    const projectNodes = await this.printScreenText();
-    const projectNode = projectNodes?.find((n) => n.text.includes('郑州市三村杓袁7号地项目-保利山水和颂'));
-    if (projectNode) {
-      logToBoth('success', '[第二轮-步骤7] 找到"山水和颂" @ (' + projectNode.centerX + ', ' + projectNode.centerY + ')');
-      await humanTap(projectNode.centerX, projectNode.centerY);
-    } else {
-      logToBoth('warn', '[第二轮-步骤7] 未找到"山水和颂"，使用备用坐标 (540, 2150)');
-      await humanTap(540, 2150);
-    }
-
-    // ========== 第二轮-步骤7：点击"确认" ==========
-    logToBoth('info', '[第二轮-步骤7] 点击"确认"...');
-    await zbbAutomation.delay(1000);
-    const confirmNode = await this.findExactNode('确认');
-    if (confirmNode) {
-      logToBoth('success', '[第二轮-步骤8] 找到"确认" @ (' + confirmNode.centerX + ', ' + confirmNode.centerY + ')');
-      await humanTap(confirmNode.centerX, confirmNode.centerY);
-    } else {
-      logToBoth('warn', '[第二轮-步骤7] 未找到"确认"，使用备用坐标 (950, 1500)');
-      await humanTap(950, 1500);
-    }
-
-    // ========== 第二轮-步骤8：点击"智能识别" ==========
-    // 同步第一轮：pGammaDelay(2000, 3000) ≈ 2.5s（避免 delay(1000) 太短，按钮还没加载就找）
-    logToBoth('info', '[第二轮-步骤8] 点击"智能识别"...');
-    await zbbAutomation.delay(pGammaDelay(2000, 3000));
-    const zhinengNodes = await this.printScreenText();
-    const zhinengNode = zhinengNodes?.find((n) => n.text.includes('智能识别'));
-    if (zhinengNode) {
-      logToBoth('success', '[第二轮-步骤8] 找到"智能识别" @ (' + zhinengNode.centerX + ', ' + zhinengNode.centerY + ')');
-      await humanTap(zhinengNode.centerX, zhinengNode.centerY);
-    } else {
-      logToBoth('warn', '[第二轮-步骤8] 未找到"智能识别"，使用备用坐标 (910, 1100)');
-      await humanTap(910, 1100);
-    }
-
-    await zbbAutomation.delay(pGammaDelay(2000, 3000));
-    // P+ 随机停顿（第二轮智能识别）
-    await maybePause();
-
-    // ========== 第二轮-步骤9：点击"报备"提交 ==========
-    // 统一成快的版本：2.5s（与第一轮步骤13 同步）
-    logToBoth('info', '[第二轮-步骤9] 点击"报备"...');
-    const baobeiNodes2 = await this.printScreenText();
-    const baobeiNodeFinal = baobeiNodes2?.find((n) => n.text === '报备');
-    if (baobeiNodeFinal) {
-      logToBoth('success', '[第二轮-步骤9] 找到"报备" @ (' + baobeiNodeFinal.centerX + ', ' + baobeiNodeFinal.centerY + ')');
-      await humanTap(baobeiNodeFinal.centerX, baobeiNodeFinal.centerY);
-    } else {
-      logToBoth('warn', '[第二轮-步骤9] 未找到"报备"，使用备用坐标 (540, 2200)');
-      await humanTap(540, 2200);
-    }
-
-    await zbbAutomation.delay(pGammaDelay(3000, 6000));
-    // P+ 随机停顿（第二轮报备提交后查看）
-    await maybePause();
-
-    // ========== 第二轮调用 detectResult（检测疑似重号/成功/超时）==========
-    logToBoth('info', '[第二轮] 调用 detectResult(2) 检测报备结果...');
+    // 步骤 15：detectResult(2)
     await this.detectResult(2);
   }
 
