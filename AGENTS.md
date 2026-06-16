@@ -37,19 +37,23 @@
 ## 依赖管理与模块导入规范
 
 ### 依赖安装
-**禁止**使用 `npm` 或 `yarn`，按目录区分安装命令：
+**两个环境都用 npm**（统一简化）。Lockfile **不入库**（见 .gitignore），E470 和家里各自 `npm install` 重新生成。
 
 | 目录 | 安装命令 | 说明 |
 |------|----------|------|
-| `client/` | `npx expo install <package>` | Expo 会自动选择与 SDK 兼容的版本 |
-| `server/` | `pnpm add <package>` | 使用 pnpm 管理后端依赖 |
+| `client/` | `npm install` 或 `npx expo install <package>` | Expo 自动选择 SDK 兼容版本 |
+| `server/` | `npm install` 或 `npm install <package>` | 后端依赖 |
 
 ```bash
-# client 目录（Expo 项目）
-cd client && npx expo install expo-camera expo-image-picker
+# 装全部依赖（根目录会自动装 client + server）
+npm install
 
-# server 目录（Express 项目）
-cd server && pnpm add axios cors
+# 只装 client
+npm install --prefix client
+
+# 添加新依赖
+npm install <package> --prefix client
+npm install <package> --prefix server
 ```
 
 **网络问题处理**：`npx expo install` 可能因网络原因失败，失败时重试 2 次，仍失败则改用 `pnpm add` 安装
