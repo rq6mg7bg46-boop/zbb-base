@@ -12,6 +12,7 @@
  */
 
 import React, { useState, useCallback, useEffect } from 'react';
+import { useFocusEffect } from 'expo-router';
 import { logToBoth } from '@/services/AutomationLogger';
 import {
   View,
@@ -113,6 +114,16 @@ export default function HomeScreen() {
     checkAccessibility();
     checkOverlayPermission();  // 与无障碍一致：mount 时立刻检查一次
   }, [checkAccessibility, checkOverlayPermission]);
+
+  // 页面聚焦时重新检查两个权限状态
+  // 用户从系统设置返回 ZBB 首页时，权限状态可能已变化，需 recheck
+  // （无障碍和悬浮窗都在系统设置里授权——离开 app 必须 recheck）
+  useFocusEffect(
+    useCallback(() => {
+      checkAccessibility();
+      checkOverlayPermission();
+    }, [checkAccessibility, checkOverlayPermission])
+  );
 
   // ====== 自动检测粘贴 → 解析 → 写库 → 启动报备 ======
   // 当 pendingAutoStart=true 且 clipboardText 有内容时，触发自动流程
