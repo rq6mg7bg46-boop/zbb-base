@@ -245,10 +245,11 @@ export default function HomeScreen() {
       setCurrentApp(FLOW_STEPS[stepIndex].app);
     }
   }, []);
-  
-  // 启动流程
-  const handleStart = useCallback(async () => {
-    // 0. 检查悬浮窗权限（ZBB 需要悬浮窗显示控制按钮，无此权限自动化流程无法运行）
+
+  // 共享：检查悬浮窗 + 无障碍两个权限
+  // 任何一个未授权就弹 alert（带"去设置"按钮），返回 false 让调用方 return
+  // handleStart 还要继续 check MediaProjection（不归本函数管）
+  const checkOverlayAndAccessibility = useCallback(async (): Promise<boolean> => {
     const hasOverlay = await zbbAutomation.isOverlayPermissionGranted();
     if (!hasOverlay) {
       Alert.alert(
@@ -268,32 +269,39 @@ export default function HomeScreen() {
           },
         ]
       );
-      return;
+      return false;
     }
 
-    // 1. 检查无障碍服务
     if (serviceStatus !== 'enabled') {
       Alert.alert(
         '请开启无障碍服务',
         'ZBB 需要无障碍服务权限才能运行自动化流程。',
         [
           { text: '取消', style: 'cancel' },
-          { 
-            text: '去设置', 
+          {
+            text: '去设置',
             onPress: async () => {
               try {
                 await zbbAutomation.openAccessibilitySettings();
               } catch (error) {
                 console.error('打开设置失败:', error);
               }
-            }
+            },
           },
         ]
       );
-      return;
+      return false;
     }
-    
-    // 2. 检查 MediaProjection 权限（OCR 业务需要）
+
+    return true;
+  }, [serviceStatus]);
+
+  // 启动流程
+  const handleStart = useCallback(async () => {
+    // 0. 检查悬浮窗 + 无障碍
+    if (!(await checkOverlayAndAccessibility())) return;
+
+    // 1. 检查 MediaProjection 权限（OCR 业务需要）
     const hasProjection = await zbbAutomation.requestMediaProjectionPermission();
     if (!hasProjection) {
       Alert.alert(
@@ -316,7 +324,7 @@ export default function HomeScreen() {
       return;
     }
     
-    // 3. 直接启动完整流程
+    // 2. 直接启动完整流程
     try {
       setIsRunning(true);
       setCurrentStepIndex(-1);
@@ -360,32 +368,13 @@ export default function HomeScreen() {
       setCurrentApp('');
       nativeAutomationService.offStepUpdate(handleStepUpdate);
     }
-  }, [serviceStatus, handleStepUpdate, router]);
+  }, [checkOverlayAndAccessibility, handleStepUpdate, router]);
 
   // 测试越秀端企业微信流程
   const handleTestYuexiu = useCallback(async () => {
-    // 检查无障碍服务
-    if (serviceStatus !== 'enabled') {
-      Alert.alert(
-        '请开启无障碍服务',
-        'ZBB 需要无障碍服务权限才能运行自动化流程。',
-        [
-          { text: '取消', style: 'cancel' },
-          { 
-            text: '去设置', 
-            onPress: async () => {
-              try {
-                await zbbAutomation.openAccessibilitySettings();
-              } catch (error) {
-                console.error('打开设置失败:', error);
-              }
-            }
-          },
-        ]
-      );
-      return;
-    }
-    
+    // 检查悬浮窗 + 无障碍
+    if (!(await checkOverlayAndAccessibility())) return;
+
     try {
       setIsRunning(true);
       setCurrentStep('越秀端测试...');
@@ -410,31 +399,13 @@ export default function HomeScreen() {
       setCurrentStep('空闲');
       setCurrentApp('');
     }
-  }, [serviceStatus, router]);
+  }, [checkOverlayAndAccessibility, router]);
 
   // 测试保利端流程（独立服务）
   const handleTestBaoli = useCallback(async () => {
-    if (serviceStatus !== 'enabled') {
-      Alert.alert(
-        '请开启无障碍服务',
-        'ZBB 需要无障碍服务权限才能运行自动化流程。',
-        [
-          { text: '取消', style: 'cancel' },
-          { 
-            text: '去设置', 
-            onPress: async () => {
-              try {
-                await zbbAutomation.openAccessibilitySettings();
-              } catch (error) {
-                console.error('打开设置失败:', error);
-              }
-            }
-          },
-        ]
-      );
-      return;
-    }
-    
+    // 检查悬浮窗 + 无障碍
+    if (!(await checkOverlayAndAccessibility())) return;
+
     try {
       setIsRunning(true);
       setCurrentStep('保利端测试...');
@@ -459,31 +430,13 @@ export default function HomeScreen() {
       setCurrentStep('空闲');
       setCurrentApp('');
     }
-  }, [serviceStatus, router]);
+  }, [checkOverlayAndAccessibility, router]);
 
   // 测试千机端流程
   const handleTestQianji = useCallback(async () => {
-    if (serviceStatus !== 'enabled') {
-      Alert.alert(
-        '请开启无障碍服务',
-        'ZBB 需要无障碍服务权限才能运行自动化流程。',
-        [
-          { text: '取消', style: 'cancel' },
-          { 
-            text: '去设置', 
-            onPress: async () => {
-              try {
-                await zbbAutomation.openAccessibilitySettings();
-              } catch (error) {
-                console.error('打开设置失败:', error);
-              }
-            }
-          },
-        ]
-      );
-      return;
-    }
-    
+    // 检查悬浮窗 + 无障碍
+    if (!(await checkOverlayAndAccessibility())) return;
+
     try {
       setIsRunning(true);
       setCurrentStep('千机端测试...');
@@ -509,7 +462,7 @@ export default function HomeScreen() {
       }
       setCurrentApp('');
     }
-  }, [serviceStatus, router, baoliService, qianjiService]);
+  }, [checkOverlayAndAccessibility, router, baoliService, qianjiService]);
 
   // 停止流程
   const handleStop = useCallback(() => {
@@ -585,7 +538,20 @@ export default function HomeScreen() {
                   marginTop: 4
                 }
               ]}
-              onPress={checkOverlayPermission}
+              onPress={async () => {
+                // 已授权 → recheck；未授权 → 跳设置
+                // 跟无障碍不一样：悬浮窗权限必须在系统设置中授权（app 外），
+                // 所以点未授权徽章直接跳设置，比 alert 二段式更直接
+                if (overlayStatus === 'granted') {
+                  checkOverlayPermission();
+                } else {
+                  try {
+                    await zbbAutomation.openOverlaySettings();
+                  } catch (error) {
+                    console.error('打开悬浮窗设置失败:', error);
+                  }
+                }
+              }}
             >
               <View style={[styles.statusDot, { backgroundColor: overlayStatus === 'granted' ? '#10B981' : '#FF4444' }]} />
               <Text style={[styles.statusText, { color: overlayStatus === 'granted' ? '#10B981' : '#FF4444' }]}>
