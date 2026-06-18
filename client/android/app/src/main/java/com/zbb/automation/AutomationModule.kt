@@ -12,7 +12,6 @@ import android.graphics.Bitmap
 import android.graphics.Point
 import android.media.projection.MediaProjectionManager
 import android.net.Uri
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.VibrationEffect
@@ -105,14 +104,15 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
     @ReactMethod
     fun openOverlaySettings(promise: Promise) {
         try {
-            // Android 11 (API 30) 用精准跳转到当前 app 的悬浮窗权限页
-            // Android 7-10 fallback 到"所有应用悬浮窗列表"（无 APP 后缀常量）
-            val action = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                Settings.ACTION_MANAGE_APP_OVERLAY_PERMISSION
-            } else {
-                Settings.ACTION_MANAGE_OVERLAY_PERMISSION
-            }
-            val intent = Intent(action, Uri.parse("package:${mReactContext.packageName}"))
+            // ACTION_MANAGE_APP_OVERLAY_PERMISSION is @SystemApi (hidden API),
+            // not exposed in public SDK. Use ACTION_MANAGE_OVERLAY_PERMISSION instead
+            // (public API since API 23, minSdk 24 ok).
+            // Trade-off: Android 11+ jumps to "all apps overlay list" instead of
+            // directly to current app page, but still works.
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:${mReactContext.packageName}")
+            )
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             mReactContext.startActivity(intent)
             promise.resolve(true)
