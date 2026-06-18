@@ -259,6 +259,29 @@ export default function HomeScreen() {
   
   // 启动流程
   const handleStart = useCallback(async () => {
+    // 0. 检查悬浮窗权限（ZBB 需要悬浮窗显示控制按钮，无此权限自动化流程无法运行）
+    const hasOverlay = await zbbAutomation.isOverlayPermissionGranted();
+    if (!hasOverlay) {
+      Alert.alert(
+        '请开启悬浮窗',
+        'ZBB 需要"显示在其他应用上方"权限才能运行自动化流程。\n请先点击上方"悬浮窗"按钮授权。',
+        [
+          { text: '取消', style: 'cancel' },
+          {
+            text: '去设置',
+            onPress: async () => {
+              try {
+                await zbbAutomation.openOverlaySettings();
+              } catch (error) {
+                console.error('打开悬浮窗设置失败:', error);
+              }
+            },
+          },
+        ]
+      );
+      return;
+    }
+
     // 1. 检查无障碍服务
     if (serviceStatus !== 'enabled') {
       Alert.alert(
