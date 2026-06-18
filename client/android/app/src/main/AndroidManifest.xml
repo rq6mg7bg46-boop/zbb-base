@@ -68,5 +68,15 @@
         android:exported="false"
         android:foregroundServiceType="mediaProjection"/>
 
+    <!-- 通知监听服务（方案 1：双保险机制 - 主路径） -->
+    <service
+        android:name=".NotificationMonitorService"
+        android:exported="true"
+        android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+      <intent-filter>
+        <action android:name="android.service.notification.NotificationListenerService" />
+      </intent-filter>
+    </service>
+
   </application>
 </manifest>

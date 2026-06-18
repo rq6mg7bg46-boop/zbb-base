@@ -3,8 +3,8 @@
  * 用途：从千机获取客户信息 → 云和家经纪云小程序报备 → 返回千机上传截图
  */
 
-import { Alert } from 'react-native';
-import { zbbAutomation } from '@/native';
+import { Alert, EmitterSubscription } from 'react-native';
+import { zbbAutomation, addQianjiMessageListener, removeQianjiMessageListener, QianjiMessagePayload } from '@/native';
 import { logToBoth } from './AutomationLogger';
 import { BaoliService } from './BaoliService';
 
@@ -35,17 +35,41 @@ function getDelay(type: 'openApp' | 'other'): number {
   }
 }
 
+// ========== 通知监听配置（双保险：方案 1 NotificationListenerService + 方案 2 Accessibility） ==========
+
+/** 防抖时间：5 分钟内不重复触发千机端流程 */
+const QIANJI_TRIGGER_DEBOUNCE_MS = 5 * 60 * 1000;
+
+/** 千机端流程是否启用（默认启用，由用户从 home 页面控制） */
+let qianjiAutoTriggerEnabled = true;
+
+/** 触发关键词过滤（任一命中即触发） */
+const TRIGGER_KEYWORDS = ['报备', '客户', '咨询', '新报备', '预约'];
+
 export class QianjiService {
   private static instance: QianjiService;
-  
+
   private constructor() {}
-  
+
   public static getInstance(): QianjiService {
     if (!QianjiService.instance) {
       QianjiService.instance = new QianjiService();
+      // 首次创建时自动启动通知监听
+      QianjiService.instance.startMonitoring();
     }
     return QianjiService.instance;
   }
+
+  // ========== 通知监听字段 ==========
+
+  /** 监听器订阅句柄 */
+  private qianjiMessageSubscription: EmitterSubscription | null = null;
+
+  /** 是否正在监听 */
+  private isMonitoring: boolean = false;
+
+  /** 上次触发时间（用于防抖） */
+  private lastTriggerTime: number = 0;
 
   // 客户信息存储
   private customerInfo: {
@@ -422,6 +446,109 @@ export class QianjiService {
     } catch (error) {
       logToBoth('error', `[千机端] 流程执行失败: ${error}`);
       throw error;
+    }
+  }
+
+  // ========== 通知监听方法（双保险） ==========
+
+  /**
+   * 启动千机消息监听
+   * 监听 QianjiMessageReceived 事件（来自方案 1 NotificationListenerService 或 方案 2 AccessibilityService）
+   */
+  public startMonitoring(): void {
+    if (this.isMonitoring) {
+      logToBoth('info', '[千机监听] 已在运行，跳过启动');
+      return;
+    }
+
+    this.qianjiMessageSubscription = addQianjiMessageListener((payload) => {
+      this.handleQianjiMessage(payload);
+    });
+
+    if (this.qianjiMessageSubscription) {
+      this.isMonitoring = true;
+      logToBoth('success', '[千机监听] ✓ 已启动监听千机消息（方案 1+2 双保险）');
+    } else {
+      logToBoth('error', '[千机监听] ✗ 启动监听失败（RN 模块未初始化）');
+    }
+  }
+
+  /**
+   * 停止千机消息监听
+   */
+  public stopMonitoring(): void {
+    if (!this.isMonitoring) return;
+    removeQianjiMessageListener(this.qianjiMessageSubscription);
+    this.qianjiMessageSubscription = null;
+    this.isMonitoring = false;
+    logToBoth('info', '[千机监听] 已停止监听');
+  }
+
+  /**
+   * 设置是否自动触发千机端流程（由用户在 home 页面控制）
+   */
+  public setAutoTrigger(enabled: boolean): void {
+    qianjiAutoTriggerEnabled = enabled;
+    logToBoth('info', `[千机监听] 自动触发已${enabled ? '启用' : '禁用'}`);
+  }
+
+  /**
+   * 处理千机消息（双保险入口）
+   * 防抖：5 分钟内不重复触发
+   * 关键词过滤：标题/正文/子标题包含"报备"/"客户"/"咨询"等关键词
+   */
+  private async handleQianjiMessage(payload: QianjiMessagePayload): Promise<void> {
+    // 0. 校验：必须来自千机
+    if (payload.package !== APP_PACKAGES.QIANJI) {
+      return;
+    }
+
+    // 1. 用户开关
+    if (!qianjiAutoTriggerEnabled) {
+      logToBoth('info', `[千机监听] 自动触发已禁用，跳过 (来源: ${payload.source})`);
+      return;
+    }
+
+    // 2. 关键词过滤
+    const text = `${payload.title} ${payload.text} ${payload.subText} ${payload.bigText}`.toLowerCase();
+    const hitKeyword = TRIGGER_KEYWORDS.find((kw) => text.includes(kw.toLowerCase()));
+    if (!hitKeyword) {
+      logToBoth('info', `[千机监听] 未命中关键词，跳过 (来源: ${payload.source})`);
+      return;
+    }
+
+    // 3. 防抖：5 分钟内不重复触发
+    const now = Date.now();
+    if (now - this.lastTriggerTime < QIANJI_TRIGGER_DEBOUNCE_MS) {
+      const remaining = Math.round((QIANJI_TRIGGER_DEBOUNCE_MS - (now - this.lastTriggerTime)) / 1000);
+      logToBoth('info', `[千机监听] 防抖中，${remaining}s 后可再次触发 (来源: ${payload.source})`);
+      return;
+    }
+
+    this.lastTriggerTime = now;
+
+    logToBoth('success', `[千机监听] 🔔 千机收到消息（来源: ${payload.source}, 关键词: ${hitKeyword}）`);
+    logToBoth('info', `[千机监听] title: ${payload.title}`);
+    logToBoth('info', `[千机监听] text: ${payload.text}`);
+    logToBoth('info', `[千机监听] 5 秒后自动启动千机端流程...`);
+
+    // 4. Toast 提示用户
+    try {
+      Alert.alert(
+        '🔔 千机收到消息',
+        `来源: ${payload.source === 'notification' ? '通知监听' : '无障碍'}\n关键词: ${hitKeyword}\n\n5 秒后自动启动千机端流程...`,
+        [{ text: '知道了' }]
+      );
+    } catch (e) {
+      // Alert 在某些 RN 版本上不可用，忽略
+    }
+
+    // 5. 5 秒倒计时后启动千机端流程
+    await zbbAutomation.delay(5000);
+    try {
+      await this.startQianjiFlow();
+    } catch (error) {
+      logToBoth('error', `[千机监听] 自动启动千机端失败: ${error}`);
     }
   }
 }
