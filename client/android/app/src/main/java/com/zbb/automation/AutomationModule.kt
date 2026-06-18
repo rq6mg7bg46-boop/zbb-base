@@ -106,23 +106,20 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
         try {
             // 跳系统设置页：让用户授权"显示在其他应用上方"（悬浮窗）
             //
-            // Android 11+ (API 30+)：公开 API ACTION_MANAGE_OVERLAY_PERMISSION
-            // 跳的是"所有应用列表"，package URI 被忽略，用户找不到自己 app。
-            // 唯一能精准跳当前 app 的是 ACTION_MANAGE_APP_OVERLAY_PERMISSION，
-            // 但它是 @SystemApi（隐藏 API），SDK 编译时看不到。
-            // 反射拿字符串常量 + startActivity 是允许的
-            // （Settings app 的 activity-alias android:exported="true" 且 permission=""，
-            // 任何 app 都可跳）。
+            // 实测结论（AOSP 13 真机验证）：
+            // 1) ACTION_MANAGE_APP_OVERLAY_PERMISSION 是 @SystemApi 隐藏 API，
+            //    SDK 编译看不到；反射拿字符串常量可以，但 com.android.settings
+            //    的目标 Activity 有 android:permission="android.permission.INTERNAL_SYSTEM_WINDOW"
+            //    门控（signature 级权限，普通 app 跳过去被拒）。
+            // 2) ACTION_MANAGE_OVERLAY_PERMISSION 是公开 API，Android 11+ 跳的是
+            //    "所有应用列表"，package URI 被忽略，用户找不到自己 app。
             //
-            // API < 30：没有这个 @SystemApi 字段，catch 后 fallback 到公开 API。
-            val action = try {
-                val field = Settings::class.java.getDeclaredField("ACTION_MANAGE_APP_OVERLAY_PERMISSION")
-                field.isAccessible = true
-                field.get(null) as String
-            } catch (e: NoSuchFieldException) {
-                Settings.ACTION_MANAGE_OVERLAY_PERMISSION
-            }
-            val intent = Intent(action, Uri.parse("package:${mReactContext.packageName}"))
+            // 唯一稳定的精准跳转：ACTION_APPLICATION_DETAILS_SETTINGS（公开 API）
+            // → 当前 app 详情页 → "权限" → "显示在其他应用上方" → 允许。
+            val intent = Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:${mReactContext.packageName}")
+            )
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             mReactContext.startActivity(intent)
             promise.resolve(true)
