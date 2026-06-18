@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "bash .cozeproj/scripts/dev_run.sh",
     "build": "bash .cozeproj/scripts/prod_build.sh",
-    "start": "bash .cozeproj/scripts/prod_run.sh"
+    "start": "bash .cozeproj/scripts/prod_run.sh",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "devDependencies": {},
   "pnpm": {
@@ -20,5 +22,10 @@
   "main": "index.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "expo": "~54.0.33",
+    "react": "19.1.0",
+    "react-native": "0.81.5"
+  }
 }
