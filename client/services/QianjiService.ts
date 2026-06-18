@@ -3,6 +3,7 @@
  * 用途：从千机获取客户信息 → 云和家经纪云小程序报备 → 返回千机上传截图
  */
 
+import { Alert } from 'react-native';
 import { zbbAutomation } from '@/native';
 import { logToBoth } from './AutomationLogger';
 import { BaoliService } from './BaoliService';
@@ -51,10 +52,11 @@ export class QianjiService {
     projectType: string;
     customerName: string;
     phone: string;
-    phoneLast4: string;  // 电话末4位，原生树读取
+    phoneLast4: string;  // 电话末4位
     agent: string;
     reportTime: string;
     expectedVisitTime: string;
+    city: string;        // 城市
   } | null = null;
 
   // 获取客户信息
@@ -127,29 +129,49 @@ export class QianjiService {
       // 保存界面节点数据，供后续步骤使用
       this.lastTextNodes = validNodes;
 
-      // 从界面节点中提取客户姓名和电话（原生树读取）
-      for (const node of validNodes) {
-        const text = node.text || '';
-        if (text.includes('客户姓名') || text.includes('客户姓名:')) {
-          const parts = text.split(/[：:]/);
-          if (parts[1]) this.customerInfo = { ...this.customerInfo!, customerName: parts[1].trim() };
-        } else if (text.includes('客户联系方式') || text.includes('客户联系方式:')) {
-          const parts = text.split(/[：:]/);
-          if (parts[1]) {
-            const phone = parts[1].trim();
-            this.customerInfo = { ...this.customerInfo!, phone };
-            // 同时计算 phoneLast4 存入 customerInfo（供后续步骤用）
-            const phoneLast4 = phone.replace(/\*/g, '').slice(-4);
-            this.customerInfo = { ...this.customerInfo!, phoneLast4 };
-          }
+      // ========== 预检查待报备数量（最多 3 次：初始 + 2 次下拉后） ==========
+      let pendingCount = '0';
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        // 第 1 次用初始抓的节点；第 2/3 次需要下拉刷新
+        if (attempt > 1) {
+          // 下拉刷新：坐标 (540,400)→(540,1500)，300-500ms 随机
+          const swipeDuration = 300 + Math.floor(Math.random() * 200);
+          logToBoth('info', `[千机：步骤2] 第 ${attempt} 次下拉刷新 (duration=${swipeDuration}ms)...`);
+          await zbbAutomation.swipe(540, 400, 540, 1500, swipeDuration);
+          // 下拉后等 1000-2000ms 随机
+          const interval = 1000 + Math.floor(Math.random() * 1000);
+          await zbbAutomation.delay(interval);
+
+          // 重新抓节点（覆盖 this.lastTextNodes）
+          this.lastTextNodes = (await zbbAutomation.getAllTextNodes()).filter(node =>
+            node.text && node.text.trim().length > 0 && node.centerX > 0 && node.centerY > 0
+          );
+          logToBoth('info', `[千机：步骤2] 第 ${attempt} 次刷新后节点 (共 ${this.lastTextNodes.length} 个)`);
+        }
+
+        // 找 (107, 680) 数字：主匹配 ±5px；fallback 找"报备待审核"(183,575)和"今日报备量"(168,769)之间的纯数字节点
+        const pendingNode = this.lastTextNodes.find(n =>
+          (Math.abs(n.centerX - 107) < 5 && Math.abs(n.centerY - 680) < 5) ||
+          (n.centerY > 575 && n.centerY < 769 && /^\d+$/.test(n.text))
+        );
+        pendingCount = pendingNode?.text || '0';
+        logToBoth('info', `[千机：步骤2] 第 ${attempt} 次检查 待报备数量 = ${pendingCount}`);
+
+        if (pendingCount !== '0') {
+          logToBoth('success', `[千机：步骤2] 有待报备客户 (${pendingCount})，继续执行后续步骤`);
+          break;
         }
       }
-      if (this.customerInfo?.customerName) {
-        logToBoth('info', '[千机：步骤2] 原生树读取客户姓名: ' + this.customerInfo.customerName);
+
+      // 3 次都 0 → Toast 提示 + 按 Home 返回桌面
+      if (pendingCount === '0') {
+        logToBoth('warn', '[千机：步骤2] 连续 3 次检查待报备数量为 0');
+        zbbAutomation.showToast('当前无报备');
+        await zbbAutomation.pressHome();
+        return;
       }
-      if (this.customerInfo?.phone) {
-        logToBoth('info', '[千机：步骤2] 原生树读取电话: ' + this.customerInfo.phone + ' 末4位: ' + (this.customerInfo.phoneLast4 || ''));
-      }
+
+      // 注：千机端不通过原生树读取客户信息，统一从转发剪贴板获取（步骤3-4）
       
     } catch (error) {
       logToBoth('error', `[千机：步骤2] ✗ 识别界面失败: ${error}`);
@@ -191,30 +213,17 @@ export class QianjiService {
 
       logToBoth('info', `[千机：步骤3] 找到"报备审核" @ (${baobeiNode.centerX}, ${baobeiNode.centerY})`);
 
-      // 3. 打印界面节点
-      logToBoth('info', `[千机：步骤3] ====== 界面节点 (共${textNodes.length}个) ======`);
-      textNodes.forEach((node: any, index: number) => {
-        if (node.text && node.text.trim().length > 0) {
-          logToBoth('info', `[千机：步骤3] 节点${index}: "${node.text}" @ (${Math.round(node.centerX)}, ${Math.round(node.centerY)})`);
-        }
-      });
-      logToBoth('info', `[千机：步骤3] ==============================`);
-
-      // 4. 初始化客户信息结构
-      const customerInfo: any = {
-        projectType: 'baoli',
-        customerName: '',
-        phone: '',
-        agent: '',
-        reportTime: '',
-        expectedVisitTime: '',
-        city: '',
-      };
+      // 客户信息统一由步骤3-4 剪贴板解析后填充到 this.customerInfo
+      // 不在此处创建临时变量
 
       // 5. 判断是否为保利界面
       const isBaoli = textNodes.some(n => n.text && n.text.includes('保利'));
       if (!isBaoli) {
-        logToBoth('warn', '[千机：步骤3] 界面无"保利"，跳过');
+        logToBoth('warn', '[千机：步骤3] 界面无"保利"，超出能力范围，提示用户');
+        Alert.alert(
+          '提示',
+          '小主，这个客户超出了我的能力范围，需要你亲自搞定了！'
+        );
         return;
       }
 
@@ -264,39 +273,37 @@ export class QianjiService {
       await zbbAutomation.tap(copyBtn.centerX, copyBtn.centerY);
       await zbbAutomation.delay(1000);
 
-      // 步骤3-4：读取剪贴板获取经纪人、报备时间等（姓名和电话已在步骤2从原生树读取）
+      // 步骤3-4：读取剪贴板解析全部客户信息（千机端唯一信息来源）
       try {
         const clipboardText = await zbbAutomation.getClipboardText();
         if (clipboardText && clipboardText.trim().length > 0) {
           logToBoth('info', `[千机：步骤3-4] 剪贴板内容: ${clipboardText.substring(0, 100)}...`);
-          const lines = clipboardText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-          lines.forEach((line: string) => {
-            if (line.includes('经纪人') && !line.includes('备注')) {
-              const parts = line.split(/[：:]/);
-              if (parts[1]) this.customerInfo = { ...this.customerInfo!, agent: parts[1].trim() };
-            } else if (line.includes('报备提交') || line.includes('报备提交:')) {
-              const parts = line.split(/[：:]/);
-              if (parts[1]) this.customerInfo = { ...this.customerInfo!, reportTime: parts[1].trim() };
+          const parsed = this.parseClipboardText(clipboardText);
+          if (parsed) {
+            // 用剪贴板解析结果填充 this.customerInfo（千机端唯一信息来源）
+            this.customerInfo = { ...this.customerInfo!, ...parsed } as typeof this.customerInfo;
+            // 计算 phoneLast4 供后续步骤用
+            if (this.customerInfo!.phone) {
+              const phoneLast4 = this.customerInfo!.phone.replace(/\*/g, '').slice(-4);
+              this.customerInfo = { ...this.customerInfo!, phoneLast4 };
             }
-          });
-          logToBoth('info', `[千机：步骤3-4] 解析结果: ${this.customerInfo?.customerName} ${this.customerInfo?.phone} ${this.customerInfo?.agent}`);
+            logToBoth('info', `[千机：步骤3-4] 解析结果: ${this.customerInfo!.customerName} ${this.customerInfo!.phone} ${this.customerInfo!.agent}`);
+          }
+        } else {
+          logToBoth('warn', '[千机：步骤3-4] 剪贴板为空，未获取到客户信息');
         }
       } catch (e: any) {
-        // 读剪贴板失败，静默
+        logToBoth('error', `[千机：步骤3-4] 读剪贴板失败: ${e?.message || e}`);
       }
 
       // 步骤3-5：按 Home 键返回桌面
-      await zbbAutomation.pressBack();
-      await zbbAutomation.delay(500);
-      await zbbAutomation.pressBack();
-      await zbbAutomation.delay(500);
-      await zbbAutomation.pressBack();
+      await zbbAutomation.pressHome();
       await zbbAutomation.delay(1500);
 
-      // 保存（合并步骤2原生树读取的数据与步骤3补充的数据）
-      this.customerInfo = { ...this.customerInfo, ...customerInfo } as typeof this.customerInfo;
+      // 客户信息已由步骤3-4 剪贴板解析填充，无需再合并
+      // 注：千机端不写数据库，customerInfo 仅作内存中转给 baoli.executeWithData()
 
-    } catch (error) {
+      } catch (error) {
       logToBoth('error', `[千机：步骤3] ✗ 收集客户信息失败: ${error}`);
       throw error;
     }
@@ -312,6 +319,7 @@ export class QianjiService {
     agent: string;
     reportTime: string;
     expectedVisitTime: string;
+    city: string;
   } | null {
     try {
       const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
@@ -322,6 +330,7 @@ export class QianjiService {
         agent: '',
         reportTime: '',
         expectedVisitTime: '',
+        city: '',
       };
 
       for (const line of lines) {
@@ -357,13 +366,13 @@ export class QianjiService {
       }
 
       if (!result.customerName && !result.phone) {
-        logToBoth('warn', '[千机：步骤3] 剪贴板解析结果不完整，原始内容: ' + text);
+        logToBoth('warn', '[千机：步骤3-4] 剪贴板解析结果不完整，原始内容: ' + text);
         return null;
       }
 
       return result;
     } catch (error) {
-      logToBoth('error', `[千机：步骤3] 解析剪贴板失败: ${error}`);
+      logToBoth('error', `[千机：步骤3-4] 解析剪贴板失败: ${error}`);
       return null;
     }
   }
@@ -373,7 +382,7 @@ export class QianjiService {
    */
   public async stepJumpToReportApp(): Promise<void> {
     if (!this.customerInfo) {
-      logToBoth('warn', '[千机：步骤5] 无客户信息，跳过');
+      logToBoth('warn', '[千机：步骤4] 无客户信息，跳过');
       return;
     }
 
@@ -381,11 +390,11 @@ export class QianjiService {
     if (projectType === 'baoli') {
       await zbbAutomation.delay(500);
       const baoli = BaoliService.getInstance();
-      await baoli.execute();
+      await baoli.executeWithData(this.customerInfo);
     } else if (projectType === 'yuexiu') {
-      logToBoth('info', '[千机：步骤5] 检测到越秀端，暂未实现，请先处理保利端');
+      logToBoth('info', '[千机：步骤4] 检测到越秀端，暂未实现，请先处理保利端');
     } else {
-      logToBoth('warn', '[千机：步骤5] 未识别项目类型，跳过');
+      logToBoth('warn', '[千机：步骤4] 未识别项目类型，跳过');
     }
   }
 
@@ -412,26 +421,6 @@ export class QianjiService {
 
     } catch (error) {
       logToBoth('error', `[千机端] 流程执行失败: ${error}`);
-      throw error;
-    }
-  }
-  
-  /**
-   * 启动完整流程（千机端 → 返回 ZBB → 用户粘贴 → 写库 → 自动启动保利端）
-   * 注意：此方法已不再调用 stepSaveToDatabase，数据由 home/index.tsx 的 TextInput 检测到粘贴后写入
-   */
-  public async startFullFlow(): Promise<void> {
-    logToBoth('info', '[千机端] ====== 开始完整流程 ======');
-    
-    try {
-      // 步骤1-4：千机端 → 打开 → 识别 → 查找报备审核 → 复制 → 返回
-      await this.startQianjiFlow();
-      
-      logToBoth('info', '[千机端] ====== 请在 ZBB 中粘贴客户信息 ======');
-      logToBoth('info', '[千机端] ZBB 将自动解析数据、写入数据库并启动保利端');
-      
-    } catch (error) {
-      logToBoth('error', `[千机端] 完整流程失败: ${error}`);
       throw error;
     }
   }
