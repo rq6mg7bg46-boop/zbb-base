@@ -37,26 +37,42 @@
 ## 依赖管理与模块导入规范
 
 ### 依赖安装
-**两个环境都用 npm**（统一简化）。Lockfile **不入库**（见 .gitignore），E470 和家里各自 `npm install` 重新生成。
+**双包管理器共存**（E470 和家里环境不同，需分别处理）：
 
-| 目录 | 安装命令 | 说明 |
-|------|----------|------|
-| `client/` | `npm install` 或 `npx expo install <package>` | Expo 自动选择 SDK 兼容版本 |
-| `server/` | `npm install` 或 `npm install <package>` | 后端依赖 |
+| 环境 | 包管理器 | 安装命令 | 生成的 lockfile |
+|------|---------|---------|----------------|
+| **E470**（公司 Win10 + 真机） | npm | `npm install --prefix client --no-package-lock` | `client/package-lock.json` 入库 |
+| **家里 WSL** | pnpm | `pnpm install` | `pnpm-lock.yaml` 入库 |
+
+**为什么不用 junction 缩短路径**：gradle prefab 用 canonical 路径做严格检查（仅 release 触发），junction 单向透明无效 → 必须保持 `D:\projects\project_coze0520` 原路径。
+
+**为什么不用 `npm install --ignore-scripts`**：npm 不读 pnpm-lock.yaml，会导致 13 个 RN native module 报 `No variants exist` 而构建失败。
+
+**Android 目录**：`client/android/`，所有 gradle 操作需先 `cd client/android`。
 
 ```bash
-# 装全部依赖（根目录会自动装 client + server）
-npm install
+# ===== E470 =====
+cd D:\projects\project_coze0520
+npm install --prefix client --no-package-lock
 
-# 只装 client
-npm install --prefix client
+# ===== 家里 WSL =====
+cd /mnt/d/projects/project_coze0520
+pnpm install
 
-# 添加新依赖
-npm install <package> --prefix client
-npm install <package> --prefix server
+# ===== 添加新依赖 =====
+# E470 (client)
+npm install <package> --prefix client --no-package-lock
+
+# 家里 (client)
+pnpm add <package> --filter client
+
+# 家里 (server)
+pnpm add <package> --filter server
 ```
 
-**网络问题处理**：`npx expo install` 可能因网络原因失败，失败时重试 2 次，仍失败则改用 `pnpm add` 安装
+**网络问题处理**：`npx expo install` 可能因网络原因失败，失败时重试 2 次，仍失败则在 E470 上改用 `npm install <pkg> --prefix client --no-package-lock`，家里用 `pnpm add`。
+
+**pnpm 版本陷阱**：pnpm 11 需要 Node 22.13+（Node 20 用 pnpm 10）。装新 pnpm 后 `pnpm --version` 仍显示旧版时，关掉 PS 窗口重开。
 
 ## Expo 开发规范
 
