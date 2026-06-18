@@ -596,15 +596,7 @@ export default function HomeScreen() {
                   marginTop: 4
                 }
               ]}
-              onPress={async () => {
-                if (overlayStatus === 'granted') {
-                  // 已授权：点一下重新检查
-                  await checkOverlayPermission();
-                } else {
-                  // 未授权：跳设置
-                  await zbbAutomation.openOverlaySettings();
-                }
-              }}
+              onPress={checkOverlayPermission}
             >
               <View style={[styles.statusDot, { backgroundColor: overlayStatus === 'granted' ? '#10B981' : '#FF4444' }]} />
               <Text style={[styles.statusText, { color: overlayStatus === 'granted' ? '#10B981' : '#FF4444' }]}>
