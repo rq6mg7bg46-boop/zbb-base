@@ -104,15 +104,25 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
     @ReactMethod
     fun openOverlaySettings(promise: Promise) {
         try {
-            // ACTION_MANAGE_APP_OVERLAY_PERMISSION is @SystemApi (hidden API),
-            // not exposed in public SDK. Use ACTION_MANAGE_OVERLAY_PERMISSION instead
-            // (public API since API 23, minSdk 24 ok).
-            // Trade-off: Android 11+ jumps to "all apps overlay list" instead of
-            // directly to current app page, but still works.
-            val intent = Intent(
-                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                Uri.parse("package:${mReactContext.packageName}")
-            )
+            // 跳系统设置页：让用户授权"显示在其他应用上方"（悬浮窗）
+            //
+            // Android 11+ (API 30+)：公开 API ACTION_MANAGE_OVERLAY_PERMISSION
+            // 跳的是"所有应用列表"，package URI 被忽略，用户找不到自己 app。
+            // 唯一能精准跳当前 app 的是 ACTION_MANAGE_APP_OVERLAY_PERMISSION，
+            // 但它是 @SystemApi（隐藏 API），SDK 编译时看不到。
+            // 反射拿字符串常量 + startActivity 是允许的
+            // （Settings app 的 activity-alias android:exported="true" 且 permission=""，
+            // 任何 app 都可跳）。
+            //
+            // API < 30：没有这个 @SystemApi 字段，catch 后 fallback 到公开 API。
+            val action = try {
+                val field = Settings::class.java.getDeclaredField("ACTION_MANAGE_APP_OVERLAY_PERMISSION")
+                field.isAccessible = true
+                field.get(null) as String
+            } catch (e: NoSuchFieldException) {
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION
+            }
+            val intent = Intent(action, Uri.parse("package:${mReactContext.packageName}"))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             mReactContext.startActivity(intent)
             promise.resolve(true)
