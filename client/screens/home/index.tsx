@@ -12,7 +12,6 @@
  */
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { useFocusEffect } from 'expo-router';
 import { logToBoth } from '@/services/AutomationLogger';
 import {
   View,
@@ -114,18 +113,7 @@ export default function HomeScreen() {
     checkAccessibility();
     checkOverlayPermission();  // 与无障碍一致：mount 时立刻检查一次
   }, [checkAccessibility, checkOverlayPermission]);
-  
-  // 页面聚焦时刷新今日报备数 + 重新检查悬浮窗权限
-  // （从系统设置返回后悬浮窗状态可能变了，需要重新 check）
-  useFocusEffect(
-    useCallback(() => {
-      checkOverlayPermission();
-      getTodayBaoliReportCount()
-        .then(count => setTodayCount(count))
-        .catch(err => console.error('加载今日报备数失败:', err));
-    }, [checkOverlayPermission])
-  );
-  
+
   // ====== 自动检测粘贴 → 解析 → 写库 → 启动报备 ======
   // 当 pendingAutoStart=true 且 clipboardText 有内容时，触发自动流程
   useEffect(() => {
