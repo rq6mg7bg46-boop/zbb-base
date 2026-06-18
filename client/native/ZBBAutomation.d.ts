@@ -198,7 +198,9 @@ declare module '@/native/ZBBAutomation' {
     updateFloatingStep(stepName: string, stepIndex: number, totalSteps: number): Promise<boolean>;
     updateFloatingAppInfo(appName: string): Promise<boolean>;
     setFloatingComplete(): Promise<boolean>;
-    
+    isOverlayPermissionGranted(): Promise<boolean>;
+    openOverlaySettings(): Promise<boolean>;
+
     // 诊断
     dumpWindowTree(): Promise<boolean>;
     delay(ms: number): Promise<boolean>;

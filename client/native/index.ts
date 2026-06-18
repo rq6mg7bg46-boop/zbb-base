@@ -1291,6 +1291,39 @@ const zbbAutomation = {
   },
 
   /**
+   * 检查悬浮窗权限
+   */
+  isOverlayPermissionGranted: async (): Promise<boolean> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化');
+      return false;
+    }
+    try {
+      return await ZBBAutomation.isOverlayPermissionGranted();
+    } catch (error) {
+      console.error('[ZBB] 检查悬浮窗权限失败:', error);
+      return false;
+    }
+  },
+
+  /**
+   * 打开悬浮窗权限设置
+   */
+  openOverlaySettings: async (): Promise<boolean> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化');
+      return false;
+    }
+    try {
+      await ZBBAutomation.openOverlaySettings();
+      return true;
+    } catch (error) {
+      console.error('[ZBB] 打开悬浮窗设置失败:', error);
+      return false;
+    }
+  },
+
+  /**
    * 停止自动化流程
    */
   stopAutomation: async (): Promise<boolean> => {

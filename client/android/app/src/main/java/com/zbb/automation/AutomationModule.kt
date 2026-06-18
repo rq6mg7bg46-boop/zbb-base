@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Point
 import android.media.projection.MediaProjectionManager
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.os.VibrationEffect
@@ -91,7 +92,30 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
             promise.reject("ERROR", e.message)
         }
     }
-    
+
+    // ==================== 悬浮窗权限 ====================
+
+    @ReactMethod
+    fun isOverlayPermissionGranted(promise: Promise) {
+        val canDraw = Settings.canDrawOverlays(mReactContext)
+        promise.resolve(canDraw)
+    }
+
+    @ReactMethod
+    fun openOverlaySettings(promise: Promise) {
+        try {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION_SETTINGS,
+                Uri.parse("package:${mReactContext.packageName}")
+            )
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            mReactContext.startActivity(intent)
+            promise.resolve(true)
+        } catch (e: Exception) {
+            promise.reject("ERROR", e.message)
+        }
+    }
+
     @ReactMethod
     fun launchApp(packageName: String, promise: Promise) {
         try {

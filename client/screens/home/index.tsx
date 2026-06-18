@@ -68,7 +68,7 @@ export default function HomeScreen() {
   
   // 状态
   const [serviceStatus, setServiceStatus] = useState<'checking' | 'enabled' | 'disabled'>('checking');
-  const [projectionStatus, setProjectionStatus] = useState<'checking' | 'granted' | 'denied'>('checking');
+  const [overlayStatus, setOverlayStatus] = useState<'checking' | 'granted' | 'denied'>('checking');
   const [isRunning, setIsRunning] = useState(false);
   const [currentStep, setCurrentStep] = useState<string>('空闲');
   const [currentStepIndex, setCurrentStepIndex] = useState(-1);
@@ -91,17 +91,16 @@ export default function HomeScreen() {
     }
   }, []);
   
-  // 检查 MediaProjection 权限状态
-  const checkMediaProjection = useCallback(async () => {
+  // 检查悬浮窗权限状态（首页徽章用）
+  const checkOverlayPermission = useCallback(async () => {
     try {
-      setProjectionStatus('checking');
-      // 尝试请求权限来检查状态
-      const granted = await zbbAutomation.requestMediaProjectionPermission();
-      setProjectionStatus(granted ? 'granted' : 'denied');
+      setOverlayStatus('checking');
+      const granted = await zbbAutomation.isOverlayPermissionGranted();
+      setOverlayStatus(granted ? 'granted' : 'denied');
       return granted;
     } catch (error) {
-      console.error('检查 MediaProjection 权限失败:', error);
-      setProjectionStatus('denied');
+      console.error('检查悬浮窗权限失败:', error);
+      setOverlayStatus('denied');
       return false;
     }
   }, []);
@@ -280,19 +279,19 @@ export default function HomeScreen() {
       return;
     }
     
-    // 2. 检查 MediaProjection 权限
-    const hasProjection = await checkMediaProjection();
+    // 2. 检查 MediaProjection 权限（OCR 业务需要）
+    const hasProjection = await zbbAutomation.requestMediaProjectionPermission();
     if (!hasProjection) {
       Alert.alert(
         '请授予屏幕截图权限',
         'ZBB 需要屏幕截图权限（MediaProjection）才能进行 OCR 识别。',
         [
           { text: '取消', style: 'cancel' },
-          { 
-            text: '授予权限', 
+          {
+            text: '授予权限',
             onPress: async () => {
               // 用户需要手动授权
-              const granted = await checkMediaProjection();
+              const granted = await zbbAutomation.requestMediaProjectionPermission();
               if (!granted) {
                 Alert.alert('权限被拒绝', '您已拒绝屏幕截图权限，OCR 功能将无法使用。');
               }
@@ -563,20 +562,28 @@ export default function HomeScreen() {
                 无障碍 {getServiceStatusText()}
               </Text>
             </TouchableOpacity>
-            {/* MediaProjection 权限状态 */}
-            <TouchableOpacity 
+            {/* 悬浮窗权限状态 */}
+            <TouchableOpacity
               style={[
-                styles.statusBadge, 
-                { 
-                  backgroundColor: (projectionStatus === 'granted' ? '#10B981' : '#FF4444') + '20',
-                  marginTop: 4 
+                styles.statusBadge,
+                {
+                  backgroundColor: (overlayStatus === 'granted' ? '#10B981' : '#FF4444') + '20',
+                  marginTop: 4
                 }
               ]}
-              onPress={checkMediaProjection}
+              onPress={async () => {
+                if (overlayStatus === 'granted') {
+                  // 已授权：点一下重新检查
+                  await checkOverlayPermission();
+                } else {
+                  // 未授权：跳设置
+                  await zbbAutomation.openOverlaySettings();
+                }
+              }}
             >
-              <View style={[styles.statusDot, { backgroundColor: projectionStatus === 'granted' ? '#10B981' : '#FF4444' }]} />
-              <Text style={[styles.statusText, { color: projectionStatus === 'granted' ? '#10B981' : '#FF4444' }]}>
-                截图 {projectionStatus === 'granted' ? '已授权' : projectionStatus === 'denied' ? '未授权' : '检查中...'}
+              <View style={[styles.statusDot, { backgroundColor: overlayStatus === 'granted' ? '#10B981' : '#FF4444' }]} />
+              <Text style={[styles.statusText, { color: overlayStatus === 'granted' ? '#10B981' : '#FF4444' }]}>
+                悬浮窗 {overlayStatus === 'granted' ? '已开启' : overlayStatus === 'denied' ? '未授权' : '检查中...'}
               </Text>
             </TouchableOpacity>
           </View>
