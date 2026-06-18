@@ -112,7 +112,8 @@ export default function HomeScreen() {
       .then(count => setTodayCount(count))
       .catch(err => console.error('数据库初始化失败:', err));
     checkAccessibility();
-  }, [checkAccessibility]);
+    checkOverlayPermission();  // 与无障碍一致：mount 时立刻检查一次
+  }, [checkAccessibility, checkOverlayPermission]);
   
   // 页面聚焦时刷新今日报备数 + 重新检查悬浮窗权限
   // （从系统设置返回后悬浮窗状态可能变了，需要重新 check）
