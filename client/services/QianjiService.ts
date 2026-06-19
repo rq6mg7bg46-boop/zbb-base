@@ -78,6 +78,7 @@ export class QianjiService {
     phone: string;
     phoneLast4: string;  // 电话末4位
     agent: string;
+    agentPhone: string;  // 经纪人完整手机号（从经纪人字段分离出来）2026-06-20
     reportTime: string;
     expectedVisitTime: string;
     city: string;        // 城市
@@ -331,7 +332,7 @@ export class QianjiService {
             const phoneLast4 = this.customerInfo!.phone.replace(/\*/g, '').slice(-4);
             this.customerInfo = { ...this.customerInfo!, phoneLast4 };
           }
-          logToBoth('info', `[千机：步骤3-4] 解析结果: 客户=${this.customerInfo!.customerName || '(空)'} 电话=${this.customerInfo!.phone || '(空)'} 经纪人=${this.customerInfo!.agent || '(空)'} 城市=${this.customerInfo!.city || '(空)'} 报备时间=${this.customerInfo!.reportTime || '(空)'}`);
+          logToBoth('info', `[千机：步骤3-4] 解析结果: 客户=${this.customerInfo!.customerName || '(空)'} 电话=${this.customerInfo!.phone || '(空)'} 经纪人=${this.customerInfo!.agent || '(空)'} 经纪人电话=${this.customerInfo!.agentPhone || '(空)'} 城市=${this.customerInfo!.city || '(空)'} 报备时间=${this.customerInfo!.reportTime || '(空)'}`);
         } else {
           logToBoth('warn', '[千机：步骤3-4] 节点解析无结果（格式不匹配）');
         }
@@ -353,6 +354,7 @@ export class QianjiService {
     customerName: string;
     phone: string;
     agent: string;
+    agentPhone: string;  // 2026-06-20 老板拍板：经纪人含电话要分离
     reportTime: string;
     expectedVisitTime: string;
     city: string;
@@ -364,6 +366,7 @@ export class QianjiService {
         customerName: '',
         phone: '',
         agent: '',
+        agentPhone: '',
         reportTime: '',
         expectedVisitTime: '',
         city: '',
@@ -386,8 +389,18 @@ export class QianjiService {
           result.agent = line.split(/[：:]/)[1]?.trim() || '';
         } else if (!line.includes('经纪人姓名') && (line.includes('经纪人：') || line.includes('经纪人:'))) {
           // 2026-06-20 千机"报备审核"页节点格式：key 名为"经纪人"（旧叫"经纪人姓名"）
-          // 注意：value 可能含"加盟·李宁苹 16603992551"（姓名+电话拼一起），整体作为 agent
-          result.agent = line.split(/[：:]/)[1]?.trim() || '';
+          // 老板拍板：经纪人含电话要分离 → 用正则分离 name + phone
+          // 例：'加盟·李宁苹 16603992551' → name='加盟·李宁苹' phone='16603992551'
+          const rawAgent = line.split(/[：:]/)[1]?.trim() || '';
+          const agentMatch = rawAgent.match(/^(.+?)\s+(\d{11})$/);
+          if (agentMatch) {
+            result.agent = agentMatch[1].trim();
+            result.agentPhone = agentMatch[2];
+          } else {
+            // 没匹配到 name+phone 模式 → 整体作为 agent
+            result.agent = rawAgent;
+            result.agentPhone = '';
+          }
         } else if (line.includes('报备提交时间：') || line.includes('报备提交时间:')) {
           result.reportTime = line.split(/[：:]/)[1]?.trim() || '';
         } else if (!line.includes('报备提交时间') && (line.includes('报备提交：') || line.includes('报备提交:'))) {
