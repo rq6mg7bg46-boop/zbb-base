@@ -370,17 +370,27 @@ class BaoliService {
     city: string;
     reportTime: string;
     projectType: string;
-  }): Promise<{ success: boolean; error?: string }> {
+  } | null | undefined): Promise<{ success: boolean; error?: string }> {
     if (this.isRunning) {
       throw new Error('流程已在运行中');
     }
     this.isRunning = true;
 
-    try {
-      logToBoth('info', '[保利直传] 启动保利端填表流程...');
+    // 2026-06-20 老板拍板：千机节点解析可能失败 → customerInfo 为 null，
+    // 保利端不依赖 customerInfo 也能跑（用户可手动填或保利端用兜底）
+    const info = (customerInfo || {}) as {
+      customerName: string;
+      phone: string;
+      agent: string;
+      city: string;
+      reportTime: string;
+      projectType: string;
+    };
+    logToBoth('info', '[保利直传] 启动保利端填表流程...');
 
+    try {
       // 构造 currentCustomer 格式（与 execute() 从数据库读取的格式一致）
-      const customerName = customerInfo.customerName || '';
+      const customerName = info.customerName || '';
       let customerGender = '';
       if (/[女士|小姐|太太]$/.test(customerName)) customerGender = '女';
       else if (/先生$/.test(customerName)) customerGender = '男';
@@ -388,16 +398,16 @@ class BaoliService {
       this.currentCustomer = {
         company: '贝壳',
         name: customerName,
-        phone: customerInfo.phone,
-        project: customerInfo.projectType === 'baoli' ? '保利' : '未知',
-        agent: customerInfo.agent,
-        reportTime: customerInfo.reportTime,
+        phone: info.phone || '',
+        project: info.projectType === 'baoli' ? '保利' : (info.projectType || '保利'),
+        agent: info.agent || '',
+        reportTime: info.reportTime || '',
         expectedVisitTime: '',
       };
 
       logToBoth('info', '[保利直传] 客户: ' + this.currentCustomer.name + ' ' + this.currentCustomer.phone);
       logToBoth('info', '[保利直传] 经纪人: ' + this.currentCustomer.agent);
-      logToBoth('info', '[保利直传] 城市: ' + customerInfo.city);
+      logToBoth('info', '[保利直传] 城市: ' + info.city);
 
       // ========== 步骤1：按 Home 退出到桌面 ==========
       logToBoth('info', '[保利直传:步骤1] 按 Home 键退出到桌面...');

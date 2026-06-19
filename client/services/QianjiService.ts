@@ -316,31 +316,30 @@ export class QianjiService {
       await zbbAutomation.tap(copyBtn.centerX, copyBtn.centerY);
       await zbbAutomation.delay(1000);
 
-      // 步骤3-4：读取剪贴板解析全部客户信息（千机端唯一信息来源）
-      try {
-        const clipboardText = await zbbAutomation.getClipboardText();
-        if (clipboardText && clipboardText.trim().length > 0) {
-          logToBoth('info', `[千机：步骤3-4] 剪贴板内容: ${clipboardText.substring(0, 100)}...`);
-          const parsed = this.parseClipboardText(clipboardText);
-          if (parsed) {
-            // 用剪贴板解析结果填充 this.customerInfo（千机端唯一信息来源）
-            this.customerInfo = { ...this.customerInfo!, ...parsed } as typeof this.customerInfo;
-            // 计算 phoneLast4 供后续步骤用
-            if (this.customerInfo!.phone) {
-              const phoneLast4 = this.customerInfo!.phone.replace(/\*/g, '').slice(-4);
-              this.customerInfo = { ...this.customerInfo!, phoneLast4 };
-            }
-            logToBoth('info', `[千机：步骤3-4] 解析结果: ${this.customerInfo!.customerName} ${this.customerInfo!.phone} ${this.customerInfo!.agent}`);
+      // 步骤3-4：从原生树节点解析客户信息
+      // 注：因 ZBB 读不到千机的剪贴板（系统权限隔离），
+      // 改用 this.lastTextNodes（步骤2 抓的"报备审核"页节点）拼成"每行一个"格式，
+      // 复用 parseClipboardText() 的 key：value 解析规则
+      const nodeText = this.lastTextNodes
+        .filter(n => n.text && n.text.trim().length > 0)
+        .map(n => n.text.trim())
+        .join('\n');
+      logToBoth('info', `[千机：步骤3-4] 节点原始内容(${this.lastTextNodes.length}个):\n${nodeText.substring(0, 500)}`);
+      if (nodeText.trim()) {
+        const parsed = this.parseClipboardText(nodeText);
+        if (parsed) {
+          this.customerInfo = { ...this.customerInfo, ...parsed } as typeof this.customerInfo;
+          if (this.customerInfo!.phone) {
+            const phoneLast4 = this.customerInfo!.phone.replace(/\*/g, '').slice(-4);
+            this.customerInfo = { ...this.customerInfo!, phoneLast4 };
           }
+          logToBoth('info', `[千机：步骤3-4] 解析结果: ${this.customerInfo!.customerName || '(空)'} ${this.customerInfo!.phone || '(空)'} ${this.customerInfo!.agent || '(空)'}`);
         } else {
-          logToBoth('warn', '[千机：步骤3-4] 剪贴板为空，未获取到客户信息');
+          logToBoth('warn', '[千机：步骤3-4] 节点解析无结果（格式不匹配）');
         }
-      } catch (e: any) {
-        logToBoth('error', `[千机：步骤3-4] 读剪贴板失败: ${e?.message || e}`);
+      } else {
+        logToBoth('warn', '[千机：步骤3-4] 节点为空，无法解析');
       }
-
-      // 客户信息已由步骤3-4 剪贴板解析填充，无需再合并
-      // 注：千机端不写数据库，customerInfo 仅作内存中转给 baoli.executeWithData()
 
       } catch (error) {
       logToBoth('error', `[千机：步骤3] ✗ 收集客户信息失败: ${error}`);
@@ -418,23 +417,17 @@ export class QianjiService {
 
   /**
    * ========== 步骤 4：直接调用报备端填表 ==========
+   * 2026-06-20 老板拍板：不再以 !this.customerInfo 作为跳过依据，
+   * 只要识别到"保利"并复制成功就直接调保利（保利端会自行处理空字段）
    */
   public async stepJumpToReportApp(): Promise<void> {
-    if (!this.customerInfo) {
-      logToBoth('warn', '[千机：步骤4] 无客户信息，跳过');
-      return;
-    }
+    logToBoth('info', '[千机：步骤4] 复制成功，启动保利端...');
+    logToBoth('info', `[千机：步骤4] customerInfo: ${this.customerInfo ? JSON.stringify(this.customerInfo).substring(0, 200) : '(null)'}`);
 
-    const projectType = this.customerInfo.projectType;
-    if (projectType === 'baoli') {
-      await zbbAutomation.delay(500);
-      const baoli = BaoliService.getInstance();
-      await baoli.executeWithData(this.customerInfo);
-    } else if (projectType === 'yuexiu') {
-      logToBoth('info', '[千机：步骤4] 检测到越秀端，暂未实现，请先处理保利端');
-    } else {
-      logToBoth('warn', '[千机：步骤4] 未识别项目类型，跳过');
-    }
+    await zbbAutomation.delay(500);
+    const baoli = BaoliService.getInstance();
+    // 即使 customerInfo 解析失败/为空也传过去，保利端内部用 || '' 兜底
+    await baoli.executeWithData(this.customerInfo);
   }
 
   /**
