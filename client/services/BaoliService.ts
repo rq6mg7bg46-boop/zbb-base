@@ -8,6 +8,7 @@
 
 import { Alert } from 'react-native';
 import { zbbAutomation, addScreenshotConfirmedListener, removeStopListener } from '../native';
+import { QianjiService } from './QianjiService';
 
 const APP_PACKAGES = {
   WECHAT: 'com.tencent.wework',  // 企业微信
@@ -963,7 +964,11 @@ class BaoliService {
 
       logToBoth('info', '[步骤15-情况2-步骤8] 系统Alert弹窗（震动+Toast）...');
       await zbbAutomation.startPulseVibration();
-      await zbbAutomation.showToast('已完成报备，请选择正确二维码截图。记得核对姓名及电话！');
+      // 用 Toast 而非 Alert：此时千机/小程序在前台，ZBB 在后台，
+      // Alert.alert 依赖调用方 Activity 在前台才渲染 → 弹不出
+      // Toast 是系统级浮层，前后台都能显示
+      await zbbAutomation.showToast('✅ 已完成报备，请选择正确二维码截图。记得核对姓名及电话！');
+      // Alert 保留作为可点击确认（若用户切回 ZBB 才看得到）
       Alert.alert(
         '报备成功',
         '已完成报备，请选择正确二维码截图。记得核对姓名及电话！',
@@ -990,6 +995,31 @@ class BaoliService {
       await this.exitMiniProgram();
       await zbbAutomation.delay(1000);
       await this.exitMiniProgram();
+
+      // ========== 循环接龙：自动检测下一组客户 ==========
+      // 老板方案：每报备完一组（第一项目+第二项目）后，
+      // 自动调千机 step1+2+3 检测下一组保利客户，有则继续报备，无则结束
+      logToBoth('info', '[接龙] 第二轮报备完成，启动下一组客户检测...');
+      try {
+        const relayResult = await QianjiService.getInstance().testOnlyQianjiFlow();
+        if (relayResult === 'no_pending') {
+          logToBoth('success', '[接龙] 没有更多待报备客户，循环结束');
+          zbbAutomation.showToast('✅ 没有更多待报备客户，接龙结束');
+          return;
+        }
+        if (relayResult === 'no_baoli') {
+          logToBoth('success', '[接龙] 当前没有保利客户，循环结束');
+          zbbAutomation.showToast('✅ 当前没有保利客户，循环结束');
+          return;
+        }
+        // 有保利客户 → 递归调 execute() 跑下一组
+        logToBoth('info', '[接龙] 检测到新保利客户，启动下一轮报备...');
+        await this.execute();
+      } catch (e) {
+        // catch + warn（老板要求）：单组异常时只 warn，不继续接龙
+        logToBoth('warn', `[接龙] 异常停止，循环结束: ${e}`);
+        zbbAutomation.showToast(`⚠️ 接龙异常停止: ${e}`);
+      }
     }
   }
 

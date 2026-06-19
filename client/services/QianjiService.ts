@@ -194,6 +194,8 @@ export class QianjiService {
       if (pendingCount === '0') {
         logToBoth('warn', '[千机：步骤2] 连续 3 次检查待报备数量为 0');
         zbbAutomation.showToast('当前无报备');
+        // 接龙循环退出标志：testOnlyQianjiFlow 读到会返回 'no_pending'
+        this.lastExitReason = 'no_pending';
         await zbbAutomation.pressHome();
         return;
       }
@@ -262,6 +264,9 @@ export class QianjiService {
         } catch {
           // 震动失败不影响主流程
         }
+        // 接龙循环退出标志：testOnlyQianjiFlow 读到会返回 'no_baoli'
+        // 老板要求：不要回桌面（让用户手动处理其他项目客户），所以这里不调 pressHome
+        this.lastExitReason = 'no_baoli';
         return;
       }
 
@@ -459,6 +464,47 @@ export class QianjiService {
 
     } catch (error) {
       logToBoth('error', `[千机端] 流程执行失败: ${error}`);
+      throw error;
+    }
+  }
+
+  /**
+   * ========== 接龙专用：跑千机步骤 1+2+3，不触发保利 ==========
+   *
+   * 用于保利第二轮成功后自动接龙下一组客户：
+   * - handleSuccessCase(2) 末尾调本方法
+   * - 返回 'no_pending' 或 'no_baoli' 时循环结束
+   * - 返回 'has_customer' 时外层调 baoliService.execute() 跑下一组
+   *
+   * 内部用 this.lastExitReason 标志区分退出原因：
+   * - step2 待报备=0 → lastExitReason='no_pending'（已 Toast + pressHome）
+   * - step3 没保利 → lastExitReason='no_baoli'（已 Toast + 震动 + 不回桌面）
+   *
+   * 注意：不调 stepJumpToReportApp()，否则会无限循环
+   */
+  public async testOnlyQianjiFlow(): Promise<'has_customer' | 'no_pending' | 'no_baoli'> {
+    this.lastExitReason = null;
+    logToBoth('info', '[千机：接龙] 启动千机检测（不触发保利）...');
+    try {
+      await this.stepOpenQianji();
+      await this.stepRecognizeInterface();
+      // step2 内部若发现待报备=0，会设 lastExitReason='no_pending' 并 return
+      if (this.lastExitReason === 'no_pending') {
+        logToBoth('success', '[千机：接龙] 无待报备客户，循环结束');
+        return 'no_pending';
+      }
+
+      await this.stepFindAndCollectCustomer();
+      // step3 内部若发现非保利，会设 lastExitReason='no_baoli' 并 return
+      if (this.lastExitReason === 'no_baoli') {
+        logToBoth('success', '[千机：接龙] 无保利客户，循环结束');
+        return 'no_baoli';
+      }
+
+      logToBoth('success', '[千机：接龙] ✓ 找到保利客户，可触发保利');
+      return 'has_customer';
+    } catch (error) {
+      logToBoth('error', `[千机：接龙] 失败: ${error}`);
       throw error;
     }
   }
