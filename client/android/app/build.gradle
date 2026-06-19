@@ -40,8 +40,9 @@ react {
     //   If you add flavors like lite, prod, etc. you'll have to list your debuggableVariants.
     // debuggableVariants = ["liteDebug", "prodDebug"]
     // 2026-06-19: force debug variant to bundle JS so debug APK runs without Metro server
-    // debuggableVariants = []
     // 2026-06-19 22:02: revert to default - 老板开发期要 Metro 实时日志
+    // 2026-06-20 老板拍板: 显式恢复 ["debug"]，去掉默认里的 debugOptimized
+    debuggableVariants = ["debug"]
     // ...
 
     /* Bundling */
