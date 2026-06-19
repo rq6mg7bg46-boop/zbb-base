@@ -1013,7 +1013,13 @@ class BaoliService {
           return;
         }
         // 有保利客户 → 递归调 execute() 跑下一组
-        logToBoth('info', '[接龙] 检测到新保利客户，启动下一轮报备...');
+        // ★ 关键修复：递归前手动释放锁 ★
+        // handleSuccessCase(2) 还在外层 execute() 的 try 块内，
+        // finally 没跑，this.isRunning 还是 true → 新 execute() 入口会抛 "流程已在运行中"
+        // 手动设 false 让新 execute() 通过锁检查；新 execute() 跑完 finally 会再设回 false
+        logToBoth('info', '[接龙] 检测到新保利客户，释放锁后启动下一轮...');
+        this.isRunning = false;
+        logToBoth('info', '[接龙] 启动下一轮报备...');
         await this.execute();
       } catch (e) {
         // catch + warn（老板要求）：单组异常时只 warn，不继续接龙
