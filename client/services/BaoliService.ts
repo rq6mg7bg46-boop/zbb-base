@@ -239,16 +239,33 @@ class BaoliService {
 
       // ========== 步骤2：识别桌面企业微信图标 ==========
       logToBoth('info', '[步骤2] 识别桌面企业微信图标...');
-      const wechatNode = await zbbAutomation.findNodeCenterByText('企业微信');
+      let wechatNode = await zbbAutomation.findNodeCenterByText('企业微信');
       if (wechatNode) {
         logToBoth('success', '[步骤2] 找到\"企业微信\" @ (' + wechatNode.centerX + ', ' + wechatNode.centerY + ')');
         await humanTap(wechatNode.centerX, wechatNode.centerY);
       } else {
-        logToBoth('error', '[步骤2] 未在桌面找到\"企业微信\"图标，尝试直接启动');
-        await zbbAutomation.launchAppWithMonkey(
-          APP_PACKAGES.WECHAT,
-          APP_PACKAGES.WECHAT_MAIN_ACTIVITY
-        );
+        // 兜底：向左滑动屏幕，企业微信可能在右边桌面页（与 ZBB 不在同一页）
+        // 2026-06-19 老板要求：做 2 次兜底滑动
+        logToBoth('warn', '[步骤2] 当前桌面页未找到\"企业微信\"，尝试向左滑动查找...');
+        for (let i = 1; i <= 2; i++) {
+          // 从右向左滑动（900,1200 → 100,1200），模拟翻到下一页桌面
+          await zbbAutomation.swipe(900, 1200, 100, 1200, 500);
+          await zbbAutomation.delay(800);  // 等界面稳定
+          wechatNode = await zbbAutomation.findNodeCenterByText('企业微信');
+          if (wechatNode) {
+            logToBoth('success', `[步骤2] 左滑 ${i} 次后找到\"企业微信\" @ (${wechatNode.centerX}, ${wechatNode.centerY})`);
+            await humanTap(wechatNode.centerX, wechatNode.centerY);
+            break;
+          }
+          logToBoth('warn', `[步骤2] 左滑 ${i} 次后仍未找到\"企业微信\"`);
+        }
+        if (!wechatNode) {
+          logToBoth('error', '[步骤2] 左滑 2 次仍未找到\"企业微信\"图标，尝试直接启动');
+          await zbbAutomation.launchAppWithMonkey(
+            APP_PACKAGES.WECHAT,
+            APP_PACKAGES.WECHAT_MAIN_ACTIVITY
+          );
+        }
       }
       await zbbAutomation.delay(getDelay('openApp'));
 
