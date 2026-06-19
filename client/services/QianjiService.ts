@@ -22,8 +22,8 @@ const WECHAT_MAIN_ACTIVITY = 'com.tencent.wework/.ui.index.WwMainActivity';
 
 // 延时配置
 const DELAY_CONFIG = {
-  openApp: { min: 3000, max: 50000 },  // 开APP3-5 秒
-  other: { min: 2000, max: 3000 },      // 其他操作 2-3 秒
+  openApp: { min: 3000, max: 5000 },  // 开 APP 3-5 秒（2026-06-20 修复：原 max=50000 是 typo）
+  other: { min: 2000, max: 3000 },     // 其他操作 2-3 秒
 };
 
 function getDelay(type: 'openApp' | 'other'): number {
@@ -33,6 +33,62 @@ function getDelay(type: 'openApp' | 'other'): number {
     default:
       return Math.floor(Math.random() * (DELAY_CONFIG.other.max - DELAY_CONFIG.other.min + 1)) + DELAY_CONFIG.other.min;
   }
+}
+
+// ========== P+ 拟人化工具函数（2026-06-20 复制自 BaoliService.ts，按保利端同样逻辑）==========
+
+// 1. 不规则点击坐标（均匀分布 ±5px）
+async function humanTap(x: number, y: number): Promise<void> {
+  const dx = Math.round(Math.random() * 10 - 5);
+  const dy = Math.round(Math.random() * 10 - 5);
+  logToBoth('info', `[P+ humanTap] (${x},${y}) + (${dx},${dy})`);
+  void zbbAutomation.tap(x + dx, y + dy);
+}
+
+// 2. 滑动速度曲线（ease-in-out 10 段）
+async function humanSwipe(x1: number, y1: number, x2: number, y2: number, duration: number): Promise<void> {
+  const steps = 10;
+  const stepDelay = Math.max(20, Math.floor(duration / steps));
+  for (let i = 1; i <= steps; i++) {
+    const progress = i / steps;
+    const eased = progress < 0.5
+      ? 4 * progress * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+    const x = Math.round(x1 + (x2 - x1) * eased);
+    const y = Math.round(y1 + (y2 - y1) * eased);
+    void zbbAutomation.tap(x, y);
+    if (i < steps) await zbbAutomation.delay(stepDelay);
+  }
+}
+
+// 3. 随机停顿（Poisson 分布，默认 8% 概率）
+async function maybePause(probability: number = 0.08): Promise<void> {
+  if (Math.random() < probability) {
+    const mean = 2.0;
+    const u = Math.random();
+    const pause = Math.round(-Math.log(1 - u) * mean * 1000);
+    const clampedPause = Math.max(500, Math.min(3000, pause));
+    logToBoth('info', `[P+ 随机停顿] ${clampedPause}ms`);
+    await zbbAutomation.delay(clampedPause);
+  }
+}
+
+// 4. 页面停留时长（Gamma 分布替代均匀分布）
+function pGammaDelay(min: number, max: number): number {
+  const mean = (min + max) / 2;
+  const variance = (max - min) / 4;
+  const u1 = Math.max(0.0001, Math.random());
+  const u2 = Math.random();
+  const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  const gamma = Math.round(mean + z * variance);
+  return Math.max(min, Math.min(max, gamma));
+}
+
+// 5. 滚动 bounce（overshoot + 回弹，模拟手指惯性）
+async function humanSwipeWithBounce(x1: number, y1: number, x2: number, y2: number, duration: number): Promise<void> {
+  await zbbAutomation.swipe(x1, y1, x2 + 20, y2 - 30, duration);
+  await zbbAutomation.delay(200);
+  await zbbAutomation.swipe(x2 + 20, y2 - 30, x2, y2, 300);
 }
 
 // ========== 通知监听配置（双保险：方案 1 NotificationListenerService + 方案 2 Accessibility） ==========
@@ -111,6 +167,8 @@ export class QianjiService {
       if (launched) {
         logToBoth('info', '[千机：步骤1] 千机已启动，等待界面加载...');
         await zbbAutomation.delay(getDelay('openApp'));
+        // P+ 拟人化：启动后的反应时间（Poisson 分布 8% 概率停顿）
+        await maybePause();
       } else {
         logToBoth('error', '[千机：步骤1] ✗ 千机启动失败');
         throw new Error('千机启动失败');
@@ -131,8 +189,8 @@ export class QianjiService {
     logToBoth('info', '[千机：步骤2] 正在识别当前界面...');
     
     try {
-      // 等待界面加载
-      await zbbAutomation.delay(2000);
+      // 等待界面加载（P+ 拟人化：Gamma 分布 2000-3000ms）
+      await zbbAutomation.delay(pGammaDelay(2000, 3000));
       
       // 获取所有文本节点
       const textNodes = await zbbAutomation.getAllTextNodes();
@@ -166,9 +224,8 @@ export class QianjiService {
           const swipeDuration = 300 + Math.floor(Math.random() * 200);
           logToBoth('info', `[千机：步骤2] 第 ${attempt} 次下拉刷新 (duration=${swipeDuration}ms)...`);
           await zbbAutomation.swipe(540, 400, 540, 1500, swipeDuration);
-          // 下拉后等 1000-2000ms 随机
-          const interval = 1000 + Math.floor(Math.random() * 1000);
-          await zbbAutomation.delay(interval);
+          // 下拉后等（Gamma 分布 1000-2000ms）
+          await zbbAutomation.delay(pGammaDelay(1000, 2000));
 
           // 重新抓节点（覆盖 this.lastTextNodes）
           this.lastTextNodes = (await zbbAutomation.getAllTextNodes()).filter(node =>
@@ -230,8 +287,9 @@ export class QianjiService {
       while (!baobeiNode && slideCount < 3) {
         slideCount++;
         logToBoth('info', `[千机：步骤3] 未找到，滑动屏幕 (${slideCount}/3)...`);
-        await zbbAutomation.swipe(540, 1200, 540, 1000);
-        await zbbAutomation.delay(1500);
+        // P+ 拟人化：手指惯性 overshoot + 回弹
+        await humanSwipeWithBounce(540, 1200, 540, 1000, 800);
+        await zbbAutomation.delay(pGammaDelay(1500, 2500));
         this.lastTextNodes = await zbbAutomation.getAllTextNodes();
         baobeiNode = this.lastTextNodes.find(n => n.text && n.text.includes('报备审核'));
       }
@@ -282,8 +340,10 @@ export class QianjiService {
       }
       const firstForward = forwardBtns[0];
       logToBoth('info', `[千机：步骤3-1] 点击第1个"转发" @ (${firstForward.centerX}, ${firstForward.centerY})`);
-      await zbbAutomation.tap(firstForward.centerX, firstForward.centerY);
-      await zbbAutomation.delay(2000);
+      // P+ 拟人化：关键 tap 前迟疑 + ±5px 偏移
+      await maybePause();
+      await humanTap(firstForward.centerX, firstForward.centerY);
+      await zbbAutomation.delay(pGammaDelay(2000, 3000));
 
       // 步骤3-2：识别联系人列表页，找"转发"按钮，点击（选Y值最大的）
       const nodes2 = await zbbAutomation.getAllTextNodes();
@@ -302,8 +362,10 @@ export class QianjiService {
       forwardList.sort((a, b) => b.centerY - a.centerY);
       const forwardInList = forwardList[0];
       logToBoth('info', `[千机：步骤3-2] 点击Y值最大的"转发" @ (${forwardInList.centerX}, ${forwardInList.centerY})`);
-      await zbbAutomation.tap(forwardInList.centerX, forwardInList.centerY);
-      await zbbAutomation.delay(2000);
+      // P+ 拟人化：关键 tap 前迟疑 + ±5px 偏移
+      await maybePause();
+      await humanTap(forwardInList.centerX, forwardInList.centerY);
+      await zbbAutomation.delay(pGammaDelay(2000, 3000));
 
       // 步骤3-3：识别分享页，找"复制"按钮，点击
       const nodes3 = await zbbAutomation.getAllTextNodes();
@@ -314,8 +376,10 @@ export class QianjiService {
         return;
       }
       logToBoth('info', `[千机：步骤3-3] 点击"复制" @ (${copyBtn.centerX}, ${copyBtn.centerY})`);
-      await zbbAutomation.tap(copyBtn.centerX, copyBtn.centerY);
-      await zbbAutomation.delay(1000);
+      // P+ 拟人化：关键 tap 前迟疑 + ±5px 偏移
+      await maybePause();
+      await humanTap(copyBtn.centerX, copyBtn.centerY);
+      await zbbAutomation.delay(pGammaDelay(1000, 1500));
 
       // 步骤3-4：从原生树节点解析客户信息
       // 注：因 ZBB 读不到千机的剪贴板（系统权限隔离），
@@ -479,7 +543,9 @@ export class QianjiService {
     logToBoth('info', '[千机：步骤4] 复制成功，启动保利端...');
     logToBoth('info', `[千机：步骤4] customerInfo: ${this.customerInfo ? JSON.stringify(this.customerInfo).substring(0, 200) : '(null)'}`);
 
-    await zbbAutomation.delay(500);
+    // P+ 拟人化：复制成功后启动保利端的反应时间（迟疑 + Gamma 分布）
+    await maybePause();
+    await zbbAutomation.delay(pGammaDelay(500, 1500));
     const baoli = BaoliService.getInstance();
     // 即使 customerInfo 解析失败/为空也传过去，保利端内部用 || '' 兜底
     await baoli.executeWithData(this.customerInfo);
