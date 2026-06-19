@@ -318,13 +318,11 @@ export class QianjiService {
 
       // 步骤3-4：从原生树节点解析客户信息
       // 注：因 ZBB 读不到千机的剪贴板（系统权限隔离），
-      // 改用 this.lastTextNodes（步骤2 抓的"报备审核"页节点）拼成"每行一个"格式，
-      // 复用 parseClipboardText() 的 key：value 解析规则
-      const nodeText = this.lastTextNodes
-        .filter(n => n.text && n.text.trim().length > 0)
-        .map(n => n.text.trim())
-        .join('\n');
-      logToBoth('info', `[千机：步骤3-4] 节点原始内容(${this.lastTextNodes.length}个):\n${nodeText.substring(0, 500)}`);
+      // 改用 this.lastTextNodes（步骤2 抓的"报备审核"页节点），
+      // 先调 assembleKeyValueLines() 把"key:" + "value" 拼成 "key:value" 单行，
+      // 再调 parseClipboardText() 解析
+      const nodeText = this.assembleKeyValueLines(this.lastTextNodes);
+      logToBoth('info', `[千机：步骤3-4] 节点拼装后(${this.lastTextNodes.length}个原始节点):\n${nodeText.substring(0, 800)}`);
       if (nodeText.trim()) {
         const parsed = this.parseClipboardText(nodeText);
         if (parsed) {
@@ -333,7 +331,7 @@ export class QianjiService {
             const phoneLast4 = this.customerInfo!.phone.replace(/\*/g, '').slice(-4);
             this.customerInfo = { ...this.customerInfo!, phoneLast4 };
           }
-          logToBoth('info', `[千机：步骤3-4] 解析结果: ${this.customerInfo!.customerName || '(空)'} ${this.customerInfo!.phone || '(空)'} ${this.customerInfo!.agent || '(空)'}`);
+          logToBoth('info', `[千机：步骤3-4] 解析结果: 客户=${this.customerInfo!.customerName || '(空)'} 电话=${this.customerInfo!.phone || '(空)'} 经纪人=${this.customerInfo!.agent || '(空)'} 城市=${this.customerInfo!.city || '(空)'} 报备时间=${this.customerInfo!.reportTime || '(空)'}`);
         } else {
           logToBoth('warn', '[千机：步骤3-4] 节点解析无结果（格式不匹配）');
         }
@@ -373,19 +371,33 @@ export class QianjiService {
 
       for (const line of lines) {
         // 键值对格式：关键词：值
+        // 兼容两套 key：旧（客户联系方式/经纪人姓名/报备提交时间）+ 新（联系方式/经纪人/报备提交/售卖城市）
         if (line.includes('客户姓名：') || line.includes('客户姓名:')) {
           result.customerName = line.split(/[：:]/)[1]?.trim() || '';
         } else if (line.includes('客户联系方式：') || line.includes('客户联系方式:')) {
+          result.phone = line.split(/[：:]/)[1]?.trim().replace(/\*/g, '') || '';
+        } else if (!line.includes('客户姓名') && (line.includes('联系方式：') || line.includes('联系方式:'))) {
+          // 2026-06-20 千机"报备审核"页节点格式：key 名为"联系方式"（旧叫"客户联系方式"）
           result.phone = line.split(/[：:]/)[1]?.trim().replace(/\*/g, '') || '';
         } else if (line.includes('报备项目：') || line.includes('报备项目:')) {
           const project = line.split(/[：:]/)[1]?.trim() || '';
           result.projectType = project.includes('越秀') ? 'yuexiu' : 'baoli';
         } else if (line.includes('经纪人姓名：') || line.includes('经纪人姓名:')) {
           result.agent = line.split(/[：:]/)[1]?.trim() || '';
+        } else if (!line.includes('经纪人姓名') && (line.includes('经纪人：') || line.includes('经纪人:'))) {
+          // 2026-06-20 千机"报备审核"页节点格式：key 名为"经纪人"（旧叫"经纪人姓名"）
+          // 注意：value 可能含"加盟·李宁苹 16603992551"（姓名+电话拼一起），整体作为 agent
+          result.agent = line.split(/[：:]/)[1]?.trim() || '';
         } else if (line.includes('报备提交时间：') || line.includes('报备提交时间:')) {
+          result.reportTime = line.split(/[：:]/)[1]?.trim() || '';
+        } else if (!line.includes('报备提交时间') && (line.includes('报备提交：') || line.includes('报备提交:'))) {
+          // 2026-06-20 千机"报备审核"页节点格式：key 名为"报备提交"（旧叫"报备提交时间"）
           result.reportTime = line.split(/[：:]/)[1]?.trim() || '';
         } else if (line.includes('预计到访时间：') || line.includes('预计到访时间:')) {
           result.expectedVisitTime = line.split(/[：:]/)[1]?.trim() || '';
+        } else if (line.includes('售卖城市：') || line.includes('售卖城市:')) {
+          // 2026-06-20 千机"报备审核"页节点格式：新加"售卖城市" key
+          result.city = line.split(/[：:]/)[1]?.trim() || '';
         }
         // 回退：行内含关键词
         else if (line.includes('保利')) {
@@ -404,7 +416,7 @@ export class QianjiService {
       }
 
       if (!result.customerName && !result.phone) {
-        logToBoth('warn', '[千机：步骤3-4] 剪贴板解析结果不完整，原始内容: ' + text);
+        logToBoth('warn', '[千机：步骤3-4] 解析结果不完整，原始内容: ' + text);
         return null;
       }
 
@@ -413,6 +425,36 @@ export class QianjiService {
       logToBoth('error', `[千机：步骤3-4] 解析剪贴板失败: ${error}`);
       return null;
     }
+  }
+
+  /**
+   * 2026-06-20 老板拍板：千机"报备审核"页节点格式是
+   *   "key:" 换行 "value"（两个独立节点），
+   * 不是剪贴板的 "key：value" 单行格式。
+   * 把"key:" 后面紧跟的 value 节点拼成 "key:value" 单行，
+   * 复用 parseClipboardText() 的解析规则。
+   *
+   * 例：
+   *   输入: ['客户姓名:', '代先生', '联系方式:', '*******1805', ...]
+   *   输出: ['客户姓名:代先生', '联系方式:*******1805', ...]
+   */
+  private assembleKeyValueLines(nodes: { text: string }[]): string {
+    const lines: string[] = [];
+    for (let i = 0; i < nodes.length; i++) {
+      const text = (nodes[i].text || '').trim();
+      if (!text) continue;
+      // 这一行以 : 或 ： 结尾，且下一行是 value（不是 key，也不是空，不是标点）
+      if (/[：:]\s*$/.test(text) && i + 1 < nodes.length) {
+        const nextText = (nodes[i + 1].text || '').trim();
+        if (nextText && !/^[：:]\s*$/.test(nextText)) {
+          lines.push(`${text}${nextText}`);
+          i++;  // 跳过下一行
+          continue;
+        }
+      }
+      lines.push(text);
+    }
+    return lines.join('\n');
   }
 
   /**
