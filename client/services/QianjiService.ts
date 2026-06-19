@@ -91,6 +91,9 @@ export class QianjiService {
   // 步骤2保存的界面节点数据
   private lastTextNodes: any[] = [];
 
+  // 接龙循环退出原因（testOnlyQianjiFlow 用）：null=继续 / 'no_pending'=无待报备 / 'no_baoli'=非保利
+  private lastExitReason: 'no_pending' | 'no_baoli' | null = null;
+
   /**
    * ========== 步骤 1：打开千机 ==========
    */
@@ -244,10 +247,21 @@ export class QianjiService {
       const isBaoli = textNodes.some(n => n.text && n.text.includes('保利'));
       if (!isBaoli) {
         logToBoth('warn', '[千机：步骤3] 界面无"保利"，超出能力范围，提示用户');
-        Alert.alert(
-          '提示',
-          '小主，这个客户超出了我的能力范围，需要你亲自搞定了！'
-        );
+        // 用 Toast 而非 Alert：步骤3 时千机已覆盖前台，ZBB 在后台，
+        // Alert.alert 依赖调用方 Activity 在前台才渲染，会被千机盖住 → 弹不出
+        // Toast 是系统级浮层，前后台都能显示
+        zbbAutomation.showToast('⚠️ 小主，这个客户超出了我的能力范围，需要你亲自搞定！');
+        // 脉冲震动 500ms：项目无 vibrate(duration) 短震 API，
+        // 只有 startPulseVibration(脉冲循环) + stopVibration，
+        // start 后 500ms stop = 嗡一下（第一个 300ms 震完 + 200ms 停顿）
+        // AutomationModule.kt:1413 直接 vibrate(pattern,0) 替换模式，安全重入
+        try {
+          await zbbAutomation.startPulseVibration();
+          await zbbAutomation.delay(500);
+          await zbbAutomation.stopVibration();
+        } catch {
+          // 震动失败不影响主流程
+        }
         return;
       }
 
