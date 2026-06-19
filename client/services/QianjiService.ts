@@ -22,7 +22,7 @@ const WECHAT_MAIN_ACTIVITY = 'com.tencent.wework/.ui.index.WwMainActivity';
 
 // 延时配置
 const DELAY_CONFIG = {
-  openApp: { min: 5000, max: 10000 },  // 开APP 5-10 秒
+  openApp: { min: 3000, max: 50000 },  // 开APP3-5 秒
   other: { min: 2000, max: 3000 },      // 其他操作 2-3 秒
 };
 
@@ -44,7 +44,7 @@ const QIANJI_TRIGGER_DEBOUNCE_MS = 5 * 60 * 1000;
 let qianjiAutoTriggerEnabled = true;
 
 /** 触发关键词过滤（任一命中即触发） */
-const TRIGGER_KEYWORDS = ['报备', '客户', '咨询', '新报备', '预约'];
+const TRIGGER_KEYWORDS = ['报备', '审核', '待审核', '新增', '客户'];
 
 export class QianjiService {
   private static instance: QianjiService;
@@ -338,10 +338,6 @@ export class QianjiService {
       } catch (e: any) {
         logToBoth('error', `[千机：步骤3-4] 读剪贴板失败: ${e?.message || e}`);
       }
-
-      // 步骤3-5：按 Home 键返回桌面
-      await zbbAutomation.pressHome();
-      await zbbAutomation.delay(1500);
 
       // 客户信息已由步骤3-4 剪贴板解析填充，无需再合并
       // 注：千机端不写数据库，customerInfo 仅作内存中转给 baoli.executeWithData()
