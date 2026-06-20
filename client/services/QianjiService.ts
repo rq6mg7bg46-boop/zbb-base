@@ -22,7 +22,7 @@ const WECHAT_MAIN_ACTIVITY = 'com.tencent.wework/.ui.index.WwMainActivity';
 
 // 延时配置
 const DELAY_CONFIG = {
-  openApp: { min: 3000, max: 5000 },  // 开 APP 3-5 秒（2026-06-20 修复：原 max=50000 是 typo）
+  openApp: { min: 2000, max: 3000 },  // 开 APP 2-3 秒（2026-06-20 老板拍板：原 3-5s 偏长，下调到 2-3s）
   other: { min: 2000, max: 3000 },     // 其他操作 2-3 秒
 };
 
