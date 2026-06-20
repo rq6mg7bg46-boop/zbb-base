@@ -1,0 +1,5 @@
+# Git mailmap: 把历史 commit 的临时 author 归一到 lt-ceo
+# 不改 history，pull 0 阻力
+# 格式: 规范身份 <别名邮箱/原邮箱>
+lt-ceo <ltceo01@163.com> rq6mg7bg46-boop <15981928687@139.com>
+lt-ceo <ltceo01@163.com> tiezi <tiezi@local>
