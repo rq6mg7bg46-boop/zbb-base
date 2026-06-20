@@ -10,6 +10,7 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PixelFormat
@@ -28,7 +29,9 @@ import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -55,7 +58,14 @@ class ScreenshotService : Service() {
         private const val CHANNEL_ID = "ZBB_Screenshot_Channel"
         private const val NOTIFICATION_ID = 10002
         const val PROJECTION_REQUEST_CODE = 10086
-        
+
+        // 悬浮窗 GO 按钮拖动位置持久化
+        private const val PREFS_NAME = "zbb_floating_prefs"
+        private const val KEY_FLOATING_X = "floating_dot_x"
+        private const val KEY_FLOATING_Y = "floating_dot_y"
+        private const val DEFAULT_FLOATING_X_DP = 16f
+        private const val DEFAULT_FLOATING_Y_DP = 95f
+
         const val ACTION_INIT_PROJECTION = "com.zbb.automation.INIT_PROJECTION"
         const val ACTION_STOP_SERVICE = "com.zbb.automation.STOP_SERVICE"
         
@@ -136,10 +146,47 @@ class ScreenshotService : Service() {
     
     // 悬浮窗
     private var floatingView: View? = null
+    private var floatingParams: WindowManager.LayoutParams? = null  // 提升为字段：拖动时动态更新 x/y
     private var windowManager: WindowManager? = null
-    
+
+    // GO 按钮拖动状态
+    private var touchStartX: Float = 0f
+    private var touchStartY: Float = 0f
+    private var startViewX: Int = 0
+    private var startViewY: Int = 0
+    private var isDragging: Boolean = false
+    private var touchSlop: Int = 8  // onCreate 时用 ViewConfiguration 赋值
+
     // 截图闪光
     private var flashView: View? = null
+
+    /**
+     * 读取悬浮窗上次保存的位置（首次启动用默认值 16dp / 95dp）
+     */
+    private fun loadFloatingPosition(): Pair<Int, Int> {
+        return try {
+            val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            val x = prefs.getInt(KEY_FLOATING_X, dp(DEFAULT_FLOATING_X_DP))
+            val y = prefs.getInt(KEY_FLOATING_Y, dp(DEFAULT_FLOATING_Y_DP))
+            Pair(x, y)
+        } catch (e: Exception) {
+            Log.w(TAG, "读取悬浮窗位置失败: ${e.message}")
+            Pair(dp(DEFAULT_FLOATING_X_DP), dp(DEFAULT_FLOATING_Y_DP))
+        }
+    }
+
+    /**
+     * 拖动结束后保存悬浮窗新位置
+     */
+    private fun saveFloatingPosition(x: Int, y: Int) {
+        try {
+            val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            prefs.edit().putInt(KEY_FLOATING_X, x).putInt(KEY_FLOATING_Y, y).apply()
+            Log.d(TAG, "悬浮窗位置已保存: x=$x, y=$y")
+        } catch (e: Exception) {
+            Log.w(TAG, "保存悬浮窗位置失败: ${e.message}")
+        }
+    }
     
     // 是否正在等待授权
     private var isAwaitingPermission = false
@@ -148,6 +195,7 @@ class ScreenshotService : Service() {
         super.onCreate()
         instance = this
         isStarted = false
+        touchSlop = ViewConfiguration.get(this).scaledTouchSlop  // 系统滑动阈值（用于区分点击 vs 拖动）
         Log.d(TAG, "onCreate")
         createNotificationChannel()
         startForeground(NOTIFICATION_ID, createNotification())
@@ -531,8 +579,21 @@ class ScreenshotService : Service() {
     private fun createFloatingDot() {
         try {
             windowManager = getSystemService(Context.WINDOW_SERVICE) as? WindowManager
-            
-            val params = WindowManager.LayoutParams().apply {
+            // 从 SharedPreferences 恢复上次位置（首次启动用默认值 16dp / 95dp）
+            val (savedX, savedY) = loadFloatingPosition()
+
+            // 屏幕尺寸 + 边界限制（拖动范围只能在屏幕内）
+            val displayMetrics = Resources.getSystem().displayMetrics
+            val screenW = displayMetrics.widthPixels
+            val screenH = displayMetrics.heightPixels
+            val viewSizePx = dp(32f)  // 悬浮窗 32dp
+            val xMin = 0
+            val xMax = screenW - viewSizePx
+            val yMin = 0
+            val yMax = screenH - viewSizePx
+
+            // WindowManager.LayoutParams（提升为字段以便拖动时动态更新）
+            floatingParams = WindowManager.LayoutParams().apply {
                 type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
                 } else {
@@ -546,17 +607,17 @@ class ScreenshotService : Service() {
                 width = dp(32f)
                 height = dp(32f)
                 gravity = Gravity.TOP or Gravity.END
-                x = dp(16f)
-                y = dp(95f)
+                x = savedX.coerceIn(xMin, xMax)
+                y = savedY.coerceIn(yMin, yMax)
             }
-            
+
             // 圆点背景（圆形蓝底）
             floatingView = FrameLayout(this).apply {
                 setBackgroundResource(R.drawable.screenshot_button_blue)
                 alpha = 0.9f
                 val padding = dp(10f)
                 setPadding(padding, padding, padding, padding)
-                
+
                 // 添加文字"GO"
                 val label = TextView(context).apply {
                     text = "GO"
@@ -565,7 +626,8 @@ class ScreenshotService : Service() {
                     gravity = android.view.Gravity.CENTER
                 }
                 (this as FrameLayout).addView(label)
-                
+
+                // 短按点击：触发流程继续（原行为不变）
                 setOnClickListener {
                     Log.d(TAG, "悬浮圆点被点击")
                     // 通知 JS 继续流程（复用 onScreenshotConfirmed 事件）
@@ -578,9 +640,57 @@ class ScreenshotService : Service() {
                     // 点击后变红色圆形
                     setBackgroundResource(R.drawable.screenshot_button_red)
                 }
+
+                // 长按拖动：自定义位置，拖动结束后位置持久化到 SharedPreferences
+                // 通过 touchSlop 阈值区分点击 vs 拖动（系统标准约 8dp）
+                // 拖动范围限制在屏幕内（clamp 到 [xMin,xMax] / [yMin,yMax]）
+                setOnTouchListener { _, event ->
+                    when (event.actionMasked) {
+                        MotionEvent.ACTION_DOWN -> {
+                            touchStartX = event.rawX
+                            touchStartY = event.rawY
+                            startViewX = floatingParams?.x ?: 0
+                            startViewY = floatingParams?.y ?: 0
+                            isDragging = false
+                            true  // 自己消费触摸，不触发 click
+                        }
+                        MotionEvent.ACTION_MOVE -> {
+                            val dx = event.rawX - touchStartX
+                            val dy = event.rawY - touchStartY
+                            // 超过系统滑动阈值才算拖动开始
+                            if (!isDragging && (Math.abs(dx) > touchSlop || Math.abs(dy) > touchSlop)) {
+                                isDragging = true
+                            }
+                            if (isDragging) {
+                                floatingParams?.let { params ->
+                                    params.x = (startViewX + dx.toInt()).coerceIn(xMin, xMax)
+                                    params.y = (startViewY + dy.toInt()).coerceIn(yMin, yMax)
+                                    try {
+                                        windowManager?.updateViewLayout(floatingView, params)
+                                    } catch (e: Exception) {
+                                        Log.e(TAG, "更新悬浮窗位置失败: ${e.message}")
+                                    }
+                                }
+                                true  // 拖动中消费事件
+                            } else {
+                                false  // 未超阈值，让 click 处理
+                            }
+                        }
+                        MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                            if (isDragging) {
+                                // 拖动结束，保存位置
+                                floatingParams?.let { saveFloatingPosition(it.x, it.y) }
+                                true  // 拖动后释放不算点击
+                            } else {
+                                false  // 短按让 onClick 处理
+                            }
+                        }
+                        else -> false
+                    }
+                }
             }
-            
-            windowManager?.addView(floatingView, params)
+
+            windowManager?.addView(floatingView, floatingParams)
             Log.d(TAG, "createFloatingDot: 圆点已显示")
             
         } catch (e: Exception) {

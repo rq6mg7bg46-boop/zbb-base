@@ -6,7 +6,7 @@
  * 流程：打开企业微信 → 点击工作台 → 进入云和家经纪云 → 填写报备表单
  */
 
-import { Alert } from 'react-native';
+import { Alert, DeviceEventEmitter } from 'react-native';
 import { zbbAutomation, addScreenshotConfirmedListener, removeStopListener } from '../native';
 import { QianjiService } from './QianjiService';
 
@@ -907,6 +907,11 @@ class BaoliService {
       logToBoth('warn', '[步骤15-情况1-3] 用户未操作，30秒到时，持续震动杀死ZBB');
     }
 
+    // 第4步：通知首页累计数 +1（重号 = 尝试报备 1 次）
+    // 2026-06-20 老板方案：DeviceEventEmitter 单一事件，home 收到后重新读 DB
+    logToBoth('info', '[步骤15-情况1-4] 通知首页累计数 +1');
+    DeviceEventEmitter.emit('zbbReportCompleted');
+
     // 第5步：后台杀掉ZBB进程
     logToBoth('info', '[步骤15-情况1-5] 后台杀掉ZBB进程，流程结束');
     await zbbAutomation.killZbbProcess();
@@ -943,6 +948,9 @@ class BaoliService {
 
     // 5. 第一轮报备成功后，执行第二轮报备（同一客户，第二项目：保利山水和颂）
     if (round === 1) {
+      // 2026-06-20 老板方案：第一轮成功 +1（任何 attempt 都计入累计）
+      logToBoth('info', '[步骤15-情况2] 第一轮报备成功，通知首页累计数 +1');
+      DeviceEventEmitter.emit('zbbReportCompleted');
       logToBoth('info', '[步骤15-情况2] 第一轮报备完成，开始第二轮...');
       await this.handleSecondRound();
     } else {
@@ -1000,6 +1008,10 @@ class BaoliService {
 
       // 停止震动
       await zbbAutomation.stopVibration();
+
+      // 2026-06-20 老板方案：第二轮 GO 后 +1（接龙完成 = 完整一组客户）
+      logToBoth('info', '[步骤15-情况2] 第二轮 GO 后，通知首页累计数 +1');
+      DeviceEventEmitter.emit('zbbReportCompleted');
 
       logToBoth('success', '[步骤15-情况2] 第二轮报备成功，退出小程序...');
       await this.exitMiniProgram();

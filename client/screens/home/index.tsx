@@ -11,7 +11,7 @@
  * 注意：实际屏幕显示由 Android 原生悬浮窗负责
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { logToBoth } from '@/services/AutomationLogger';
 import {
@@ -23,6 +23,7 @@ import {
   ScrollView,
   ActivityIndicator,
   TextInput,
+  AppState,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSafeRouter } from '@/hooks/useSafeRouter';
@@ -60,6 +61,104 @@ const APP_CONFIG: Record<string, { name: string; color: string; bgColor: string 
   qianji: { name: '千机', color: '#FFFFFF', bgColor: '#8B5CF6' },
   '': { name: '完成', color: '#FFFFFF', bgColor: '#10B981' },
 };
+
+// ================== 空闲态情绪话术库 ==================
+// 设计原则：1) 权限缺失优先 2) 时段 + 业务数据 3) 随机抽避免重复
+// 文本中的 {todayCount} / {missing} 占位符由渲染层高亮加粗
+type IdleMsg = { icon: string; text: string };
+
+const IDLE_MESSAGES: Record<string, IdleMsg[]> = {
+  // 凌晨 0-8
+  dawn: [
+    { icon: 'battery-quarter', text: '小主还没睡呀…我也快没电了，能让我歇会儿吗？' },
+    { icon: 'coffee', text: '小主起这么早呀，要不要先泡杯咖啡？' },
+    { icon: 'heart', text: '这个点还在忙吗？注意身体呀小主~' },
+  ],
+  // 上午 9-11
+  morning: [
+    { icon: 'sun', text: '上午好，小主，今天见到你真开心~' },
+    { icon: 'face-smile-beam', text: '小主早！新的一天，准备好搬砖了吗？' },
+    { icon: 'mug-hot', text: '早安小主~ 今天也要元气满满哦！' },
+  ],
+  // 下午 12-20
+  afternoon: [
+    { icon: 'mug-hot', text: '下午好，小主，要不要来杯下午茶？' },
+    { icon: 'face-smile-wink', text: '小主辛苦啦，休息一下眼睛吧~' },
+    { icon: 'cloud-sun', text: '下午时段客户多吗？小主需要帮忙随时叫我~' },
+  ],
+  // 晚上 21-23（前 2 条有任务，后 2 条无任务）
+  night: [
+    { icon: 'face-tired', text: '小主，我今天转了 {todayCount} 组客户，快累死了。让我歇歇呗~' },
+    { icon: 'moon', text: '今天帮小主搞定了 {todayCount} 单，眼睛都花了~' },
+    { icon: 'bed', text: '小主，今天还没开张呢，要不要试试？' },
+    { icon: 'face-kiss', text: '夜深了，小主也要早点睡哦~' },
+  ],
+};
+
+const PERMISSION_MESSAGES = {
+  // 缺两个权限
+  bothMissing: [
+    { icon: 'key', text: '小主，需要给我「无障碍」+「悬浮窗」权限，我才能帮你搬砖~' },
+    { icon: 'hand-holding-heart', text: '没有权限我只能干看着，授权一下吧小主~' },
+    { icon: 'lock-open', text: '小主给个权限吧，我保证好好干活！' },
+  ],
+  // 缺一个权限（用 {missing} 占位）
+  oneMissing: [
+    { icon: 'door-open', text: '小主，还需要「{missing}」权限哦，拜托了~' },
+    { icon: 'bell', text: '差一步就能开工啦，小主再给个「{missing}」权限吧~' },
+  ],
+};
+
+/**
+ * 根据时段 + 权限状态 + 今日数，返回 idle 话术
+ * 优先级：权限缺失 > 时段 + 业务数据
+ * @param hour 当前小时（0-23）
+ * @param perms 权限状态
+ * @param todayCount 今日完成数
+ * @param lastIdx 上次抽到的 idx（避免连续重复显示同一条）
+ */
+function getIdleMessage(
+  hour: number,
+  perms: { accessibility: boolean; overlay: boolean },
+  todayCount: number,
+  lastIdx: number
+): { msg: IdleMsg; idx: number; data: Record<string, string | number> } {
+  const missing: string[] = [];
+  if (!perms.accessibility) missing.push('无障碍');
+  if (!perms.overlay) missing.push('悬浮窗');
+
+  let pool: IdleMsg[];
+  let data: Record<string, string | number> = {};
+
+  if (missing.length === 2) {
+    pool = PERMISSION_MESSAGES.bothMissing;
+  } else if (missing.length === 1) {
+    pool = PERMISSION_MESSAGES.oneMissing;
+    data = { missing: missing[0] };
+  } else {
+    // 时段分流
+    let rawPool: IdleMsg[];
+    if (hour < 9) {
+      rawPool = IDLE_MESSAGES.dawn;
+    } else if (hour < 12) {
+      rawPool = IDLE_MESSAGES.morning;
+    } else if (hour < 21) {
+      rawPool = IDLE_MESSAGES.afternoon;
+    } else {
+      // 晚上：有任务看数，无任务鼓励开张
+      rawPool = todayCount > 0 ? IDLE_MESSAGES.night.slice(0, 2) : IDLE_MESSAGES.night.slice(2);
+    }
+    pool = rawPool;
+    data = { todayCount };
+  }
+
+  // 随机抽一条，排除上次 idx
+  const candidates = pool.map((_, i) => i).filter(i => i !== lastIdx);
+  const idx = candidates.length > 0
+    ? candidates[Math.floor(Math.random() * candidates.length)]
+    : 0; // 兜底（pool 只有 1 条时）
+  return { msg: pool[idx], idx, data };
+}
 
 export default function HomeScreen() {
   const { theme, isDark } = useTheme();
@@ -105,6 +204,14 @@ export default function HomeScreen() {
     }
   }, []);
   
+  // 重新读取今日报备数（用于 DeviceEventEmitter 回调）
+  // 2026-06-20 老板方案：service emit 'zbbReportCompleted' → home 重新读 DB
+  const refreshTodayCount = useCallback(() => {
+    getTodayBaoliReportCount()
+      .then(count => setTodayCount(count))
+      .catch(err => console.error('读取今日报备数失败:', err));
+  }, []);
+
   useEffect(() => {
     // 首次加载时初始化数据库（创建表），完成后加载今日报备数
     initDatabase()
@@ -113,7 +220,12 @@ export default function HomeScreen() {
       .catch(err => console.error('数据库初始化失败:', err));
     checkAccessibility();
     checkOverlayPermission();  // 与无障碍一致：mount 时立刻检查一次
-  }, [checkAccessibility, checkOverlayPermission]);
+
+    // 订阅报备完成事件（重号 + 第一轮成功 + 第二轮 GO 后触发 +1）
+    // Service → Home 通信通道，避免 React state 跨组件隔离
+    const subscription = DeviceEventEmitter.addListener('zbbReportCompleted', refreshTodayCount);
+    return () => subscription.remove();
+  }, [checkAccessibility, checkOverlayPermission, refreshTodayCount]);
 
   // 页面聚焦时重新检查两个权限状态
   // 用户从系统设置返回 ZBB 首页时，权限状态可能已变化，需 recheck
@@ -124,6 +236,38 @@ export default function HomeScreen() {
       checkOverlayPermission();
     }, [checkAccessibility, checkOverlayPermission])
   );
+
+  // 兜底：App 从 background 回到 active 时重新检查权限
+  // （useFocusEffect 在 expo-router 跳系统设置再回首页时，焦点事件边界条件不可靠）
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active') {
+        checkAccessibility();
+        checkOverlayPermission();
+      }
+    });
+    return () => subscription?.remove();
+  }, [checkAccessibility, checkOverlayPermission]);
+
+  // ================== 空闲态情绪话术 ==================
+  // 记录上次抽到的 idx（避免连续重复显示同一条）
+  const lastIdleIdxRef = useRef<number>(-1);
+
+  // 计算话术（useMemo 缓存，hour/perms/todayCount 变化才重算）
+  const idleMsg = useMemo(() => getIdleMessage(
+    new Date().getHours(),
+    {
+      accessibility: serviceStatus === 'enabled',
+      overlay: overlayStatus === 'granted',
+    },
+    todayCount,
+    lastIdleIdxRef.current
+  ), [serviceStatus, overlayStatus, todayCount, isRunning, pendingAutoStart]);
+
+  // commit 后同步 idx 到 ref（下次重算时排除本次）
+  useEffect(() => {
+    lastIdleIdxRef.current = idleMsg.idx;
+  }, [idleMsg.idx]);
 
   // ====== 自动检测粘贴 → 解析 → 写库 → 启动报备 ======
   // 当 pendingAutoStart=true 且 clipboardText 有内容时，触发自动流程
@@ -523,10 +667,10 @@ export default function HomeScreen() {
         <View style={styles.header}>
           <View>
             <ThemedText variant="h1" color={theme.textPrimary} style={styles.title}>
-              ZBB
+              Action Surrogate
             </ThemedText>
             <ThemedText variant="caption" color={theme.textMuted}>
-              自动化报备工具
+              Disconnect to reconnect with life.
             </ThemedText>
           </View>
           <View style={styles.statusContainer}>
@@ -652,11 +796,21 @@ export default function HomeScreen() {
                 )}
               </View>
             ) : (
-              /* 正常空闲状态 */
+              /* 正常空闲状态 - 拟人化情绪话术 */
               <View style={[styles.idleCard, { backgroundColor: theme.backgroundDefault }]}>
-                <FontAwesome6 name="hand-point-right" size={24} color={theme.primary} />
+                <FontAwesome6 name={idleMsg.msg.icon as any} size={24} color={theme.primary} />
                 <Text style={[styles.idleText, { color: theme.textSecondary }]}>
-                  点击下方「启动 ZBB 流程」开始自动化报备
+                  {idleMsg.msg.text.split(/(\{\w+\})/).map((part, i) => {
+                    const m = part.match(/^\{(\w+)\}$/);
+                    if (m && idleMsg.data[m[1]] !== undefined) {
+                      return (
+                        <Text key={i} style={{ color: theme.primary, fontWeight: 'bold' }}>
+                          {idleMsg.data[m[1]]}
+                        </Text>
+                      );
+                    }
+                    return <Text key={i}>{part}</Text>;
+                  })}
                 </Text>
               </View>
             )}
@@ -714,42 +868,6 @@ export default function HomeScreen() {
         
         {/* 按钮区域 */}
         <View style={styles.buttonsContainer}>
-          {/* 主启动按钮 */}
-          <TouchableOpacity
-            style={[
-              styles.mainButton, 
-              { backgroundColor: isRunning ? theme.textMuted : theme.primary }
-            ]}
-            onPress={isRunning ? handleStop : handleStart}
-            disabled={false}
-            activeOpacity={0.8}
-          >
-            {isRunning ? (
-              <>
-                <FontAwesome6 name="stop" size={24} color="#fff" />
-                <Text style={styles.mainButtonText}>停止 ZBB</Text>
-              </>
-            ) : (
-              <>
-                <FontAwesome6 name="play" size={24} color="#fff" />
-                <Text style={styles.mainButtonText}>启动 ZBB 流程</Text>
-              </>
-            )}
-          </TouchableOpacity>
-          
-          {/* 测试越秀端按钮 */}
-          <TouchableOpacity
-            style={[styles.consoleButton, { backgroundColor: '#10B98120', marginTop: 12 }]}
-            onPress={handleTestYuexiu}
-            activeOpacity={0.8}
-          >
-            <FontAwesome6 name="city" size={20} color="#10B981" />
-            <Text style={[styles.consoleButtonText, { color: '#10B981' }]}>
-              测试越秀端
-            </Text>
-            <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
-          </TouchableOpacity>
-          
           {/* 测试保利端按钮 */}
           <TouchableOpacity
             style={[styles.consoleButton, { backgroundColor: '#F59E0B20', marginTop: 12 }]}
@@ -775,56 +893,9 @@ export default function HomeScreen() {
             </Text>
             <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
           </TouchableOpacity>
-          
-          {/* 控制台按钮 */}
-          <TouchableOpacity
-            style={[styles.consoleButton, { backgroundColor: theme.backgroundDefault, marginTop: 12 }]}
-            onPress={handleOpenConsole}
-            activeOpacity={0.8}
-          >
-            <FontAwesome6 name="terminal" size={20} color={theme.primary} />
-            <Text style={[styles.consoleButtonText, { color: theme.textPrimary }]}>
-              查看控制台
-            </Text>
-            <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
-          </TouchableOpacity>
         </View>
         
-        {/* 流程说明 */}
-        <View style={styles.flowInfo}>
-          <ThemedText variant="caption" color={theme.textMuted} style={styles.flowTitle}>
-            自动化流程说明
-          </ThemedText>
-          <View style={styles.flowSteps}>
-            <View style={styles.flowStep}>
-              <View style={[styles.stepNumber, { backgroundColor: theme.primary + '20' }]}>
-                <Text style={[styles.stepNumberText, { color: theme.primary }]}>1</Text>
-              </View>
-              <ThemedText variant="caption" color={theme.textSecondary}>
-                抖音获取客户信息
-              </ThemedText>
-            </View>
-            <FontAwesome6 name="arrow-right" size={12} color={theme.textMuted} />
-            <View style={styles.flowStep}>
-              <View style={[styles.stepNumber, { backgroundColor: theme.primary + '20' }]}>
-                <Text style={[styles.stepNumberText, { color: theme.primary }]}>2</Text>
-              </View>
-              <ThemedText variant="caption" color={theme.textSecondary}>
-                微信小程序报备
-              </ThemedText>
-            </View>
-            <FontAwesome6 name="arrow-right" size={12} color={theme.textMuted} />
-            <View style={styles.flowStep}>
-              <View style={[styles.stepNumber, { backgroundColor: theme.primary + '20' }]}>
-                <Text style={[styles.stepNumberText, { color: theme.primary }]}>3</Text>
-              </View>
-              <ThemedText variant="caption" color={theme.textSecondary}>
-                发送截图到抖音
-              </ThemedText>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
     </Screen>
   );
 }
@@ -841,7 +912,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   title: {
-    fontSize: 36,
+    fontSize: 28,
     fontWeight: '700',
   },
   statusBadge: {
