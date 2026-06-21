@@ -3,7 +3,7 @@
  * 用途：从千机获取客户信息 → 云和家经纪云小程序报备 → 返回千机上传截图
  */
 
-import { EmitterSubscription } from 'react-native';
+import { EmitterSubscription, DeviceEventEmitter } from 'react-native';
 import { zbbAutomation, addQianjiMessageListener, removeQianjiMessageListener, QianjiMessagePayload } from '@/native';
 import { logToBoth } from './AutomationLogger';
 import { BaoliService } from './BaoliService';
@@ -19,6 +19,17 @@ const QIANJI_MAIN_ACTIVITY = 'com.lianjia.link.platform.main.MainActivity';
 
 // 企业微信主 Activity
 const WECHAT_MAIN_ACTIVITY = 'com.tencent.wework/.ui.index.WwMainActivity';
+
+// 2026-06-21 老板拍板方案 A：8 秒倒计时浮窗让出控制权
+// 沉默即同意：8 秒走完没点 = 自动开
+const QIANJI_COUNTDOWN_SECONDS = 8;
+
+// 老板 2026-06-21 拍：cooldown 3 分钟
+const QIANJI_COOLDOWN_MINUTES = 3;
+
+// DeviceEventEmitter 事件名（QianjiService ↔ HomeScreen 通信）
+const ZBB_QIANJI_COUNTDOWN_START = 'zbbQianjiCountdownStart';
+const ZBB_QIANJI_COUNTDOWN_END = 'zbbQianjiCountdownEnd';
 
 // 延时配置
 const DELAY_CONFIG = {
@@ -729,8 +740,41 @@ export class QianjiService {
       // showToast 在某些设备上不可用，忽略
     }
 
-    // 5. 5 秒倒计时后启动千机端流程
-    await zbbAutomation.delay(5000);
+    // 5. 8 秒倒计时 + 浮窗让出控制权（2026-06-21 老板拍板方案 A）
+    // 设计：
+    //   a. emit zbbQianjiCountdownStart 通知 HomeScreen 弹浮窗
+    //   b. 等 8 秒，期间监听 zbbQianjiCountdownEnd 收用户决策
+    //   c. 沉默即同意：8 秒到没点 → 自动开
+    //   d. decision='skip' → cooldown 3 分钟（HomeScreen 端 setCooldown 已写）
+    //   e. decision='go'   → 立即 startQianjiFlow
+    let userDecision: 'go' | 'skip' | null = null;
+    const decisionListener = DeviceEventEmitter.addListener(
+      ZBB_QIANJI_COUNTDOWN_END,
+      (payload: { decision: 'go' | 'skip' }) => {
+        userDecision = payload?.decision ?? null;
+      },
+    );
+
+    // 通知 HomeScreen 弹浮窗（多次收到消息时由 HomeScreen 合并浮窗）
+    DeviceEventEmitter.emit(ZBB_QIANJI_COUNTDOWN_START, {
+      seconds: QIANJI_COUNTDOWN_SECONDS,
+      cooldownMinutes: QIANJI_COOLDOWN_MINUTES,
+    });
+
+    logToBoth('info', `[千机监听] ⏳ 8 秒倒计时浮窗已发起，沉默即同意...`);
+
+    await zbbAutomation.delay(QIANJI_COUNTDOWN_SECONDS * 1000);
+    decisionListener.remove();
+
+    if (userDecision === 'skip') {
+      logToBoth('info', `[千机监听] 用户选择"让小的歇会"，cooldown ${QIANJI_COOLDOWN_MINUTES} 分钟`);
+      return;
+    }
+
+    // 沉默即同意（null 或 'go'）→ 自动开
+    if (userDecision === null) {
+      logToBoth('info', `[千机监听] 沉默即同意（cooldown 跳过或 8s 内未点），自动启动`);
+    }
     try {
       await this.startQianjiFlow();
     } catch (error) {
