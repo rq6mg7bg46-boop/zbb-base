@@ -80,7 +80,7 @@ try {
   const packagesToInstall = missingPackages.join(' ');
 
   try {
-    execSync(`pnpm expo install ${packagesToInstall}`, {
+    execSync(`npx expo install ${packagesToInstall}`, {
       stdio: 'inherit',
     });
 

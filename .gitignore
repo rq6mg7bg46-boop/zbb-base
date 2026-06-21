@@ -11,4 +11,11 @@ expo-env.d.ts
 logs/
 *.tsbuildinfo
 node-compile-cache/
+
+# IDE / Kotlin / build artifacts
 .idea/
+.kotlin/
+
+# Hermes artifacts
+client/android/app/build/intermediates/
+client/android/app/build/tmp/

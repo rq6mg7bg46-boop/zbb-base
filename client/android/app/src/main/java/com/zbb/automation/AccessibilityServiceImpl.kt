@@ -193,12 +193,47 @@ class AccessibilityServiceImpl : AccessibilityService() {
     override fun onServiceConnected() {
         super.onServiceConnected()
         Log.d(TAG, "无障碍服务已连接")
-        
+
         // 初始化悬浮窗管理器
         initFloatingWindow()
-        
+
         // 启动前台服务（用于绑定 MediaProjection 权限）
         startForegroundServiceForMediaProjection()
+
+        // ========== 方案 2（兜底）：把无障碍服务通知事件桥接到 JS 层 ==========
+        // accessibility_service_config.xml 用 typeAllMask，已包含 TYPE_NOTIFICATION_STATE_CHANGED
+        // onAccessibilityEvent 内已经处理此事件并调用 onNotificationReceived 回调
+        onNotificationReceived = { packageName: String, text: String ->
+            handleAccessibilityNotification(packageName, text)
+        }
+        Log.d(TAG, "方案 2 通知监听桥接已设置（accessibility）")
+    }
+
+    /**
+     * 处理方案 2 通过无障碍服务收到的通知
+     * 与 NotificationMonitorService（方案 1）发出的事件同源同名 QianjiMessageReceived
+     * 标记 source="accessibility" 区分
+     */
+    private fun handleAccessibilityNotification(packageName: String, text: String) {
+        try {
+            val module = AutomationModuleManager.getModule() ?: run {
+                Log.w(TAG, "方案 2: AutomationModule 未注册，跳过事件发送")
+                return
+            }
+            val payload = com.facebook.react.bridge.Arguments.createMap().apply {
+                putString("package", packageName)
+                putString("text", text)
+                putString("title", "")
+                putString("subText", "")
+                putString("bigText", "")
+                putDouble("timestamp", System.currentTimeMillis().toDouble())
+                putString("source", "accessibility")  // 与 notification 区分
+            }
+            module.sendEventToJS("QianjiMessageReceived", payload)
+            Log.d(TAG, "方案 2 已发送 QianjiMessageReceived: pkg=$packageName, text=$text")
+        } catch (e: Exception) {
+            Log.e(TAG, "方案 2 发送事件失败: ${e.message}", e)
+        }
     }
     
     /**

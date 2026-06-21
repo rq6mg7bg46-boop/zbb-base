@@ -1575,6 +1575,60 @@ export const addScreenshotConfirmedListener = (callback: () => void): EmitterSub
   return subscription;
 };
 
+// ==================== 千机消息监听（双保险） ====================
+
+/**
+ * 千机消息 payload（来源：方案 1 NotificationListenerService 或 方案 2 AccessibilityService）
+ */
+export interface QianjiMessagePayload {
+  package: string;            // 包名（com.lianjia.anchang）
+  title: string;              // 通知标题（方案 1 有，方案 2 空）
+  text: string;               // 通知正文
+  subText: string;            // 通知子标题（方案 1 有，方案 2 空）
+  bigText: string;            // 通知大文本（方案 1 有，方案 2 空）
+  timestamp: number;          // 时间戳（毫秒）
+  source: 'notification' | 'accessibility';  // 来源：方案 1 / 方案 2
+}
+
+/**
+ * 监听千机消息事件（方案 1 + 方案 2 双保险）
+ * 触发场景：
+ *   - 方案 1：NotificationMonitorService 收到 com.lianjia.anchang 的通知
+ *   - 方案 2：AccessibilityServiceImpl.TYPE_NOTIFICATION_STATE_CHANGED
+ */
+export const addQianjiMessageListener = (
+  callback: (payload: QianjiMessagePayload) => void
+): EmitterSubscription | null => {
+  const emitter = getEventEmitter();
+  if (!emitter) {
+    console.error('[ZBB] 无法添加千机消息监听器，模块未初始化');
+    return null;
+  }
+
+  const subscription = emitter.addListener('QianjiMessageReceived', (payload: QianjiMessagePayload) => {
+    console.log('[ZBB] 收到千机消息:', payload);
+    callback(payload);
+  });
+
+  activeListeners.push(subscription);
+  console.log('[ZBB] 已添加千机消息监听器（方案 1+2）');
+  return subscription;
+};
+
+/**
+ * 移除千机消息监听器
+ */
+export const removeQianjiMessageListener = (subscription: EmitterSubscription | null): void => {
+  if (subscription) {
+    subscription.remove();
+    const index = activeListeners.indexOf(subscription);
+    if (index > -1) {
+      activeListeners.splice(index, 1);
+    }
+    console.log('[ZBB] 已移除千机消息监听器');
+  }
+};
+
 /**
  * 移除自动化停止事件监听器
  */

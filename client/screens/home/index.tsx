@@ -11,7 +11,7 @@
  * 注意：实际屏幕显示由 Android 原生悬浮窗负责
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { logToBoth } from '@/services/AutomationLogger';
 import {
@@ -23,17 +23,21 @@ import {
   ScrollView,
   ActivityIndicator,
   TextInput,
+  AppState,
+  DeviceEventEmitter,   // 2026-06-20 补：f83e54b 加了 .addListener('zbbReportCompleted') 但漏 import 导致 ReferenceError
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSafeRouter } from '@/hooks/useSafeRouter';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { ThemedText } from '@/components/ThemedText';
+import { QianjiActionCountdown } from '@/components/QianjiActionCountdown';
 import { useTheme } from '@/hooks/useTheme';
+import { useCooldown } from '@/hooks/useCooldown';
 import { zbbAutomation } from '@/native';
 import { nativeAutomationService, baoliService } from '@/services';
 import { qianjiService } from '@/services/QianjiService';
-import { printAllReports, exportToCSV, exportToJSON, getTodayBaoliReportCount, initDatabase } from '@/services/DatabaseService';
+import { printAllReports, getTodayBaoliReportCount, initDatabase } from '@/services/DatabaseService';
 
 // 流程步骤定义
 const FLOW_STEPS = [
@@ -61,6 +65,117 @@ const APP_CONFIG: Record<string, { name: string; color: string; bgColor: string 
   '': { name: '完成', color: '#FFFFFF', bgColor: '#10B981' },
 };
 
+// ================== 空闲态情绪话术库 ==================
+// 设计原则：1) 权限缺失优先 2) 时段 + 业务数据 3) 随机抽避免重复
+// 文本中的 {todayCount} / {missing} 占位符由渲染层高亮加粗
+type IdleMsg = { icon: string; text: string };
+
+const IDLE_MESSAGES: Record<string, IdleMsg[]> = {
+  // 凌晨/清晨 0-8
+  dawn: [
+    { icon: 'battery-quarter', text: '小主还没睡呀…我也快没电了，能让我歇会儿吗？' },
+    { icon: 'coffee', text: '小主起这么早呀，要不要先泡杯咖啡？' },
+    { icon: 'mug-hot', text: '早安小主~ 今天也要元气满满哦！' },
+    { icon: 'face-sad-tear', text: '这个点还在忙吗？注意身体呀小主~' },
+  ],
+  // 上午 9-11
+  morning: [
+    { icon: 'sun', text: '上午好，小主，今天见到你真开心~' },
+    { icon: 'face-smile-beam', text: '小主早！新的一天，准备好搬砖了吗？' },
+    { icon: 'briefcase', text: '上班路上小心点哦，客户都在等着呢~' },
+    { icon: 'hand-fist', text: '开工大吉，今天的报备肯定顺利！' },
+  ],
+  // 下午 12-18（业务高峰）
+  afternoon: [
+    { icon: 'mug-hot', text: '下午好，小主，要不要来杯下午茶？' },
+    { icon: 'utensils', text: '小主，午饭吃了吗？别饿着肚子搬砖呀~' },
+    { icon: 'face-smile-wink', text: '小主辛苦啦，休息一下眼睛吧~' },
+    { icon: 'dumbbell', text: '下午高峰来了！小主加油，今天一定能冲业绩！' },
+    { icon: 'cloud-sun', text: '下午时段客户多吗？小主需要帮忙随时叫我~' },
+  ],
+  // 傍晚 18-20（收工阶段）
+  evening: [
+    { icon: 'sunset', text: '傍晚啦，小主今天战绩如何？' },
+    { icon: 'face-tired', text: '快收工了，小主也累了吧？时间到就下班了~' },
+    { icon: 'store', text: '18 点了，客户都准备下班，小主今天还要加单吗？' },
+    { icon: 'cloud-moon', text: '天快黑了，小主还要坚持一会吗？' },
+  ],
+  // 晚上 21-23（前 2 条有任务，后 2 条无任务）
+  night: [
+    { icon: 'face-tired', text: '小主，我今天转了 {todayCount} 组客户，快累死了。让我歇歇呗~' },
+    { icon: 'moon', text: '今天帮小主搞定了 {todayCount} 单，眼睛都花了~' },
+    { icon: 'face-kiss', text: '夜深了，小主也要早点睡哦~' },
+    { icon: 'bell-slash', text: '都 22 点了，小主也该收工了吧？' },
+  ],
+};
+
+const PERMISSION_MESSAGES = {
+  // 缺两个权限
+  bothMissing: [
+    { icon: 'key', text: '小主，需要给我「无障碍」+「悬浮窗」权限，我才能帮你搬砖~' },
+    { icon: 'hand-holding-heart', text: '没有权限我只能干看着，授权一下吧小主~' },
+    { icon: 'lock-open', text: '小主给个权限吧，我保证好好干活！' },
+  ],
+  // 缺一个权限（用 {missing} 占位）
+  oneMissing: [
+    { icon: 'door-open', text: '小主，还需要「{missing}」权限哦，拜托了~' },
+    { icon: 'bell', text: '差一步就能开工啦，小主再给个「{missing}」权限吧~' },
+  ],
+};
+
+/**
+ * 根据时段 + 权限状态 + 今日数，返回 idle 话术
+ * 优先级：权限缺失 > 时段 + 业务数据
+ * @param hour 当前小时（0-23）
+ * @param perms 权限状态
+ * @param todayCount 今日完成数
+ * @param lastIdx 上次抽到的 idx（避免连续重复显示同一条）
+ */
+function getIdleMessage(
+  hour: number,
+  perms: { accessibility: boolean; overlay: boolean },
+  todayCount: number,
+  lastIdx: number
+): { msg: IdleMsg; idx: number; data: Record<string, string | number> } {
+  const missing: string[] = [];
+  if (!perms.accessibility) missing.push('无障碍');
+  if (!perms.overlay) missing.push('悬浮窗');
+
+  let pool: IdleMsg[];
+  let data: Record<string, string | number> = {};
+
+  if (missing.length === 2) {
+    pool = PERMISSION_MESSAGES.bothMissing;
+  } else if (missing.length === 1) {
+    pool = PERMISSION_MESSAGES.oneMissing;
+    data = { missing: missing[0] };
+  } else {
+    // 时段分流
+    let rawPool: IdleMsg[];
+    if (hour < 9) {
+      rawPool = IDLE_MESSAGES.dawn;
+    } else if (hour < 12) {
+      rawPool = IDLE_MESSAGES.morning;
+    } else if (hour < 18) {
+      rawPool = IDLE_MESSAGES.afternoon;
+    } else if (hour < 21) {
+      rawPool = IDLE_MESSAGES.evening;
+    } else {
+      // 晚上：有任务看数，无任务鼓励开张
+      rawPool = todayCount > 0 ? IDLE_MESSAGES.night.slice(0, 2) : IDLE_MESSAGES.night.slice(2);
+    }
+    pool = rawPool;
+    data = { todayCount };
+  }
+
+  // 随机抽一条，排除上次 idx
+  const candidates = pool.map((_, i) => i).filter(i => i !== lastIdx);
+  const idx = candidates.length > 0
+    ? candidates[Math.floor(Math.random() * candidates.length)]
+    : 0; // 兜底（pool 只有 1 条时）
+  return { msg: pool[idx], idx, data };
+}
+
 export default function HomeScreen() {
   const { theme, isDark } = useTheme();
   const insets = useSafeAreaInsets();
@@ -73,7 +188,8 @@ export default function HomeScreen() {
   const [currentStep, setCurrentStep] = useState<string>('空闲');
   const [currentStepIndex, setCurrentStepIndex] = useState(-1);
   const [currentApp, setCurrentApp] = useState<string>('');
-  const [todayCount, setTodayCount] = useState(0);
+  // 2026-06-21 方案B：useState 初始值直接从 BaoliService 内存读（singleton 同步初值）
+  const [todayCount, setTodayCount] = useState(() => baoliService.getTodayBaoliCount());
   const [customerInfo, setCustomerInfo] = useState<{ name: string; phone: string } | null>(null);
   const [clipboardText, setClipboardText] = useState('');
   const [isAutoProcessing, setIsAutoProcessing] = useState(false);
@@ -105,15 +221,50 @@ export default function HomeScreen() {
     }
   }, []);
   
+  // 重新读取今日报备数（用于 DeviceEventEmitter 回调）
+  // 2026-06-21 方案B：直接从 emit payload 取 count（跳过 DB 查询，避免 NPE）
+  const refreshTodayCount = useCallback((payload?: { count?: number }) => {
+    if (payload && typeof payload.count === 'number') {
+      setTodayCount(payload.count);
+    }
+  }, []);
+
   useEffect(() => {
-    // 首次加载时初始化数据库（创建表），完成后加载今日报备数
-    initDatabase()
-      .then(() => getTodayBaoliReportCount())
-      .then(count => setTodayCount(count))
-      .catch(err => console.error('数据库初始化失败:', err));
+    // 2026-06-21 方案B：不再调 initDatabase + getTodayBaoliReportCount（内存计数，NPE 源已堵）
+    // 保留 initDatabase/getTodayBaoliReportCount import 以备方案C 切换（不删 dead code）
     checkAccessibility();
     checkOverlayPermission();  // 与无障碍一致：mount 时立刻检查一次
-  }, [checkAccessibility, checkOverlayPermission]);
+
+    // 订阅报备完成事件（重号 + 第一轮成功 + 第二轮 GO 后触发 +1）
+    // 2026-06-21 方案B：emit payload 携带 count，refreshTodayCount 直接 setTodayCount
+    const subscription = DeviceEventEmitter.addListener('zbbReportCompleted', refreshTodayCount);
+    return () => subscription.remove();
+  }, [checkAccessibility, checkOverlayPermission, refreshTodayCount]);
+
+  // ================== 8 秒倒计时浮窗（2026-06-21 老板拍板方案 A） ==================
+  // 千机收到消息 → QianjiService 8s delay + emit zbbQianjiCountdownStart
+  // 沉默即同意：cooldown 中 / 8s 内没点 → 直接开
+  // 点"让小的歇会" → setCooldown(3)
+  // 点"立即干活" → 立即开
+  const { isInCooldown, setCooldown } = useCooldown();
+  const [countdownVisible, setCountdownVisible] = useState(false);
+
+  useEffect(() => {
+    const startListener = DeviceEventEmitter.addListener(
+      'zbbQianjiCountdownStart',
+      (payload?: { seconds?: number; cooldownMinutes?: number }) => {
+        // 老板"先睡了"等价模式：cooldown 中跳过浮窗直接开
+        if (isInCooldown()) {
+          logToBoth('info', '[千机浮窗] cooldown 中，跳过浮窗直接开');
+          DeviceEventEmitter.emit('zbbQianjiCountdownEnd', { decision: 'go' });
+          return;
+        }
+        logToBoth('info', `[千机浮窗] 收到 ${payload?.seconds ?? 8}s 倒计时事件，弹浮窗`);
+        setCountdownVisible(true);
+      },
+    );
+    return () => startListener.remove();
+  }, [isInCooldown]);
 
   // 页面聚焦时重新检查两个权限状态
   // 用户从系统设置返回 ZBB 首页时，权限状态可能已变化，需 recheck
@@ -124,6 +275,38 @@ export default function HomeScreen() {
       checkOverlayPermission();
     }, [checkAccessibility, checkOverlayPermission])
   );
+
+  // 兜底：App 从 background 回到 active 时重新检查权限
+  // （useFocusEffect 在 expo-router 跳系统设置再回首页时，焦点事件边界条件不可靠）
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active') {
+        checkAccessibility();
+        checkOverlayPermission();
+      }
+    });
+    return () => subscription?.remove();
+  }, [checkAccessibility, checkOverlayPermission]);
+
+  // ================== 空闲态情绪话术 ==================
+  // 记录上次抽到的 idx（避免连续重复显示同一条）
+  const lastIdleIdxRef = useRef<number>(-1);
+
+  // 计算话术（useMemo 缓存，hour/perms/todayCount 变化才重算）
+  const idleMsg = useMemo(() => getIdleMessage(
+    new Date().getHours(),
+    {
+      accessibility: serviceStatus === 'enabled',
+      overlay: overlayStatus === 'granted',
+    },
+    todayCount,
+    lastIdleIdxRef.current
+  ), [serviceStatus, overlayStatus, todayCount, isRunning, pendingAutoStart]);
+
+  // commit 后同步 idx 到 ref（下次重算时排除本次）
+  useEffect(() => {
+    lastIdleIdxRef.current = idleMsg.idx;
+  }, [idleMsg.idx]);
 
   // ====== 自动检测粘贴 → 解析 → 写库 → 启动报备 ======
   // 当 pendingAutoStart=true 且 clipboardText 有内容时，触发自动流程
@@ -211,7 +394,7 @@ export default function HomeScreen() {
             agentName: result.agent,
             agentRemark: '',
           },
-          'qianji',  // 来源为千机端
+          'baoli',  // 来源为千机端（项目类型写死 baoli，因为 insertReport 签名只接受 'baoli' | 'yuexiu'，千机来源通过 sourceChannel 字段区分）
           JSON.stringify(result),
           result.reportTime || ''
         );
@@ -523,10 +706,10 @@ export default function HomeScreen() {
         <View style={styles.header}>
           <View>
             <ThemedText variant="h1" color={theme.textPrimary} style={styles.title}>
-              ZBB
+              Action Surrogate
             </ThemedText>
             <ThemedText variant="caption" color={theme.textMuted}>
-              自动化报备工具
+              Disconnect to reconnect with life.
             </ThemedText>
           </View>
           <View style={styles.statusContainer}>
@@ -652,11 +835,21 @@ export default function HomeScreen() {
                 )}
               </View>
             ) : (
-              /* 正常空闲状态 */
+              /* 正常空闲状态 - 拟人化情绪话术 */
               <View style={[styles.idleCard, { backgroundColor: theme.backgroundDefault }]}>
-                <FontAwesome6 name="hand-point-right" size={24} color={theme.primary} />
+                <FontAwesome6 name={idleMsg.msg.icon as any} size={24} color={theme.primary} />
                 <Text style={[styles.idleText, { color: theme.textSecondary }]}>
-                  点击下方「启动 ZBB 流程」开始自动化报备
+                  {idleMsg.msg.text.split(/(\{\w+\})/).map((part, i) => {
+                    const m = part.match(/^\{(\w+)\}$/);
+                    if (m && idleMsg.data[m[1]] !== undefined) {
+                      return (
+                        <Text key={i} style={{ color: theme.primary, fontWeight: 'bold' }}>
+                          {idleMsg.data[m[1]]}
+                        </Text>
+                      );
+                    }
+                    return <Text key={i}>{part}</Text>;
+                  })}
                 </Text>
               </View>
             )}
@@ -675,7 +868,7 @@ export default function HomeScreen() {
             </ThemedText>
           </View>
           
-          <View style={[styles.statDivider, { backgroundColor: theme.borderColor }]} />
+          <View style={[styles.statDivider, { backgroundColor: theme.border }]} />
           
           <View style={styles.statItem}>
             <FontAwesome6 
@@ -714,117 +907,53 @@ export default function HomeScreen() {
         
         {/* 按钮区域 */}
         <View style={styles.buttonsContainer}>
-          {/* 主启动按钮 */}
-          <TouchableOpacity
-            style={[
-              styles.mainButton, 
-              { backgroundColor: isRunning ? theme.textMuted : theme.primary }
-            ]}
-            onPress={isRunning ? handleStop : handleStart}
-            disabled={false}
-            activeOpacity={0.8}
-          >
-            {isRunning ? (
-              <>
-                <FontAwesome6 name="stop" size={24} color="#fff" />
-                <Text style={styles.mainButtonText}>停止 ZBB</Text>
-              </>
-            ) : (
-              <>
-                <FontAwesome6 name="play" size={24} color="#fff" />
-                <Text style={styles.mainButtonText}>启动 ZBB 流程</Text>
-              </>
-            )}
-          </TouchableOpacity>
-          
-          {/* 测试越秀端按钮 */}
-          <TouchableOpacity
-            style={[styles.consoleButton, { backgroundColor: '#10B98120', marginTop: 12 }]}
-            onPress={handleTestYuexiu}
-            activeOpacity={0.8}
-          >
-            <FontAwesome6 name="city" size={20} color="#10B981" />
-            <Text style={[styles.consoleButtonText, { color: '#10B981' }]}>
-              测试越秀端
-            </Text>
-            <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
-          </TouchableOpacity>
-          
-          {/* 测试保利端按钮 */}
-          <TouchableOpacity
-            style={[styles.consoleButton, { backgroundColor: '#F59E0B20', marginTop: 12 }]}
-            onPress={handleTestBaoli}
-            activeOpacity={0.8}
-          >
-            <FontAwesome6 name="building" size={20} color="#F59E0B" />
-            <Text style={[styles.consoleButtonText, { color: '#F59E0B' }]}>
-              测试保利端
-            </Text>
-            <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
-          </TouchableOpacity>
-          
-          {/* 测试千机端按钮 */}
+          {/* 开始干活按钮（原"测试千机端"） */}
           <TouchableOpacity
             style={[styles.consoleButton, { backgroundColor: '#8B5CF620', marginTop: 12 }]}
             onPress={handleTestQianji}
             activeOpacity={0.8}
           >
-            <FontAwesome6 name="home" size={20} color="#8B5CF6" />
-            <Text style={[styles.consoleButtonText, { color: '#8B5CF6' }]}>
-              测试千机端
+            <FontAwesome6 name="hammer" size={20} color="#8B5CF6" />
+            <Text style={[styles.consoleButtonText, { color: '#8B5CF6', textAlign: 'center' }]}>
+              开始干活
             </Text>
             <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
           </TouchableOpacity>
-          
-          {/* 控制台按钮 */}
+
+          {/* test 按钮（原"测试保利端"） */}
           <TouchableOpacity
-            style={[styles.consoleButton, { backgroundColor: theme.backgroundDefault, marginTop: 12 }]}
-            onPress={handleOpenConsole}
+            style={[styles.consoleButton, { backgroundColor: '#F59E0B20', marginTop: 12 }]}
+            onPress={handleTestBaoli}
             activeOpacity={0.8}
           >
-            <FontAwesome6 name="terminal" size={20} color={theme.primary} />
-            <Text style={[styles.consoleButtonText, { color: theme.textPrimary }]}>
-              查看控制台
+            <FontAwesome6 name="vial" size={20} color="#F59E0B" />
+            <Text style={[styles.consoleButtonText, { color: '#F59E0B', textAlign: 'center' }]}>
+              test
             </Text>
             <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
           </TouchableOpacity>
         </View>
-        
-        {/* 流程说明 */}
-        <View style={styles.flowInfo}>
-          <ThemedText variant="caption" color={theme.textMuted} style={styles.flowTitle}>
-            自动化流程说明
-          </ThemedText>
-          <View style={styles.flowSteps}>
-            <View style={styles.flowStep}>
-              <View style={[styles.stepNumber, { backgroundColor: theme.primary + '20' }]}>
-                <Text style={[styles.stepNumberText, { color: theme.primary }]}>1</Text>
-              </View>
-              <ThemedText variant="caption" color={theme.textSecondary}>
-                抖音获取客户信息
-              </ThemedText>
-            </View>
-            <FontAwesome6 name="arrow-right" size={12} color={theme.textMuted} />
-            <View style={styles.flowStep}>
-              <View style={[styles.stepNumber, { backgroundColor: theme.primary + '20' }]}>
-                <Text style={[styles.stepNumberText, { color: theme.primary }]}>2</Text>
-              </View>
-              <ThemedText variant="caption" color={theme.textSecondary}>
-                微信小程序报备
-              </ThemedText>
-            </View>
-            <FontAwesome6 name="arrow-right" size={12} color={theme.textMuted} />
-            <View style={styles.flowStep}>
-              <View style={[styles.stepNumber, { backgroundColor: theme.primary + '20' }]}>
-                <Text style={[styles.stepNumberText, { color: theme.primary }]}>3</Text>
-              </View>
-              <ThemedText variant="caption" color={theme.textSecondary}>
-                发送截图到抖音
-              </ThemedText>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
+
+        </ScrollView>
+
+      {/* 8 秒倒计时浮窗（2026-06-21 老板拍板方案 A） */}
+      <QianjiActionCountdown
+        visible={countdownVisible}
+        totalSeconds={8}
+        onGo={() => {
+          setCountdownVisible(false);
+          DeviceEventEmitter.emit('zbbQianjiCountdownEnd', { decision: 'go' });
+        }}
+        onSkip={() => {
+          setCountdownVisible(false);
+          setCooldown(3);
+          DeviceEventEmitter.emit('zbbQianjiCountdownEnd', { decision: 'skip' });
+        }}
+        onClose={() => {
+          // 点背景 = 沉默 = 8s 后组件自然 onGo（沉默即同意）
+          setCountdownVisible(false);
+        }}
+      />
     </Screen>
   );
 }
@@ -841,7 +970,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   title: {
-    fontSize: 36,
+    fontSize: 20,
     fontWeight: '700',
   },
   statusBadge: {

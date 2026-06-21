@@ -10,6 +10,7 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PixelFormat
@@ -27,7 +28,9 @@ import android.os.Binder
 import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
+import android.view.GestureDetector
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
@@ -55,7 +58,14 @@ class ScreenshotService : Service() {
         private const val CHANNEL_ID = "ZBB_Screenshot_Channel"
         private const val NOTIFICATION_ID = 10002
         const val PROJECTION_REQUEST_CODE = 10086
-        
+
+        // 悬浮窗 GO 按钮拖动位置持久化
+        private const val PREFS_NAME = "zbb_floating_prefs"
+        private const val KEY_FLOATING_X = "floating_dot_x"
+        private const val KEY_FLOATING_Y = "floating_dot_y"
+        private const val DEFAULT_FLOATING_X_DP = 16f
+        private const val DEFAULT_FLOATING_Y_DP = 95f
+
         const val ACTION_INIT_PROJECTION = "com.zbb.automation.INIT_PROJECTION"
         const val ACTION_STOP_SERVICE = "com.zbb.automation.STOP_SERVICE"
         
@@ -136,10 +146,46 @@ class ScreenshotService : Service() {
     
     // 悬浮窗
     private var floatingView: View? = null
+    private var floatingParams: WindowManager.LayoutParams? = null  // 提升为字段：拖动时动态更新 x/y
     private var windowManager: WindowManager? = null
-    
+
+    // GO 按钮拖动状态（GestureDetector 内部管 scaledTouchSlop + 滚动判定）
+    private var touchStartX: Float = 0f
+    private var touchStartY: Float = 0f
+    private var startViewX: Int = 0
+    private var startViewY: Int = 0
+    private var didScroll: Boolean = false  // ACTION_UP 时是否拖动过（触发保存位置）
+
     // 截图闪光
     private var flashView: View? = null
+
+    /**
+     * 读取悬浮窗上次保存的位置（首次启动用默认值 16dp / 95dp）
+     */
+    private fun loadFloatingPosition(): Pair<Int, Int> {
+        return try {
+            val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            val x = prefs.getInt(KEY_FLOATING_X, dp(DEFAULT_FLOATING_X_DP))
+            val y = prefs.getInt(KEY_FLOATING_Y, dp(DEFAULT_FLOATING_Y_DP))
+            Pair(x, y)
+        } catch (e: Exception) {
+            Log.w(TAG, "读取悬浮窗位置失败: ${e.message}")
+            Pair(dp(DEFAULT_FLOATING_X_DP), dp(DEFAULT_FLOATING_Y_DP))
+        }
+    }
+
+    /**
+     * 拖动结束后保存悬浮窗新位置
+     */
+    private fun saveFloatingPosition(x: Int, y: Int) {
+        try {
+            val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            prefs.edit().putInt(KEY_FLOATING_X, x).putInt(KEY_FLOATING_Y, y).apply()
+            Log.d(TAG, "悬浮窗位置已保存: x=$x, y=$y")
+        } catch (e: Exception) {
+            Log.w(TAG, "保存悬浮窗位置失败: ${e.message}")
+        }
+    }
     
     // 是否正在等待授权
     private var isAwaitingPermission = false
@@ -531,8 +577,21 @@ class ScreenshotService : Service() {
     private fun createFloatingDot() {
         try {
             windowManager = getSystemService(Context.WINDOW_SERVICE) as? WindowManager
-            
-            val params = WindowManager.LayoutParams().apply {
+            // 从 SharedPreferences 恢复上次位置（首次启动用默认值 16dp / 95dp）
+            val (savedX, savedY) = loadFloatingPosition()
+
+            // 屏幕尺寸 + 边界限制（拖动范围只能在屏幕内）
+            val displayMetrics = Resources.getSystem().displayMetrics
+            val screenW = displayMetrics.widthPixels
+            val screenH = displayMetrics.heightPixels
+            val viewSizePx = dp(32f)  // 悬浮窗 32dp
+            val xMin = 0
+            val xMax = screenW - viewSizePx
+            val yMin = 0
+            val yMax = screenH - viewSizePx
+
+            // WindowManager.LayoutParams（提升为字段以便拖动时动态更新）
+            floatingParams = WindowManager.LayoutParams().apply {
                 type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
                 } else {
@@ -546,17 +605,18 @@ class ScreenshotService : Service() {
                 width = dp(32f)
                 height = dp(32f)
                 gravity = Gravity.TOP or Gravity.END
-                x = dp(16f)
-                y = dp(95f)
+                x = savedX.coerceIn(xMin, xMax)
+                y = savedY.coerceIn(yMin, yMax)
             }
-            
-            // 圆点背景（圆形蓝底）
+
+            // 圆点背景（圆形红底，初始为"待确认"状态）
+            var isRed: Boolean = true  // 初始红色，点击后翻转 红↔蓝
             floatingView = FrameLayout(this).apply {
-                setBackgroundResource(R.drawable.screenshot_button_blue)
+                setBackgroundResource(R.drawable.screenshot_button_red)
                 alpha = 0.9f
                 val padding = dp(10f)
                 setPadding(padding, padding, padding, padding)
-                
+
                 // 添加文字"GO"
                 val label = TextView(context).apply {
                     text = "GO"
@@ -565,8 +625,12 @@ class ScreenshotService : Service() {
                     gravity = android.view.Gravity.CENTER
                 }
                 (this as FrameLayout).addView(label)
-                
-                setOnClickListener {
+
+                // 短按点击：触发流程继续（onSingleTapUp 触发，不再走 setOnClickListener）
+                // 原 setOnClickListener 在 ACTION_DOWN 被 onTouchListener 拦截后，view.onTouchEvent
+                // 不会 setPressed(true)，ACTION_UP performClick 条件不满足 → click 永远不触发。
+                // 改用 GestureDetector：onSingleTapUp 不依赖 setPressed 状态，治本。
+                val onTapAction: () -> Unit = {
                     Log.d(TAG, "悬浮圆点被点击")
                     // 通知 JS 继续流程（复用 onScreenshotConfirmed 事件）
                     try {
@@ -575,12 +639,67 @@ class ScreenshotService : Service() {
                     } catch (e: Exception) {
                         Log.e(TAG, "发送 onScreenshotConfirmed 失败: ${e.message}")
                     }
-                    // 点击后变红色圆形
-                    setBackgroundResource(R.drawable.screenshot_button_red)
+                    // 点击后颜色翻转：红 ↔ 蓝
+                    isRed = !isRed
+                    setBackgroundResource(
+                        if (isRed) R.drawable.screenshot_button_red
+                        else R.drawable.screenshot_button_blue
+                    )
+                }
+
+                // 用 GestureDetector 区分点击 vs 拖动（系统标准实现，比手动维护 isDragging/touchSlop 健壮）
+                // 拖动结束后位置持久化到 SharedPreferences，拖动范围 clamp 到屏幕内
+                val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+                    override fun onDown(e: MotionEvent): Boolean = true  // 必须返回 true 才能接收后续事件
+
+                    override fun onSingleTapUp(e: MotionEvent): Boolean {
+                        onTapAction()
+                        return true
+                    }
+
+                    override fun onScroll(
+                        e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float
+                    ): Boolean {
+                        // GestureDetector 内部已判断超过 scaledTouchSlop 才会触发 onScroll
+                        // distanceX/Y 是"上次到这次"的增量，但我们要算"起点到当前"的绝对偏移
+                        val dx = e2.rawX - touchStartX
+                        val dy = e2.rawY - touchStartY
+                        didScroll = true
+                        floatingParams?.let { params ->
+                            params.x = (startViewX + dx.toInt()).coerceIn(xMin, xMax)
+                            params.y = (startViewY + dy.toInt()).coerceIn(yMin, yMax)
+                            try {
+                                windowManager?.updateViewLayout(floatingView, params)
+                            } catch (e: Exception) {
+                                Log.e(TAG, "更新悬浮窗位置失败: ${e.message}")
+                            }
+                        }
+                        return true
+                    }
+                })
+
+                setOnTouchListener { _, event ->
+                    when (event.actionMasked) {
+                        MotionEvent.ACTION_DOWN -> {
+                            touchStartX = event.rawX
+                            touchStartY = event.rawY
+                            startViewX = floatingParams?.x ?: 0
+                            startViewY = floatingParams?.y ?: 0
+                            didScroll = false
+                        }
+                        MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                            if (didScroll) {
+                                floatingParams?.let { saveFloatingPosition(it.x, it.y) }
+                                didScroll = false
+                            }
+                        }
+                    }
+                    gestureDetector.onTouchEvent(event)
+                    true  // 自己消费触摸，不让 view.onTouchEvent 干扰 GestureDetector 状态
                 }
             }
-            
-            windowManager?.addView(floatingView, params)
+
+            windowManager?.addView(floatingView, floatingParams)
             Log.d(TAG, "createFloatingDot: 圆点已显示")
             
         } catch (e: Exception) {

@@ -2,6 +2,10 @@
   "name": "expo-express-monorepo",
   "private": true,
   "version": "0.0.0",
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
     "dev": "bash .cozeproj/scripts/dev_run.sh",
     "build": "bash .cozeproj/scripts/prod_build.sh",
@@ -10,14 +14,6 @@
     "ios": "expo run:ios"
   },
   "devDependencies": {},
-  "pnpm": {
-    "overrides": {
-      "esbuild": "0.27.2"
-    },
-    "patchedDependencies": {
-      "expo@54.0.33": "patches/expo@54.0.33.patch"
-    }
-  },
   "description": "## 目录结构规范（严格遵循）",
   "main": "index.js",
   "keywords": [],
