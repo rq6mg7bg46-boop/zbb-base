@@ -69,30 +69,41 @@ const APP_CONFIG: Record<string, { name: string; color: string; bgColor: string 
 type IdleMsg = { icon: string; text: string };
 
 const IDLE_MESSAGES: Record<string, IdleMsg[]> = {
-  // 凌晨 0-8
+  // 凌晨/清晨 0-8
   dawn: [
     { icon: 'battery-quarter', text: '小主还没睡呀…我也快没电了，能让我歇会儿吗？' },
     { icon: 'coffee', text: '小主起这么早呀，要不要先泡杯咖啡？' },
-    { icon: 'heart', text: '这个点还在忙吗？注意身体呀小主~' },
+    { icon: 'mug-hot', text: '早安小主~ 今天也要元气满满哦！' },
+    { icon: 'face-sad-tear', text: '这个点还在忙吗？注意身体呀小主~' },
   ],
   // 上午 9-11
   morning: [
     { icon: 'sun', text: '上午好，小主，今天见到你真开心~' },
     { icon: 'face-smile-beam', text: '小主早！新的一天，准备好搬砖了吗？' },
-    { icon: 'mug-hot', text: '早安小主~ 今天也要元气满满哦！' },
+    { icon: 'briefcase', text: '上班路上小心点哦，客户都在等着呢~' },
+    { icon: 'hand-fist', text: '开工大吉，今天的报备肯定顺利！' },
   ],
-  // 下午 12-20
+  // 下午 12-18（业务高峰）
   afternoon: [
     { icon: 'mug-hot', text: '下午好，小主，要不要来杯下午茶？' },
+    { icon: 'utensils', text: '小主，午饭吃了吗？别饿着肚子搬砖呀~' },
     { icon: 'face-smile-wink', text: '小主辛苦啦，休息一下眼睛吧~' },
+    { icon: 'dumbbell', text: '下午高峰来了！小主加油，今天一定能冲业绩！' },
     { icon: 'cloud-sun', text: '下午时段客户多吗？小主需要帮忙随时叫我~' },
+  ],
+  // 傍晚 18-20（收工阶段）
+  evening: [
+    { icon: 'sunset', text: '傍晚啦，小主今天战绩如何？' },
+    { icon: 'face-tired', text: '快收工了，小主也累了吧？时间到就下班了~' },
+    { icon: 'store', text: '18 点了，客户都准备下班，小主今天还要加单吗？' },
+    { icon: 'cloud-moon', text: '天快黑了，小主还要坚持一会吗？' },
   ],
   // 晚上 21-23（前 2 条有任务，后 2 条无任务）
   night: [
     { icon: 'face-tired', text: '小主，我今天转了 {todayCount} 组客户，快累死了。让我歇歇呗~' },
     { icon: 'moon', text: '今天帮小主搞定了 {todayCount} 单，眼睛都花了~' },
-    { icon: 'bed', text: '小主，今天还没开张呢，要不要试试？' },
     { icon: 'face-kiss', text: '夜深了，小主也要早点睡哦~' },
+    { icon: 'bell-slash', text: '都 22 点了，小主也该收工了吧？' },
   ],
 };
 
@@ -143,8 +154,10 @@ function getIdleMessage(
       rawPool = IDLE_MESSAGES.dawn;
     } else if (hour < 12) {
       rawPool = IDLE_MESSAGES.morning;
-    } else if (hour < 21) {
+    } else if (hour < 18) {
       rawPool = IDLE_MESSAGES.afternoon;
+    } else if (hour < 21) {
+      rawPool = IDLE_MESSAGES.evening;
     } else {
       // 晚上：有任务看数，无任务鼓励开张
       rawPool = todayCount > 0 ? IDLE_MESSAGES.night.slice(0, 2) : IDLE_MESSAGES.night.slice(2);
