@@ -24,6 +24,7 @@ import {
   ActivityIndicator,
   TextInput,
   AppState,
+  DeviceEventEmitter,   // 2026-06-20 补：f83e54b 加了 .addListener('zbbReportCompleted') 但漏 import 导致 ReferenceError
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSafeRouter } from '@/hooks/useSafeRouter';
@@ -34,7 +35,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { zbbAutomation } from '@/native';
 import { nativeAutomationService, baoliService } from '@/services';
 import { qianjiService } from '@/services/QianjiService';
-import { printAllReports, exportToCSV, exportToJSON, getTodayBaoliReportCount, initDatabase } from '@/services/DatabaseService';
+import { printAllReports, getTodayBaoliReportCount, initDatabase } from '@/services/DatabaseService';
 
 // 流程步骤定义
 const FLOW_STEPS = [
@@ -355,7 +356,7 @@ export default function HomeScreen() {
             agentName: result.agent,
             agentRemark: '',
           },
-          'qianji',  // 来源为千机端
+          'baoli',  // 来源为千机端（项目类型写死 baoli，因为 insertReport 签名只接受 'baoli' | 'yuexiu'，千机来源通过 sourceChannel 字段区分）
           JSON.stringify(result),
           result.reportTime || ''
         );
@@ -829,7 +830,7 @@ export default function HomeScreen() {
             </ThemedText>
           </View>
           
-          <View style={[styles.statDivider, { backgroundColor: theme.borderColor }]} />
+          <View style={[styles.statDivider, { backgroundColor: theme.border }]} />
           
           <View style={styles.statItem}>
             <FontAwesome6 

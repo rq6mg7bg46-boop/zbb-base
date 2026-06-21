@@ -547,8 +547,7 @@ export class QianjiService {
     await maybePause();
     await zbbAutomation.delay(pGammaDelay(500, 1500));
     const baoli = BaoliService.getInstance();
-    // 即使 customerInfo 解析失败/为空也传过去，保利端内部用 || '' 兜底
-    await baoli.executeWithData(this.customerInfo);
+    await baoli.execute();
   }
 
   /**
@@ -556,6 +555,11 @@ export class QianjiService {
    */
   public async startQianjiFlow(): Promise<void> {
     logToBoth('info', '[千机端] 启动千机端自动化流程...');
+
+    // ★ 2026-06-20 修：重置退出标志（接龙循环会反复调用 startQianjiFlow，
+    // 步骤3 失败时设的 lastExitReason='no_baoli' 会残留在实例上，
+    // 下次调用闸门判断时误判跳过步骤4 → 必须跟 testOnlyQianjiFlow line 601 对齐重置）★
+    this.lastExitReason = null;
 
     try {
       // 步骤1：打开千机
@@ -568,6 +572,11 @@ export class QianjiService {
       await this.stepFindAndCollectCustomer();
 
       // 步骤4：直接调用报备端填表
+      // ★ 2026-06-20 修：步骤3 失败（界面无保利）时不调保利端，否则会传 null 启动空数据填表 ★
+      if (this.lastExitReason === 'no_baoli') {
+        logToBoth('info', '[千机端] 步骤3 已退出（非保利），跳过步骤4');
+        return;
+      }
       await this.stepJumpToReportApp();
 
       logToBoth('success', '[千机端] ✓ 千机端流程完成');

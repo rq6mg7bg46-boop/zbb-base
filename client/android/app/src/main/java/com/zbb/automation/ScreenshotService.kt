@@ -28,10 +28,10 @@ import android.os.Binder
 import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
+import android.view.GestureDetector
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewConfiguration
 import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -149,13 +149,12 @@ class ScreenshotService : Service() {
     private var floatingParams: WindowManager.LayoutParams? = null  // 提升为字段：拖动时动态更新 x/y
     private var windowManager: WindowManager? = null
 
-    // GO 按钮拖动状态
+    // GO 按钮拖动状态（GestureDetector 内部管 scaledTouchSlop + 滚动判定）
     private var touchStartX: Float = 0f
     private var touchStartY: Float = 0f
     private var startViewX: Int = 0
     private var startViewY: Int = 0
-    private var isDragging: Boolean = false
-    private var touchSlop: Int = 8  // onCreate 时用 ViewConfiguration 赋值
+    private var didScroll: Boolean = false  // ACTION_UP 时是否拖动过（触发保存位置）
 
     // 截图闪光
     private var flashView: View? = null
@@ -195,7 +194,6 @@ class ScreenshotService : Service() {
         super.onCreate()
         instance = this
         isStarted = false
-        touchSlop = ViewConfiguration.get(this).scaledTouchSlop  // 系统滑动阈值（用于区分点击 vs 拖动）
         Log.d(TAG, "onCreate")
         createNotificationChannel()
         startForeground(NOTIFICATION_ID, createNotification())
@@ -627,8 +625,11 @@ class ScreenshotService : Service() {
                 }
                 (this as FrameLayout).addView(label)
 
-                // 短按点击：触发流程继续（原行为不变）
-                setOnClickListener {
+                // 短按点击：触发流程继续（onSingleTapUp 触发，不再走 setOnClickListener）
+                // 原 setOnClickListener 在 ACTION_DOWN 被 onTouchListener 拦截后，view.onTouchEvent
+                // 不会 setPressed(true)，ACTION_UP performClick 条件不满足 → click 永远不触发。
+                // 改用 GestureDetector：onSingleTapUp 不依赖 setPressed 状态，治本。
+                val onTapAction: () -> Unit = {
                     Log.d(TAG, "悬浮圆点被点击")
                     // 通知 JS 继续流程（复用 onScreenshotConfirmed 事件）
                     try {
@@ -641,9 +642,37 @@ class ScreenshotService : Service() {
                     setBackgroundResource(R.drawable.screenshot_button_red)
                 }
 
-                // 长按拖动：自定义位置，拖动结束后位置持久化到 SharedPreferences
-                // 通过 touchSlop 阈值区分点击 vs 拖动（系统标准约 8dp）
-                // 拖动范围限制在屏幕内（clamp 到 [xMin,xMax] / [yMin,yMax]）
+                // 用 GestureDetector 区分点击 vs 拖动（系统标准实现，比手动维护 isDragging/touchSlop 健壮）
+                // 拖动结束后位置持久化到 SharedPreferences，拖动范围 clamp 到屏幕内
+                val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+                    override fun onDown(e: MotionEvent): Boolean = true  // 必须返回 true 才能接收后续事件
+
+                    override fun onSingleTapUp(e: MotionEvent): Boolean {
+                        onTapAction()
+                        return true
+                    }
+
+                    override fun onScroll(
+                        e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float
+                    ): Boolean {
+                        // GestureDetector 内部已判断超过 scaledTouchSlop 才会触发 onScroll
+                        // distanceX/Y 是"上次到这次"的增量，但我们要算"起点到当前"的绝对偏移
+                        val dx = e2.rawX - touchStartX
+                        val dy = e2.rawY - touchStartY
+                        didScroll = true
+                        floatingParams?.let { params ->
+                            params.x = (startViewX + dx.toInt()).coerceIn(xMin, xMax)
+                            params.y = (startViewY + dy.toInt()).coerceIn(yMin, yMax)
+                            try {
+                                windowManager?.updateViewLayout(floatingView, params)
+                            } catch (e: Exception) {
+                                Log.e(TAG, "更新悬浮窗位置失败: ${e.message}")
+                            }
+                        }
+                        return true
+                    }
+                })
+
                 setOnTouchListener { _, event ->
                     when (event.actionMasked) {
                         MotionEvent.ACTION_DOWN -> {
@@ -651,42 +680,17 @@ class ScreenshotService : Service() {
                             touchStartY = event.rawY
                             startViewX = floatingParams?.x ?: 0
                             startViewY = floatingParams?.y ?: 0
-                            isDragging = false
-                            true  // 自己消费触摸，不触发 click
-                        }
-                        MotionEvent.ACTION_MOVE -> {
-                            val dx = event.rawX - touchStartX
-                            val dy = event.rawY - touchStartY
-                            // 超过系统滑动阈值才算拖动开始
-                            if (!isDragging && (Math.abs(dx) > touchSlop || Math.abs(dy) > touchSlop)) {
-                                isDragging = true
-                            }
-                            if (isDragging) {
-                                floatingParams?.let { params ->
-                                    params.x = (startViewX + dx.toInt()).coerceIn(xMin, xMax)
-                                    params.y = (startViewY + dy.toInt()).coerceIn(yMin, yMax)
-                                    try {
-                                        windowManager?.updateViewLayout(floatingView, params)
-                                    } catch (e: Exception) {
-                                        Log.e(TAG, "更新悬浮窗位置失败: ${e.message}")
-                                    }
-                                }
-                                true  // 拖动中消费事件
-                            } else {
-                                false  // 未超阈值，让 click 处理
-                            }
+                            didScroll = false
                         }
                         MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                            if (isDragging) {
-                                // 拖动结束，保存位置
+                            if (didScroll) {
                                 floatingParams?.let { saveFloatingPosition(it.x, it.y) }
-                                true  // 拖动后释放不算点击
-                            } else {
-                                false  // 短按让 onClick 处理
+                                didScroll = false
                             }
                         }
-                        else -> false
                     }
+                    gestureDetector.onTouchEvent(event)
+                    true  // 自己消费触摸，不让 view.onTouchEvent 干扰 GestureDetector 状态
                 }
             }
 

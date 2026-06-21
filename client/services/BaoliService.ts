@@ -156,7 +156,6 @@ function generateFullRecord(c: {
 class BaoliService {
   private static instance: BaoliService;
   private isRunning: boolean = false;
-  private currentCustomer: { company: string; name: string; phone: string; project: string; agent?: string; reportTime?: string; expectedVisitTime?: string } | null = null;
 
   static getInstance(): BaoliService {
     if (!BaoliService.instance) {
@@ -301,22 +300,30 @@ class BaoliService {
       // P+ 随机停顿（云和家加载等待期）
       await maybePause();
 
+      // ========== 步骤X+：找"郑州保利山水和颂" + tap（云和家小程序加载后第一屏）==========
+      logToBoth('info', '[步骤X+] 找"郑州保利山水和颂"...');
+      let projectEntry = null;
+      for (let i = 0; i < 3; i++) {
+        projectEntry = await this.findNodeByText('郑州保利山水和颂', 1);
+        if (projectEntry) {
+          logToBoth('success', '[步骤X+] 第 ' + (i + 1) + ' 次找到"郑州保利山水和颂" @ (' + projectEntry.centerX + ', ' + projectEntry.centerY + ')');
+          break;
+        }
+        logToBoth('warn', '[步骤X+] 第 ' + (i + 1) + ' 次未找到"郑州保利山水和颂"');
+        await zbbAutomation.delay(1000);
+      }
+      if (projectEntry) {
+        await humanTap(projectEntry.centerX, projectEntry.centerY);
+      } else {
+        logToBoth('warn', '[步骤X+] 3 次未找到，使用兜底坐标 (810, 1440)');
+        await humanTap(810, 1440);
+      }
+      await zbbAutomation.delay(pGammaDelay(2000, 3000));
+      await maybePause();
+
       // ========== 直接进入 fillForm（剪贴板由千机端写入，保利端只管粘贴）==========
       logToBoth('info', '[步骤X] 直接进入填表流程...');
       await this.printScreenText();
-
-      // ========== 步骤4：点击"郑州保利山水和颂" ==========
-      logToBoth('info', '[步骤4] 点击"郑州保利山水和颂"...');
-      const projectNode = await this.findExactNode('郑州保利山水和颂');
-      if (projectNode) {
-        logToBoth('success', '[步骤4] 找到 @ (' + projectNode.centerX + ', ' + projectNode.centerY + ')');
-        await humanTap(projectNode.centerX, projectNode.centerY);
-      } else {
-        logToBoth('warn', '[步骤4] 未找到，使用固定坐标 (723, 1268)');
-        await humanTap(723, 1268);
-      }
-
-      await zbbAutomation.delay(pGammaDelay(2000, 3000));
 
       // ========== 步骤5：点击"报备" ==========
       logToBoth('info', '[步骤5] 点击"报备"...');
@@ -338,7 +345,7 @@ class BaoliService {
       await maybePause();
 
       // ========== 步骤6-22：填写表单 ==========
-      await this.fillForm(null);
+      await this.fillForm();
 
       // ========== 步骤25：检测结果分支 ==========
       await this.detectResult();
@@ -360,155 +367,10 @@ class BaoliService {
   }
 
   /**
-   * ========== 直接填表流程（传入数据，不读数据库）==========
-   * 由 QianjiService 步骤5调用，实现千机→保利直传
-   */
-  async executeWithData(customerInfo: {
-    customerName: string;
-    phone: string;
-    agent: string;
-    city: string;
-    reportTime: string;
-    projectType: string;
-  } | null | undefined): Promise<{ success: boolean; error?: string }> {
-    if (this.isRunning) {
-      throw new Error('流程已在运行中');
-    }
-    this.isRunning = true;
-
-    // 2026-06-20 老板拍板：千机节点解析可能失败 → customerInfo 为 null，
-    // 保利端不依赖 customerInfo 也能跑（用户可手动填或保利端用兜底）
-    const info = (customerInfo || {}) as {
-      customerName: string;
-      phone: string;
-      agent: string;
-      city: string;
-      reportTime: string;
-      projectType: string;
-    };
-    logToBoth('info', '[保利直传] 启动保利端填表流程...');
-
-    try {
-      // 构造 currentCustomer 格式（与 execute() 从数据库读取的格式一致）
-      const customerName = info.customerName || '';
-      let customerGender = '';
-      if (/[女士|小姐|太太]$/.test(customerName)) customerGender = '女';
-      else if (/先生$/.test(customerName)) customerGender = '男';
-
-      this.currentCustomer = {
-        company: '贝壳',
-        name: customerName,
-        phone: info.phone || '',
-        project: info.projectType === 'baoli' ? '保利' : (info.projectType || '保利'),
-        agent: info.agent || '',
-        reportTime: info.reportTime || '',
-        expectedVisitTime: '',
-      };
-
-      logToBoth('info', '[保利直传] 客户: ' + this.currentCustomer.name + ' ' + this.currentCustomer.phone);
-      logToBoth('info', '[保利直传] 经纪人: ' + this.currentCustomer.agent);
-      logToBoth('info', '[保利直传] 城市: ' + info.city);
-
-      // ========== 步骤1：按 Home 退出到桌面 ==========
-      logToBoth('info', '[保利直传:步骤1] 按 Home 键退出到桌面...');
-      await zbbAutomation.pressHomeKey();
-      await zbbAutomation.delay(2000);
-
-      // ========== 步骤2：识别桌面企业微信图标 ==========
-      logToBoth('info', '[保利直传:步骤2] 识别桌面企业微信图标...');
-      const wechatNode = await zbbAutomation.findNodeCenterByText('企业微信');
-      if (wechatNode) {
-        logToBoth('success', '[保利直传:步骤2] 找到"企业微信" @ (' + wechatNode.centerX + ', ' + wechatNode.centerY + ')');
-        await humanTap(wechatNode.centerX, wechatNode.centerY);
-      } else {
-        logToBoth('error', '[保利直传:步骤2] 未在桌面找到"企业微信"图标，尝试直接启动');
-        await zbbAutomation.launchAppWithMonkey(
-          APP_PACKAGES.WECHAT,
-          APP_PACKAGES.WECHAT_MAIN_ACTIVITY
-        );
-      }
-      await zbbAutomation.delay(getDelay('openApp'));
-
-      // ========== 步骤3：点击"工作台" ==========
-      logToBoth('info', '[保利直传:步骤3] 点击"工作台"...');
-      await zbbAutomation.delay(1000);
-      const workbenchNode = await this.findNodeByText('工作台');
-      if (workbenchNode) {
-        await humanTap(workbenchNode.centerX, workbenchNode.centerY);
-      } else {
-        await humanTap(540, 199);
-      }
-      await zbbAutomation.delay(pGammaDelay(2000, 3000));
-
-      // ========== 步骤4：上滑查找"云和家经纪云" ==========
-      // 第一批优化 J：先 find 1 次（retries=1），找不到才上滑；上滑最多 3 次
-      logToBoth('info', '[保利直传:步骤4] 上滑查找"云和家经纪云"...');
-      let found = false;
-      let cloudNode = await this.findNodeByText('云和家经纪云', 1);
-      if (cloudNode) {
-        logToBoth('success', '[保利直传:步骤4] 找到"云和家经纪云" @ (' + cloudNode.centerX + ', ' + cloudNode.centerY + ')');
-        await humanTap(cloudNode.centerX, cloudNode.centerY);
-        found = true;
-      } else {
-        for (let i = 0; i < 3; i++) {
-          // P+ 拟人化滚动：手指惯性 overshoot + 回弹
-          await humanSwipeWithBounce(540, 1800, 540, 600, 800);
-          await zbbAutomation.delay(1500);
-          cloudNode = await this.findNodeByText('云和家经纪云', 1);
-          if (cloudNode) {
-            logToBoth('success', '[保利直传:步骤4] 上滑 ' + (i + 1) + ' 次后找到 @ (' + cloudNode.centerX + ', ' + cloudNode.centerY + ')');
-            await humanTap(cloudNode.centerX, cloudNode.centerY);
-            found = true;
-            break;
-          }
-        }
-      }
-      if (!found) {
-        logToBoth('warn', '[保利直传:步骤4] 未找到，使用备用坐标 (668, 1502)');
-        await humanTap(668, 1502);
-      }
-      // 第一批优化 A：等云和家小程序加载（9s → 3s）
-      await zbbAutomation.delay(3000);
-
-      // ========== 步骤5：打印界面 + 点击"报备" ==========
-      await this.printScreenText();
-      logToBoth('info', '[保利直传:步骤5] 点击"报备"...');
-      const baobeiNode = await this.findExactNode('报备');
-      if (baobeiNode) {
-        await humanTap(baobeiNode.centerX, baobeiNode.centerY);
-      } else {
-        logToBoth('warn', '[保利直传:步骤5] 未找到"报备"，使用备用坐标 (700, 2200)');
-        await humanTap(700, 2200);
-      }
-      await zbbAutomation.delay(pGammaDelay(3000, 4000));
-
-      // ========== 步骤6-22：填写表单 ==========
-      await this.fillForm(this.currentCustomer);
-
-      // ========== 步骤25：检测结果分支 ==========
-      await this.detectResult();
-
-      logToBoth('success', '========================================');
-      logToBoth('success', '       保利直传流程全部完成！');
-      logToBoth('success', '========================================');
-      return { success: true };
-
-    } catch (error) {
-      logToBoth('error', '========================================');
-      logToBoth('error', '       保利直传流程失败: ' + error);
-      logToBoth('error', '========================================');
-      return { success: false, error: String(error) };
-    } finally {
-      this.isRunning = false;
-    }
-  }
-
-  /**
    * 填写报备表单（由千机端写入剪贴板，保利端直接粘贴）
    * 千机端不再写数据库，由这里读取表单内容后写入
    */
   private async fillForm(
-    customer: any,
     projectName: string = '郑州市三村杓袁7号地项目-保利缦城和颂[郑州保利和颂]'
   ): Promise<void> {
     // ========== 步骤7-8.4：粘贴 + 表单识别（2026-06-14 老板新方案）==========
@@ -551,45 +413,13 @@ class BaoliService {
       // P+ 随机停顿（粘贴完成后的反应时间）
       await maybePause();
 
-      // ========== 步骤8.4：原生树识别表单内容（retry 2 次）==========
-      let retryCount = 0;
-      const maxRetries = 2;
-
-      while (retryCount <= maxRetries) {
-        logToBoth('info', `[步骤8.4] 原生树识别表单内容 (第 ${retryCount + 1} 次)...`);
-        await zbbAutomation.delay(retryCount === 0 ? 2000 : 1500);
-        formNodes = (await zbbAutomation.getAllTextNodes()) || [];
-        logToBoth('info', `[步骤8.4] 界面节点数: ${formNodes.length}`);
-
-        if (this.isFormFilled(formNodes)) {
-          logToBoth('success', `[步骤8.4] ✅ 表单已填充（${retryCount === 0 ? '首次' : '重试 ' + retryCount + ' 次后'}）`);
-          break;
-        }
-
-        if (retryCount < maxRetries) {
-          logToBoth('warn', `[步骤8.4] ⚠️ 表单未填充，准备重试 (${retryCount + 1}/${maxRetries})`);
-          // 重试时再触发一次粘贴流程
-          await zbbAutomation.longPress(pasteNode.centerX, pasteNode.centerY, 1500);
-          await zbbAutomation.delay(400);
-          await zbbAutomation.tap(140, 720); // P+ 保留：弹窗按钮固定不能偏移
-          await zbbAutomation.delay(800);
-        } else {
-          logToBoth('error', `[步骤8.4] ❌ 重试 ${maxRetries} 次后仍无表单内容`);
-        }
-        retryCount++;
-      }
-
-      // retry 用尽 + 表单仍未填 → 弹窗+震动+GO 兜底
-      // 用户点 GO 后已人工填好表单，重新抓 formNodes 让后续解析/步骤9 用新数据
-      if (!this.isFormFilled(formNodes)) {
-        await this.handlePasteFailure('[步骤8.4] 重试 2 次后表单仍未填充');
-        formNodes = (await zbbAutomation.getAllTextNodes()) || [];
-        logToBoth('info', `[步骤8.4] 兜底后重新识别: 节点数: ${formNodes.length}`);
-        if (!this.isFormFilled(formNodes)) {
-          logToBoth('warn', '[步骤8.4] 兜底后仍未识别到表单内容，继续流程（步骤9 可能找不到节点）');
-        }
-        // 不 return：让 fillForm 继续走解析代码 + 步骤9（用户已人工确认）
-      }
+      // ========== 步骤8.4：等渲染 + 抓 formNodes（不检测、不兜底）==========
+      // 2026-06-21 老板：步骤7 已完成粘贴；isFormFilled 检测非必须，结果不影响流程
+      // 删除原 while retry + handlePasteFailure 兜底；步骤9 入口处加一次静默检测
+      await zbbAutomation.delay(2000);  // 等粘贴内容渲染（保留原 retry 首次 delay 2000ms）
+      formNodes = (await zbbAutomation.getAllTextNodes()) || [];
+      logToBoth('info', `[步骤8.4] 界面节点数: ${formNodes.length}`);
+      // 不检测、不调 handlePasteFailure，直接让 fillForm 继续（步骤9 会再检测）
     }
 
     let companyName = '';
@@ -677,6 +507,11 @@ class BaoliService {
     }
 
     logToBoth('info', `[步骤8.4] 解析结果: 公司=${companyName} 客户=${customerName} 性别=${customerGender} 电话=${customerPhone} 项目=${reportProject} 物业=${propertyType} 报备时间=${reportTime} 到访时间=${expectedVisitTime} 经纪人=${agentName}`);
+
+    // 步骤9 入口检测：isFormFilled（静默版，仅 1 行汇总日志，避免节点刷屏）
+    // 2026-06-21 老板：检测非必须，结果不影响流程，仅 warn 日志
+    const formFilledCheck = this.isFormFilledSilent(formNodes);
+    logToBoth(formFilledCheck ? 'success' : 'warn', `[步骤9 入口检测] 表单${formFilledCheck ? '已填充 ✅' : '未填充 ⚠️'} 节点数: ${formNodes.length}`);
 
     // ========== 步骤9：点击"请选择分期" ==========
     logToBoth('info', '[步骤9] 点击"请选择分期"...');
@@ -1080,7 +915,7 @@ class BaoliService {
 
     // 步骤 2-14：复用 fillForm 主体（项目名=保利山水和颂）
     // 粘贴 + 解析 + 选分期 + 选项目 + 智能识别 + 报备 + 等 都跟第一轮一致
-    await this.fillForm(null, '郑州市三村杓袁7号地项目-保利山水和颂');
+    await this.fillForm('郑州市三村杓袁7号地项目-保利山水和颂');
 
     // 步骤 15：detectResult(2)
     await this.detectResult(2);
@@ -1107,8 +942,38 @@ class BaoliService {
     let hasName = false;
     let hasPhone = false;
     let hasCompany = false;
-    const phoneRegex = /1\d{2}\*{4}\d{4}/;        // 如 177****1234
+    // ★ 2026-06-20 修：放宽分隔符容忍（保利 UI 可能用空格/圆点/全角字符格式化电话）
+    //   例：182****6888 / 182 **** 6888 / 182••••6888 / 182-****-6888 都能命中
+    const phoneRegex = /1\d{2}[\s*•＊·.\-_]*\d{4}/;
     const nameRegex = /^[\u4e00-\u9fa5]{2,4}$/;    // 2-4 字中文姓名
+    for (const n of nodes) {
+      const text = (n?.text || '').trim();
+      if (!text) continue;
+      const isNameMatch = nameRegex.test(text);
+      const isPhoneMatch = phoneRegex.test(text);
+      const isCompanyMatch = text.includes('公司');
+      if (isNameMatch) hasName = true;
+      if (isPhoneMatch) hasPhone = true;
+      if (isCompanyMatch) hasCompany = true;
+      // ★ 2026-06-20 加 debug log：每个被检测节点都打印 + 命中情况（拿到 v2 regex 真不命中的节点 text）
+      logToBoth('info', `[isFormFilled] 节点: "${text.substring(0, 60)}" | 姓名=${isNameMatch} 电话=${isPhoneMatch} 公司=${isCompanyMatch}`);
+    }
+    logToBoth('info', `[isFormFilled] 姓名=${hasName} 电话=${hasPhone} 公司=${hasCompany}`);
+    return hasName && hasPhone && hasCompany;
+  }
+
+  /**
+   * 静默版表单检测：复用 isFormFilled 判定逻辑，仅打 1 行汇总日志（不逐节点刷屏）
+   * 用于步骤9 入口检测，检测结果不影响流程继续往后运行
+   * 2026-06-21 老板
+   */
+  private isFormFilledSilent(nodes: any[]): boolean {
+    if (!nodes || nodes.length === 0) return false;
+    let hasName = false;
+    let hasPhone = false;
+    let hasCompany = false;
+    const phoneRegex = /1\d{2}[\s*•＊·.\-_]*\d{4}/;
+    const nameRegex = /^[\u4e00-\u9fa5]{2,4}$/;
     for (const n of nodes) {
       const text = (n?.text || '').trim();
       if (!text) continue;
@@ -1116,7 +981,6 @@ class BaoliService {
       if (phoneRegex.test(text)) hasPhone = true;
       if (text.includes('公司')) hasCompany = true;
     }
-    logToBoth('info', `[isFormFilled] 姓名=${hasName} 电话=${hasPhone} 公司=${hasCompany}`);
     return hasName && hasPhone && hasCompany;
   }
 
