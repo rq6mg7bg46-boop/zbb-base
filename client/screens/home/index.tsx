@@ -873,8 +873,8 @@ export default function HomeScreen() {
             onPress={handleTestQianji}
             activeOpacity={0.8}
           >
-            <FontAwesome6 name="home" size={20} color="#8B5CF6" />
-            <Text style={[styles.consoleButtonText, { color: '#8B5CF6' }]}>
+            <FontAwesome6 name="hammer" size={20} color="#8B5CF6" />
+            <Text style={[styles.consoleButtonText, { color: '#8B5CF6', textAlign: 'center' }]}>
               开始干活
             </Text>
             <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
@@ -886,8 +886,8 @@ export default function HomeScreen() {
             onPress={handleTestBaoli}
             activeOpacity={0.8}
           >
-            <FontAwesome6 name="building" size={20} color="#F59E0B" />
-            <Text style={[styles.consoleButtonText, { color: '#F59E0B' }]}>
+            <FontAwesome6 name="vial" size={20} color="#F59E0B" />
+            <Text style={[styles.consoleButtonText, { color: '#F59E0B', textAlign: 'center' }]}>
               test
             </Text>
             <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
