@@ -867,20 +867,7 @@ export default function HomeScreen() {
         
         {/* 按钮区域 */}
         <View style={styles.buttonsContainer}>
-          {/* 测试保利端按钮 */}
-          <TouchableOpacity
-            style={[styles.consoleButton, { backgroundColor: '#F59E0B20', marginTop: 12 }]}
-            onPress={handleTestBaoli}
-            activeOpacity={0.8}
-          >
-            <FontAwesome6 name="building" size={20} color="#F59E0B" />
-            <Text style={[styles.consoleButtonText, { color: '#F59E0B' }]}>
-              测试保利端
-            </Text>
-            <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
-          </TouchableOpacity>
-          
-          {/* 测试千机端按钮 */}
+          {/* 开始干活按钮（原"测试千机端"） */}
           <TouchableOpacity
             style={[styles.consoleButton, { backgroundColor: '#8B5CF620', marginTop: 12 }]}
             onPress={handleTestQianji}
@@ -888,7 +875,20 @@ export default function HomeScreen() {
           >
             <FontAwesome6 name="home" size={20} color="#8B5CF6" />
             <Text style={[styles.consoleButtonText, { color: '#8B5CF6' }]}>
-              测试千机端
+              开始干活
+            </Text>
+            <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
+          </TouchableOpacity>
+
+          {/* test 按钮（原"测试保利端"） */}
+          <TouchableOpacity
+            style={[styles.consoleButton, { backgroundColor: '#F59E0B20', marginTop: 12 }]}
+            onPress={handleTestBaoli}
+            activeOpacity={0.8}
+          >
+            <FontAwesome6 name="building" size={20} color="#F59E0B" />
+            <Text style={[styles.consoleButtonText, { color: '#F59E0B' }]}>
+              test
             </Text>
             <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
           </TouchableOpacity>
