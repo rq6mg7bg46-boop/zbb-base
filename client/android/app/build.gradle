@@ -39,10 +39,10 @@ react {
     //   skip the bundling of the JS bundle and the assets. By default is just 'debug'.
     //   If you add flavors like lite, prod, etc. you'll have to list your debuggableVariants.
     // debuggableVariants = ["liteDebug", "prodDebug"]
-    // 2026-06-19: force debug variant to bundle JS so debug APK runs without Metro server
-    // 2026-06-19 22:02: revert to default - 老板开发期要 Metro 实时日志
-    // 2026-06-20 老板拍板: 显式恢复 ["debug"]，去掉默认里的 debugOptimized
-    debuggableVariants = ["debug"]
+    // 2026-06-21 切回独立版（commit 9c1f7e1 方案）：debug variant 内嵌 JS bundle
+    // APK ~222MB；装到真机后断网/拔 USB 也能跑（无需 Metro server）
+    // 与 Metro 实时日志模式（debuggableVariants = ["debug"]）按需切换
+    debuggableVariants = []
     // ...
 
     /* Bundling */
