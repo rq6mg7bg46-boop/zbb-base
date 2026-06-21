@@ -296,6 +296,10 @@ export class QianjiService {
 
       if (!baobeiNode) {
         logToBoth('warn', '[千机：步骤3] ✗ 未找到"报备审核"，结束步骤');
+        // ★ 2026-06-21 修：补设 lastExitReason='no_baoli'，
+        // 让 startQianjiFlow 步骤4 闸门（line 576）能拦下来；
+        // 跟 L309-330 "界面无保利"分支对齐 ★
+        this.lastExitReason = 'no_baoli';
         return;
       }
 
@@ -567,6 +571,12 @@ export class QianjiService {
 
       // 步骤2：识别当前界面
       await this.stepRecognizeInterface();
+      // ★ 2026-06-21 修：步骤2 退出（no_pending）时挡步骤3+4，
+      // 避免在桌面/无报备界面继续找"报备审核"误触后续 ★
+      if (this.lastExitReason === 'no_pending') {
+        logToBoth('info', '[千机端] 步骤2 已退出（无报备），跳过步骤3+4');
+        return;
+      }
 
       // 步骤3：查找"报备审核"并收集客户信息（转发流程）
       await this.stepFindAndCollectCustomer();
