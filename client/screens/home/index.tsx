@@ -173,7 +173,8 @@ export default function HomeScreen() {
   const [currentStep, setCurrentStep] = useState<string>('空闲');
   const [currentStepIndex, setCurrentStepIndex] = useState(-1);
   const [currentApp, setCurrentApp] = useState<string>('');
-  const [todayCount, setTodayCount] = useState(0);
+  // 2026-06-21 方案B：useState 初始值直接从 BaoliService 内存读（singleton 同步初值）
+  const [todayCount, setTodayCount] = useState(() => baoliService.getTodayBaoliCount());
   const [customerInfo, setCustomerInfo] = useState<{ name: string; phone: string } | null>(null);
   const [clipboardText, setClipboardText] = useState('');
   const [isAutoProcessing, setIsAutoProcessing] = useState(false);
@@ -206,24 +207,21 @@ export default function HomeScreen() {
   }, []);
   
   // 重新读取今日报备数（用于 DeviceEventEmitter 回调）
-  // 2026-06-20 老板方案：service emit 'zbbReportCompleted' → home 重新读 DB
-  const refreshTodayCount = useCallback(() => {
-    getTodayBaoliReportCount()
-      .then(count => setTodayCount(count))
-      .catch(err => console.error('读取今日报备数失败:', err));
+  // 2026-06-21 方案B：直接从 emit payload 取 count（跳过 DB 查询，避免 NPE）
+  const refreshTodayCount = useCallback((payload?: { count?: number }) => {
+    if (payload && typeof payload.count === 'number') {
+      setTodayCount(payload.count);
+    }
   }, []);
 
   useEffect(() => {
-    // 首次加载时初始化数据库（创建表），完成后加载今日报备数
-    initDatabase()
-      .then(() => getTodayBaoliReportCount())
-      .then(count => setTodayCount(count))
-      .catch(err => console.error('数据库初始化失败:', err));
+    // 2026-06-21 方案B：不再调 initDatabase + getTodayBaoliReportCount（内存计数，NPE 源已堵）
+    // 保留 initDatabase/getTodayBaoliReportCount import 以备方案C 切换（不删 dead code）
     checkAccessibility();
     checkOverlayPermission();  // 与无障碍一致：mount 时立刻检查一次
 
     // 订阅报备完成事件（重号 + 第一轮成功 + 第二轮 GO 后触发 +1）
-    // Service → Home 通信通道，避免 React state 跨组件隔离
+    // 2026-06-21 方案B：emit payload 携带 count，refreshTodayCount 直接 setTodayCount
     const subscription = DeviceEventEmitter.addListener('zbbReportCompleted', refreshTodayCount);
     return () => subscription.remove();
   }, [checkAccessibility, checkOverlayPermission, refreshTodayCount]);

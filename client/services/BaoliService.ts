@@ -156,12 +156,22 @@ function generateFullRecord(c: {
 class BaoliService {
   private static instance: BaoliService;
   private isRunning: boolean = false;
+  // 2026-06-21 方案B：内存累计数（替代 DB 查询，避免 NPE；后期上方案C 替换为 DB）
+  // 限制：app 重启清零（老板接受——每日零点是自然重置点）
+  private todayBaoliCount: number = 0;
 
   static getInstance(): BaoliService {
     if (!BaoliService.instance) {
       BaoliService.instance = new BaoliService();
     }
     return BaoliService.instance;
+  }
+
+  /**
+   * 2026-06-21 方案B：暴露内存累计数给首页 mount 时同步读初值
+   */
+  public getTodayBaoliCount(): number {
+    return this.todayBaoliCount;
   }
 
   /**
@@ -665,7 +675,7 @@ class BaoliService {
     logToBoth('info', '[截图确认] 等待用户截图（第' + round + '轮）...');
 
     // 提示用户截图并点击确认按钮
-    await zbbAutomation.showToast('第' + round + '轮报备成功，请截图后点击红色按钮确认');
+    await zbbAutomation.showToast('第' + round + '轮报备成功，请截图后点击按钮确认');
 
     // 显示悬浮窗截图确认按钮
     await zbbAutomation.showScreenshotButton();
@@ -753,9 +763,10 @@ class BaoliService {
     }
 
     // 第4步：通知首页累计数 +1（重号 = 尝试报备 1 次）
-    // 2026-06-20 老板方案：DeviceEventEmitter 单一事件，home 收到后重新读 DB
-    logToBoth('info', '[步骤15-情况1-4] 通知首页累计数 +1');
-    DeviceEventEmitter.emit('zbbReportCompleted');
+    // 2026-06-21 方案B：内存计数（避免 DB NPE），payload 带 count 同步过去
+    this.todayBaoliCount++;
+    logToBoth('info', `[步骤15-情况1-4] 通知首页累计数 +1, 当前=${this.todayBaoliCount}`);
+    DeviceEventEmitter.emit('zbbReportCompleted', { count: this.todayBaoliCount });
 
     // 第5步：后台杀掉ZBB进程
     logToBoth('info', '[步骤15-情况1-5] 后台杀掉ZBB进程，流程结束');
@@ -793,9 +804,10 @@ class BaoliService {
 
     // 5. 第一轮报备成功后，执行第二轮报备（同一客户，第二项目：保利山水和颂）
     if (round === 1) {
-      // 2026-06-20 老板方案：第一轮成功 +1（任何 attempt 都计入累计）
-      logToBoth('info', '[步骤15-情况2] 第一轮报备成功，通知首页累计数 +1');
-      DeviceEventEmitter.emit('zbbReportCompleted');
+      // 2026-06-21 方案B：第一轮成功 +1（任何 attempt 都计入累计），payload 带 count
+      this.todayBaoliCount++;
+      logToBoth('info', `[步骤15-情况2] 第一轮报备成功，通知首页累计数 +1, 当前=${this.todayBaoliCount}`);
+      DeviceEventEmitter.emit('zbbReportCompleted', { count: this.todayBaoliCount });
       logToBoth('info', '[步骤15-情况2] 第一轮报备完成，开始第二轮...');
       await this.handleSecondRound();
     } else {
@@ -854,9 +866,10 @@ class BaoliService {
       // 停止震动
       await zbbAutomation.stopVibration();
 
-      // 2026-06-20 老板方案：第二轮 GO 后 +1（接龙完成 = 完整一组客户）
-      logToBoth('info', '[步骤15-情况2] 第二轮 GO 后，通知首页累计数 +1');
-      DeviceEventEmitter.emit('zbbReportCompleted');
+      // 2026-06-21 方案B：第二轮 GO 后 +1（接龙完成 = 完整一组客户），payload 带 count
+      this.todayBaoliCount++;
+      logToBoth('info', `[步骤15-情况2] 第二轮 GO 后，通知首页累计数 +1, 当前=${this.todayBaoliCount}`);
+      DeviceEventEmitter.emit('zbbReportCompleted', { count: this.todayBaoliCount });
 
       logToBoth('success', '[步骤15-情况2] 第二轮报备成功，退出小程序...');
       await this.exitMiniProgram();
