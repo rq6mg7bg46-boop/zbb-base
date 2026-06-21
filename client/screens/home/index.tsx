@@ -911,7 +911,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   title: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: '700',
   },
   statusBadge: {
