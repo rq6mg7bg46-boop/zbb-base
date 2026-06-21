@@ -3,7 +3,7 @@
  * 用途：从千机获取客户信息 → 云和家经纪云小程序报备 → 返回千机上传截图
  */
 
-import { Alert, EmitterSubscription } from 'react-native';
+import { EmitterSubscription } from 'react-native';
 import { zbbAutomation, addQianjiMessageListener, removeQianjiMessageListener, QianjiMessagePayload } from '@/native';
 import { logToBoth } from './AutomationLogger';
 import { BaoliService } from './BaoliService';
@@ -711,15 +711,12 @@ export class QianjiService {
     logToBoth('info', `[千机监听] text: ${payload.text}`);
     logToBoth('info', `[千机监听] 5 秒后自动启动千机端流程...`);
 
-    // 4. Toast 提示用户
+    // 4. Toast 提示用户（2026-06-21 老板拍板：所有 Alert 换 Toast）
+    // 历史：千机已覆盖前台，Alert.alert 弹不出 → 改用 Toast（系统级浮层前后台都能显示）
     try {
-      Alert.alert(
-        '🔔 千机收到消息',
-        `来源: ${payload.source === 'notification' ? '通知监听' : '无障碍'}\n关键词: ${hitKeyword}\n\n5 秒后自动启动千机端流程...`,
-        [{ text: '知道了' }]
-      );
+      zbbAutomation.showToast(`🔔 千机收到消息\n来源: ${payload.source === 'notification' ? '通知监听' : '无障碍'}\n关键词: ${hitKeyword}\n5 秒后自动启动流程...`);
     } catch (e) {
-      // Alert 在某些 RN 版本上不可用，忽略
+      // showToast 在某些设备上不可用，忽略
     }
 
     // 5. 5 秒倒计时后启动千机端流程

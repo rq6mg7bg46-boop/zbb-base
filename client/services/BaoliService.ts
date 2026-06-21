@@ -6,7 +6,7 @@
  * 流程：打开企业微信 → 点击工作台 → 进入云和家经纪云 → 填写报备表单
  */
 
-import { Alert, DeviceEventEmitter } from 'react-native';
+import { DeviceEventEmitter } from 'react-native';
 import { zbbAutomation, addScreenshotConfirmedListener, removeStopListener } from '../native';
 import { QianjiService } from './QianjiService';
 
@@ -811,7 +811,7 @@ class BaoliService {
       logToBoth('info', '[步骤15-情况2] 第一轮报备完成，开始第二轮...');
       await this.handleSecondRound();
     } else {
-      // ========== 步骤8：返回→Home→开千机→识别→点"报备有效"→Alert ==========
+      // ========== 步骤8：返回→Home→开千机→识别→点"报备有效"→Toast 提示 ==========
       logToBoth('info', '[步骤15-情况2-步骤8] 返回报备界面...');
       await zbbAutomation.pressBack();
       await zbbAutomation.delay(1000);
@@ -842,13 +842,8 @@ class BaoliService {
       // 用 Toast 而非 Alert：此时千机/小程序在前台，ZBB 在后台，
       // Alert.alert 依赖调用方 Activity 在前台才渲染 → 弹不出
       // Toast 是系统级浮层，前后台都能显示
+      // 2026-06-21 老板拍板：移除 Alert 块（Toast 已发，Alert 弹不出 → 纯死代码）
       await zbbAutomation.showToast('✅ 已完成报备，请选择正确二维码截图。记得核对姓名及电话！');
-      // Alert 保留作为可点击确认（若用户切回 ZBB 才看得到）
-      Alert.alert(
-        '报备成功',
-        '已完成报备，请选择正确二维码截图。记得核对姓名及电话！',
-        [{ text: '确定', style: 'default' }]
-      );
 
       // ========== 步骤9：用户点"确定"后，显示GO按钮→等待点击→exitMiniProgram×2 ==========
       logToBoth('info', '[步骤15-情况2-步骤9] 显示GO按钮，等待用户点击...');
@@ -1015,12 +1010,11 @@ class BaoliService {
   private async handlePasteFailure(reason: string): Promise<void> {
     logToBoth('warn', `[粘贴失败兜底] ${reason}`);
 
-    // 1. 系统 Alert 弹窗（替换原 showToast 形式，2026-06-16 老板要求：Toast 一闪就过，改 Alert）
-    Alert.alert(
-      '粘贴失败',
-      `${reason}\n\n客户信息异常，请检查\n\n已启动 30S 循环震动 + 浮窗 GO 按钮\n点 GO 后请人工核对表单内容`,
-      [{ text: '知道了' }]
-    );
+    // 1. Toast 提示（2026-06-21 老板拍板：所有 Alert 换 Toast）
+    // 历史：2026-06-16 改 Alert 是因"Toast 一闪就过"，但后续 7 处 Toast 实战验证 OK
+    //      且本场景 30S 震动 + GO 按钮已接管用户交互，Alert 不阻塞流程（即使弹得出）
+    // 多行文本可能截断（Android System Toast 长度有限），但用户关键操作在 GO 按钮，不依赖 Alert
+    zbbAutomation.showToast(`⚠️ 粘贴失败：${reason}\n已启动 30S 循环震动 + 浮窗 GO 按钮`);
 
     // 2. 30S 循环震动
     try {
