@@ -609,9 +609,10 @@ class ScreenshotService : Service() {
                 y = savedY.coerceIn(yMin, yMax)
             }
 
-            // 圆点背景（圆形蓝底）
+            // 圆点背景（圆形红底，初始为"待确认"状态）
+            var isRed: Boolean = true  // 初始红色，点击后翻转 红↔蓝
             floatingView = FrameLayout(this).apply {
-                setBackgroundResource(R.drawable.screenshot_button_blue)
+                setBackgroundResource(R.drawable.screenshot_button_red)
                 alpha = 0.9f
                 val padding = dp(10f)
                 setPadding(padding, padding, padding, padding)
@@ -638,8 +639,12 @@ class ScreenshotService : Service() {
                     } catch (e: Exception) {
                         Log.e(TAG, "发送 onScreenshotConfirmed 失败: ${e.message}")
                     }
-                    // 点击后变红色圆形
-                    setBackgroundResource(R.drawable.screenshot_button_red)
+                    // 点击后颜色翻转：红 ↔ 蓝
+                    isRed = !isRed
+                    setBackgroundResource(
+                        if (isRed) R.drawable.screenshot_button_red
+                        else R.drawable.screenshot_button_blue
+                    )
                 }
 
                 // 用 GestureDetector 区分点击 vs 拖动（系统标准实现，比手动维护 isDragging/touchSlop 健壮）

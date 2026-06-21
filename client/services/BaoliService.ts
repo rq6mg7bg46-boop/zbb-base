@@ -393,6 +393,13 @@ class BaoliService {
     if (!pasteNode) {
       // 步骤 7 失败兜底（findNodeByText 内部已 retry 3 次）
       logToBoth('error', '[步骤7] 重试 3 次仍未找到输入框节点');
+      // 兜底坐标 (450, 800)：盲点长按触发 EMUI 粘贴弹窗（老板 2026-06-21 加）
+      logToBoth('warn', '[步骤7] 兜底坐标长按 @ (450, 800)');
+      await maybePause();                                       // 拟人：长按前思考
+      await zbbAutomation.longPress(450, 800, 2000);            // longPress 无 human 版本
+      await zbbAutomation.delay(pGammaDelay(800, 1500));        // 拟人：Gamma 延迟
+      await humanTap(140, 720);                                  // 拟人：±5px 偏移点击
+      await maybePause();                                       // 拟人：tap 后停顿
       await this.handlePasteFailure('[步骤7] 重试 3 次仍未找到输入框节点');
       formNodes = (await zbbAutomation.getAllTextNodes()) || [];
       logToBoth('info', `[步骤8.4] 兜底后重新识别: 节点数: ${formNodes.length}`);
@@ -521,7 +528,10 @@ class BaoliService {
       logToBoth('success', '[步骤9] 找到"请选择分期" @ (' + fenqiNode.centerX + ', ' + fenqiNode.centerY + ')');
       await humanTap(fenqiNode.centerX, fenqiNode.centerY);
     } else {
-      logToBoth('error', '[步骤9] 未找到"请选择分期"');
+      logToBoth('warn', '[步骤9] 未找到"请选择分期"，使用备用坐标 (580, 640)');
+      await maybePause();       // 拟人：思考
+      await humanTap(580, 640);  // 已是 humanTap，保留
+      await maybePause();       // 拟人：tap 后停顿
     }
 
     // ========== 步骤：等待2-3秒 ==========
