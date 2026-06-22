@@ -1,6 +1,5 @@
 package com.zbb.automation
 
-import android.animation.ValueAnimator  // 2026-06-22 方案 A：GO 圆点折叠/展开动画
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
@@ -34,7 +33,6 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import android.view.animation.DecelerateInterpolator  // 2026-06-22 方案 A：展开/收回动画插值器
 import android.widget.FrameLayout
 import android.widget.TextView
 import java.io.File
@@ -111,19 +109,6 @@ class ScreenshotService : Service() {
         fun isRunning(): Boolean = instance != null && isStarted
         
         fun isProjectionReady(): Boolean = instance?.isProjectionReady() == true
-
-        // ==================== 悬浮圆点折叠/展开状态（2026-06-22 老板拍板方案 A） ====================
-        // 默认折叠：MediaProjection 截图时只截到右边缘一道细条，截不到 GO 圆点主体
-        // 点击细条 → 展开成 32dp 圆点；点 GO → 触发 onScreenshotConfirmed + 颜色翻转 + 收回
-        // 折叠态下拖动 = 自动展开后跟随手指
-        private const val COLLAPSED_WIDTH_DP = 12f      // 折叠态宽度（仍可点中）
-        private const val EXPANDED_WIDTH_DP = 32f        // 展开态宽度（沿用旧值）
-        private const val COLLAPSED_PADDING_DP = 0f
-        private const val EXPANDED_PADDING_DP = 10f
-        private const val COLLAPSED_ALPHA = 0.7f
-        private const val EXPANDED_ALPHA = 0.9f
-        private const val EXPAND_ANIM_DURATION_MS = 250L
-        private const val COLLAPSE_DELAY_AFTER_TAP_MS = 300L  // 让"红蓝翻转"反馈能看 1 帧再收起
     }
 
     // ==================== 核心属性 ====================
@@ -170,12 +155,6 @@ class ScreenshotService : Service() {
     private var startViewX: Int = 0
     private var startViewY: Int = 0
     private var didScroll: Boolean = false  // ACTION_UP 时是否拖动过（触发保存位置）
-
-    // ==================== 折叠/展开状态机（2026-06-22 老板拍板方案 A） ====================
-    private var isExpanded: Boolean = false
-    private var expandAnimator: ValueAnimator? = null
-    private var pendingCollapse: Runnable? = null
-    private var goLabel: TextView? = null  // "GO" 文字引用，折叠时 INVISIBLE
 
     // 截图闪光
     private var flashView: View? = null
@@ -623,11 +602,10 @@ class ScreenshotService : Service() {
                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
                 )
-                // 2026-06-22 方案 A：默认折叠态（12dp 贴右边缘细条），截图只截到一道色条
-                width = dp(COLLAPSED_WIDTH_DP)
-                height = dp(EXPANDED_WIDTH_DP)
+                width = dp(32f)
+                height = dp(32f)
                 gravity = Gravity.TOP or Gravity.END
-                x = 0  // 折叠态贴右边缘（gravity=END 时 x=0 表示右边对齐屏幕右边）
+                x = savedX.coerceIn(xMin, xMax)
                 y = savedY.coerceIn(yMin, yMax)
             }
 
@@ -635,20 +613,17 @@ class ScreenshotService : Service() {
             var isRed: Boolean = true  // 初始红色，点击后翻转 红↔蓝
             floatingView = FrameLayout(this).apply {
                 setBackgroundResource(R.drawable.screenshot_button_red)
-                // 2026-06-22 方案 A：折叠态低透明度
-                alpha = COLLAPSED_ALPHA
-                // 折叠态无 padding（细条模式），展开时再加 padding
-                setPadding(0, 0, 0, 0)
+                alpha = 0.9f
+                val padding = dp(10f)
+                setPadding(padding, padding, padding, padding)
 
-                // 添加文字"GO"（折叠时 INVISIBLE，展开时 VISIBLE）
+                // 添加文字"GO"
                 val label = TextView(context).apply {
                     text = "GO"
                     setTextColor(Color.WHITE)
                     textSize = 11f
                     gravity = android.view.Gravity.CENTER
-                    visibility = View.INVISIBLE
                 }
-                goLabel = label
                 (this as FrameLayout).addView(label)
 
                 // 短按点击：触发流程继续（onSingleTapUp 触发，不再走 setOnClickListener）
@@ -656,27 +631,20 @@ class ScreenshotService : Service() {
                 // 不会 setPressed(true)，ACTION_UP performClick 条件不满足 → click 永远不触发。
                 // 改用 GestureDetector：onSingleTapUp 不依赖 setPressed 状态，治本。
                 val onTapAction: () -> Unit = {
-                    // 2026-06-22 方案 A：折叠态 → 展开；展开态 → 触发流程 + 颜色翻转 + 收回
-                    if (!isExpanded) {
-                        Log.d(TAG, "悬浮圆点被点击（折叠态→展开）")
-                        expand()
-                    } else {
-                        Log.d(TAG, "悬浮圆点被点击（展开态→触发下一步）")
-                        try {
-                            val module = AutomationModuleManager.getModule()
-                            module?.sendEventToJS("onScreenshotConfirmed", null)
-                        } catch (e: Exception) {
-                            Log.e(TAG, "发送 onScreenshotConfirmed 失败: ${e.message}")
-                        }
-                        // 点击后颜色翻转：红 ↔ 蓝
-                        isRed = !isRed
-                        setBackgroundResource(
-                            if (isRed) R.drawable.screenshot_button_red
-                            else R.drawable.screenshot_button_blue
-                        )
-                        // 2026-06-22 方案 A：点 GO 触发后延迟 300ms 收回（让"红蓝翻转"反馈能看 1 帧）
-                        scheduleCollapse(COLLAPSE_DELAY_AFTER_TAP_MS)
+                    Log.d(TAG, "悬浮圆点被点击")
+                    // 通知 JS 继续流程（复用 onScreenshotConfirmed 事件）
+                    try {
+                        val module = AutomationModuleManager.getModule()
+                        module?.sendEventToJS("onScreenshotConfirmed", null)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "发送 onScreenshotConfirmed 失败: ${e.message}")
                     }
+                    // 点击后颜色翻转：红 ↔ 蓝
+                    isRed = !isRed
+                    setBackgroundResource(
+                        if (isRed) R.drawable.screenshot_button_red
+                        else R.drawable.screenshot_button_blue
+                    )
                 }
 
                 // 用 GestureDetector 区分点击 vs 拖动（系统标准实现，比手动维护 isDragging/touchSlop 健壮）
@@ -692,11 +660,6 @@ class ScreenshotService : Service() {
                     override fun onScroll(
                         e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float
                     ): Boolean {
-                        // 2026-06-22 方案 A：折叠态下开始拖动 → 立即展开（无动画），随后正常拖动
-                        if (!isExpanded) {
-                            cancelExpandAnimation()
-                            applyExpandedState(instant = true)
-                        }
                         // GestureDetector 内部已判断超过 scaledTouchSlop 才会触发 onScroll
                         // distanceX/Y 是"上次到这次"的增量，但我们要算"起点到当前"的绝对偏移
                         val dx = e2.rawX - touchStartX
@@ -718,9 +681,6 @@ class ScreenshotService : Service() {
                 setOnTouchListener { _, event ->
                     when (event.actionMasked) {
                         MotionEvent.ACTION_DOWN -> {
-                            // 2026-06-22 方案 A：用户主动触摸 = 取消任何待执行的自动收回
-                            cancelExpandAnimation()
-                            cancelPendingCollapse()
                             touchStartX = event.rawX
                             touchStartY = event.rawY
                             startViewX = floatingParams?.x ?: 0
@@ -749,9 +709,6 @@ class ScreenshotService : Service() {
     
     private fun removeFloatingDot() {
         try {
-            // 2026-06-22 方案 A：清理所有动画/延迟任务，避免悬浮窗已移除后动画还在更新 width/alpha
-            cancelExpandAnimation()
-            cancelPendingCollapse()
             floatingView?.let {
                 windowManager?.removeView(it)
                 floatingView = null
@@ -759,173 +716,6 @@ class ScreenshotService : Service() {
         } catch (e: Exception) {
             Log.w(TAG, "removeFloatingDot 失败: ${e.message}")
         }
-    }
-
-    // ==================== 折叠/展开状态机方法（2026-06-22 老板拍板方案 A） ====================
-    // 设计：
-    //   折叠态（默认）：12dp 宽红条贴右边缘，alpha=0.7，"GO" 字隐藏
-    //   展开态：32dp 圆点，alpha=0.9，"GO" 字显示
-    //   展开/收回动画：250ms DecelerateInterpolator，同时插值 width + padding + alpha + goLabel.visibility
-    //   收回触发：点 GO 触发 onScreenshotConfirmed 后延迟 300ms 收回；用户主动触摸取消收回
-
-    /**
-     * 展开圆点（带 250ms 动画）
-     */
-    private fun expand() {
-        if (isExpanded) return
-        isExpanded = true
-        cancelExpandAnimation()
-        startExpandAnimation()
-    }
-
-    /**
-     * 收回圆点（带 250ms 动画）
-     */
-    private fun collapse() {
-        if (!isExpanded) return
-        isExpanded = false
-        cancelExpandAnimation()
-        startCollapseAnimation()
-    }
-
-    /**
-     * 立即应用展开态（无动画，用于折叠态下拖动开始时）
-     */
-    private fun applyExpandedState(instant: Boolean) {
-        if (instant) {
-            cancelExpandAnimation()
-        }
-        isExpanded = true
-        floatingParams?.let { params ->
-            params.width = dp(EXPANDED_WIDTH_DP)
-            params.x = 0
-            floatingView?.alpha = EXPANDED_ALPHA
-            floatingView?.setPadding(dp(EXPANDED_PADDING_DP), dp(EXPANDED_PADDING_DP), dp(EXPANDED_PADDING_DP), dp(EXPANDED_PADDING_DP))
-            goLabel?.visibility = View.VISIBLE
-            try {
-                windowManager?.updateViewLayout(floatingView, params)
-            } catch (e: Exception) {
-                Log.e(TAG, "applyExpandedState 失败: ${e.message}")
-            }
-        }
-    }
-
-    /**
-     * 立即应用折叠态（无动画）
-     */
-    @Suppress("unused")
-    private fun applyCollapsedState(instant: Boolean) {
-        if (instant) {
-            cancelExpandAnimation()
-        }
-        isExpanded = false
-        floatingParams?.let { params ->
-            params.width = dp(COLLAPSED_WIDTH_DP)
-            params.x = 0
-            floatingView?.alpha = COLLAPSED_ALPHA
-            floatingView?.setPadding(0, 0, 0, 0)
-            goLabel?.visibility = View.INVISIBLE
-            try {
-                windowManager?.updateViewLayout(floatingView, params)
-            } catch (e: Exception) {
-                Log.e(TAG, "applyCollapsedState 失败: ${e.message}")
-            }
-        }
-    }
-
-    /**
-     * 启动展开动画
-     */
-    private fun startExpandAnimation() {
-        val startW = dp(COLLAPSED_WIDTH_DP).toFloat()
-        val endW = dp(EXPANDED_WIDTH_DP).toFloat()
-        val startAlpha = COLLAPSED_ALPHA
-        val endAlpha = EXPANDED_ALPHA
-        val startPad = 0f
-        val endPad = dp(EXPANDED_PADDING_DP).toFloat()
-
-        expandAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
-            duration = EXPAND_ANIM_DURATION_MS
-            interpolator = DecelerateInterpolator()
-            addUpdateListener { animator ->
-                val progress = animator.animatedValue as Float
-                floatingParams?.let { params ->
-                    params.width = (startW + (endW - startW) * progress).toInt()
-                    params.x = 0
-                    val pad = (startPad + (endPad - startPad) * progress).toInt()
-                    floatingView?.alpha = startAlpha + (endAlpha - startAlpha) * progress
-                    floatingView?.setPadding(pad, pad, pad, pad)
-                    // "GO" 字在动画过半时显示（避免细条里显示半个字）
-                    goLabel?.visibility = if (progress > 0.5f) View.VISIBLE else View.INVISIBLE
-                    try {
-                        windowManager?.updateViewLayout(floatingView, params)
-                    } catch (e: Exception) {
-                        Log.e(TAG, "expand 动画更新失败: ${e.message}")
-                    }
-                }
-            }
-            start()
-        }
-    }
-
-    /**
-     * 启动收回动画
-     */
-    private fun startCollapseAnimation() {
-        val startW = dp(EXPANDED_WIDTH_DP).toFloat()
-        val endW = dp(COLLAPSED_WIDTH_DP).toFloat()
-        val startAlpha = EXPANDED_ALPHA
-        val endAlpha = COLLAPSED_ALPHA
-        val startPad = dp(EXPANDED_PADDING_DP).toFloat()
-        val endPad = 0f
-
-        expandAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
-            duration = EXPAND_ANIM_DURATION_MS
-            interpolator = DecelerateInterpolator()
-            addUpdateListener { animator ->
-                val progress = animator.animatedValue as Float
-                floatingParams?.let { params ->
-                    params.width = (startW + (endW - startW) * progress).toInt()
-                    params.x = 0
-                    val pad = (startPad + (endPad - startPad) * progress).toInt()
-                    floatingView?.alpha = startAlpha + (endAlpha - startAlpha) * progress
-                    floatingView?.setPadding(pad, pad, pad, pad)
-                    goLabel?.visibility = if (progress > 0.5f) View.VISIBLE else View.INVISIBLE
-                    try {
-                        windowManager?.updateViewLayout(floatingView, params)
-                    } catch (e: Exception) {
-                        Log.e(TAG, "collapse 动画更新失败: ${e.message}")
-                    }
-                }
-            }
-            start()
-        }
-    }
-
-    /**
-     * 取消展开/收回动画
-     */
-    private fun cancelExpandAnimation() {
-        expandAnimator?.cancel()
-        expandAnimator = null
-    }
-
-    /**
-     * 延迟收回圆点
-     */
-    private fun scheduleCollapse(delayMs: Long) {
-        cancelPendingCollapse()
-        val runnable = Runnable { collapse() }
-        pendingCollapse = runnable
-        mainHandler.postDelayed(runnable, delayMs)
-    }
-
-    /**
-     * 取消待执行的收回
-     */
-    private fun cancelPendingCollapse() {
-        pendingCollapse?.let { mainHandler.removeCallbacks(it) }
-        pendingCollapse = null
     }
     
     // ==================== 闪光效果 ====================
