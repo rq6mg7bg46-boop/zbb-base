@@ -37,6 +37,7 @@ import { useCooldown } from '@/hooks/useCooldown';
 import { zbbAutomation } from '@/native';
 import { nativeAutomationService, baoliService } from '@/services';
 import { qianjiService } from '@/services/QianjiService';
+import { yuexiuService } from '@/services/YuexiuService';
 import { printAllReports, getTodayBaoliReportCount, initDatabase } from '@/services/DatabaseService';
 
 // 流程步骤定义
@@ -564,7 +565,7 @@ export default function HomeScreen() {
     }
   }, [checkOverlayAndAccessibility, handleStepUpdate, router]);
 
-  // 测试越秀端企业微信流程
+  // 测试越秀端流程（独立 YuexiuService，2026-06-23 抽取）
   const handleTestYuexiu = useCallback(async () => {
     // 检查悬浮窗 + 无障碍
     if (!(await checkOverlayAndAccessibility())) return;
@@ -573,12 +574,12 @@ export default function HomeScreen() {
       setIsRunning(true);
       setCurrentStep('越秀端测试...');
       setCurrentApp('wechat');
-      
-      const result = await nativeAutomationService.testWechatOnly();
-      
+
+      const result = await yuexiuService.execute();
+
       if (result.success) {
         setCurrentStep('测试完成');
-        Alert.alert('测试成功', '越秀端企业微信流程测试通过！');
+        Alert.alert('测试成功', '越秀端独立服务测试通过！');
       } else {
         setCurrentStep('测试失败');
         Alert.alert('测试失败', result.error || '请查看日志', [
@@ -929,6 +930,19 @@ export default function HomeScreen() {
             <FontAwesome6 name="vial" size={20} color="#F59E0B" />
             <Text style={[styles.consoleButtonText, { color: '#F59E0B', textAlign: 'center' }]}>
               test
+            </Text>
+            <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
+          </TouchableOpacity>
+
+          {/* test 越秀按钮（2026-06-23 抽取 YuexiuService） */}
+          <TouchableOpacity
+            style={[styles.consoleButton, { backgroundColor: '#10B98120', marginTop: 12 }]}
+            onPress={handleTestYuexiu}
+            activeOpacity={0.8}
+          >
+            <FontAwesome6 name="flask" size={20} color="#10B981" />
+            <Text style={[styles.consoleButtonText, { color: '#10B981', textAlign: 'center' }]}>
+              test 越秀
             </Text>
             <FontAwesome6 name="chevron-right" size={16} color={theme.textMuted} />
           </TouchableOpacity>
