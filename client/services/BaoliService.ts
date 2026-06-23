@@ -275,8 +275,9 @@ class BaoliService {
 
       await zbbAutomation.delay(pGammaDelay(2000, 3000));
 
-      // ========== 步骤3：上滑4次 → 查找"云和家经纪云" ==========
-      // 第一批优化 J：先 find 1 次（retries=1），找不到才上滑；上滑最多 3 次
+      // ========== 步骤3（业务流步骤4）：上滑15次 → 查找"云和家经纪云" ==========
+      // 06-23 老板指令"步骤4上滑15步"：代码循环已 i<15（15 次），注释/架构文档同步
+      // 流程：先 find 1 次（retries=1），找不到则上滑循环 15 次（humanSwipeWithBounce + 1.5s 间隔）
       logToBoth('info', '[步骤3] 上滑查找"云和家经纪云"...');
       let found = false;
       let cloudNode = await this.findNodeByText('云和家经纪云', 1);
@@ -285,7 +286,7 @@ class BaoliService {
         await humanTap(cloudNode.centerX, cloudNode.centerY);
         found = true;
       } else {
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 15; i++) {
           // P+ 拟人化滚动：手指惯性 overshoot + 回弹
           await humanSwipeWithBounce(540, 1800, 540, 600, 800);
           await zbbAutomation.delay(1500);
