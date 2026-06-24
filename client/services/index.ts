@@ -19,7 +19,6 @@ export { screenshotService, ScreenshotService } from './ScreenshotService';
 export type { ScreenshotInfo as SSInfo } from './ScreenshotService';
 
 export { baoliService, BaoliService } from './BaoliService';
-export { yuexiuService, YuexiuService } from './YuexiuService';
 export { wechatAutomation, WechatAutomation } from './WechatAutomation';
 export type { WechatPhase } from './WechatAutomation';
 export { douyinAutomation, DouyinAutomation } from './DouyinAutomation';
