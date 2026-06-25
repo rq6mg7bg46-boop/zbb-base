@@ -2175,8 +2175,75 @@ class AccessibilityServiceImpl : AccessibilityService() {
         }
     }
 
-    // OCR helper 段已删除 2026-06-25（collectTextRecursive + screenContainsText + waitForScreenText 内部调 recognizeText）
-    // 还原: git log 查 AccessibilityServiceImpl.kt L2177-L2318
+    // ==================== 节点遍历（非 OCR，2026-06-25 还原）====================
+    // getAllTextNodes 用 AccessibilityNodeInfo 递归遍历 UI 树（与 OCR 无关），
+    // 之前 OCR 整套删除（commit 407f46c）误删。功能：返回 [{text, centerX, centerY, type}]。
+    // 独立测试模式（baoli.execute() 无 customerInfo）兜底用——剪贴板粘贴后 UI 节点验证。
+
+    /**
+     * 获取当前界面上所有文字节点及其坐标
+     * 返回格式：[{text: "文字", centerX: 100, centerY: 200, type: "text"}, ...]
+     */
+    fun getAllTextNodes(): List<Map<String, Any>> {
+        val result = mutableListOf<Map<String, Any>>()
+        val rootNode = rootInActiveWindow ?: return result
+
+        try {
+            collectTextNodesRecursive(rootNode, result, mutableSetOf())
+        } catch (e: Exception) {
+            Log.e(TAG, "获取文字节点失败: ${e.message}")
+        } finally {
+            rootNode.recycle()
+        }
+
+        Log.d(TAG, "getAllTextNodes 返回 ${result.size} 个节点")
+        return result
+    }
+
+    private fun collectTextNodesRecursive(
+        node: AccessibilityNodeInfo,
+        result: MutableList<Map<String, Any>>,
+        visited: MutableSet<Int>
+    ) {
+        if (node.hashCode() in visited) return
+        visited.add(node.hashCode())
+
+        val text = node.text?.toString()
+        val contentDesc = node.contentDescription?.toString()
+
+        val bounds = android.graphics.Rect()
+        node.getBoundsInScreen(bounds)
+        val centerX = bounds.centerX().toDouble()
+        val centerY = bounds.centerY().toDouble()
+
+        if (!text.isNullOrBlank() && text.length <= 100) {
+            result.add(mapOf(
+                "text" to text,
+                "centerX" to centerX,
+                "centerY" to centerY,
+                "type" to "text"
+            ))
+        }
+
+        if (!contentDesc.isNullOrBlank() && contentDesc.length <= 100 && contentDesc != text) {
+            result.add(mapOf(
+                "text" to contentDesc,
+                "centerX" to centerX,
+                "centerY" to centerY,
+                "type" to "desc"
+            ))
+        }
+
+        for (i in 0 until node.childCount) {
+            val child = node.getChild(i) ?: continue
+            try {
+                collectTextNodesRecursive(child, result, visited)
+            } catch (e: Exception) {
+            } finally {
+                child.recycle()
+            }
+        }
+    }
 
     // ==================== 屏幕尺寸 ====================
 

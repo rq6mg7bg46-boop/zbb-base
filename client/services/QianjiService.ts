@@ -8,6 +8,19 @@ import { zbbAutomation, addQianjiMessageListener, removeQianjiMessageListener, Q
 import { logToBoth } from './AutomationLogger';
 import { BaoliService } from './BaoliService';
 
+// 千机抓取的客户信息（2026-06-25 顶层 export，供 BaoliService 引用）
+export type QianjiCustomerInfo = {
+  projectType: string;
+  customerName: string;
+  phone: string;
+  phoneLast4: string;
+  agent: string;
+  agentPhone: string;
+  reportTime: string;
+  expectedVisitTime: string;
+  city: string;
+};
+
 // 千机包名
 const APP_PACKAGES = {
   QIANJI: 'com.lianjia.anchang',  // 千机/链家安家
@@ -139,20 +152,10 @@ export class QianjiService {
   private lastTriggerTime: number = 0;
 
   // 客户信息存储
-  private customerInfo: {
-    projectType: string;
-    customerName: string;
-    phone: string;
-    phoneLast4: string;  // 电话末4位
-    agent: string;
-    agentPhone: string;  // 经纪人完整手机号（从经纪人字段分离出来）2026-06-20
-    reportTime: string;
-    expectedVisitTime: string;
-    city: string;        // 城市
-  } | null = null;
+  private customerInfo: QianjiCustomerInfo | null = null;
 
   // 获取客户信息
-  public getCustomerInfo(): typeof this.customerInfo {
+  public getCustomerInfo(): QianjiCustomerInfo | null {
     return this.customerInfo;
   }
 
@@ -566,9 +569,12 @@ export class QianjiService {
   }
 
   /**
-   * ========== 完整流程（千机端 → 复制 → 返回） ==========
+   * 完整流程（千机端 → 复制 → 启动保利）
+   * 2026-06-25 修：返回 QianjiCustomerInfo | null 给调用方（之前 void）
+   * - null：步骤2/3 退出（无报备/无保利），调用方应跳过
+   * - 非 null：抓到客户，调用方可用于日志/调试
    */
-  public async startQianjiFlow(): Promise<void> {
+  public async startQianjiFlow(): Promise<QianjiCustomerInfo | null> {
     logToBoth('info', '[千机端] 启动千机端自动化流程...');
 
     // ★ 2026-06-20 修：重置退出标志（接龙循环会反复调用 startQianjiFlow，
@@ -586,7 +592,7 @@ export class QianjiService {
       // 避免在桌面/无报备界面继续找"报备审核"误触后续 ★
       if (this.lastExitReason === 'no_pending') {
         logToBoth('info', '[千机端] 步骤2 已退出（无报备），跳过步骤3+4');
-        return;
+        return null;
       }
 
       // 步骤3：查找"报备审核"并收集客户信息（转发流程）
@@ -596,11 +602,13 @@ export class QianjiService {
       // ★ 2026-06-20 修：步骤3 失败（界面无保利）时不调保利端，否则会传 null 启动空数据填表 ★
       if (this.lastExitReason === 'no_baoli') {
         logToBoth('info', '[千机端] 步骤3 已退出（非保利），跳过步骤4');
-        return;
+        return null;
       }
       await this.stepJumpToReportApp();
 
       logToBoth('success', '[千机端] ✓ 千机端流程完成');
+      // 2026-06-25 修：返回 customerInfo 给调用方（之前 void）
+      return this.customerInfo;
 
     } catch (error) {
       logToBoth('error', `[千机端] 流程执行失败: ${error}`);

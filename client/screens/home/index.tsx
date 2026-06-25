@@ -520,7 +520,13 @@ export default function HomeScreen() {
       setCurrentStep('千机端测试...');
       setCurrentApp('qianji');
       // 启动千机端完整流程（步骤1-5：抓数据→写剪贴板→直接跳转保利端填表）
-      await qianjiService.startQianjiFlow();
+      // 2026-06-25 修：startQianjiFlow 返回 customerInfo | null（已传给 baoli.execute）
+      const customer = await qianjiService.startQianjiFlow();
+      if (customer) {
+        logToBoth('success', `[测试] 千机端抓到客户: ${customer.customerName} / ${customer.phone}`);
+      } else {
+        logToBoth('warn', '[测试] 千机端未抓到客户（无待报备或界面无保利）');
+      }
 
       setIsRunning(false);
       setCurrentStep('千机端流程完成');

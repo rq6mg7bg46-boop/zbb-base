@@ -10,24 +10,12 @@
 
 import { DeviceEventEmitter } from 'react-native';
 import { zbbAutomation, addScreenshotConfirmedListener, removeStopListener } from '../native';
-import { QianjiService } from './QianjiService';
+import { QianjiService, QianjiCustomerInfo } from './QianjiService';
 
 const APP_PACKAGES = {
   WECHAT: 'com.tencent.wework',  // 企业微信
   WECHAT_MAIN_ACTIVITY: 'com.tencent.wework.ui.index.WwMainActivity',  // 企业微信主界面（完整路径）
 };
-
-// 预设测试数据（execute() 测试用，不读数据库）
-const PRESET_CLIPBOARD = `公司名称：贝壳
-客户姓名：谢女士
-客户性别：女
-客户联系方式：178****9737
-报备项目：保利缦城和颂
-物业类型：住宅
-报备提交时间：2026-06-06 20:56:09
-预计到访时间：2026-06-07 20:56:09
-经纪人姓名：加盟·曹嘉鑫 15037100857
-经纪人备注：`;
 
 // 延迟配置
 const DELAY_CONFIG = {
@@ -233,8 +221,10 @@ class BaoliService {
 
   /**
    * 执行保利端完整流程
+   * @param customer 千机端传递的客户信息（可选，不传则走剪贴板粘贴兜底）
+   * 2026-06-25 修：增加 customer 参数（千机 stepJumpToReportApp 传 this.customerInfo）
    */
-  async execute(): Promise<{ success: boolean; error?: string }> {
+  async execute(customer: QianjiCustomerInfo | null = null): Promise<{ success: boolean; error?: string }> {
     if (this.isRunning) {
       throw new Error('流程已在运行中');
     }
@@ -358,7 +348,7 @@ class BaoliService {
       await maybePause();
 
       // ========== 步骤6-22：填写表单 ==========
-      await this.fillForm();
+      await this.fillForm(customer);
 
       // ========== 步骤25：检测结果分支 ==========
       await this.detectResult();
@@ -380,10 +370,12 @@ class BaoliService {
   }
 
   /**
-   * 填写报备表单（由千机端写入剪贴板，保利端直接粘贴）
-   * 千机端不再写数据库，由这里读取表单内容后写入
+   * 填写报备表单（千机端写剪贴板，保利端长按粘贴）
+   * 2026-06-25 修：增加 customer 参数（千机 stepJumpToReportApp 传 this.customerInfo），
+   * 有传参时日志用 customer 字段；无传参时走剪贴板粘贴 + UI 节点 OCR 兜底（独立测试模式）。
    */
   private async fillForm(
+    customer: QianjiCustomerInfo | null = null,
     projectName: string = '郑州市三村杓袁7号地项目-保利缦城和颂[郑州保利和颂]'
   ): Promise<void> {
     // ========== 步骤7-8.4：粘贴 + 表单识别（2026-06-14 老板新方案）==========
@@ -442,96 +434,18 @@ class BaoliService {
       // 不检测、不调 handlePasteFailure，直接让 fillForm 继续（步骤9 会再检测）
     }
 
-    let companyName = '';
-    let customerName = '';
-    let customerGender = '';
-    let customerPhone = '';
-    let reportProject = '';
-    let propertyType = '';
-    let reportTime = '';
-    let expectedVisitTime = '';
-    let agentName = '';
-
-    formNodes?.forEach((node: any) => {
-      const text = node.text || '';
-      if (!text || text.trim().length === 0) return;
-      logToBoth('info', `[步骤8.4] 节点: "${text}" @ (${Math.round(node.centerX)}, ${Math.round(node.centerY)})`);
-
-      // 拆行处理（剪贴板预览是大块 text 包含 \n，单行匹配更稳）
-      const lines = text.split(/\n+/).map((l: string) => l.trim()).filter(Boolean);
-
-      for (const line of lines) {
-        // 公司名称
-        if (!companyName) {
-          const m = line.match(/^公司名称[：:](.+)$/);
-          if (m) companyName = m[1].trim();
-        }
-        // 客户姓名
-        if (!customerName) {
-          const m = line.match(/^客户姓名[：:](.+)$/);
-          if (m) customerName = m[1].trim();
-        }
-        // 客户联系方式（兼容"客户联系方式"和"联系方式"）
-        if (!customerPhone) {
-          const m = line.match(/^(?:客户)?联系方式[：:](.+)$/);
-          if (m) customerPhone = m[1].trim();
-        }
-        // 性别（直接匹配"性别"标签，优先于姓名推断）
-        if (!customerGender) {
-          const m = line.match(/^性别[：:](.+)$/);
-          if (m) {
-            const g = m[1].trim();
-            if (g === '男' || g === '女') customerGender = g;
-          }
-        }
-        // 报备项目
-        if (!reportProject) {
-          const m = line.match(/^报备项目[：:](.+)$/);
-          if (m) reportProject = m[1].trim();
-        }
-        // 物业类型
-        if (!propertyType) {
-          const m = line.match(/^物业类型[：:](.+)$/);
-          if (m) propertyType = m[1].trim();
-        }
-        // 报备提交时间（兼容"报备提交时间"和"报备提交"）
-        if (!reportTime) {
-          const m = line.match(/^报备提交(?:时间)?[：:](.+)$/);
-          if (m) reportTime = m[1].trim();
-        }
-        // 预计到访时间
-        if (!expectedVisitTime) {
-          const m = line.match(/^预计到访时间[：:](.+)$/);
-          if (m) expectedVisitTime = m[1].trim();
-        }
-        // 经纪人姓名（兼容"经纪人姓名"和"经纪人"）
-        if (!agentName) {
-          const m = line.match(/^经纪人(?:姓名)?[：:](.+)$/);
-          if (m) agentName = m[1].trim();
-        }
-      }
-
-      // 兜底：如果 reportProject 仍空，第一行可能是项目名（无 "XX:" 格式）
-      if (!reportProject && lines.length > 0) {
-        const firstLine = lines[0];
-        if (!firstLine.includes(':') && !firstLine.includes('：')) {
-          reportProject = firstLine;
-        }
-      }
-    });
-
-    // 判断性别（兜底：仅在"性别"标签未匹配时，从姓名末尾推断）
-    if (!customerGender && customerName) {
-      if (/[女士|小姐|太太]$/.test(customerName)) customerGender = '女';
-      else if (/先生$/.test(customerName)) customerGender = '男';
+    // 2026-06-25 修：步骤 8.4 OCR 解析段（90 行）已删除——
+    // 解析字段 customerName/customerPhone/etc. 从未用于实际填表（步骤 9-13 只点固定 UI 元素），
+    // 只用于日志打印，且 OCR helper 段（collectTextNodesRecursive 不在此用）已删。
+    // 新方案：customer 传参时直接打日志；无传参（独立测试）走 printScreenText 拿 UI 节点验证。
+    if (customer) {
+      // 流程 B：千机已传 customerInfo
+      logToBoth('success', `[步骤8.4] 千机传参: 客户=${customer.customerName} 电话=${customer.phone} 经纪人=${customer.agent} 城市=${customer.city} 报备时间=${customer.reportTime} 预计到访=${customer.expectedVisitTime}`);
+    } else {
+      // 流程 A 独立测试模式：剪贴板粘贴 + UI 节点验证
+      await this.printScreenText();
+      logToBoth('info', '[步骤8.4] 独立测试模式，customerInfo 由剪贴板粘贴提供（已通过步骤 7 长按粘贴）');
     }
-
-    logToBoth('info', `[步骤8.4] 解析结果: 公司=${companyName} 客户=${customerName} 性别=${customerGender} 电话=${customerPhone} 项目=${reportProject} 物业=${propertyType} 报备时间=${reportTime} 到访时间=${expectedVisitTime} 经纪人=${agentName}`);
-
-    // 步骤9 入口检测：isFormFilled（静默版，仅 1 行汇总日志，避免节点刷屏）
-    // 2026-06-21 老板：检测非必须，结果不影响流程，仅 warn 日志
-    const formFilledCheck = this.isFormFilledSilent(formNodes);
-    logToBoth(formFilledCheck ? 'success' : 'warn', `[步骤9 入口检测] 表单${formFilledCheck ? '已填充 ✅' : '未填充 ⚠️'} 节点数: ${formNodes.length}`);
 
     // ========== 步骤9：点击"请选择分期" ==========
     logToBoth('info', '[步骤9] 点击"请选择分期"...');
@@ -936,7 +850,7 @@ class BaoliService {
 
     // 步骤 2-14：复用 fillForm 主体（项目名=保利山水和颂）
     // 粘贴 + 解析 + 选分期 + 选项目 + 智能识别 + 报备 + 等 都跟第一轮一致
-    await this.fillForm('郑州市三村杓袁7号地项目-保利山水和颂');
+    await this.fillForm(null, '郑州市三村杓袁7号地项目-保利山水和颂');
 
     // 步骤 15：detectResult(2)
     await this.detectResult(2);

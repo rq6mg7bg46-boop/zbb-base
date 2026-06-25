@@ -996,8 +996,37 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
         }
     }
 
-    // OCR 段已删除 2026-06-25（getAllTextNodes bridge 内部调 OCR helper）
-    // 还原: git log 查 AutomationModule.kt L998-L1036
+    // 节点遍历 bridge 还原 2026-06-25（getAllTextNodes 误判 OCR 已恢复 — 见 AccessibilityServiceImpl.kt）
+    // 注：纯 AccessibilityNodeInfo 遍历，与 OCR 无关；独立测试模式兜底用
+
+    @ReactMethod
+    fun getAllTextNodes(promise: Promise) {
+        val service = AccessibilityServiceImpl.instance
+        if (service == null) {
+            promise.reject("ERROR", "AccessibilityService 未运行")
+            return
+        }
+
+        mainHandler.post {
+            try {
+                val nodes = service.getAllTextNodes()
+                val result = Arguments.createArray()
+
+                nodes.forEach { node ->
+                    val map = Arguments.createMap()
+                    map.putString("text", node["text"] as? String ?: "")
+                    map.putDouble("centerX", (node["centerX"] as? Double) ?: 0.0)
+                    map.putDouble("centerY", (node["centerY"] as? Double) ?: 0.0)
+                    map.putString("type", node["type"] as? String ?: "text")
+                    result.pushMap(map)
+                }
+
+                promise.resolve(result)
+            } catch (e: Exception) {
+                promise.reject("ERROR", e.message)
+            }
+        }
+    }
 
     @ReactMethod
     fun waitForElement(text: String?, viewId: String?, timeout: Double?, promise: Promise) {
