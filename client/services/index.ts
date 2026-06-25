@@ -12,9 +12,6 @@ export type {
   FlowPhase 
 } from './AutomationEngine';
 
-export { ocrService, OCRService } from './OCRService';
-export type { OCRResult, ParseResult } from './OCRService';
-
 export { screenshotService, ScreenshotService } from './ScreenshotService';
 export type { ScreenshotInfo as SSInfo } from './ScreenshotService';
 

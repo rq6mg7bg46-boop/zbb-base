@@ -76,12 +76,9 @@ export interface ZBBAutomationModule {
   launchApp(packageName: string): Promise<boolean>;
   requestMediaProjectionPermission(): Promise<boolean>;
   
-  // 截屏和OCR
-  takeScreenshotBase64(): Promise<string>;
-  recognizeText(): Promise<string[]>;
-  recognizeTextWithPosition(): Promise<Array<{text: string; left: number; top: number; right: number; bottom: number; centerX: number; centerY: number; bounds: {left: number; top: number; right: number; bottom: number}}>>;
-  screenContainsText(targetText: string): Promise<boolean>;
-  findTextByMLKit(targetText: string): Promise<{found: boolean; text?: string; left?: number; top?: number; right?: number; bottom?: number; centerX?: number; centerY?: number}>;
+  // OCR 段已删除 2026-06-25（recognizeText/recognizeTextWithPosition/screenContainsText/findTextByMLKit 类型签名）
+  // 还原: git log 查 native/ZBBAutomation.ts L79-L84
+
 
   // 屏幕操作
   takeScreenshot(): Promise<string>;
@@ -381,19 +378,7 @@ export interface ScreenshotMarkResult {
   }>;
 }
 
-export const screenshotAndMark = async (): Promise<ScreenshotMarkResult | null> => {
-  if (!ZBBAutomation) {
-    console.error('[ZBB] 模块未初始化');
-    return null;
-  }
-  try {
-    const result = await ZBBAutomation.screenshotAndMark();
-    return result as ScreenshotMarkResult;
-  } catch (error) {
-    console.error('[ZBB] 截图标注失败:', error);
-    return null;
-  }
-};
+// screenshotAndMark 已删除 2026-06-25（内部调 OCR）
+// 还原: git log 查 native/ZBBAutomation.ts L381-L396
 
-// 事件监听函数从 index.ts 导出
 export { addStopListener, removeStopListener } from './index';
