@@ -56,11 +56,9 @@
           android:resource="@xml/accessibility_service_config"/>
     </service>
 
-    <!-- MediaProjection 前台服务 -->
-    <service
-        android:name=".MediaProjectionService"
-        android:exported="false"
-        android:foregroundServiceType="mediaProjection"/>
+    <!-- MediaProjectionService 已删除 2026-06-25
+         原前台保活由 ScreenshotService + AccessibilityService 共同承担
+         还原命令: git log 查 android/app/src/main/java/com/zbb/automation/MediaProjectionService.kt -->
 
     <!-- ScreenshotService - 持有 MediaProjection 的前台服务 -->
     <service

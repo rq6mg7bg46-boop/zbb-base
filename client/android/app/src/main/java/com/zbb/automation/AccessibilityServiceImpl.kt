@@ -197,8 +197,9 @@ class AccessibilityServiceImpl : AccessibilityService() {
         // 初始化悬浮窗管理器
         initFloatingWindow()
 
-        // 启动前台服务（用于绑定 MediaProjection 权限）
-        startForegroundServiceForMediaProjection()
+        // 启动 ScreenshotService（持有 MediaProjection，前台服务保活）
+        // 注：原 MediaProjectionService 已删除 2026-06-25，保活职责由 ScreenshotService + AccessibilityService 共同承担
+        startScreenshotForegroundService()
 
         // ========== 方案 2（兜底）：把无障碍服务通知事件桥接到 JS 层 ==========
         // accessibility_service_config.xml 用 typeAllMask，已包含 TYPE_NOTIFICATION_STATE_CHANGED
@@ -237,15 +238,16 @@ class AccessibilityServiceImpl : AccessibilityService() {
     }
     
     /**
-     * 启动前台服务用于 MediaProjection 权限
+     * 启动 ScreenshotService 前台服务（持有 MediaProjection）
+     *
+     * 历史：2026-06-25 之前同时启动 MediaProjectionService + ScreenshotService 双保活。
+     *       MediaProjectionService 删除后，由 ScreenshotService 单独承担前台保活职责。
+     *       AccessibilityService 自己也是 mediaProjection 类型前台 Service，加上
+     *       ScreenshotService 已有 2 个前台保活点。
      */
-    private fun startForegroundServiceForMediaProjection() {
+    private fun startScreenshotForegroundService() {
         try {
-            // 启动前台服务
-            MediaProjectionService.startService(this)
-            Log.d(TAG, "前台服务已启动")
-            
-            // 同时启动 ScreenshotService（持有 MediaProjection）
+            // 启动 ScreenshotService（持有 MediaProjection）
             ScreenshotService.startService(this)
             Log.d(TAG, "ScreenshotService 已启动")
         } catch (e: Exception) {
