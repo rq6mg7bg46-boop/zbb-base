@@ -1,8 +1,10 @@
 /**
  * 保利端自动化服务
  * 版本: v1.1
- * 
- * 独立于 NativeAutomationService，使用预置测试数据
+ *
+ * 2026-06-25 瘦身：原"独立于 NativeAutomationService"（老 v2.5 链路）已删除，
+ *                BaoliService 是当前活跃的保利点位服务（v1.7.0+ 千机→保利 新链路）。
+ *                仍使用预置测试数据（execute() 无参数），千机通过系统弹窗跳转传数据。
  * 流程：打开企业微信 → 点击工作台 → 进入云和家经纪云 → 填写报备表单
  */
 
@@ -288,7 +290,7 @@ class BaoliService {
       } else {
         for (let i = 0; i < 15; i++) {
           // P+ 拟人化滚动：手指惯性 overshoot + 回弹
-          await humanSwipeWithBounce(540, 1800, 540, 600, 800);
+          await humanSwipeWithBounce(540, 1300, 540, 300,800);
           await zbbAutomation.delay(1500);
           cloudNode = await this.findNodeByText('云和家经纪云', 1);
           if (cloudNode) {

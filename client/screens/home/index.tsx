@@ -35,9 +35,8 @@ import { QianjiActionCountdown } from '@/components/QianjiActionCountdown';
 import { useTheme } from '@/hooks/useTheme';
 import { useCooldown } from '@/hooks/useCooldown';
 import { zbbAutomation } from '@/native';
-import { nativeAutomationService, baoliService } from '@/services';
+import { baoliService } from '@/services';
 import { qianjiService } from '@/services/QianjiService';
-import { printAllReports, getTodayBaoliReportCount, initDatabase } from '@/services/DatabaseService';
 
 // 流程步骤定义
 const FLOW_STEPS = [
@@ -230,8 +229,8 @@ export default function HomeScreen() {
   }, []);
 
   useEffect(() => {
-    // 2026-06-21 方案B：不再调 initDatabase + getTodayBaoliReportCount（内存计数，NPE 源已堵）
-    // 保留 initDatabase/getTodayBaoliReportCount import 以备方案C 切换（不删 dead code）
+    // 2026-06-25 瘦身：dead import 已彻底删除（initDatabase/getTodayBaoliReportCount/printAllReports）
+    // 内存计数方案B 生效，无需 DB 初始化和查询
     checkAccessibility();
     checkOverlayPermission();  // 与无障碍一致：mount 时立刻检查一次
 
@@ -431,18 +430,8 @@ export default function HomeScreen() {
     processClipboard();
   }, [pendingAutoStart, clipboardText, isAutoProcessing]);
   
-  // 步骤更新回调
-  const handleStepUpdate = useCallback((stepName: string, stepIndex: number) => {
-    setCurrentStep(stepName);
-    setCurrentStepIndex(stepIndex);
-    if (stepIndex >= 0 && stepIndex < FLOW_STEPS.length) {
-      setCurrentApp(FLOW_STEPS[stepIndex].app);
-    }
-  }, []);
-
   // 共享：检查悬浮窗 + 无障碍两个权限
   // 任何一个未授权就弹 alert（带"去设置"按钮），返回 false 让调用方 return
-  // handleStart 还要继续 check MediaProjection（不归本函数管）
   const checkOverlayAndAccessibility = useCallback(async (): Promise<boolean> => {
     const hasOverlay = await zbbAutomation.isOverlayPermissionGranted();
     if (!hasOverlay) {
@@ -490,112 +479,7 @@ export default function HomeScreen() {
     return true;
   }, [serviceStatus]);
 
-  // 启动流程
-  const handleStart = useCallback(async () => {
-    // 0. 检查悬浮窗 + 无障碍
-    if (!(await checkOverlayAndAccessibility())) return;
-
-    // 1. 检查 MediaProjection 权限（OCR 业务需要）
-    const hasProjection = await zbbAutomation.requestMediaProjectionPermission();
-    if (!hasProjection) {
-      Alert.alert(
-        '请授予屏幕截图权限',
-        'ZBB 需要屏幕截图权限（MediaProjection）才能进行 OCR 识别。',
-        [
-          { text: '取消', style: 'cancel' },
-          {
-            text: '授予权限',
-            onPress: async () => {
-              // 用户需要手动授权
-              const granted = await zbbAutomation.requestMediaProjectionPermission();
-              if (!granted) {
-                Alert.alert('权限被拒绝', '您已拒绝屏幕截图权限，OCR 功能将无法使用。');
-              }
-            }
-          },
-        ]
-      );
-      return;
-    }
-    
-    // 2. 直接启动完整流程
-    try {
-      setIsRunning(true);
-      setCurrentStepIndex(-1);
-      setCurrentStep('正在启动...');
-      
-      // 注册步骤更新回调
-      nativeAutomationService.onStepUpdate(handleStepUpdate);
-      
-      // 执行完整流程
-      const result = await nativeAutomationService.executeFullFlow();
-      
-      if (result.success) {
-        setTodayCount(prev => prev + 1);
-        if (result.customerInfo) {
-          setCustomerInfo({
-            name: result.customerInfo.name,
-            phone: result.customerInfo.phone,
-          });
-        }
-        setCurrentStepIndex(FLOW_STEPS.length - 1);
-        setCurrentStep('流程完成');
-        setCurrentApp('');
-        
-        Alert.alert(
-          '流程完成',
-          `已完成报备流程\n姓名: ${result.customerInfo?.name || '未知'}\n电话: ${result.customerInfo?.phone || '未知'}\n截图: ${result.screenshots.length} 张`,
-          [{ text: '确定' }]
-        );
-      } else {
-        setCurrentApp('');
-        Alert.alert('流程失败', '请查看日志了解详情', [
-          { text: '查看日志', onPress: () => router.push('/console') },
-          { text: '确定' },
-        ]);
-      }
-    } catch (error) {
-      Alert.alert('执行出错', String(error));
-    } finally {
-      setIsRunning(false);
-      setCurrentStep('空闲');
-      setCurrentApp('');
-      nativeAutomationService.offStepUpdate(handleStepUpdate);
-    }
-  }, [checkOverlayAndAccessibility, handleStepUpdate, router]);
-
-  // 测试越秀端企业微信流程
-  const handleTestYuexiu = useCallback(async () => {
-    // 检查悬浮窗 + 无障碍
-    if (!(await checkOverlayAndAccessibility())) return;
-
-    try {
-      setIsRunning(true);
-      setCurrentStep('越秀端测试...');
-      setCurrentApp('wechat');
-      
-      const result = await nativeAutomationService.testWechatOnly();
-      
-      if (result.success) {
-        setCurrentStep('测试完成');
-        Alert.alert('测试成功', '越秀端企业微信流程测试通过！');
-      } else {
-        setCurrentStep('测试失败');
-        Alert.alert('测试失败', result.error || '请查看日志', [
-          { text: '查看日志', onPress: () => router.push('/console') },
-          { text: '确定' },
-        ]);
-      }
-    } catch (error) {
-      Alert.alert('执行出错', String(error));
-    } finally {
-      setIsRunning(false);
-      setCurrentStep('空闲');
-      setCurrentApp('');
-    }
-  }, [checkOverlayAndAccessibility, router]);
-
-  // 测试保利端流程（独立服务）
+// 测试保利端流程（独立服务）
   const handleTestBaoli = useCallback(async () => {
     // 检查悬浮窗 + 无障碍
     if (!(await checkOverlayAndAccessibility())) return;
@@ -658,19 +542,6 @@ export default function HomeScreen() {
     }
   }, [checkOverlayAndAccessibility, router, baoliService, qianjiService]);
 
-  // 停止流程
-  const handleStop = useCallback(() => {
-    if (isRunning) {
-      nativeAutomationService.stop();
-      setIsRunning(false);
-      setCurrentStep('已停止');
-      setCurrentApp('');
-      Alert.alert('已停止', 'ZBB 自动化流程已停止');
-    } else {
-      Alert.alert('提示', 'ZBB 当前未在运行');
-    }
-  }, [isRunning]);
-  
   // 打开控制台
   const handleOpenConsole = useCallback(() => {
     router.push('/console');
