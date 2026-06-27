@@ -1,8 +1,10 @@
 // client/workflows/baoli/index.ts
-// 保利 workflow 统一导出（W4 + W5 累计）
+// 保利 workflow 统一导出（W4 + W5 + W9 累计）
 
 export { baoliLaunchWorkflow } from './baoliLaunchWorkflow';
 export { baoliFillFormWorkflow } from './baoliFillFormWorkflow';
+// W9 P16 检测报备结果 workflow（替代老 BaoliService.detectResult）
+export { baoliDetectResultWorkflow } from './baoliDetectResultWorkflow';
 export type { BaoliContext, BaoliInterfaceState } from './types';
 export { getDelay, humanTap, pGammaDelay, humanSwipeWithBounce, BAOLI_DELAY_CONFIG } from './utils';
 
