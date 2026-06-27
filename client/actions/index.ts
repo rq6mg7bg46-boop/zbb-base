@@ -8,3 +8,5 @@ export { findText, findAllText, findExactNode, findNodeCenter, getAllTextNodes }
 export type { TextNode } from './find';
 export { tap, tapWithRetry } from './tap';
 export { longPress } from './longpress';
+export { inputText, pasteFromClipboard } from './input';
+export type { InputTarget } from './input';
