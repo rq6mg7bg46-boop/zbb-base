@@ -254,6 +254,11 @@ class BaoliService {
   /**
    * 执行保利端完整流程
    */
+  /**
+   * V2 接入 W7 阶段保留老入口（v1.6.4 fallback 1 周）：
+   * - W8 收官时统一删除
+   * - 替代：startBaoliLaunchV2() / startBaoliFillFormV2()（已就绪）
+   */
   async execute(): Promise<{ success: boolean; error?: string }> {
     if (this.isRunning) {
       throw new Error('流程已在运行中');
@@ -508,6 +513,11 @@ class BaoliService {
    * 填写报备表单（由千机端写入剪贴板，保利端直接粘贴）
    * 千机端不再写数据库，由这里读取表单内容后写入
    */
+  /**
+   * V2 接入 W7 阶段保留老入口（v1.6.4 fallback 1 周）：
+   * - W8 收官时统一删除
+   * - 替代：startBaoliFillFormV2(round, projectName)（已就绪）
+   */
   private async fillForm(
     projectName: string = '郑州市三村杓袁7号地项目-保利缦城和颂[郑州保利和颂]'
   ): Promise<void> {
@@ -745,6 +755,11 @@ class BaoliService {
   /**
    * P16：检测报备结果分支
    * @param round 第几轮报备（1=缦城和颂，2=山水和颂）
+   */
+  /**
+   * V2 接入 W7 阶段保留老入口（v1.6.4 fallback 1 周）：
+   * - W8 收官时统一删除
+   * - 替代：handleSuccessCase V2 已用 emit ON_BAOLI_LAUNCH_DONE 替代内部 Q6/Q7
    */
   private async detectResult(round: number = 1): Promise<void> {
     logToBoth('info', '[P16] 检测报备结果（第' + round + '轮）...');

@@ -588,6 +588,12 @@ export class QianjiService {
   /**
    * ========== 完整流程（千机端 → 复制 → 返回） ==========
    */
+  /**
+   * V2 接入 W7 阶段保留老入口（v1.6.4 fallback 1 周）：
+   * - W8 收官时统一删除
+   * - 替代：startQianjiFlowV2()（已就绪）
+   * - 异步派发：emitEvent(ON_QIANJI_DATA_READY) → BaoliService 订阅 → startBaoliLaunchV2
+   */
   public async startQianjiFlow(): Promise<void> {
     logToBoth('info', '[千机端] 启动千机端自动化流程...');
 
@@ -641,6 +647,11 @@ export class QianjiService {
    * - step3 没保利 → lastExitReason='no_baoli'（已 Toast + 震动 + 不回桌面）
    *
    * 注意：不调 stepJumpToReportApp()，否则会无限循环
+   */
+  /**
+   * V2 接入 W7 阶段保留老入口（v1.6.4 fallback 1 周）：
+   * - W8 收官时统一删除
+   * - 替代：testOnlyQianjiFlowV2()（已就绪）
    */
   public async testOnlyQianjiFlow(): Promise<'has_customer' | 'no_pending' | 'no_baoli'> {
     this.lastExitReason = null;
