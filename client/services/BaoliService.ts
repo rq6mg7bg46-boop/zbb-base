@@ -357,7 +357,7 @@ class BaoliService {
       // ========== P8：填写表单（详细步骤在 fillForm 内：P8-P15）==========
       await this.fillForm();
 
-      // ========== P15：检测结果分支（实为 P15 末尾的 detectResult，注释保留）==========
+      // ========== P16：检测结果分支（detectResult 私有方法，情况 1/2/超时）==========
       await this.detectResult();
 
       logToBoth('success', '========================================');
@@ -383,16 +383,16 @@ class BaoliService {
   private async fillForm(
     projectName: string = '郑州市三村杓袁7号地项目-保利缦城和颂[郑州保利和颂]'
   ): Promise<void> {
-    // ========== 步骤7-8.4：粘贴 + 表单识别（2026-06-14 老板新方案）==========
+    // ========== P8：粘贴 + 表单识别（2026-06-14 老板新方案）==========
     // 修复前：3 路径兜底粘贴 + 失败仅日志 + 无 retry
     // 修复后：3 动作触发弹窗 + 表单识别 retry 2 次 + 任何兜底不 return
     // 2026-06-14 老板修复：findNodeByText/findExactNode 内部 retry 3 次
-    // 任一兜底触发都不 return；pasteNode=null 时跳过步骤 7 三动作 + 步骤 8.4 retry 块
+    // 任一兜底触发都不 return；pasteNode=null 时跳过 P8 三动作 + P9 retry 块
 
     let formNodes: any[] = [];
 
-    // 步骤 7：3 动作触发 EMUI 粘贴弹窗
-    logToBoth('info', '[步骤7] 找"粘贴完整客户信息..."节点');
+    // P8：3 动作触发 EMUI 粘贴弹窗
+    logToBoth('info', '[P8] 找"粘贴完整客户信息..."节点');
     await zbbAutomation.delay(1000);
     let pasteNode = await this.findNodeByText('粘贴完整客户信息');
     if (!pasteNode) {
@@ -401,42 +401,42 @@ class BaoliService {
     }
 
     if (!pasteNode) {
-      // 步骤 7 失败兜底（findNodeByText 内部已 retry 3 次）
-      logToBoth('error', '[步骤7] 重试 3 次仍未找到输入框节点');
+      // P8 失败兜底（findNodeByText 内部已 retry 3 次）
+      logToBoth('error', '[P8] 重试 3 次仍未找到输入框节点');
       // 兜底坐标 (450, 800)：盲点长按触发 EMUI 粘贴弹窗（老板 2026-06-21 加）
-      logToBoth('warn', '[步骤7] 兜底坐标长按 @ (450, 800)');
+      logToBoth('warn', '[P8] 兜底坐标长按 @ (450, 800)');
       await maybePause();                                       // 拟人：长按前思考
       await zbbAutomation.longPress(450, 800, 2000);            // longPress 无 human 版本
       await zbbAutomation.delay(pGammaDelay(800, 1500));        // 拟人：Gamma 延迟
       await humanTap(140, 720);                                  // 拟人：±5px 偏移点击
       await maybePause();                                       // 拟人：tap 后停顿
-      await this.handlePasteFailure('[步骤7] 重试 3 次仍未找到输入框节点');
+      await this.handlePasteFailure('[P8] 重试 3 次仍未找到输入框节点');
       formNodes = (await zbbAutomation.getAllTextNodes()) || [];
-      logToBoth('info', `[步骤8.4] 兜底后重新识别: 节点数: ${formNodes.length}`);
-      // 不 return；pasteNode=null，下方步骤 7 三动作 + 步骤 8.4 retry 块被 if 保护跳过
+      logToBoth('info', `[P9] 兜底后重新识别: 节点数: ${formNodes.length}`);
+      // 不 return；pasteNode=null，下方 P8 三动作 + P9 retry 块被 if 保护跳过
     } else {
-      logToBoth('success', '[步骤7] 找到输入框 @ (' + pasteNode.centerX + ', ' + pasteNode.centerY + ')');
+      logToBoth('success', '[P8] 找到输入框 @ (' + pasteNode.centerX + ', ' + pasteNode.centerY + ')');
 
       // 动作 2：长按 2000ms 触发 EMUI 弹菜单（统一到第二轮）
-      logToBoth('info', '[步骤7] 长按输入框 2000ms 触发 EMUI 弹菜单');
+      logToBoth('info', '[P8] 长按输入框 2000ms 触发 EMUI 弹菜单');
       await zbbAutomation.longPress(pasteNode.centerX, pasteNode.centerY, 2000);
 
       // 动作 3：tap(140, 720) 弹窗"粘贴"按钮（P+ 保留：弹窗按钮固定不能偏移）
-      logToBoth('info', '[步骤7] tap 弹窗"粘贴"按钮 @ (140, 720)');
+      logToBoth('info', '[P8] tap 弹窗"粘贴"按钮 @ (140, 720)');
       await zbbAutomation.delay(1000); // 等弹窗动画（统一到第二轮的 1000ms）
       await zbbAutomation.tap(140, 720);
-      // 删 800ms delay：步骤 8.4 内置 retry delay 2000ms 已覆盖等待粘贴完成
+      // 删 800ms delay：P9 内置 retry delay 2000ms 已覆盖等待粘贴完成
 
       // P+ 随机停顿（粘贴完成后的反应时间）
       await maybePause();
 
-      // ========== 步骤8.4：等渲染 + 抓 formNodes（不检测、不兜底）==========
-      // 2026-06-21 老板：步骤7 已完成粘贴；isFormFilled 检测非必须，结果不影响流程
-      // 删除原 while retry + handlePasteFailure 兜底；步骤9 入口处加一次静默检测
+      // ========== P9：等渲染 + 抓 formNodes（不检测、不兜底）==========
+      // 2026-06-21 老板：P8 已完成粘贴；isFormFilled 检测非必须，结果不影响流程
+      // 删除原 while retry + handlePasteFailure 兜底；P10 入口处加一次静默检测
       await zbbAutomation.delay(2000);  // 等粘贴内容渲染（保留原 retry 首次 delay 2000ms）
       formNodes = (await zbbAutomation.getAllTextNodes()) || [];
-      logToBoth('info', `[步骤8.4] 界面节点数: ${formNodes.length}`);
-      // 不检测、不调 handlePasteFailure，直接让 fillForm 继续（步骤9 会再检测）
+      logToBoth('info', `[P9] 界面节点数: ${formNodes.length}`);
+      // 不检测、不调 handlePasteFailure，直接让 fillForm 继续（P10 会再检测）
     }
 
     let companyName = '';
@@ -452,7 +452,7 @@ class BaoliService {
     formNodes?.forEach((node: any) => {
       const text = node.text || '';
       if (!text || text.trim().length === 0) return;
-      logToBoth('info', `[步骤8.4] 节点: "${text}" @ (${Math.round(node.centerX)}, ${Math.round(node.centerY)})`);
+      logToBoth('info', `[P9] 节点: "${text}" @ (${Math.round(node.centerX)}, ${Math.round(node.centerY)})`);
 
       // 拆行处理（剪贴板预览是大块 text 包含 \n，单行匹配更稳）
       const lines = text.split(/\n+/).map((l: string) => l.trim()).filter(Boolean);
@@ -523,90 +523,90 @@ class BaoliService {
       else if (/先生$/.test(customerName)) customerGender = '男';
     }
 
-    logToBoth('info', `[步骤8.4] 解析结果: 公司=${companyName} 客户=${customerName} 性别=${customerGender} 电话=${customerPhone} 项目=${reportProject} 物业=${propertyType} 报备时间=${reportTime} 到访时间=${expectedVisitTime} 经纪人=${agentName}`);
+    logToBoth('info', `[P9] 解析结果: 公司=${companyName} 客户=${customerName} 性别=${customerGender} 电话=${customerPhone} 项目=${reportProject} 物业=${propertyType} 报备时间=${reportTime} 到访时间=${expectedVisitTime} 经纪人=${agentName}`);
 
-    // 步骤9 入口检测：isFormFilled（静默版，仅 1 行汇总日志，避免节点刷屏）
+    // P10 入口检测：isFormFilled（静默版，仅 1 行汇总日志，避免节点刷屏）
     // 2026-06-21 老板：检测非必须，结果不影响流程，仅 warn 日志
     const formFilledCheck = this.isFormFilledSilent(formNodes);
-    logToBoth(formFilledCheck ? 'success' : 'warn', `[步骤9 入口检测] 表单${formFilledCheck ? '已填充 ✅' : '未填充 ⚠️'} 节点数: ${formNodes.length}`);
+    logToBoth(formFilledCheck ? 'success' : 'warn', `[P10 入口检测] 表单${formFilledCheck ? '已填充 ✅' : '未填充 ⚠️'} 节点数: ${formNodes.length}`);
 
-    // ========== 步骤9：点击"请选择分期" ==========
-    logToBoth('info', '[步骤9] 点击"请选择分期"...');
+    // ========== P10：点击"请选择分期" ==========
+    logToBoth('info', '[P10] 点击"请选择分期"...');
     await this.printScreenText();
     const fenqiNode = await this.findNodeByText('请选择分期');
     if (fenqiNode) {
-      logToBoth('success', '[步骤9] 找到"请选择分期" @ (' + fenqiNode.centerX + ', ' + fenqiNode.centerY + ')');
+      logToBoth('success', '[P10] 找到"请选择分期" @ (' + fenqiNode.centerX + ', ' + fenqiNode.centerY + ')');
       await humanTap(fenqiNode.centerX, fenqiNode.centerY);
     } else {
-      logToBoth('warn', '[步骤9] 未找到"请选择分期"，使用备用坐标 (580, 640)');
+      logToBoth('warn', '[P10] 未找到"请选择分期"，使用备用坐标 (580, 640)');
       await maybePause();       // 拟人：思考
       await humanTap(580, 640);  // 已是 humanTap，保留
       await maybePause();       // 拟人：tap 后停顿
     }
 
-    // ========== 步骤：等待2-3秒 ==========
+    // ========== P10-P11：等待 2-3 秒 ==========
     await zbbAutomation.delay(pGammaDelay(2000, 3000));
 
     // P+ 随机停顿（分期选择后）
     await maybePause();
 
-    // 第一批优化 I：删除重复的 printScreenText（步骤 10 中会再次调用，节点未变）
-    // ========== 步骤10：点击"郑州市三村杓袁7号地项目-保利缦城和颂【郑州保利和颂】" ==========
-    // 统一到第二轮：选项目前不再 delay（步骤 9 后的 pGammaDelay(2000,3000) 已足够等分期列表加载）
-    logToBoth('info', '[步骤10] 选择报备项目...');
+    // 第一批优化 I：删除重复的 printScreenText（P11 中会再次调用，节点未变）
+    // ========== P11：选择报备项目 ==========
+    // 统一到第二轮：选项目前不再 delay（P10 后的 pGammaDelay(2000,3000) 已足够等分期列表加载）
+    logToBoth('info', '[P11] 选择报备项目...');
     const projectNodes = await this.printScreenText();
     const targetProject = projectNodes?.find((n: any) => n.text && n.text.includes(projectName));
     if (targetProject) {
-      logToBoth('success', '[步骤10] 找到"' + targetProject.text + '" @ (' + targetProject.centerX + ', ' + targetProject.centerY + ')');
+      logToBoth('success', '[P11] 找到"' + targetProject.text + '" @ (' + targetProject.centerX + ', ' + targetProject.centerY + ')');
       await humanTap(targetProject.centerX, targetProject.centerY);
     } else {
-      logToBoth('warn', '[步骤10] 未找到目标项目，使用备用坐标 (540, 2000)');
+      logToBoth('warn', '[P11] 未找到目标项目，使用备用坐标 (540, 2000)');
       await humanTap(540, 2000);
     }
 
-    // ========== 步骤11：点击"确认" ==========
-    logToBoth('info', '[步骤11] 点击"确认"...');
+    // ========== P12：点击"确认" ==========
+    logToBoth('info', '[P12] 点击"确认"...');
     await zbbAutomation.delay(1000);
     const confirmNode = await this.findExactNode('确认');
     if (confirmNode) {
-      logToBoth('success', '[步骤11] 找到"确认" @ (' + confirmNode.centerX + ', ' + confirmNode.centerY + ')');
+      logToBoth('success', '[P12] 找到"确认" @ (' + confirmNode.centerX + ', ' + confirmNode.centerY + ')');
       await humanTap(confirmNode.centerX, confirmNode.centerY);
     } else {
-      logToBoth('warn', '[步骤11] 未找到"确认"，使用备用坐标 (950, 1500)');
+      logToBoth('warn', '[P12] 未找到"确认"，使用备用坐标 (950, 1500)');
       await humanTap(950, 1500);
     }
 
-    // ========== 步骤12：智能识别 ==========
-    // 老板反馈步骤 11 → 12 间隔太短（之前统一到 delay(1000)，智能识别按钮还没加载就找）
+    // ========== P13：智能识别 ==========
+    // 老板反馈 P12 → P13 间隔太短（之前统一到 delay(1000)，智能识别按钮还没加载就找）
     // 加长到 pGammaDelay(2000, 3000) ≈ 2.5s
-    logToBoth('info', '[步骤12] 点击"智能识别"...');
+    logToBoth('info', '[P13] 点击"智能识别"...');
     await zbbAutomation.delay(pGammaDelay(2000, 3000));
     const zhinengNode = await this.findNodeByText('智能识别');
     if (zhinengNode) {
-      logToBoth('success', '[步骤12] 找到"智能识别" @ (' + zhinengNode.centerX + ', ' + zhinengNode.centerY + ')');
+      logToBoth('success', '[P13] 找到"智能识别" @ (' + zhinengNode.centerX + ', ' + zhinengNode.centerY + ')');
       await humanTap(zhinengNode.centerX, zhinengNode.centerY);
     } else {
-      logToBoth('warn', '[步骤12] 未找到"智能识别"，使用备用坐标 (910, 1100)');
+      logToBoth('warn', '[P13] 未找到"智能识别"，使用备用坐标 (910, 1100)');
       await humanTap(910, 1100);
     }
 
-    // ========== 步骤13：点击"报备" ==========
-    // 老板反馈：步骤 12 → 13 之间太短（之前统一删除 3.5s delay 后只剩 printScreenText 0.3s）
+    // ========== P14：点击"报备" ==========
+    // 老板反馈：P13 → P14 之间太短（之前统一删除 3.5s delay 后只剩 printScreenText 0.3s）
     // 加长到 pGammaDelay(2000, 3000) ≈ 2.5s，等智能识别完成 + 报备按钮加载
-    logToBoth('info', '[步骤13] 点击"报备"...');
+    logToBoth('info', '[P14] 点击"报备"...');
     await zbbAutomation.delay(pGammaDelay(2000, 3000));
     await this.printScreenText();
     const finalBaobeiNode = await this.findExactNode('报备');
     if (finalBaobeiNode) {
-      logToBoth('success', '[步骤13] 找到"报备" @ (' + finalBaobeiNode.centerX + ', ' + finalBaobeiNode.centerY + ')');
+      logToBoth('success', '[P14] 找到"报备" @ (' + finalBaobeiNode.centerX + ', ' + finalBaobeiNode.centerY + ')');
       await humanTap(finalBaobeiNode.centerX, finalBaobeiNode.centerY);
     } else {
-      logToBoth('warn', '[步骤13] 未找到"报备"，使用备用坐标 (540, 2200)');
+      logToBoth('warn', '[P14] 未找到"报备"，使用备用坐标 (540, 2200)');
       await humanTap(540, 2200);
     }
 
-    // ========== 步骤14：等待报备结果 ==========
-    logToBoth('info', '[步骤14] 等待报备结果...');
+    // ========== P15：等待报备结果 ==========
+    logToBoth('info', '[P15] 等待报备结果...');
     await zbbAutomation.delay(pGammaDelay(3000, 6000));
     // P+ 随机停顿（报备结果查看）
     await maybePause();
@@ -615,11 +615,11 @@ class BaoliService {
   }
 
   /**
-   * 步骤15：检测报备结果分支
+   * P16：检测报备结果分支
    * @param round 第几轮报备（1=缦城和颂，2=山水和颂）
    */
   private async detectResult(round: number = 1): Promise<void> {
-    logToBoth('info', '[步骤15] 检测报备结果（第' + round + '轮）...');
+    logToBoth('info', '[P16] 检测报备结果（第' + round + '轮）...');
     const step15Nodes = await this.printScreenText();
 
     // 检测是否出现疑似重号
@@ -633,16 +633,16 @@ class BaoliService {
     );
 
     if (repeatNode) {
-      // ========== 情况1：疑似重号 ==========
-      logToBoth('warn', '[步骤15-情况1] 检测到疑似重号');
+      // ========== 情况 1：疑似重号 ==========
+      logToBoth('warn', '[P16-情况1] 检测到疑似重号');
       await this.handleRepeatCase();
     } else if (successNode) {
-      // ========== 情况2：报备成功 ==========
-      logToBoth('success', '[步骤15-情况2] 检测到报备成功');
+      // ========== 情况 2：报备成功 ==========
+      logToBoth('success', '[P16-情况2] 检测到报备成功');
       await this.handleSuccessCase(round);
     } else {
       // ========== 超时：提示用户手动确认，最长等待30秒，最多重试6次（每次5秒）==========
-      logToBoth('warn', '[步骤15-超时] 未检测到预期结果，提示用户手动确认...');
+      logToBoth('warn', '[P16-超时] 未检测到预期结果，提示用户手动确认...');
       await zbbAutomation.showToast('未检测到结果，请手动确认！');
       const startTime = Date.now();
       for (let i = 0; i < 6; i++) {
@@ -652,18 +652,18 @@ class BaoliService {
         const repeat = nodes?.find((n) => n.text.includes('疑似重号') || n.text.includes('重复'));
         const success = nodes?.find((n) => n.text.includes('防截客中') || n.text.includes('已报备'));
         if (repeat) {
-          logToBoth('success', '[步骤15-超时-重试] 用户操作后检测到疑似重号');
+          logToBoth('success', '[P16-超时-重试] 用户操作后检测到疑似重号');
           await this.handleRepeatCase();
           return;
         }
         if (success) {
-          logToBoth('success', '[步骤15-超时-重试] 用户操作后检测到报备成功');
+          logToBoth('success', '[P16-超时-重试] 用户操作后检测到报备成功');
           await this.handleSuccessCase(round);
           return;
         }
-        logToBoth('warn', '[步骤15-超时-重试] 第' + (i + 1) + '次重试，未检测到结果...');
+        logToBoth('warn', '[P16-超时-重试] 第' + (i + 1) + '次重试，未检测到结果...');
       }
-      logToBoth('warn', '[步骤15-超时] 30秒内未检测到结果，流程结束，保持当前界面');
+      logToBoth('warn', '[P16-超时] 30秒内未检测到结果，流程结束，保持当前界面');
     }
   }
 
@@ -726,15 +726,15 @@ class BaoliService {
    * 情况1：疑似重号处理
    */
   private async handleRepeatCase(): Promise<void> {
-    logToBoth('info', '[步骤15-情况1] 疑似重号处理');
+    logToBoth('info', '[P16-情况1] 疑似重号处理');
 
     // 第1步：启动震动+弹窗提示
-    logToBoth('info', '[步骤15-情况1-1] 启动震动+弹窗提示');
+    logToBoth('info', '[P16-情况1-1] 启动震动+弹窗提示');
     await zbbAutomation.startPulseVibration();
     await zbbAutomation.showToast('检测到疑似重号，请点击"取消"按钮');
 
     // 第2步：等待用户点击"取消"按钮（最多30秒）
-    logToBoth('info', '[步骤15-情况1-2] 等待用户点击"取消"...');
+    logToBoth('info', '[P16-情况1-2] 等待用户点击"取消"...');
     let cancelClicked = false;
     const maxWaitTime = 30000;
     const startTime = Date.now();
@@ -747,7 +747,7 @@ class BaoliService {
 
       if (!stillHasRepeat) {
         cancelClicked = true;
-        logToBoth('success', '[步骤15-情况1-3] 用户已点击"取消"');
+        logToBoth('success', '[P16-情况1-3] 用户已点击"取消"');
         break;
       }
 
@@ -756,20 +756,20 @@ class BaoliService {
 
     // 第3步：停止震动（如果用户点了取消）
     if (cancelClicked) {
-      logToBoth('info', '[步骤15-情况1-3] 用户已取消，停止震动');
+      logToBoth('info', '[P16-情况1-3] 用户已取消，停止震动');
       await zbbAutomation.stopVibration();
     } else {
-      logToBoth('warn', '[步骤15-情况1-3] 用户未操作，30秒到时，持续震动杀死ZBB');
+      logToBoth('warn', '[P16-情况1-3] 用户未操作，30秒到时，持续震动杀死ZBB');
     }
 
     // 第4步：通知首页累计数 +1（重号 = 尝试报备 1 次）
     // 2026-06-21 方案B：内存计数（避免 DB NPE），payload 带 count 同步过去
     this.todayBaoliCount++;
-    logToBoth('info', `[步骤15-情况1-4] 通知首页累计数 +1, 当前=${this.todayBaoliCount}`);
+    logToBoth('info', `[P16-情况1-4] 通知首页累计数 +1, 当前=${this.todayBaoliCount}`);
     DeviceEventEmitter.emit('zbbReportCompleted', { count: this.todayBaoliCount });
 
     // 第5步：后台杀掉ZBB进程
-    logToBoth('info', '[步骤15-情况1-5] 后台杀掉ZBB进程，流程结束');
+    logToBoth('info', '[P16-情况1-5] 后台杀掉ZBB进程，流程结束');
     await zbbAutomation.killZbbProcess();
   }
 
@@ -777,25 +777,25 @@ class BaoliService {
    * 情况2：报备成功处理
    */
   private async handleSuccessCase(round: number = 1): Promise<void> {
-    logToBoth('info', '[步骤15-情况2] 报备成功处理（第' + round + '轮）');
+    logToBoth('info', '[P16-情况2] 报备成功处理（第' + round + '轮）');
 
     // 直接上滑屏幕（不写库）
-    logToBoth('info', '[步骤15-情况2-1] 上滑屏幕...');
+    logToBoth('info', '[P16-情况2-1] 上滑屏幕...');
     await zbbAutomation.swipe(540, 1200, 540, 800);
 
     // 识别"上传附件"坐标，点击(x+500, y)
-    logToBoth('info', '[步骤15-情况2-2] 识别"上传附件"坐标，点击(x+500, y)...');
+    logToBoth('info', '[P16-情况2-2] 识别"上传附件"坐标，点击(x+500, y)...');
     const uploadNodes = await this.printScreenText();
     const uploadNode = uploadNodes?.find((n) => n.text.includes('上传附件'));
     if (uploadNode) {
-      logToBoth('success', '[步骤15-情况2-1] 找到"上传附件" @ (' + uploadNode.centerX + ', ' + uploadNode.centerY + ')，点击偏移位置');
+      logToBoth('success', '[P16-情况2-2] 找到"上传附件" @ (' + uploadNode.centerX + ', ' + uploadNode.centerY + ')，点击偏移位置');
       await humanTap(uploadNode.centerX + 500, uploadNode.centerY);
     } else {
-      logToBoth('warn', '[步骤15-情况2-1] 未找到"上传附件"，跳过');
+      logToBoth('warn', '[P16-情况2-2] 未找到"上传附件"，跳过');
     }
 
     // 等待用户手动截图（第一轮/第二轮区分）
-    logToBoth('info', '[步骤15-情况2-3] 等待用户截图...');
+    logToBoth('info', '[P16-情况2-3] 等待用户截图...');
     await this.waitForUserScreenshot(round);
 
     // 2. 按返回键回到报备界面
@@ -806,9 +806,9 @@ class BaoliService {
     if (round === 1) {
       // 2026-06-21 方案B：第一轮成功 +1（任何 attempt 都计入累计），payload 带 count
       this.todayBaoliCount++;
-      logToBoth('info', `[步骤15-情况2] 第一轮报备成功，通知首页累计数 +1, 当前=${this.todayBaoliCount}`);
+      logToBoth('info', `[P16-情况2] 第一轮报备成功，通知首页累计数 +1, 当前=${this.todayBaoliCount}`);
       DeviceEventEmitter.emit('zbbReportCompleted', { count: this.todayBaoliCount });
-      logToBoth('info', '[步骤15-情况2] 第一轮报备完成，开始第二轮...');
+      logToBoth('info', '[P16-情况2] 第一轮报备完成，开始第二轮...');
       await this.handleSecondRound();
     } else {
       // ========== 步骤8：返回→Home→开千机→识别→点"报备有效"→Toast 提示 ==========
