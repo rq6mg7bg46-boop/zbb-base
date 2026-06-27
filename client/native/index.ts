@@ -1,12 +1,12 @@
 /**
  * ZBB 原生模块导出
- * 
+ *
  * 导出包含两个部分：
  * 1. ZBBAutomation 原生模块（直接调用原生方法）
  * 2. 便捷函数（封装后的简化 API）
  */
 
-import { NativeModules, Platform, NativeEventEmitter, EmitterSubscription } from 'react-native';
+import { NativeModules, Platform, EmitterSubscription } from 'react-native';
 
 // 直接获取模块
 const ZBBAutomation = NativeModules.ZBBAutomation;
@@ -20,47 +20,15 @@ if (!ZBBAutomation) {
   console.error('[ZBB] 错误: ZBBAutomation 模块未找到！');
 }
 
-// ==================== 类型定义 ====================
+// ==================== 类型定义（已拆出到 ./types.ts）====================
+// 重新导出 + 内部 import 给本文件用
+import type { ElementInfo } from './types';
+export type { ElementInfo, ClickableElement, Point, Rect, AccessibilityServiceStatus } from './types';
 
-export interface ElementInfo {
-  found: boolean;
-  text?: string;
-  contentDescription?: string;
-  clickable?: boolean;
-  enabled?: boolean;
-  boundsLeft?: number;
-  boundsTop?: number;
-  boundsRight?: number;
-  boundsBottom?: number;
-  boundsCenterX?: number;
-  boundsCenterY?: number;
-  bounds?: { left: number; top: number; right: number; bottom: number };
-  viewId?: string;
-  packageName?: string;
-  className?: string;
-}
-
-export interface ClickableElement extends ElementInfo {
-  index: number;
-}
-
-export interface Point {
-  x: number;
-  y: number;
-}
-
-export interface Rect {
-  left: number;
-  top: number;
-  right: number;
-  bottom: number;
-}
-
-export interface AccessibilityServiceStatus {
-  isRunning: boolean;
-  isEnabled: boolean;
-  timestamp: number;
-}
+// ==================== 事件监听（已拆出到 ./events.ts）====================
+// 设置 ZBBAutomation ref 给 events.ts 用
+import { setZBBAutomationRef } from './events';
+setZBBAutomationRef(ZBBAutomation);
 
 // ==================== zbbAutomation 对象 ====================
 
@@ -1398,250 +1366,17 @@ const zbbAutomation = {
     }
   },
 
-  // ==================== 重号处理辅助方法（步骤15-情况1） ====================
+  // ==================== 重号处理辅助方法（步骤15-情况1）====================
+  // W3 期间 6-26 commit 7c2f9d2 加的 startPulseVibration / stopVibration / showToast / printScreenText / delay 重复定义
+  // 已删除（保留 L660-690 / L1145-1180 已有版本），W6 拆 types 时 TS 暴露重复，删除不影响行为
+  // killZbbProcess L893 已有定义，L1377 重复段已删除
 
-  /**
-   * 启动持续脉冲震动（用于重号提示）
-   */
-  startPulseVibration: async (): Promise<boolean> => {
-    if (!ZBBAutomation) {
-      console.error('[ZBB] 模块未初始化，无法启动震动');
-      return false;
-    }
-    try {
-      const result = await ZBBAutomation.startPulseVibration();
-      console.log('[ZBB] startPulseVibration 启动:', result);
-      return result;
-    } catch (error) {
-      console.error('[ZBB] startPulseVibration 失败:', error);
-      return false;
-    }
-  },
-
-  /**
-   * 停止震动
-   */
-  stopVibration: async (): Promise<boolean> => {
-    if (!ZBBAutomation) {
-      console.error('[ZBB] 模块未初始化，无法停止震动');
-      return false;
-    }
-    try {
-      const result = await ZBBAutomation.stopVibration();
-      console.log('[ZBB] stopVibration:', result);
-      return result;
-    } catch (error) {
-      console.error('[ZBB] stopVibration 失败:', error);
-      return false;
-    }
-  },
-
-  /**
-   * 显示 Toast 提示
-   */
-  showToast: async (message: string): Promise<boolean> => {
-    if (!ZBBAutomation) {
-      console.error('[ZBB] 模块未初始化，无法显示 Toast');
-      return false;
-    }
-    try {
-      const result = await ZBBAutomation.showToast(message);
-      console.log('[ZBB] showToast:', message);
-      return result;
-    } catch (error) {
-      console.error('[ZBB] showToast 失败:', error);
-      return false;
-    }
-  },
-
-  /**
-   * 读取屏幕所有文本节点（仅文本字段）
-   * 内部包装 getAllTextNodes，提取 text 数组
-   */
-  printScreenText: async (): Promise<string[]> => {
-    if (!ZBBAutomation) {
-      console.error('[ZBB] 模块未初始化，无法读取屏幕文本');
-      return [];
-    }
-    try {
-      const nodes = await ZBBAutomation.getAllTextNodes();
-      if (!Array.isArray(nodes)) {
-        return [];
-      }
-      return nodes
-        .map((n: any) => n?.text)
-        .filter((t: unknown): t is string => typeof t === 'string' && t.length > 0);
-    } catch (error) {
-      console.error('[ZBB] printScreenText 失败:', error);
-      return [];
-    }
-  },
-
-  /**
-   * 延迟（毫秒）
-   */
-  delay: async (ms: number): Promise<boolean> => {
-    if (!ZBBAutomation) {
-      console.error('[ZBB] 模块未初始化，无法 delay');
-      return false;
-    }
-    try {
-      const result = await ZBBAutomation.delay(ms);
-      return result;
-    } catch (error) {
-      console.error('[ZBB] delay 失败:', error);
-      return false;
-    }
-  },
-
-  /**
-   * 强杀本应用进程（force-stop com.zbb.automation）
-   * Kotlin 端用 Runtime.exec 走 am force-stop，不需要无障碍服务
-   */
-  killZbbProcess: async (): Promise<boolean> => {
-    if (!ZBBAutomation) {
-      console.error('[ZBB] 模块未初始化，无法杀进程');
-      return false;
-    }
-    try {
-      const result = await ZBBAutomation.forceStopPackage('com.zbb.automation');
-      console.log('[ZBB] killZbbProcess:', result);
-      return result;
-    } catch (error) {
-      console.error('[ZBB] killZbbProcess 失败:', error);
-      return false;
-    }
-  },
 };
 
-// ==================== 事件监听 ====================
-
-// 事件发射器单例
-let eventEmitter: NativeEventEmitter | null = null;
-
-// 活跃的监听器列表
-const activeListeners: EmitterSubscription[] = [];
-
-/**
- * 获取事件发射器实例
- */
-function getEventEmitter(): NativeEventEmitter | null {
-  if (!ZBBAutomation) {
-    return null;
-  }
-  if (!eventEmitter) {
-    eventEmitter = new NativeEventEmitter(ZBBAutomation);
-  }
-  return eventEmitter;
-}
-
-/**
- * 监听自动化停止事件（当用户点击悬浮窗停止按钮时触发）
- */
-export const addStopListener = (callback: () => void): EmitterSubscription | null => {
-  const emitter = getEventEmitter();
-  if (!emitter) {
-    console.error('[ZBB] 无法添加停止监听器，模块未初始化');
-    return null;
-  }
-
-  const subscription = emitter.addListener('onAutomationStopped', () => {
-    console.log('[ZBB] 收到停止事件');
-    callback();
-  });
-
-  activeListeners.push(subscription);
-  console.log('[ZBB] 已添加停止监听器');
-  return subscription;
-};
-
-/**
- * 监听截图确认事件（当用户点击悬浮窗截图确认按钮时触发）
- */
-export const addScreenshotConfirmedListener = (callback: () => void): EmitterSubscription | null => {
-  const emitter = getEventEmitter();
-  if (!emitter) {
-    console.error('[ZBB] 无法添加截图确认监听器，模块未初始化');
-    return null;
-  }
-
-  const subscription = emitter.addListener('onScreenshotConfirmed', () => {
-    console.log('[ZBB] 收到截图确认事件');
-    callback();
-  });
-
-  activeListeners.push(subscription);
-  console.log('[ZBB] 已添加截图确认监听器');
-  return subscription;
-};
-
-// ==================== 千机消息监听（双保险） ====================
-
-/**
- * 千机消息 payload（来源：方案 1 NotificationListenerService 或 方案 2 AccessibilityService）
- */
-export interface QianjiMessagePayload {
-  package: string;            // 包名（com.lianjia.anchang）
-  title: string;              // 通知标题（方案 1 有，方案 2 空）
-  text: string;               // 通知正文
-  subText: string;            // 通知子标题（方案 1 有，方案 2 空）
-  bigText: string;            // 通知大文本（方案 1 有，方案 2 空）
-  timestamp: number;          // 时间戳（毫秒）
-  source: 'notification' | 'accessibility';  // 来源：方案 1 / 方案 2
-}
-
-/**
- * 监听千机消息事件（方案 1 + 方案 2 双保险）
- * 触发场景：
- *   - 方案 1：NotificationMonitorService 收到 com.lianjia.anchang 的通知
- *   - 方案 2：AccessibilityServiceImpl.TYPE_NOTIFICATION_STATE_CHANGED
- */
-export const addQianjiMessageListener = (
-  callback: (payload: QianjiMessagePayload) => void
-): EmitterSubscription | null => {
-  const emitter = getEventEmitter();
-  if (!emitter) {
-    console.error('[ZBB] 无法添加千机消息监听器，模块未初始化');
-    return null;
-  }
-
-  const subscription = emitter.addListener('QianjiMessageReceived', (payload: QianjiMessagePayload) => {
-    console.log('[ZBB] 收到千机消息:', payload);
-    callback(payload);
-  });
-
-  activeListeners.push(subscription);
-  console.log('[ZBB] 已添加千机消息监听器（方案 1+2）');
-  return subscription;
-};
-
-/**
- * 移除千机消息监听器
- */
-export const removeQianjiMessageListener = (subscription: EmitterSubscription | null): void => {
-  if (subscription) {
-    subscription.remove();
-    const index = activeListeners.indexOf(subscription);
-    if (index > -1) {
-      activeListeners.splice(index, 1);
-    }
-    console.log('[ZBB] 已移除千机消息监听器');
-  }
-};
-
-/**
- * 移除自动化停止事件监听器
- */
-export const removeStopListener = (subscription: EmitterSubscription | null): void => {
-  if (subscription) {
-    subscription.remove();
-    const index = activeListeners.indexOf(subscription);
-    if (index > -1) {
-      activeListeners.splice(index, 1);
-    }
-    console.log('[ZBB] 已移除停止监听器');
-  }
-};
+// ==================== 事件监听已拆出到 ./events.ts ====================
+// 重新导出，保持兼容
+export { addStopListener, removeStopListener, addScreenshotConfirmedListener, addQianjiMessageListener, removeQianjiMessageListener } from './events';
+export type { QianjiMessagePayload } from './types';
 
 // ==================== 导出 ====================
 
