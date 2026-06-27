@@ -2,6 +2,7 @@
 // 千机 workflow 共享类型（v2 设计文档 §7 数据流 + W3 迁移）
 
 import type { WorkflowContext } from '@/engine';
+import type { ZbbEventSubscription } from '@/events';
 
 /**
  * 千机端客户信息结构
@@ -80,9 +81,32 @@ export interface QianjiContext extends WorkflowContext {
    * 派发函数：千机 step 不直接 import baoliService，通过 ctx.dispatch() 派发
    * 切换下游只改 buildContext，不改 step
    * v1.6.4 同步触发 baoliService.execute()（保留老行为）
-   * TODO W6 改成 event bus 异步派发
+   * W6+ 异步：emitEvent('ON_QIANJI_DATA_READY', payload)
+   * W7+ 完整异步：千机订阅 ON_BAOLI_LAUNCH_DONE 触发 Q6/Q7
    */
   dispatch: () => Promise<void>;
+
+  // ========== W7 抽回千机扩展字段（Q6/Q7 跨步共享）==========
+  /**
+   * 报备完成轮次（1=第一轮 / 2=第二轮）
+   * W7 阶段由 ON_BAOLI_LAUNCH_DONE payload 注入
+   */
+  finishedRound?: 1 | 2;
+
+  /**
+   * 当前接龙组数（接龙完成 +1 = 完整一组客户报备完成）
+   * 对应 BaoliService.handleSuccessCase 内的 todayBaoliCount
+   * W7 阶段用 Q6 完成 + 1（与 P16-情况2 第一轮 +1 + Q7 完成后 +1 = 2 次/组）
+   */
+  relayGroupCount?: number;
+
+  /**
+   * Q7 等待 GO 按钮 resolve
+   * 共享给 qianjiShowGoButtonStep + qianjiWaitForGoStep
+   * W6+ 用 ZbbEventSubscription 替代原 addScreenshotConfirmedListener 裸用
+   */
+  goButtonResolve?: () => void;
+  goButtonSubscription?: ZbbEventSubscription;
 }
 
 /**
