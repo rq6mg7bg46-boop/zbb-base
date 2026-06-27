@@ -79,9 +79,35 @@ export interface BaoliContext extends WorkflowContext {
   expectedVisitTime: string;
   agentName: string;
 
-  /**
-   * P10 入口检测结果（isFormFilledSilent 调用结果）
+/**
+ * P10 入口检测结果（isFormFilledSilent 调用结果）
    * true = 已填充 / false = 未填充（仅 warn，不影响流程）
    */
   formFilled: boolean;
+
+  // ========== W9 detectResult V2 化扩展（P16 报备结果检测）==========
+
+  /**
+   * W9 detectResult V2 化：检测状态（V2 workflow 内传递）
+   * - 'pending': 待检测（detectRepeatStep 入口）
+   * - 'repeat': 疑似重号（detectRepeatStep 命中 → detectSuccessStep 跳过 → 走 handleRepeatCase）
+   * - 'success': 报备成功（detectSuccessStep 命中 → 走 handleSuccessCase）
+   * - 'timeout': 30s 内未检测到结果（detectTimeoutStep 跑完）
+   */
+  detectState: 'pending' | 'repeat' | 'success' | 'timeout';
+
+  /**
+   * P16 检测超时重试次数（0-6，W9 detectResult V2 化）
+   */
+  detectRetryCount: number;
+
+  /**
+   * P16 检测起始时间戳（detectTimeoutStep 用）
+   */
+  detectStartTime: number;
+
+  /**
+   * P16 检测当前轮次（1=缦城，2=山水），与 ctx.round 同步但语义更明确
+   */
+  detectRound: 1 | 2;
 }

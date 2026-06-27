@@ -284,6 +284,11 @@ class BaoliService {
       expectedVisitTime: '',
       agentName: '',
       formFilled: false,
+      // W9 detectResult V2 化：P16 检测初始状态
+      detectState: 'pending',
+      detectRetryCount: 0,
+      detectStartTime: 0,
+      detectRound: (round as 1 | 2),
       baoliService: this,
       log: (level, msg) => logToBoth(level, msg),
       waitForGo: (reason, hint) => waitForUserGo(reason, hint),
