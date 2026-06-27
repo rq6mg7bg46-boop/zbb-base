@@ -767,12 +767,16 @@ class BaoliService {
       await zbbAutomation.delay(1000);
     }
 
-    // 第3步：停止震动（如果用户点了取消）
+    // 第3步：停止震动（如果用户点了取消 / 30s 到时都必须停）
     if (cancelClicked) {
       logToBoth('info', '[步骤15-情况1-3] 用户已取消，停止震动');
       await zbbAutomation.stopVibration();
     } else {
-      logToBoth('warn', '[步骤15-情况1-3] 用户未操作，30秒到时，持续震动杀死ZBB');
+      logToBoth('warn', '[步骤15-情况1-3] 用户未操作，30秒到时，停止震动 + 杀掉 ZBB');
+      // 2026-06-27 老板拍板：修复"震动超 30s 一直震" bug
+      // 旧 bug：else 分支没调 stopVibration，依赖 killZbbProcess 后 ZBB 进程死掉自动停震动
+      // 但 EMUI/HarmonyOS 上 cancel() 不一定生效 + AccessibilityService 是系统级服务，进程死不影响震动
+      await zbbAutomation.stopVibration();
     }
 
     // 第4步：通知首页累计数 +1（重号 = 尝试报备 1 次）

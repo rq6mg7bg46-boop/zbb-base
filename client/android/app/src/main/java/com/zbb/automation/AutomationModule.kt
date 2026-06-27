@@ -1406,8 +1406,16 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
         }
     }
 
+    // 脉冲震动全局引用（用于 stopVibration 时 cancel 同一个 Vibrator 实例 + 取消 30s 兜底）
+    private var pulseVibrator: Vibrator? = null
+    private var pulseTimeoutRunnable: Runnable? = null
+
     /**
      * 开始脉冲震动（不依赖 AccessibilityService，从 ReactContext 拿 Vibrator）
+     * 2026-06-27 老板拍板：加 30s 自动停止（修复"震动超 30s 一直震" bug）
+     * - EMUI/HarmonyOS 上 cancel() 不一定生效，必须有 30s 兜底
+     * - 即使 JS 端 stopVibration 失败或没调（killZbbProcess 后 ZBB 进程死不影响系统级震动），
+     *   30s 后也会自动停
      */
     @ReactMethod
     fun startPulseVibration(promise: Promise) {
@@ -1419,18 +1427,36 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
                     promise.reject("ERROR", "无法获取 Vibrator")
                     return@post
                 }
-                // 脉冲模式：停顿300 → 震300 → 停200 → 震300 → 停200 → 震300，repeat=0 表示从索引 0 重复
+                pulseVibrator = vibrator
+                // 脉冲模式：停顿300 → 震300 → 停200 → 震300 → 停200 → 震300，repeat=-1 表示不重复
+                // 注意：参数 0 是 repeat 索引（旧代码用 0 = 从 0 开始无限循环）→ 改为 -1 不重复
                 val pattern = longArrayOf(0, 300, 200, 300, 200, 300)
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0))
+                    vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
                 } else {
                     @Suppress("DEPRECATION")
-                    vibrator.vibrate(pattern, 0)
+                    vibrator.vibrate(pattern, -1)
                 }
-                Log.d(TAG, "startPulseVibration: 已启动")
+
+                // 30s 兜底：到时自动 cancel 震动（保底机制，防止 JS 端漏调 stopVibration）
+                pulseTimeoutRunnable?.let { mainHandler.removeCallbacks(it) }
+                val timeoutRunnable = Runnable {
+                    if (pulseVibrator != null) {
+                        Log.w(TAG, "startPulseVibration: 30s 超时，兜底自动 cancel")
+                        pulseVibrator?.cancel()
+                        pulseVibrator = null
+                        pulseTimeoutRunnable = null
+                    }
+                }
+                pulseTimeoutRunnable = timeoutRunnable
+                mainHandler.postDelayed(timeoutRunnable, 30000)
+
+                Log.d(TAG, "startPulseVibration: 已启动（30s 兜底定时器已注册）")
                 promise.resolve(true)
             } catch (e: Exception) {
                 Log.e(TAG, "startPulseVibration 失败: ${e.message}")
+                pulseVibrator = null
+                pulseTimeoutRunnable = null
                 promise.reject("ERROR", e.message)
             }
         }
@@ -1438,22 +1464,31 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
 
     /**
      * 停止震动（不依赖 AccessibilityService）
+     * 2026-06-27 老板拍板：复用同一个 Vibrator 实例 + 取消 30s 兜底定时器
      */
     @ReactMethod
     fun stopVibration(promise: Promise) {
         mainHandler.post {
             try {
-                val vibrator = getVibrator()
+                // 取消 30s 兜底定时器
+                pulseTimeoutRunnable?.let { mainHandler.removeCallbacks(it) }
+                pulseTimeoutRunnable = null
+
+                // 复用 startPulseVibration 时的 vibrator 实例 cancel（避免 cancel 时拿新实例导致 cancel 失败）
+                val vibrator = pulseVibrator
                 if (vibrator == null) {
-                    Log.e(TAG, "stopVibration: 无法获取 Vibrator")
-                    promise.reject("ERROR", "无法获取 Vibrator")
+                    Log.d(TAG, "stopVibration: 当前无震动")
+                    promise.resolve(true)
                     return@post
                 }
                 vibrator.cancel()
+                pulseVibrator = null
                 Log.d(TAG, "stopVibration: 已停止")
                 promise.resolve(true)
             } catch (e: Exception) {
                 Log.e(TAG, "stopVibration 失败: ${e.message}")
+                pulseVibrator = null
+                pulseTimeoutRunnable = null
                 promise.reject("ERROR", e.message)
             }
         }
