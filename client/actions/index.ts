@@ -12,3 +12,6 @@ export { inputText, pasteFromClipboard } from './input';
 export type { InputTarget } from './input';
 export { swipe, scrollUp, scrollDown } from './swipe';
 export { openApp, backToHome, closeApp, pressBack } from './app';
+export { pulseVibration, cancelVibration, vibrateShort } from './vibrate';
+export { maybePause } from './maybePause';
+export { showToast } from './showToast';
