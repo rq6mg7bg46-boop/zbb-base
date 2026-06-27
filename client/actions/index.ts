@@ -10,3 +10,4 @@ export { tap, tapWithRetry } from './tap';
 export { longPress } from './longpress';
 export { inputText, pasteFromClipboard } from './input';
 export type { InputTarget } from './input';
+export { swipe, scrollUp, scrollDown } from './swipe';
