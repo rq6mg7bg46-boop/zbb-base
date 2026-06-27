@@ -11,6 +11,8 @@ import { zbbAutomation, addScreenshotConfirmedListener, removeStopListener } fro
 import { QianjiService } from './QianjiService';
 import { runWorkflow, waitForUserGo } from '@/engine';
 import { baoliLaunchWorkflow, baoliFillFormWorkflow, type BaoliContext } from '@/workflows/baoli';
+// W6 异步派发（event bus 订阅）
+import { onEvent, QIANJI_EVENTS, type ZbbEventSubscription } from '@/events';
 // 注：logToBoth 在本文件 L131 内部定义（W4 阶段保留老设计，不引用外部 AutomationLogger）
 
 const APP_PACKAGES = {
@@ -162,12 +164,29 @@ class BaoliService {
   // 2026-06-21 方案B：内存累计数（替代 DB 查询，避免 NPE；后期上方案C 替换为 DB）
   // 限制：app 重启清零（老板接受——每日零点是自然重置点）
   private todayBaoliCount: number = 0;
+  // W6 异步派发：event 订阅句柄
+  private qianjiDataReadySub: ZbbEventSubscription | null = null;
 
   static getInstance(): BaoliService {
     if (!BaoliService.instance) {
       BaoliService.instance = new BaoliService();
+      BaoliService.instance.initEventSubscriptions();
     }
     return BaoliService.instance;
+  }
+
+  /**
+   * W6 异步派发：订阅 ON_QIANJI_DATA_READY 事件
+   * 千机 Q5 dispatch 触发后，自动调 startBaoliLaunchV2
+   * 老同步 path（QianjiService.startQianjiFlow 直接调 baoliService.execute()）保留 1 周对比
+   */
+  private initEventSubscriptions(): void {
+    this.qianjiDataReadySub = onEvent(QIANJI_EVENTS.DATA_READY, (payload) => {
+      logToBoth('info', '[V2 Event] 收到 ON_QIANJI_DATA_READY');
+      this.startBaoliLaunchV2().catch((err) => {
+        logToBoth('error', '[V2 Event] startBaoliLaunchV2 failed: ' + err);
+      });
+    });
   }
 
   /**
