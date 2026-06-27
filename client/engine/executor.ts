@@ -42,7 +42,8 @@ export async function runWorkflow(
 
     let result;
     try {
-      result = await s.fn(undefined);
+      // step 接 ctx 而非 undefined（v2 设计文档 §5.5 - 步骤共享 workflow 上下文）
+      result = await s.fn(context);
     } catch (e) {
       // 抛异常 = 严重错误，直接 stepFailed
       state = 'stepFailed';
@@ -110,7 +111,7 @@ async function handleGo(
   // action === 'retry'
   const maxRetries = cfg.maxRetries ?? 3;
   for (let r = 0; r < maxRetries; r++) {
-    const retry = await step.fn(undefined);
+    const retry = await step.fn(context);
     if (retry.ok) return 'retry-ok';
     context.log('warn', `[${step.name}] GO retry ${r + 1}/${maxRetries} 失败`);
     if (r < maxRetries - 1) {

@@ -2,6 +2,7 @@
 // 千机 workflow 统一导出
 
 export { qianjiCollectWorkflow } from './qianjiCollectWorkflow';
+export { qianjiCollectOnlyWorkflow } from './qianjiCollectOnlyWorkflow';
 export { openQianjiStep } from './steps/open';
 export { recognizeInterfaceStep } from './steps/recognize';
 export { findCustomerStep } from './steps/find';

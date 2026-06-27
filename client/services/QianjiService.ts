@@ -7,6 +7,10 @@ import { EmitterSubscription, DeviceEventEmitter } from 'react-native';
 import { zbbAutomation, addQianjiMessageListener, removeQianjiMessageListener, QianjiMessagePayload } from '@/native';
 import { logToBoth } from './AutomationLogger';
 import { BaoliService } from './BaoliService';
+// v2 Step 引擎接入（W3 迁移）
+import { runWorkflow, waitForUserGo } from '@/engine';
+import { qianjiCollectWorkflow, qianjiCollectOnlyWorkflow } from '@/workflows/qianji';
+import type { QianjiContext } from '@/workflows/qianji/types';
 
 // 千机包名
 const APP_PACKAGES = {
@@ -779,6 +783,101 @@ export class QianjiService {
       await this.startQianjiFlow();
     } catch (error) {
       logToBoth('error', `[千机监听] 自动启动千机端失败: ${error}`);
+    }
+  }
+
+  // ========== V2 Step 引擎接入（W3 迁移，2026-06-27） ==========
+  // 老 startQianjiFlow() / testOnlyQianjiFlow() 保留为 fallback
+  // 新方法用 runWorkflow（v2 设计文档 §5.5）
+
+  /**
+   * buildQianjiContext() - 构造 QianjiContext 给 runWorkflow 用
+   * 关键：ctx 引用本实例的 lastTextNodes / customerInfo / lastExitReason（双向同步）
+   */
+  private buildQianjiContext(): QianjiContext {
+    return {
+      data: { workflowName: 'qianji' },
+      stepIndex: 0,
+      state: 'idle',
+      customerInfo: this.customerInfo as QianjiContext['customerInfo'],
+      lastTextNodes: this.lastTextNodes,
+      lastExitReason: this.lastExitReason,
+      baoliService: BaoliService.getInstance(),
+      log: (level, msg) => logToBoth(level, msg),
+      waitForGo: (reason, hint) => waitForUserGo(reason, hint),
+    };
+  }
+
+  /**
+   * startQianjiFlowV2() - V2 版本，调 runWorkflow 跑完整 4 步
+   * 老 startQianjiFlow() 保留为 fallback（v1.6.4 并行 1 周对比）
+   */
+  public async startQianjiFlowV2(): Promise<void> {
+    logToBoth('info', '[千机端 V2] 启动 Step 引擎流程...');
+    // 重置退出标志（同老 startQianjiFlow L575）
+    this.lastExitReason = null;
+
+    try {
+      const ctx = this.buildQianjiContext();
+      const result = await runWorkflow(qianjiCollectWorkflow, ctx);
+
+      // 同步状态回写
+      this.lastTextNodes = ctx.lastTextNodes;
+      if (ctx.customerInfo) this.customerInfo = ctx.customerInfo as typeof this.customerInfo;
+      this.lastExitReason = ctx.lastExitReason;
+
+      // 步骤 2 退出（no_pending）→ 跳过步骤 3+4（与老行为对齐 L584-589）
+      if (this.lastExitReason === 'no_pending') {
+        logToBoth('info', '[千机端 V2] 步骤 2 已退出（无报备），跳过步骤 3+4');
+        return;
+      }
+      // 步骤 3 退出（no_baoli）→ 跳过步骤 4（与老行为对齐 L595-600）
+      if (this.lastExitReason === 'no_baoli') {
+        logToBoth('info', '[千机端 V2] 步骤 3 已退出（非保利），跳过步骤 4');
+        return;
+      }
+      if (!result.ok) {
+        throw new Error(`workflow failed: ${String(result.error)}`);
+      }
+      logToBoth('success', '[千机端 V2] ✓ 千机端流程完成');
+    } catch (error) {
+      logToBoth('error', `[千机端 V2] 流程执行失败: ${error}`);
+      throw error;
+    }
+  }
+
+  /**
+   * testOnlyQianjiFlowV2() - V2 接龙专用（跑 3 步，不触发保利）
+   * 老 testOnlyQianjiFlow() 保留为 fallback
+   */
+  public async testOnlyQianjiFlowV2(): Promise<'has_customer' | 'no_pending' | 'no_baoli'> {
+    this.lastExitReason = null;
+    logToBoth('info', '[千机：接龙 V2] 启动千机检测（不触发保利）...');
+    try {
+      const ctx = this.buildQianjiContext();
+      const result = await runWorkflow(qianjiCollectOnlyWorkflow, ctx);
+
+      // 同步状态回写
+      this.lastTextNodes = ctx.lastTextNodes;
+      if (ctx.customerInfo) this.customerInfo = ctx.customerInfo as typeof this.customerInfo;
+      this.lastExitReason = ctx.lastExitReason;
+
+      if (this.lastExitReason === 'no_pending') {
+        logToBoth('success', '[千机：接龙 V2] 无待报备客户，循环结束');
+        return 'no_pending';
+      }
+      if (this.lastExitReason === 'no_baoli') {
+        logToBoth('success', '[千机：接龙 V2] 无保利客户，循环结束');
+        return 'no_baoli';
+      }
+      if (result.ok) {
+        logToBoth('success', '[千机：接龙 V2] ✓ 找到保利客户，可触发保利');
+        return 'has_customer';
+      }
+      throw new Error(`workflow failed: ${String(result.error)}`);
+    } catch (error) {
+      logToBoth('error', `[千机：接龙 V2] 失败: ${error}`);
+      throw error;
     }
   }
 }

@@ -70,10 +70,10 @@ export interface QianjiContext extends WorkflowContext {
   /**
    * 保利 service 实例（步骤 4 同步调用，保留老行为）
    * 不引入事件总线（W3 纯机械替换阶段）
+   * TODO W6 类型收紧为 BaoliService（现在用 any 规避 QianjiService ↔ BaoliService 循环引用）
    */
-  baoliService: {
-    execute(): Promise<void>;
-  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  baoliService: any;
 }
 
 /**
