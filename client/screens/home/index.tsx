@@ -407,14 +407,20 @@ export default function HomeScreen() {
         setClipboardText('');
         setPendingAutoStart(false);
         
-        // 自动启动报备流程
+        // 自动启动报备流程（W8 V2 化）
         if (result.projectType === 'baoli') {
-          logToBoth('info', '[ZBB] 自动启动保利端...');
+          logToBoth('info', '[ZBB] 自动启动保利端 (V2)...');
           setCurrentStep('自动启动保利端');
           setCurrentApp('baoli');
-          await baoliService.execute();
-          setCurrentStep('流程完成');
-          Alert.alert('流程完成', `客户 ${result.customerName} 已报备成功！`);
+          // V2 入口：emit ON_QIANJI_DATA_READY（已在千机 startQianjiFlowV2 内部完成）
+          // 这里启动保利的 P1-P7 启动段，P8-P15 由 event 触发 fillForm
+          const v2Result = await baoliService.startBaoliLaunchV2();
+          if (v2Result.success) {
+            setCurrentStep('流程已启动（V2 异步处理中）');
+            Alert.alert('流程已启动', `客户 ${result.customerName} 保利端异步处理中，完成后会通过 GO 按钮通知。`);
+          } else {
+            Alert.alert('启动失败', v2Result.error || '保利端启动失败');
+          }
         } else if (result.projectType === 'yuexiu') {
           logToBoth('warn', '[ZBB] 越秀端尚未实现');
           Alert.alert('越秀端', '越秀端尚未实现，请手动处理。');
@@ -602,10 +608,10 @@ export default function HomeScreen() {
 
     try {
       setIsRunning(true);
-      setCurrentStep('保利端测试...');
+      setCurrentStep('保利端测试 (V2)...');
       setCurrentApp('wechat');
-      
-      const result = await baoliService.execute();
+
+      const result = await baoliService.startBaoliLaunchV2();
       
       if (result.success) {
         setCurrentStep('测试完成');
@@ -633,10 +639,10 @@ export default function HomeScreen() {
 
     try {
       setIsRunning(true);
-      setCurrentStep('千机端测试...');
+      setCurrentStep('千机端测试 (V2)...');
       setCurrentApp('qianji');
-      // 启动千机端完整流程（步骤1-5：抓数据→写剪贴板→直接跳转保利端填表）
-      await qianjiService.startQianjiFlow();
+      // 启动千机端完整流程（V2 异步派发）
+      await qianjiService.startQianjiFlowV2();
 
       setIsRunning(false);
       setCurrentStep('千机端流程完成');
