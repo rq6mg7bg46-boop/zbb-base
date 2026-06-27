@@ -586,101 +586,6 @@ export class QianjiService {
     await baoli.startBaoliLaunchV2();
   }
 
-  /**
-   * ========== 完整流程（千机端 → 复制 → 返回） ==========
-   */
-  /**
-   * V2 接入 W7 阶段保留老入口（v1.6.4 fallback 1 周）：
-   * - W8 收官时统一删除
-   * - 替代：startQianjiFlowV2()（已就绪）
-   * - 异步派发：emitEvent(ON_QIANJI_DATA_READY) → BaoliService 订阅 → startBaoliLaunchV2
-   */
-  public async startQianjiFlow(): Promise<void> {
-    logToBoth('info', '[千机端] 启动千机端自动化流程...');
-
-    // ★ 2026-06-20 修：重置退出标志（接龙循环会反复调用 startQianjiFlow，
-    // 步骤3 失败时设的 lastExitReason='no_baoli' 会残留在实例上，
-    // 下次调用闸门判断时误判跳过步骤4 → 必须跟 testOnlyQianjiFlow line 601 对齐重置）★
-    this.lastExitReason = null;
-
-    try {
-      // 步骤1：打开千机
-      await this.stepOpenQianji();
-
-      // 步骤2：识别当前界面
-      await this.stepRecognizeInterface();
-      // ★ 2026-06-21 修：步骤2 退出（no_pending）时挡步骤3+4，
-      // 避免在桌面/无报备界面继续找"报备审核"误触后续 ★
-      if (this.lastExitReason === 'no_pending') {
-        logToBoth('info', '[千机端] 步骤2 已退出（无报备），跳过步骤3+4');
-        return;
-      }
-
-      // 步骤3：查找"报备审核"并收集客户信息（转发流程）
-      await this.stepFindAndCollectCustomer();
-
-      // 步骤4：直接调用报备端填表
-      // ★ 2026-06-20 修：步骤3 失败（界面无保利）时不调保利端，否则会传 null 启动空数据填表 ★
-      if (this.lastExitReason === 'no_baoli') {
-        logToBoth('info', '[千机端] 步骤3 已退出（非保利），跳过步骤4');
-        return;
-      }
-      await this.stepJumpToReportApp();
-
-      logToBoth('success', '[千机端] ✓ 千机端流程完成');
-
-    } catch (error) {
-      logToBoth('error', `[千机端] 流程执行失败: ${error}`);
-      throw error;
-    }
-  }
-
-  /**
-   * ========== 接龙专用：跑千机步骤 1+2+3，不触发保利 ==========
-   *
-   * 用于保利第二轮成功后自动接龙下一组客户：
-   * - handleSuccessCase(2) 末尾调本方法
-   * - 返回 'no_pending' 或 'no_baoli' 时循环结束
-   * - 返回 'has_customer' 时外层调 baoliService.execute() 跑下一组
-   *
-   * 内部用 this.lastExitReason 标志区分退出原因：
-   * - step2 待报备=0 → lastExitReason='no_pending'（已 Toast + pressHome）
-   * - step3 没保利 → lastExitReason='no_baoli'（已 Toast + 震动 + 不回桌面）
-   *
-   * 注意：不调 stepJumpToReportApp()，否则会无限循环
-   */
-  /**
-   * V2 接入 W7 阶段保留老入口（v1.6.4 fallback 1 周）：
-   * - W8 收官时统一删除
-   * - 替代：testOnlyQianjiFlowV2()（已就绪）
-   */
-  public async testOnlyQianjiFlow(): Promise<'has_customer' | 'no_pending' | 'no_baoli'> {
-    this.lastExitReason = null;
-    logToBoth('info', '[千机：接龙] 启动千机检测（不触发保利）...');
-    try {
-      await this.stepOpenQianji();
-      await this.stepRecognizeInterface();
-      // step2 内部若发现待报备=0，会设 lastExitReason='no_pending' 并 return
-      if (this.lastExitReason === 'no_pending') {
-        logToBoth('success', '[千机：接龙] 无待报备客户，循环结束');
-        return 'no_pending';
-      }
-
-      await this.stepFindAndCollectCustomer();
-      // step3 内部若发现非保利，会设 lastExitReason='no_baoli' 并 return
-      if (this.lastExitReason === 'no_baoli') {
-        logToBoth('success', '[千机：接龙] 无保利客户，循环结束');
-        return 'no_baoli';
-      }
-
-      logToBoth('success', '[千机：接龙] ✓ 找到保利客户，可触发保利');
-      return 'has_customer';
-    } catch (error) {
-      logToBoth('error', `[千机：接龙] 失败: ${error}`);
-      throw error;
-    }
-  }
-
   // ========== 通知监听方法（双保险） ==========
 
   /**
@@ -807,8 +712,9 @@ export class QianjiService {
     if (userDecision === null) {
       logToBoth('info', `[千机监听] 沉默即同意（cooldown 跳过或 8s 内未点），自动启动`);
     }
+    // V2 接入 W8：this.startQianjiFlow() → this.startQianjiFlowV2()
     try {
-      await this.startQianjiFlow();
+      await this.startQianjiFlowV2();
     } catch (error) {
       logToBoth('error', `[千机监听] 自动启动千机端失败: ${error}`);
     }
