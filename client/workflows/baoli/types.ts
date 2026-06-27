@@ -43,4 +43,45 @@ export interface BaoliContext extends WorkflowContext {
    * W4 阶段保留老设计，W5+ 用 ctx.round
    */
   round: number;
+
+  // ========== W5 填表段扩展字段（P8-P15 跨步共享）==========
+
+  /**
+   * 当前轮填表的项目名（默认缦城和颂，第 2 轮由 BaoliService.handleSecondRound 改为山水和颂）
+   * 注入点：buildBaoliContext(round, projectName)
+   */
+  projectName: string;
+
+  /**
+   * P8 抓的"粘贴完整客户信息..."节点（找不到时为 null，进入兜底坐标长按分支）
+   * P9 解析用
+   */
+  pasteNode: { centerX: number; centerY: number; text: string } | null;
+
+  /**
+   * P9 抓的界面节点列表（getAllTextNodes 结果）
+   * P9 解析 + P10 入口检测共用
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  formNodes: any[];
+
+  /**
+   * P9 解析后的客户信息（9 字段 + 兜底性别）
+   * P10-P15 共享（虽然实际不再使用，但保留供 log/debug）
+   */
+  companyName: string;
+  customerName: string;
+  customerGender: string;
+  customerPhone: string;
+  reportProject: string;
+  propertyType: string;
+  reportTime: string;
+  expectedVisitTime: string;
+  agentName: string;
+
+  /**
+   * P10 入口检测结果（isFormFilledSilent 调用结果）
+   * true = 已填充 / false = 未填充（仅 warn，不影响流程）
+   */
+  formFilled: boolean;
 }
