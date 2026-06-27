@@ -11,6 +11,8 @@ import { BaoliService } from './BaoliService';
 import { runWorkflow, waitForUserGo } from '@/engine';
 import { qianjiCollectWorkflow, qianjiCollectOnlyWorkflow } from '@/workflows/qianji';
 import type { QianjiContext } from '@/workflows/qianji/types';
+// W6 异步派发（event bus）
+import { emitEvent, QIANJI_EVENTS, type QianjiDataReadyPayload } from '@/events';
 
 // 千机包名
 const APP_PACKAGES = {
@@ -807,10 +809,16 @@ export class QianjiService {
       // C5 派发抽象：千机→下游报备端
       // v1.6.4 硬编码 'baoli'，W7+ 越秀端加进来后改成 ctx.data.targetApp
       targetApp: 'baoli',
+      // W6 异步派发：emitEvent(ON_QIANJI_DATA_READY, payload)
+      // 老同步 dispatch（直接调 baoliService.execute()）保留 1 周对比
       dispatch: async () => {
-        // v1.6.4 同步调 baoliService.execute()（保留老行为）
-        // TODO W6 改成 event bus 异步派发
-        await baoliService.execute();
+        emitEvent(QIANJI_EVENTS.DATA_READY, {
+          customerInfo: this.customerInfo,
+          targetApp: 'baoli',
+          round: 1,
+          projectName: '郑州市三村杓袁7号地项目-保利缦城和颂[郑州保利和颂]',
+          timestamp: Date.now(),
+        });
       },
       log: (level, msg) => logToBoth(level, msg),
       waitForGo: (reason, hint) => waitForUserGo(reason, hint),
