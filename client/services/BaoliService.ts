@@ -327,6 +327,18 @@ class BaoliService {
       } else {
         logToBoth('warn', '[步骤X+] 3 次未找到，使用兜底坐标 (810, 1440)');
         await humanTap(810, 1440);
+
+        // 2026-06-27 老板拍板：兜底坐标后必须验证是否真的进入保利小程序
+        // 旧 bug：兜底坐标点完没进入也继续走流程 → 步骤 25 检测结果必然失败但白耗时间
+        await zbbAutomation.delay(3000);
+        const verifyEntry = await this.findNodeByText('郑州保利山水和颂', 1);
+        const verifyBaoli = await this.findNodeByText('报备', 1);
+        if (!verifyEntry && !verifyBaoli) {
+          logToBoth('error', '[步骤X+] 兜底坐标后未进入保利小程序，启动 30s 循环震动提醒用户');
+          await zbbAutomation.startPulseVibration();
+          throw new Error('步骤X+ 兜底坐标后未进入保利小程序（兜底失效）');
+        }
+        logToBoth('success', '[步骤X+] 兜底坐标后验证进入保利小程序成功');
       }
       await zbbAutomation.delay(pGammaDelay(2000, 3000));
       await maybePause();
