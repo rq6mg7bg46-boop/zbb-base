@@ -15,3 +15,5 @@ export { openApp, backToHome, closeApp, pressBack } from './app';
 export { pulseVibration, cancelVibration, vibrateShort } from './vibrate';
 export { maybePause } from './maybePause';
 export { showToast } from './showToast';
+export { readClipboard, writeClipboard } from './clipboard';
+export { takeScreenshot, saveScreenshot } from './screenshot';
