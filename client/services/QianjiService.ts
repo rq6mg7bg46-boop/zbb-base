@@ -581,8 +581,9 @@ export class QianjiService {
     // P+ 拟人化：复制成功后启动保利端的反应时间（迟疑 + Gamma 分布）
     await maybePause();
     await zbbAutomation.delay(pGammaDelay(500, 1500));
+    // V2 接入 W8：baoli.execute() → baoli.startBaoliLaunchV2()
     const baoli = BaoliService.getInstance();
-    await baoli.execute();
+    await baoli.startBaoliLaunchV2();
   }
 
   /**
