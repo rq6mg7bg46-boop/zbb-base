@@ -811,33 +811,35 @@ class BaoliService {
       logToBoth('info', '[P16-情况2] 第一轮报备完成，开始第二轮...');
       await this.handleSecondRound();
     } else {
-      // ========== 步骤8：返回→Home→开千机→识别→点"报备有效"→Toast 提示 ==========
-      logToBoth('info', '[步骤15-情况2-步骤8] 返回报备界面...');
+      // ========== Q6：返回千机点"报备有效" + Toast 提示（千机端业务，临时在 BaoliService 内）==========
+      // 注：Q6/Q7 是千机端步骤（保利流程已结束，回千机准备接龙下一组）
+      // W7 重构时从 BaoliService 抽到 QianjiService 或新 orchestration 层
+      logToBoth('info', '[Q6] 返回报备界面...');
       await zbbAutomation.pressBack();
       await zbbAutomation.delay(1000);
 
-      logToBoth('info', '[步骤15-情况2-步骤8] 按Home键返回桌面...');
+      logToBoth('info', '[Q6] 按Home键返回桌面...');
       await zbbAutomation.pressHomeKey();
       await zbbAutomation.delay(1500);
 
-      logToBoth('info', '[步骤15-情况2-步骤8] 打开千机...');
+      logToBoth('info', '[Q6] 打开千机...');
       await zbbAutomation.launchAppWithAmStart(
         'com.lianjia.anchang',
         'com.lianjia.link.platform.main.MainActivity'
       );
       await zbbAutomation.delay(5000);
 
-      logToBoth('info', '[步骤15-情况2-步骤8] 识别当前界面...');
+      logToBoth('info', '[Q6] 识别当前界面...');
       const nodesAfterOpen = await zbbAutomation.getAllTextNodes();
       const baobeiYouxiaoNode = nodesAfterOpen?.find((n: any) => n.text?.includes('报备有效'));
       if (baobeiYouxiaoNode) {
-        logToBoth('success', '[步骤15-情况2-步骤8] 找到"报备有效" @ (' + baobeiYouxiaoNode.centerX + ', ' + baobeiYouxiaoNode.centerY + ')，点击...');
+        logToBoth('success', '[Q6] 找到"报备有效" @ (' + baobeiYouxiaoNode.centerX + ', ' + baobeiYouxiaoNode.centerY + ')，点击...');
         await humanTap(baobeiYouxiaoNode.centerX, baobeiYouxiaoNode.centerY);
       } else {
-        logToBoth('warn', '[步骤15-情况2-步骤8] 未找到"报备有效"，跳过');
+        logToBoth('warn', '[Q6] 未找到"报备有效"，跳过');
       }
 
-      logToBoth('info', '[步骤15-情况2-步骤8] 系统Alert弹窗（震动+Toast）...');
+      logToBoth('info', '[Q6] 系统Alert弹窗（震动+Toast）...');
       await zbbAutomation.startPulseVibration();
       // 用 Toast 而非 Alert：此时千机/小程序在前台，ZBB 在后台，
       // Alert.alert 依赖调用方 Activity 在前台才渲染 → 弹不出
@@ -845,14 +847,14 @@ class BaoliService {
       // 2026-06-21 老板拍板：移除 Alert 块（Toast 已发，Alert 弹不出 → 纯死代码）
       await zbbAutomation.showToast('✅ 已完成报备，请选择正确二维码截图。记得核对姓名及电话！');
 
-      // ========== 步骤9：用户点"确定"后，显示GO按钮→等待点击→exitMiniProgram×2 ==========
-      logToBoth('info', '[步骤15-情况2-步骤9] 显示GO按钮，等待用户点击...');
+      // ========== Q7：GO 按钮等用户点 + 退出小程序（千机端业务）==========
+      logToBoth('info', '[Q7] 显示GO按钮，等待用户点击...');
       await zbbAutomation.showScreenshotButton();
 
       // 等待用户点击GO按钮（触发onScreenshotConfirmed）
       await new Promise<void>((resolve) => {
         const subscription = addScreenshotConfirmedListener(() => {
-          logToBoth('success', '[步骤15-情况2-步骤9] 用户已点击GO按钮');
+          logToBoth('success', '[Q7] 用户已点击GO按钮');
           removeStopListener(subscription);
           resolve();
         });
@@ -863,10 +865,10 @@ class BaoliService {
 
       // 2026-06-21 方案B：第二轮 GO 后 +1（接龙完成 = 完整一组客户），payload 带 count
       this.todayBaoliCount++;
-      logToBoth('info', `[步骤15-情况2] 第二轮 GO 后，通知首页累计数 +1, 当前=${this.todayBaoliCount}`);
+      logToBoth('info', `[P16-情况2] 第二轮 GO 后，通知首页累计数 +1, 当前=${this.todayBaoliCount}`);
       DeviceEventEmitter.emit('zbbReportCompleted', { count: this.todayBaoliCount });
 
-      logToBoth('success', '[步骤15-情况2] 第二轮报备成功，退出小程序...');
+      logToBoth('success', '[P16-情况2] 第二轮报备成功，退出小程序...');
       await this.exitMiniProgram();
       await zbbAutomation.delay(1000);
       await this.exitMiniProgram();
