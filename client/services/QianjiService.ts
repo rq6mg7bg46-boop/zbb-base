@@ -563,6 +563,11 @@ export class QianjiService {
    * ========== 步骤 4：直接调用报备端填表 ==========
    * 2026-06-20 老板拍板：不再以 !this.customerInfo 作为跳过依据，
    * 只要识别到"保利"并复制成功就直接调保利（保利端会自行处理空字段）
+   *
+   * 2026-06-27 老板拍板：增加"按 Home 到桌面"显式动作
+   *   理由：ZBB / 千机 / 企业微信 都在首页，多按一次 Home 没影响
+   *   但能确保从千机切到保利前一定回到桌面（避免中间环节跳到别 App）
+   *   保利端步骤1 内部仍会再按一次 Home（双重 Home 是显式兜底，不删除）
    */
   public async stepJumpToReportApp(): Promise<void> {
     logToBoth('info', '[千机：步骤4] 复制成功，启动保利端...');
@@ -571,6 +576,14 @@ export class QianjiService {
     // P+ 拟人化：复制成功后启动保利端的反应时间（迟疑 + Gamma 分布）
     await maybePause();
     await zbbAutomation.delay(pGammaDelay(500, 1500));
+
+    // ★ 2026-06-27 新增：显式按 Home 到桌面（双保险，确保回到桌面）
+    // 千机端负责"退出千机 + 交接"，保利端负责"打开企业微信 + 填表"
+    // 即便保利端步骤1 也会按 Home（双重 Home），老板拍板接受此代价（~2-3s）
+    logToBoth('info', '[千机：步骤4] 按 Home 键回到桌面（双保险）...');
+    await zbbAutomation.pressHomeKey();
+    await zbbAutomation.delay(2000 + Math.floor(Math.random() * 1000));
+
     const baoli = BaoliService.getInstance();
     await baoli.execute();
   }
