@@ -240,20 +240,20 @@ class BaoliService {
     this.isRunning = true;
 
     try {
-      // ========== 步骤1：按 Home 退出到桌面 ==========
-      logToBoth('info', '[步骤1] 按 Home 键退出到桌面...');
+      // ========== P1：按 Home 退出到桌面 ==========
+      logToBoth('info', '[P1] 按 Home 键退出到桌面...');
       await zbbAutomation.pressHomeKey();
       // 等待2-3秒随机时间确保桌面完全加载
       await zbbAutomation.delay(2000 + Math.floor(Math.random() * 1000));
 
-      // ========== 步骤2：识别桌面企业微信图标 ==========
-      logToBoth('info', '[步骤2] 识别桌面企业微信图标...');
+      // ========== P2：识别桌面企业微信图标 ==========
+      logToBoth('info', '[P2] 识别桌面企业微信图标...');
       const wechatNode = await zbbAutomation.findNodeCenterByText('企业微信');
       if (wechatNode) {
-        logToBoth('success', '[步骤2] 找到\"企业微信\" @ (' + wechatNode.centerX + ', ' + wechatNode.centerY + ')');
+        logToBoth('success', '[P2] 找到\"企业微信\" @ (' + wechatNode.centerX + ', ' + wechatNode.centerY + ')');
         await humanTap(wechatNode.centerX, wechatNode.centerY);
       } else {
-        logToBoth('error', '[步骤2] 未在桌面找到\"企业微信\"图标，尝试直接启动');
+        logToBoth('error', '[P2] 未在桌面找到\"企业微信\"图标，尝试直接启动');
         await zbbAutomation.launchAppWithMonkey(
           APP_PACKAGES.WECHAT,
           APP_PACKAGES.WECHAT_MAIN_ACTIVITY
@@ -261,27 +261,27 @@ class BaoliService {
       }
       await zbbAutomation.delay(getDelay('openApp'));
 
-      // ========== 步骤3：点击"工作台" ==========
-      logToBoth('info', '[步骤2] 点击"工作台"...');
+      // ========== P3：点击"工作台" ==========
+      logToBoth('info', '[P3] 点击"工作台"...');
       await zbbAutomation.delay(1000);  // 额外等待确保界面稳定
       let workbenchNode = await this.findNodeByText('工作台');
       if (workbenchNode) {
-        logToBoth('success', '[步骤2] 找到"工作台" @ (' + workbenchNode.centerX + ', ' + workbenchNode.centerY + ')');
+        logToBoth('success', '[P3] 找到"工作台" @ (' + workbenchNode.centerX + ', ' + workbenchNode.centerY + ')');
         await humanTap(workbenchNode.centerX, workbenchNode.centerY);
       } else {
-        logToBoth('warn', '[步骤2] 未找到"工作台"，使用备用坐标 (540, 199)');
+        logToBoth('warn', '[P3] 未找到"工作台"，使用备用坐标 (540, 199)');
         await humanTap(540, 199);
       }
 
       await zbbAutomation.delay(pGammaDelay(2000, 3000));
 
-      // ========== 步骤3：上滑4次 → 查找"云和家经纪云" ==========
+      // ========== P4：上滑4次 → 查找"云和家经纪云" ==========
       // 第一批优化 J：先 find 1 次（retries=1），找不到才上滑；上滑最多 3 次
-      logToBoth('info', '[步骤3] 上滑查找"云和家经纪云"...');
+      logToBoth('info', '[P4] 上滑查找"云和家经纪云"...');
       let found = false;
       let cloudNode = await this.findNodeByText('云和家经纪云', 1);
       if (cloudNode) {
-        logToBoth('success', '[步骤3] 找到"云和家经纪云" @ (' + cloudNode.centerX + ', ' + cloudNode.centerY + ')');
+        logToBoth('success', '[P4] 找到"云和家经纪云" @ (' + cloudNode.centerX + ', ' + cloudNode.centerY + ')');
         await humanTap(cloudNode.centerX, cloudNode.centerY);
         found = true;
       } else {
@@ -291,7 +291,7 @@ class BaoliService {
           await zbbAutomation.delay(1500);
           cloudNode = await this.findNodeByText('云和家经纪云', 1);
           if (cloudNode) {
-            logToBoth('success', '[步骤3] 上滑 ' + (i + 1) + ' 次后找到 @ (' + cloudNode.centerX + ', ' + cloudNode.centerY + ')');
+            logToBoth('success', '[P4] 上滑 ' + (i + 1) + ' 次后找到 @ (' + cloudNode.centerX + ', ' + cloudNode.centerY + ')');
             await humanTap(cloudNode.centerX, cloudNode.centerY);
             found = true;
             break;
@@ -300,7 +300,7 @@ class BaoliService {
       }
 
       if (!found) {
-        logToBoth('warn', '[步骤3] 未找到"云和家经纪云"，使用备用坐标 (668, 1502)');
+        logToBoth('warn', '[P4] 未找到"云和家经纪云"，使用备用坐标 (668, 1502)');
         await humanTap(668, 1502);
       }
 
@@ -310,39 +310,39 @@ class BaoliService {
       // P+ 随机停顿（云和家加载等待期）
       await maybePause();
 
-      // ========== 步骤X+：找"郑州保利山水和颂" + tap（云和家小程序加载后第一屏）==========
-      logToBoth('info', '[步骤X+] 找"郑州保利山水和颂"...');
+      // ========== P5：找"郑州保利山水和颂" + tap（云和家小程序加载后第一屏）==========
+      logToBoth('info', '[P5] 找"郑州保利山水和颂"...');
       let projectEntry = null;
       for (let i = 0; i < 3; i++) {
         projectEntry = await this.findNodeByText('郑州保利山水和颂', 1);
         if (projectEntry) {
-          logToBoth('success', '[步骤X+] 第 ' + (i + 1) + ' 次找到"郑州保利山水和颂" @ (' + projectEntry.centerX + ', ' + projectEntry.centerY + ')');
+          logToBoth('success', '[P5] 第 ' + (i + 1) + ' 次找到"郑州保利山水和颂" @ (' + projectEntry.centerX + ', ' + projectEntry.centerY + ')');
           break;
         }
-        logToBoth('warn', '[步骤X+] 第 ' + (i + 1) + ' 次未找到"郑州保利山水和颂"');
+        logToBoth('warn', '[P5] 第 ' + (i + 1) + ' 次未找到"郑州保利山水和颂"');
         await zbbAutomation.delay(1000);
       }
       if (projectEntry) {
         await humanTap(projectEntry.centerX, projectEntry.centerY);
       } else {
-        logToBoth('warn', '[步骤X+] 3 次未找到，使用兜底坐标 (810, 1440)');
+        logToBoth('warn', '[P5] 3 次未找到，使用兜底坐标 (810, 1440)');
         await humanTap(810, 1440);
       }
       await zbbAutomation.delay(pGammaDelay(2000, 3000));
       await maybePause();
 
-      // ========== 直接进入 fillForm（剪贴板由千机端写入，保利端只管粘贴）==========
-      logToBoth('info', '[步骤X] 直接进入填表流程...');
+      // ========== P6：进入填表流程（剪贴板由千机端写入，保利端只管粘贴）==========
+      logToBoth('info', '[P6] 直接进入填表流程...');
       await this.printScreenText();
 
-      // ========== 步骤5：点击"报备" ==========
-      logToBoth('info', '[步骤5] 点击"报备"...');
+      // ========== P7：点击"报备" ==========
+      logToBoth('info', '[P7] 点击"报备"...');
       const baobeiNode = await this.findExactNode('报备');
       if (baobeiNode) {
-        logToBoth('success', '[步骤5] 找到"报备" @ (' + baobeiNode.centerX + ', ' + baobeiNode.centerY + ')');
+        logToBoth('success', '[P7] 找到"报备" @ (' + baobeiNode.centerX + ', ' + baobeiNode.centerY + ')');
         await humanTap(baobeiNode.centerX, baobeiNode.centerY);
       } else {
-        logToBoth('warn', '[步骤5] 未找到"报备"，使用备用坐标 (700, 2200)');
+        logToBoth('warn', '[P7] 未找到"报备"，使用备用坐标 (700, 2200)');
         await humanTap(700, 2200);
         // ===== 调试：等待后打印界面所有节点 =====
         await zbbAutomation.delay(4000);
@@ -354,10 +354,10 @@ class BaoliService {
       // P+ 随机停顿（进入表单前的迟疑）
       await maybePause();
 
-      // ========== 步骤6-22：填写表单 ==========
+      // ========== P8：填写表单（详细步骤在 fillForm 内：P8-P15）==========
       await this.fillForm();
 
-      // ========== 步骤25：检测结果分支 ==========
+      // ========== P15：检测结果分支（实为 P15 末尾的 detectResult，注释保留）==========
       await this.detectResult();
 
       logToBoth('success', '========================================');
