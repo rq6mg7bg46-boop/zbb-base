@@ -91,6 +91,25 @@ const zbbAutomation = {
   },
 
   /**
+   * 获取最近一次用户主动操作时间戳（毫秒）
+   * 用于千机端判断"用户是否在用手机"，避免和用户抢界面
+   * 2026-06-27 老板拍板：千机消息到达后等 10s 未操作手机再执行
+   * 返回 0 表示从未记录过用户操作（服务刚启动 / 用户从未操作）
+   */
+  getLastUserInteractionTime: async (): Promise<number> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化，无法获取用户操作时间');
+      return 0;
+    }
+    try {
+      return await ZBBAutomation.getLastUserInteractionTime();
+    } catch (error) {
+      console.error('[ZBB] 获取用户操作时间失败:', error);
+      return 0;
+    }
+  },
+
+  /**
    * 打开无障碍服务设置
    */
   openAccessibilitySettings: async (): Promise<boolean> => {

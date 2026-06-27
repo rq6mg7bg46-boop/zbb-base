@@ -31,8 +31,10 @@ import { useSafeRouter } from '@/hooks/useSafeRouter';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { Screen } from '@/components/Screen';
 import { ThemedText } from '@/components/ThemedText';
-import { QianjiActionCountdown } from '@/components/QianjiActionCountdown';
+// 2026-06-27 老板拍板：删除 8s 倒计时浮窗（QianjiActionCountdown 已不再使用）
+// import { QianjiActionCountdown } from '@/components/QianjiActionCountdown';
 import { useTheme } from '@/hooks/useTheme';
+// 2026-06-27 老板拍板：useCooldown 保留以备将来使用，目前 home/index.tsx 内已无引用
 import { useCooldown } from '@/hooks/useCooldown';
 import { zbbAutomation } from '@/native';
 import { nativeAutomationService, baoliService } from '@/services';
@@ -241,30 +243,10 @@ export default function HomeScreen() {
     return () => subscription.remove();
   }, [checkAccessibility, checkOverlayPermission, refreshTodayCount]);
 
-  // ================== 8 秒倒计时浮窗（2026-06-21 老板拍板方案 A） ==================
-  // 千机收到消息 → QianjiService 8s delay + emit zbbQianjiCountdownStart
-  // 沉默即同意：cooldown 中 / 8s 内没点 → 直接开
-  // 点"让小的歇会" → setCooldown(3)
-  // 点"立即干活" → 立即开
-  const { isInCooldown, setCooldown } = useCooldown();
-  const [countdownVisible, setCountdownVisible] = useState(false);
-
-  useEffect(() => {
-    const startListener = DeviceEventEmitter.addListener(
-      'zbbQianjiCountdownStart',
-      (payload?: { seconds?: number; cooldownMinutes?: number }) => {
-        // 老板"先睡了"等价模式：cooldown 中跳过浮窗直接开
-        if (isInCooldown()) {
-          logToBoth('info', '[千机浮窗] cooldown 中，跳过浮窗直接开');
-          DeviceEventEmitter.emit('zbbQianjiCountdownEnd', { decision: 'go' });
-          return;
-        }
-        logToBoth('info', `[千机浮窗] 收到 ${payload?.seconds ?? 8}s 倒计时事件，弹浮窗`);
-        setCountdownVisible(true);
-      },
-    );
-    return () => startListener.remove();
-  }, [isInCooldown]);
+  // 2026-06-27 老板拍板：删除 8s 倒计时浮窗（只在 ZBB 首页可见 bug）
+//   浮窗被改为"千机端检测 10s 内用户操作手机，等待空闲再启动"逻辑
+//   8s 倒计时 + 让用户选择 → 完全删除（用户无感知被强行兜底决定）
+//   useCooldown hook 保留以备将来使用（无副作用保留）
 
   // 页面聚焦时重新检查两个权限状态
   // 用户从系统设置返回 ZBB 首页时，权限状态可能已变化，需 recheck
@@ -934,28 +916,13 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
-        </ScrollView>
+</ScrollView>
 
-      {/* 8 秒倒计时浮窗（2026-06-21 老板拍板方案 A） */}
-      <QianjiActionCountdown
-        visible={countdownVisible}
-        totalSeconds={8}
-        onGo={() => {
-          setCountdownVisible(false);
-          DeviceEventEmitter.emit('zbbQianjiCountdownEnd', { decision: 'go' });
-        }}
-        onSkip={() => {
-          setCountdownVisible(false);
-          setCooldown(3);
-          DeviceEventEmitter.emit('zbbQianjiCountdownEnd', { decision: 'skip' });
-        }}
-        onClose={() => {
-          // 点背景 = 沉默 = 8s 后组件自然 onGo（沉默即同意）
-          setCountdownVisible(false);
-        }}
-      />
+      {/* 8 秒倒计时浮窗已删除（2026-06-27 老板拍板） */}
+      {/* 浮窗只在 ZBB 首页可见 → 千机在前台时弹不出，等于强制自动开 */}
+      {/* 改为 QianjiService.ts 端检查"10s 内用户是否操作手机"，避免和用户抢界面 */}
     </Screen>
-  );
+  )
 }
 
 const styles = StyleSheet.create({

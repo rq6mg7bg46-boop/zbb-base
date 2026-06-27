@@ -164,6 +164,11 @@ class AccessibilityServiceImpl : AccessibilityService() {
     private var lastUserClickY: Int = -1
     private var lastUserClickTime: Long = 0
     private var clickHistory: MutableList<Pair<Int, Int>> = mutableListOf()
+
+    // 2026-06-27 老板拍板：用于"千机消息后等 10s 用户未操作手机再执行" 检测
+    // 记录用户最近一次主动操作（点击/滚动/长按/文本输入），用于千机端判断用户是否在用手机
+    @Volatile
+    private var lastUserInteractionTime: Long = 0
     
     // 点击监听回调（用于校准）
     var onUserClickRecorded: ((x: Int, y: Int) -> Unit)? = null
@@ -289,7 +294,21 @@ class AccessibilityServiceImpl : AccessibilityService() {
     
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         event ?: return
-        
+
+        // 2026-06-27 老板拍板：用户主动操作事件（点击/滚动/长按/文本输入）更新 lastUserInteractionTime
+        // 排除被动事件：通知到达、窗口变化、focus 变化等（这些不代表"用户在用手机"）
+        when (event.eventType) {
+            AccessibilityEvent.TYPE_VIEW_CLICKED,
+            AccessibilityEvent.TYPE_VIEW_SCROLLED,
+            AccessibilityEvent.TYPE_VIEW_LONG_CLICKED,
+            AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED,
+            AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED,
+            AccessibilityEvent.TYPE_TOUCH_INTERACTION_START,
+            AccessibilityEvent.TYPE_GESTURE_DETECTION_START -> {
+                lastUserInteractionTime = System.currentTimeMillis()
+            }
+        }
+
         Log.d(TAG, "收到无障碍事件类型: ${event.eventType}")
         
         when (event.eventType) {
@@ -358,7 +377,16 @@ class AccessibilityServiceImpl : AccessibilityService() {
     override fun onInterrupt() {
         Log.w(TAG, "无障碍服务被中断")
     }
-    
+
+    /**
+     * 公开 getter：返回最近一次用户主动操作时间戳（毫秒）
+     * 0 表示从未记录过用户操作（服务刚启动 / 用户从未操作过手机）
+     * 2026-06-27 老板拍板：用于千机端判断"用户是否在用手机"，避免和用户抢界面
+     */
+    fun getLastUserInteractionTime(): Long {
+        return lastUserInteractionTime
+    }
+
     /**
      * 设置 MediaProjection - 已废弃
      * MediaProjection 现在由 ScreenshotService 持有

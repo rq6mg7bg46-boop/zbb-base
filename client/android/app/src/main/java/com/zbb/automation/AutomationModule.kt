@@ -81,6 +81,18 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
         promise.resolve(service != null)
     }
     
+    /**
+     * 获取最近一次用户主动操作时间戳（用于千机端判断用户是否在用手机）
+     * 2026-06-27 老板拍板：千机消息到达后检查 10s 内用户是否操作过手机
+     * @return Long 时间戳（毫秒），0 表示从未记录过用户操作
+     */
+    @ReactMethod
+    fun getLastUserInteractionTime(promise: Promise) {
+        val service = AccessibilityServiceImpl.instance
+        val time = service?.getLastUserInteractionTime() ?: 0L
+        promise.resolve(time)
+    }
+
     @ReactMethod
     fun openAccessibilitySettings(promise: Promise) {
         try {

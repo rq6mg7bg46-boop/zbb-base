@@ -22,9 +22,18 @@ const WECHAT_MAIN_ACTIVITY = 'com.tencent.wework/.ui.index.WwMainActivity';
 
 // 2026-06-21 老板拍板方案 A：8 秒倒计时浮窗让出控制权
 // 沉默即同意：8 秒走完没点 = 自动开
+// 2026-06-27 老板拍板：删浮窗（只在 ZBB 首页可见 bug），改为"等待用户 10s 未操作手机"再执行
+//   - 保留这个常量是为了兼容 HomeScreen 旧订阅（虽然浮窗已删，但订阅可能在 1-2 个 frame 内还在监听）
 const QIANJI_COUNTDOWN_SECONDS = 8;
 
-// 老板 2026-06-21 拍：cooldown 3 分钟
+/** 用户操作检测窗口：收到千机消息后，若 10 秒内用户操作过手机 → 等 10s 未操作时再执行
+ *  2026-06-27 老板拍板：避免和用户抢界面（用户正在用手机时不自动启动千机流程） */
+const QIANJI_USER_IDLE_WINDOW_MS = 10 * 1000;
+
+/** 用户操作检测轮询间隔：每 2 秒检查一次 lastUserInteractionTime */
+const QIANJI_USER_IDLE_POLL_MS = 2 * 1000;
+
+/** cooldown 时长（保留兼容性，旧浮窗代码会读，但实际不再使用） */
 const QIANJI_COOLDOWN_MINUTES = 3;
 
 // DeviceEventEmitter 事件名（QianjiService ↔ HomeScreen 通信）
@@ -104,8 +113,9 @@ async function humanSwipeWithBounce(x1: number, y1: number, x2: number, y2: numb
 
 // ========== 通知监听配置（双保险：方案 1 NotificationListenerService + 方案 2 Accessibility） ==========
 
-/** 防抖时间：5 分钟内不重复触发千机端流程 */
-const QIANJI_TRIGGER_DEBOUNCE_MS = 5 * 60 * 1000;
+/** 防抖时间：1 分 30 秒内不重复触发千机端流程
+ *  2026-06-27 老板拍板：原 5 分钟偏长，缩短到 90 秒（缩短防抖 + 10s 用户操作检测 = 更灵活） */
+const QIANJI_TRIGGER_DEBOUNCE_MS = 1 * 60 * 1000 + 30 * 1000;
 
 /** 千机端流程是否启用（默认启用，由用户从 home 页面控制） */
 let qianjiAutoTriggerEnabled = true;
@@ -740,41 +750,45 @@ export class QianjiService {
       // showToast 在某些设备上不可用，忽略
     }
 
-    // 5. 8 秒倒计时 + 浮窗让出控制权（2026-06-21 老板拍板方案 A）
+    // 5. 等待用户 10s 未操作手机（2026-06-27 老板拍板：避免和用户抢界面）
     // 设计：
-    //   a. emit zbbQianjiCountdownStart 通知 HomeScreen 弹浮窗
-    //   b. 等 8 秒，期间监听 zbbQianjiCountdownEnd 收用户决策
-    //   c. 沉默即同意：8 秒到没点 → 自动开
-    //   d. decision='skip' → cooldown 3 分钟（HomeScreen 端 setCooldown 已写）
-    //   e. decision='go'   → 立即 startQianjiFlow
-    let userDecision: 'go' | 'skip' | null = null;
-    const decisionListener = DeviceEventEmitter.addListener(
-      ZBB_QIANJI_COUNTDOWN_END,
-      (payload: { decision: 'go' | 'skip' }) => {
-        userDecision = payload?.decision ?? null;
-      },
-    );
+    //   a. 调 native getLastUserInteractionTime() 拿最近一次用户操作时间戳
+    //   b. 若距离上次操作 < 10s → 用户正在用手机 → 进入等待循环，每 2 秒检查一次
+    //   c. 直到距离上次操作 ≥ 10s 才启动千机端流程
+    //   d. 若距离上次操作 ≥ 10s → 用户没在用手机 → 立即启动
+    //   e. 删除了原 8s 倒计时浮窗（QianjiActionCountdown）— 浮窗只在 ZBB 首页可见 bug
+    logToBoth('info', `[千机监听] ⏳ 检查用户操作状态（10s 内是否操作过手机）...`);
+    try {
+      const lastInteraction = await zbbAutomation.getLastUserInteractionTime();
+      const now = Date.now();
+      const sinceLastInteraction = now - lastInteraction;
 
-    // 通知 HomeScreen 弹浮窗（多次收到消息时由 HomeScreen 合并浮窗）
-    DeviceEventEmitter.emit(ZBB_QIANJI_COUNTDOWN_START, {
-      seconds: QIANJI_COUNTDOWN_SECONDS,
-      cooldownMinutes: QIANJI_COOLDOWN_MINUTES,
-    });
-
-    logToBoth('info', `[千机监听] ⏳ 8 秒倒计时浮窗已发起，沉默即同意...`);
-
-    await zbbAutomation.delay(QIANJI_COUNTDOWN_SECONDS * 1000);
-    decisionListener.remove();
-
-    if (userDecision === 'skip') {
-      logToBoth('info', `[千机监听] 用户选择"让小的歇会"，cooldown ${QIANJI_COOLDOWN_MINUTES} 分钟`);
-      return;
+      if (sinceLastInteraction >= QIANJI_USER_IDLE_WINDOW_MS) {
+        logToBoth('success', `[千机监听] 用户 ${Math.round(sinceLastInteraction / 1000)}s 前操作过手机（≥10s），立即启动`);
+      } else {
+        logToBoth('info', `[千机监听] 用户 ${Math.round(sinceLastInteraction / 1000)}s 前操作过手机（<10s），等待空闲...`);
+        // 等待循环：每 2 秒检查一次
+        let waited = 0;
+        while (waited < 60000) {  // 最长等 60s 兜底（防止一直等）
+          await zbbAutomation.delay(QIANJI_USER_IDLE_POLL_MS);
+          waited += QIANJI_USER_IDLE_POLL_MS;
+          const cur = await zbbAutomation.getLastUserInteractionTime();
+          const idle = Date.now() - cur;
+          if (idle >= QIANJI_USER_IDLE_WINDOW_MS) {
+            logToBoth('success', `[千机监听] 用户已空闲 ${Math.round(idle / 1000)}s（≥10s），启动`);
+            break;
+          }
+          logToBoth('info', `[千机监听] 用户仍在操作（空闲 ${Math.round(idle / 1000)}s < 10s），继续等...`);
+        }
+        if (waited >= 60000) {
+          logToBoth('warn', `[千机监听] 等待用户空闲超时 60s，强制启动`);
+        }
+      }
+    } catch (e) {
+      // native 端不可用（AccessibilityService 未运行等）→ 直接启动，绕过检测
+      logToBoth('warn', `[千机监听] getLastUserInteractionTime 失败: ${e}，跳过用户操作检测直接启动`);
     }
 
-    // 沉默即同意（null 或 'go'）→ 自动开
-    if (userDecision === null) {
-      logToBoth('info', `[千机监听] 沉默即同意（cooldown 跳过或 8s 内未点），自动启动`);
-    }
     try {
       await this.startQianjiFlow();
     } catch (error) {
