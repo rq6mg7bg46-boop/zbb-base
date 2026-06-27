@@ -998,10 +998,9 @@ class BaoliService {
    * 跟第一轮一致：粘贴 + 解析 + 选分期 + 选项目 + 智能识别 + 报备 + 等
    * 2026-06-16 重构：fillForm 加 projectName 参数，handleSecondRound 从 144 行简化到 29 行
    *
-   * W5 阶段保留老设计（W5 阶段不接入 V2）：
-   * - L1047 调老 this.fillForm('山水和颂') 而非 startBaoliFillFormV2(2, '山水和颂')
-   * - 1 周并行对比 V2 vs 老 fillForm 的行为差异
-   * - W7 接入 V2：startBaoliFillFormV2(2, '山水和颂') + 老 detectResult(2)
+   * W5 阶段保留老设计（W5 阶段不接入 V2）：L1030 调老 this.fillForm('山水和颂')
+   * W7 阶段接入 V2：L1030 调 startBaoliFillFormV2(2, '山水和颂') + 老 detectResult(2)
+   * 1 周并行对比 V2 vs 老 fillForm 行为差异（W7 阶段逐步切换）
    */
   async handleSecondRound(): Promise<void> {
     logToBoth('info', '[第二轮] 开始第二轮报备...');
@@ -1025,11 +1024,11 @@ class BaoliService {
     // P+ 随机停顿（第二轮报备后）
     await maybePause();
 
-    // 步骤 2-14：复用 fillForm 主体（项目名=保利山水和颂）
+    // 步骤 2-14：V2 接入 W7 - 调 baoliFillFormWorkflow（与第 1 轮同 workflow，projectName='山水和颂'）
     // 粘贴 + 解析 + 选分期 + 选项目 + 智能识别 + 报备 + 等 都跟第一轮一致
-    await this.fillForm('郑州市三村杓袁7号地项目-保利山水和颂');
+    await this.startBaoliFillFormV2(2, '郑州市三村杓袁7号地项目-保利山水和颂');
 
-    // 步骤 15：detectResult(2)
+    // 步骤 15：detectResult(2)（老 v1.6.4 保留，V2 阶段不接入）
     await this.detectResult(2);
   }
 
