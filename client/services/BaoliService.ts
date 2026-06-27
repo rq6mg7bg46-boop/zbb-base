@@ -10,7 +10,7 @@ import { DeviceEventEmitter } from 'react-native';
 import { zbbAutomation, addScreenshotConfirmedListener, removeStopListener } from '../native';
 import { QianjiService } from './QianjiService';
 import { runWorkflow, waitForUserGo } from '@/engine';
-import { baoliLaunchWorkflow, type BaoliContext } from '@/workflows/baoli';
+import { baoliLaunchWorkflow, baoliFillFormWorkflow, type BaoliContext } from '@/workflows/baoli';
 // 注：logToBoth 在本文件 L131 内部定义（W4 阶段保留老设计，不引用外部 AutomationLogger）
 
 const APP_PACKAGES = {
@@ -391,13 +391,29 @@ class BaoliService {
    * 关键：ctx.baoliService = this（step 调 this.findNodeByText 等）
    * W6 类型收紧：this 改为 BaoliService（现在 this 类型推断为单例）
    */
-  private buildBaoliContext(): BaoliContext {
+  private buildBaoliContext(
+    round: number = 1,
+    projectName: string = '郑州市三村杓袁7号地项目-保利缦城和颂[郑州保利和颂]'
+  ): BaoliContext {
     return {
       data: { workflowName: 'baoli' },
       stepIndex: 0,
       state: 'idle',
       lastExitReason: null,
-      round: 1,
+      round,
+      projectName,
+      pasteNode: null,
+      formNodes: [],
+      companyName: '',
+      customerName: '',
+      customerGender: '',
+      customerPhone: '',
+      reportProject: '',
+      propertyType: '',
+      reportTime: '',
+      expectedVisitTime: '',
+      agentName: '',
+      formFilled: false,
       baoliService: this,
       log: (level, msg) => logToBoth(level, msg),
       waitForGo: (reason, hint) => waitForUserGo(reason, hint),
@@ -407,7 +423,7 @@ class BaoliService {
   /**
    * startBaoliLaunchV2() - V2 版本，跑 baoliLaunchWorkflow（P1-P7 启动段）
    * 老 execute() 保留为 fallback（v1.6.4 并行 1 周对比）
-   * V2 启动段成功后复用老 fillForm + detectResult
+   * V2 启动段成功后走 V2 填表（baoliFillFormWorkflow）+ 老 detectResult
    */
   async startBaoliLaunchV2(): Promise<{ success: boolean; error?: string }> {
     if (this.isRunning) {
@@ -419,15 +435,20 @@ class BaoliService {
     try {
       // V2 启动段：P1-P7 走 baoliLaunchWorkflow
       const ctx = this.buildBaoliContext();
-      const result = await runWorkflow(baoliLaunchWorkflow, ctx);
+      const launchResult = await runWorkflow(baoliLaunchWorkflow, ctx);
 
-      if (!result.ok) {
+      if (!launchResult.ok) {
         logToBoth('warn', '[V2] 启动段未跑完，skip fillForm + detectResult');
         return { success: false, error: 'v2 启动段失败' };
       }
 
-      // V2 启动段成功后，继续走老 fillForm + detectResult（W4 阶段不迁子流程）
-      await this.fillForm();
+      // V2 启动段成功后，V2 填表 P8-P15（1 轮）
+      const fillResult = await this.startBaoliFillFormV2(1);
+      if (!fillResult.success) {
+        return { success: false, error: 'v2 填表失败' };
+      }
+
+      // V2 填表后走老 detectResult（P16 结果分支）
       await this.detectResult();
 
       logToBoth('success', '========================================');
@@ -442,6 +463,26 @@ class BaoliService {
     } finally {
       this.isRunning = false;
     }
+  }
+
+  /**
+   * startBaoliFillFormV2() - V2 版本，跑 baoliFillFormWorkflow（1 轮 P8-P15）
+   * 老 fillForm() 保留为 fallback
+   * 跑完一轮：BaoliService 决定是否跑第 2 轮（老 handleSecondRound）
+   */
+  async startBaoliFillFormV2(
+    round: number = 1,
+    projectName?: string
+  ): Promise<{ success: boolean; error?: string }> {
+    const ctx = this.buildBaoliContext(round, projectName);
+    const result = await runWorkflow(baoliFillFormWorkflow, ctx);
+
+    if (!result.ok) {
+      logToBoth('warn', `[V2] 第 ${round} 轮填表未跑完，skip`);
+      return { success: false, error: `v2 填表第 ${round} 轮失败` };
+    }
+
+    return { success: true };
   }
 
   /**
@@ -974,10 +1015,15 @@ class BaoliService {
     }
   }
 
-/**
+  /**
    * 第二轮报备：复用 fillForm 主体（项目名=保利山水和颂）
    * 跟第一轮一致：粘贴 + 解析 + 选分期 + 选项目 + 智能识别 + 报备 + 等
    * 2026-06-16 重构：fillForm 加 projectName 参数，handleSecondRound 从 144 行简化到 29 行
+   *
+   * W5 阶段保留老设计（W5 阶段不接入 V2）：
+   * - L1047 调老 this.fillForm('山水和颂') 而非 startBaoliFillFormV2(2, '山水和颂')
+   * - 1 周并行对比 V2 vs 老 fillForm 的行为差异
+   * - W7 接入 V2：startBaoliFillFormV2(2, '山水和颂') + 老 detectResult(2)
    */
   async handleSecondRound(): Promise<void> {
     logToBoth('info', '[第二轮] 开始第二轮报备...');
