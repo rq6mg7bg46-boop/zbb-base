@@ -14,7 +14,8 @@ export const BAOLI_EVENTS = {
 export interface BaoliLaunchDonePayload extends ZbbEventPayload {
   success: boolean;
   error?: string;
-  round: number;
+  round: 1 | 2 | number;  // W7 阶段 round=1 也可能触发（异步 P16-情况2 第一轮也走 ON_BAOLI_LAUNCH_DONE）
   projectName: string;
+  baoliCount: number;  // W7 阶段：接龙完成数（与 todayBaoliCount 同步）
   timestamp: number;
 }

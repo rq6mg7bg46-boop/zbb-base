@@ -12,7 +12,7 @@ import { QianjiService } from './QianjiService';
 import { runWorkflow, waitForUserGo } from '@/engine';
 import { baoliLaunchWorkflow, baoliFillFormWorkflow, type BaoliContext } from '@/workflows/baoli';
 // W6 异步派发（event bus 订阅）
-import { onEvent, QIANJI_EVENTS, type ZbbEventSubscription } from '@/events';
+import { onEvent, QIANJI_EVENTS, BAOLI_EVENTS, emitEvent, type ZbbEventSubscription } from '@/events';
 // 注：logToBoth 在本文件 L131 内部定义（W4 阶段保留老设计，不引用外部 AutomationLogger）
 
 const APP_PACKAGES = {
@@ -939,68 +939,27 @@ class BaoliService {
       logToBoth('info', '[P16-情况2] 第一轮报备完成，开始第二轮...');
       await this.handleSecondRound();
     } else {
-      // ========== Q6：返回千机点"报备有效" + Toast 提示（千机端业务，临时在 BaoliService 内）==========
-      // 注：Q6/Q7 是千机端步骤（保利流程已结束，回千机准备接龙下一组）
-      // W7 重构时从 BaoliService 抽到 QianjiService 或新 orchestration 层
-      logToBoth('info', '[Q6] 返回报备界面...');
-      await zbbAutomation.pressBack();
-      await zbbAutomation.delay(1000);
-
-      logToBoth('info', '[Q6] 按Home键返回桌面...');
-      await zbbAutomation.pressHomeKey();
-      await zbbAutomation.delay(1500);
-
-      logToBoth('info', '[Q6] 打开千机...');
-      await zbbAutomation.launchAppWithAmStart(
-        'com.lianjia.anchang',
-        'com.lianjia.link.platform.main.MainActivity'
-      );
-      await zbbAutomation.delay(5000);
-
-      logToBoth('info', '[Q6] 识别当前界面...');
-      const nodesAfterOpen = await zbbAutomation.getAllTextNodes();
-      const baobeiYouxiaoNode = nodesAfterOpen?.find((n: any) => n.text?.includes('报备有效'));
-      if (baobeiYouxiaoNode) {
-        logToBoth('success', '[Q6] 找到"报备有效" @ (' + baobeiYouxiaoNode.centerX + ', ' + baobeiYouxiaoNode.centerY + ')，点击...');
-        await humanTap(baobeiYouxiaoNode.centerX, baobeiYouxiaoNode.centerY);
-      } else {
-        logToBoth('warn', '[Q6] 未找到"报备有效"，跳过');
-      }
-
-      logToBoth('info', '[Q6] 系统Alert弹窗（震动+Toast）...');
-      await zbbAutomation.startPulseVibration();
-      // 用 Toast 而非 Alert：此时千机/小程序在前台，ZBB 在后台，
-      // Alert.alert 依赖调用方 Activity 在前台才渲染 → 弹不出
-      // Toast 是系统级浮层，前后台都能显示
-      // 2026-06-21 老板拍板：移除 Alert 块（Toast 已发，Alert 弹不出 → 纯死代码）
-      await zbbAutomation.showToast('✅ 已完成报备，请选择正确二维码截图。记得核对姓名及电话！');
-
-      // ========== Q7：GO 按钮等用户点 + 退出小程序（千机端业务）==========
-      logToBoth('info', '[Q7] 显示GO按钮，等待用户点击...');
-      await zbbAutomation.showScreenshotButton();
-
-      // 等待用户点击GO按钮（触发onScreenshotConfirmed）
-      await new Promise<void>((resolve) => {
-        const subscription = addScreenshotConfirmedListener(() => {
-          logToBoth('success', '[Q7] 用户已点击GO按钮');
-          removeStopListener(subscription);
-          resolve();
-        });
-      });
-
-      // 停止震动
-      await zbbAutomation.stopVibration();
-
-      // 2026-06-21 方案B：第二轮 GO 后 +1（接龙完成 = 完整一组客户），payload 带 count
+      // ========== W7 抽回千机：handleSuccessCase 删 Q6/Q7 内部代码 ==========
+      // 旧设计：handleSuccessCase 内含 Q6/Q7 完整逻辑（returnToQianji + showGoAndWait）
+      // W7 老板拍板：Q6/Q7 是千机端步骤，V2 阶段抽到千机 workflows/qianji/qianjiReturnWorkflow
+      // 改写：仅完成 P16 业务（+1 累计数 + emit 事件），Q6/Q7 由千机 step 异步触发
+      // 老 v1.6.4 execute() 路径：仍调 handleSuccessCase，但内部 Q6/Q7 逻辑移到千机 step
+      // W7 阶段 V2 + 老同步链路并存 1 周，对比异步 vs 同步行为差异
       this.todayBaoliCount++;
-      logToBoth('info', `[P16-情况2] 第二轮 GO 后，通知首页累计数 +1, 当前=${this.todayBaoliCount}`);
-      DeviceEventEmitter.emit('zbbReportCompleted', { count: this.todayBaoliCount });
+      logToBoth('info', '[P16-情况2] 第二轮报备成功, 当前=' + this.todayBaoliCount);
+      emitEvent(BAOLI_EVENTS.LAUNCH_DONE, {
+        round: 2,
+        targetApp: 'baoli',
+        baoliCount: this.todayBaoliCount,
+        timestamp: Date.now(),
+      });
+      logToBoth('success', '[P16-情况2] 第二轮报备完成，emit ON_BAOLI_LAUNCH_DONE，等待千机 Q6/Q7 异步处理...');
+      return;
 
-      logToBoth('success', '[P16-情况2] 第二轮报备成功，退出小程序...');
-      await this.exitMiniProgram();
-      await zbbAutomation.delay(1000);
-      await this.exitMiniProgram();
-
+      // ========== @deprecated 循环接龙（死代码，L957 已 return）==========
+      // W7 阶段：循环接龙由千机端 Q7 完成后调 startQianjiFlowV2 触发（跨实例 + 异步）
+      // 老 v1.6.4 同步链路保留，W8 收官时统一删
+      /* eslint-disable */
       // ========== 循环接龙：自动检测下一组客户 ==========
       // 老板方案：每报备完一组（第一项目+第二项目）后，
       // 自动调千机 step1+2+3 检测下一组保利客户，有则继续报备，无则结束

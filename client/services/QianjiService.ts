@@ -7,12 +7,24 @@ import { EmitterSubscription, DeviceEventEmitter } from 'react-native';
 import { zbbAutomation, addQianjiMessageListener, removeQianjiMessageListener, QianjiMessagePayload } from '@/native';
 import { logToBoth } from './AutomationLogger';
 import { BaoliService } from './BaoliService';
-// v2 Step 引擎接入（W3 迁移）
+// v2 Step 引擎接入（W3 迁移 + W7 抽回千机）
 import { runWorkflow, waitForUserGo } from '@/engine';
-import { qianjiCollectWorkflow, qianjiCollectOnlyWorkflow } from '@/workflows/qianji';
-import type { QianjiContext } from '@/workflows/qianji/types';
-// W6 异步派发（event bus）
-import { emitEvent, QIANJI_EVENTS, type QianjiDataReadyPayload } from '@/events';
+import {
+  qianjiCollectWorkflow,
+  qianjiCollectOnlyWorkflow,
+  qianjiReturnWorkflow,
+  type QianjiContext,
+} from '@/workflows/qianji';
+// W6+W7 异步派发（event bus 订阅 + 发布）
+import {
+  emitEvent,
+  onEvent,
+  QIANJI_EVENTS,
+  BAOLI_EVENTS,
+  type QianjiDataReadyPayload,
+  type BaoliLaunchDonePayload,
+  type ZbbEventSubscription,
+} from '@/events';
 
 // 千机包名
 const APP_PACKAGES = {
@@ -129,6 +141,8 @@ export class QianjiService {
       QianjiService.instance = new QianjiService();
       // 首次创建时自动启动通知监听
       QianjiService.instance.startMonitoring();
+      // W7 抽回千机：订阅 ON_BAOLI_LAUNCH_DONE 异步触发 Q6/Q7
+      QianjiService.instance.initEventSubscriptions();
     }
     return QianjiService.instance;
   }
@@ -896,6 +910,57 @@ export class QianjiService {
       logToBoth('error', `[千机：接龙 V2] 失败: ${error}`);
       throw error;
     }
+  }
+
+  // ============ W7 抽回千机：Q6/Q7 异步触发 ============
+
+  /** V2 Q6/Q7 订阅句柄（initEventSubscriptions 注入） */
+  private baoliLaunchDoneSub?: ZbbEventSubscription;
+
+  /**
+   * 启动 Q6/Q7 异步工作流（V2 抽回千机）
+   * 触发：ON_BAOLI_LAUNCH_DONE event（保利端 handleSuccessCase round=2 emit）
+   * 范围：Q6 返回千机 + Q7 GO 按钮 + 接龙完成
+   * 不含：循环接龙（testOnlyQianjiFlow 由 V2 阶段在千机端 Q7 完成后调，W8 收官时接入）
+   *
+   * 老 v1.6.4 execute() 路径：仍调 handleSuccessCase round=2，老 Q6/Q7 内部代码已删
+   * W7 阶段 V2 + 老同步链路并存 1 周，老路径也走 V2 异步链路（Q6/Q7 都走千机 step）
+   */
+  public async startQianjiReturnV2(payload: BaoliLaunchDonePayload): Promise<void> {
+    logToBoth('info', '[千机：Q6/Q7 V2] 收到 ON_BAOLI_LAUNCH_DONE，准备返回千机...');
+    try {
+      const ctx = this.buildQianjiContext();
+      ctx.finishedRound = payload.round as 1 | 2;
+      ctx.relayGroupCount = payload.baoliCount;
+
+      const result = await runWorkflow(qianjiReturnWorkflow, ctx);
+      if (!result.ok) {
+        logToBoth('warn', '[千机：Q6/Q7 V2] workflow 未完全成功: ' + String(result.error));
+      }
+      logToBoth('success', '[千机：Q6/Q7 V2] 完整一组客户报备完成');
+    } catch (error) {
+      logToBoth('error', '[千机：Q6/Q7 V2] 失败: ' + String(error));
+      throw error;
+    }
+  }
+
+  /**
+   * 订阅 ON_BAOLI_LAUNCH_DONE event
+   * 初始化时机：getInstance() 首次调用时挂载（参照 BaoliService.initEventSubscriptions 模式）
+   * 重复挂载防护：使用 baoliLaunchDoneSub 句柄先 off
+   */
+  private initEventSubscriptions(): void {
+    const sub = this.baoliLaunchDoneSub as unknown as { remove?: () => void } | undefined;
+    if (sub?.remove) {
+      sub.remove();
+    }
+    this.baoliLaunchDoneSub = undefined;
+    this.baoliLaunchDoneSub = onEvent(BAOLI_EVENTS.LAUNCH_DONE, (payload) => {
+      logToBoth('info', '[千机：Q6/Q7 订阅] 收到 ON_BAOLI_LAUNCH_DONE event');
+      this.startQianjiReturnV2(payload as BaoliLaunchDonePayload).catch((e) => {
+        logToBoth('error', '[千机：Q6/Q7 订阅] startQianjiReturnV2 异常: ' + String(e));
+      });
+    });
   }
 }
 
