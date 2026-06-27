@@ -1460,6 +1460,34 @@ class AutomationModule(private val mReactContext: ReactApplicationContext) :
     }
 
     /**
+     * 单次短震动（不循环，用于"报备成功"提示等单次提醒场景）
+     * 2026-06-27 老板拍板：报备成功弹窗删除后改用震动提醒，避免和用户抢界面
+     */
+    @ReactMethod
+    fun vibrateShort(promise: Promise) {
+        try {
+            val vibrator = getVibrator()
+            if (vibrator == null) {
+                Log.e(TAG, "vibrateShort: 无法获取 Vibrator")
+                promise.reject("ERROR", "无法获取 Vibrator")
+                return
+            }
+            // 单次 100ms 短震，createOneShot 不会循环（repeat=-1 默认不重复）
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                @Suppress("DEPRECATION")
+                vibrator.vibrate(100)
+            }
+            Log.d(TAG, "vibrateShort: 已触发 100ms 单次震动")
+            promise.resolve(true)
+        } catch (e: Exception) {
+            Log.e(TAG, "vibrateShort 失败: ${e.message}")
+            promise.reject("ERROR", e.message)
+        }
+    }
+
+    /**
      * 从 ReactContext 拿 app-level Vibrator
      * 注意：用老 API VIBRATOR_SERVICE（不要用 VIBRATOR_MANAGER_SERVICE 的 defaultVibrator，
      * 那是系统级 vibrator，EMUI/HarmonyOS 上 cancel() 不一定生效，且进程死时震动不自动停。

@@ -670,12 +670,13 @@ class BaoliService {
   /**
    * 等待用户手动截图（通过悬浮窗截图确认按钮）
    * @param round 第几轮报备（1=缦城和颂，2=山水和颂）
+   * 2026-06-27 老板拍板：删弹窗（只在 ZBB 首页可见 bug），改单次震动提醒
    */
   private async waitForUserScreenshot(round: number = 1): Promise<void> {
     logToBoth('info', '[截图确认] 等待用户截图（第' + round + '轮）...');
 
-    // 提示用户截图并点击确认按钮
-    await zbbAutomation.showToast('第' + round + '轮报备成功，请截图后点击按钮确认');
+    // 单次短震动提醒（替代弹窗）
+    await zbbAutomation.vibrateShort();
 
     // 显示悬浮窗截图确认按钮
     await zbbAutomation.showScreenshotButton();

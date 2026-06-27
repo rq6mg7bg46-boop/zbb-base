@@ -704,6 +704,23 @@ const zbbAutomation = {
   },
 
   /**
+   * 单次短震动（不循环，用于"报备成功"提示等单次提醒场景）
+   * 2026-06-27 老板拍板：报备成功弹窗删除后改用震动提醒
+   */
+  vibrateShort: async (): Promise<boolean> => {
+    if (!ZBBAutomation) {
+      console.error('[ZBB] 模块未初始化，无法触发单次震动');
+      return false;
+    }
+    try {
+      return await ZBBAutomation.vibrateShort();
+    } catch (error) {
+      console.error('[ZBB] 单次震动失败:', error);
+      return false;
+    }
+  },
+
+  /**
    * 开始脉冲震动
    */
   startPulseVibration: async (): Promise<boolean> => {
