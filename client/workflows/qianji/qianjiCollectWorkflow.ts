@@ -52,6 +52,6 @@ export const qianjiCollectWorkflow = workflow({
         action: 'continue', // 找不到不重试，继续等下次接龙
       },
     }),
-    step('q4_jumpToReportApp', jumpToReportAppStep),
+    step('q5_dispatch', jumpToReportAppStep),
   ],
 });

@@ -68,12 +68,21 @@ export interface QianjiContext extends WorkflowContext {
   lastExitReason: 'no_pending' | 'no_baoli' | null;
 
   /**
-   * 保利 service 实例（步骤 4 同步调用，保留老行为）
-   * 不引入事件总线（W3 纯机械替换阶段）
-   * TODO W6 类型收紧为 BaoliService（现在用 any 规避 QianjiService ↔ BaoliService 循环引用）
+   * 派发目标下游 App（千机→下游报备端的统一接口）
+   * 由 QianjiService.buildQianjiContext() 注入
+   * - 'baoli': 保利（v1.6.4 唯一）
+   * - 'yuexiu': 越秀（W7+ 未来）
+   * - 'other': 其他端（未来）
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  baoliService: any;
+  targetApp: 'baoli' | 'yuexiu' | 'other';
+
+  /**
+   * 派发函数：千机 step 不直接 import baoliService，通过 ctx.dispatch() 派发
+   * 切换下游只改 buildContext，不改 step
+   * v1.6.4 同步触发 baoliService.execute()（保留老行为）
+   * TODO W6 改成 event bus 异步派发
+   */
+  dispatch: () => Promise<void>;
 }
 
 /**
