@@ -9,6 +9,9 @@
 import { DeviceEventEmitter } from 'react-native';
 import { zbbAutomation, addScreenshotConfirmedListener, removeStopListener } from '../native';
 import { QianjiService } from './QianjiService';
+import { runWorkflow, waitForUserGo } from '@/engine';
+import { baoliLaunchWorkflow, type BaoliContext } from '@/workflows/baoli';
+// 注：logToBoth 在本文件 L131 内部定义（W4 阶段保留老设计，不引用外部 AutomationLogger）
 
 const APP_PACKAGES = {
   WECHAT: 'com.tencent.wework',  // 企业微信
@@ -369,6 +372,71 @@ class BaoliService {
     } catch (error) {
       logToBoth('error', '========================================');
       logToBoth('error', '       保利端流程失败: ' + error);
+      logToBoth('error', '========================================');
+      return { success: false, error: String(error) };
+    } finally {
+      this.isRunning = false;
+    }
+  }
+
+  // ============================================================
+  // V2 接入（v2 设计文档 §5.5 + W4 老板拍板）
+  // 老 execute() 完整保留为 v1.6.4 fallback
+  // 新方法用 runWorkflow 跑 P1-P7 启动段
+  // 启动段成功后继续走老 fillForm + detectResult
+  // ============================================================
+
+  /**
+   * buildBaoliContext() - 构造 BaoliContext 给 runWorkflow 用
+   * 关键：ctx.baoliService = this（step 调 this.findNodeByText 等）
+   * W6 类型收紧：this 改为 BaoliService（现在 this 类型推断为单例）
+   */
+  private buildBaoliContext(): BaoliContext {
+    return {
+      data: { workflowName: 'baoli' },
+      stepIndex: 0,
+      state: 'idle',
+      lastExitReason: null,
+      round: 1,
+      baoliService: this,
+      log: (level, msg) => logToBoth(level, msg),
+      waitForGo: (reason, hint) => waitForUserGo(reason, hint),
+    };
+  }
+
+  /**
+   * startBaoliLaunchV2() - V2 版本，跑 baoliLaunchWorkflow（P1-P7 启动段）
+   * 老 execute() 保留为 fallback（v1.6.4 并行 1 周对比）
+   * V2 启动段成功后复用老 fillForm + detectResult
+   */
+  async startBaoliLaunchV2(): Promise<{ success: boolean; error?: string }> {
+    if (this.isRunning) {
+      throw new Error('流程已在运行中');
+    }
+
+    this.isRunning = true;
+
+    try {
+      // V2 启动段：P1-P7 走 baoliLaunchWorkflow
+      const ctx = this.buildBaoliContext();
+      const result = await runWorkflow(baoliLaunchWorkflow, ctx);
+
+      if (!result.ok) {
+        logToBoth('warn', '[V2] 启动段未跑完，skip fillForm + detectResult');
+        return { success: false, error: 'v2 启动段失败' };
+      }
+
+      // V2 启动段成功后，继续走老 fillForm + detectResult（W4 阶段不迁子流程）
+      await this.fillForm();
+      await this.detectResult();
+
+      logToBoth('success', '========================================');
+      logToBoth('success', '       保利端流程全部完成！');
+      logToBoth('success', '========================================');
+      return { success: true };
+    } catch (error) {
+      logToBoth('error', '========================================');
+      logToBoth('error', '       保利端 V2 流程失败: ' + error);
       logToBoth('error', '========================================');
       return { success: false, error: String(error) };
     } finally {
