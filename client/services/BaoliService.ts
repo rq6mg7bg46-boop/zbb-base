@@ -10,7 +10,7 @@ import { DeviceEventEmitter } from 'react-native';
 import { zbbAutomation, addScreenshotConfirmedListener, removeStopListener } from '../native';
 import { QianjiService } from './QianjiService';
 import { runWorkflow, waitForUserGo } from '@/engine';
-import { baoliLaunchWorkflow, baoliFillFormWorkflow, type BaoliContext } from '@/workflows/baoli';
+import { baoliLaunchWorkflow, baoliFillFormWorkflow, baoliDetectResultWorkflow, type BaoliContext } from '@/workflows/baoli';
 // W6 异步派发（event bus 订阅）
 import { onEvent, QIANJI_EVENTS, BAOLI_EVENTS, emitEvent, type ZbbEventSubscription } from '@/events';
 // 注：logToBoth 在本文件 L131 内部定义（W4 阶段保留老设计，不引用外部 AutomationLogger）
@@ -323,8 +323,8 @@ class BaoliService {
         return { success: false, error: 'v2 填表失败' };
       }
 
-      // V2 填表后走老 detectResult（P16 结果分支）
-      await this.detectResult();
+      // V2 填表后走 baoliDetectResultWorkflow + dispatch（V9 V2 化）
+      await this.detectResultV2();
 
       logToBoth('success', '========================================');
       logToBoth('success', '       保利端流程全部完成！');
@@ -360,60 +360,38 @@ class BaoliService {
   }
 
   /**
-   * P16：检测报备结果分支
-   * @param round 第几轮报备（1=缦城和颂，2=山水和颂）
+   * V2 detectResult（W9 V2 化）：跑 baoliDetectResultWorkflow + dispatch
+   * - 'repeat' → handleRepeatCase()
+   * - 'success' → handleSuccessCase(round)
+   * - 'timeout' → 仅 log（流程结束）
+   * 替代：老 this.detectResult(round)（W9 阶段删除）
    */
-  /**
-   * V2 接入 W7 阶段保留老入口（v1.6.4 fallback 1 周）：
-   * - W8 收官时统一删除
-   * - 替代：handleSuccessCase V2 已用 emit ON_BAOLI_LAUNCH_DONE 替代内部 Q6/Q7
-   */
-  private async detectResult(round: number = 1): Promise<void> {
-    logToBoth('info', '[P16] 检测报备结果（第' + round + '轮）...');
-    const step15Nodes = await this.printScreenText();
-
-    // 检测是否出现疑似重号
-    const repeatNode = step15Nodes?.find((n) =>
-      n.text.includes('疑似重号') || n.text.includes('重复')
-    );
-
-    // 检测是否报备成功（出现防截客中）
-    const successNode = step15Nodes?.find((n) =>
-      n.text.includes('防截客中') || n.text.includes('已报备')
-    );
-
-    if (repeatNode) {
-      // ========== 情况 1：疑似重号 ==========
-      logToBoth('warn', '[P16-情况1] 检测到疑似重号');
-      await this.handleRepeatCase();
-    } else if (successNode) {
-      // ========== 情况 2：报备成功 ==========
-      logToBoth('success', '[P16-情况2] 检测到报备成功');
-      await this.handleSuccessCase(round);
-    } else {
-      // ========== 超时：提示用户手动确认，最长等待30秒，最多重试6次（每次5秒）==========
-      logToBoth('warn', '[P16-超时] 未检测到预期结果，提示用户手动确认...');
-      await zbbAutomation.showToast('未检测到结果，请手动确认！');
-      const startTime = Date.now();
-      for (let i = 0; i < 6; i++) {
-        await zbbAutomation.delay(5000);
-        if (Date.now() - startTime >= 30000) break;
-        const nodes = await this.printScreenText();
-        const repeat = nodes?.find((n) => n.text.includes('疑似重号') || n.text.includes('重复'));
-        const success = nodes?.find((n) => n.text.includes('防截客中') || n.text.includes('已报备'));
-        if (repeat) {
-          logToBoth('success', '[P16-超时-重试] 用户操作后检测到疑似重号');
-          await this.handleRepeatCase();
-          return;
-        }
-        if (success) {
-          logToBoth('success', '[P16-超时-重试] 用户操作后检测到报备成功');
-          await this.handleSuccessCase(round);
-          return;
-        }
-        logToBoth('warn', '[P16-超时-重试] 第' + (i + 1) + '次重试，未检测到结果...');
-      }
-      logToBoth('warn', '[P16-超时] 30秒内未检测到结果，流程结束，保持当前界面');
+  private async detectResultV2(round: number = 1): Promise<void> {
+    logToBoth('info', `[P16 V2] 检测报备结果（第${round}轮）...`);
+    const ctx = this.buildBaoliContext(round);
+    ctx.detectState = 'pending';
+    ctx.detectRetryCount = 0;
+    ctx.detectStartTime = Date.now();
+    ctx.detectRound = (round === 2 ? 2 : 1) as 1 | 2;
+    const result = await runWorkflow(baoliDetectResultWorkflow, ctx);
+    if (!result.ok) {
+      logToBoth('warn', '[P16 V2] workflow 未跑完');
+      return;
+    }
+    switch (ctx.detectState as string) {
+      case 'repeat':
+        logToBoth('warn', '[P16 V2] 情况1：疑似重号 → handleRepeatCase()');
+        await this.handleRepeatCase();
+        break;
+      case 'success':
+        logToBoth('success', `[P16 V2] 情况2：报备成功 → handleSuccessCase(${round})`);
+        await this.handleSuccessCase(round);
+        break;
+      case 'timeout':
+        logToBoth('warn', '[P16 V2] 超时：30s 内未检测到结果，流程结束');
+        break;
+      default:
+        logToBoth('warn', `[P16 V2] 未知状态: ${ctx.detectState}`);
     }
   }
 
@@ -615,8 +593,8 @@ class BaoliService {
     // 粘贴 + 解析 + 选分期 + 选项目 + 智能识别 + 报备 + 等 都跟第一轮一致
     await this.startBaoliFillFormV2(2, '郑州市三村杓袁7号地项目-保利山水和颂');
 
-    // 步骤 15：detectResult(2)（老 v1.6.4 保留，V2 阶段不接入）
-    await this.detectResult(2);
+    // V2 化：handleSecondRound 末尾走 baoliDetectResultWorkflow + dispatch
+    await this.detectResultV2(2);
   }
 
   /**
