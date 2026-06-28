@@ -57,6 +57,29 @@ const DEVICE_PASTE_MENU_COORDS: Record<string, PasteMenuCoord> = {
 /** 默认 fallback（保持向后兼容） */
 const DEFAULT_FALLBACK: PasteMenuCoord = { x: 47, y: 240 };
 
+/** Recents 页"全部清除"按钮的 dp 坐标
+ *  W16 老板拍板 2026-06-28：vivo 实测 Recents 页底部中间"全部清除"按钮
+ *  来源：老板 vivo V2166A 实测 (530, 1460) px @ 720×1600 屏宽 → (265, 730) dp
+ *  ratio = 720/360 = 2，验证：265×2=530px ✅，730×2=1460px ✅
+ *  替代 v2.0.5 动态找节点方案（vivo OriginOS Recents 页文字节点识别率不稳）*/
+export interface ClearRecentTasksCoord {
+  x: number;  // dp
+  y: number;  // dp
+}
+
+const DEVICE_CLEAR_RECENT_TASKS_COORDS: Record<string, ClearRecentTasksCoord> = {
+  // vivo V2166A（Y33s 中国版，OriginOS Ocean，720×1600 px / 360 dp / ratio=2）
+  // 老板 2026-06-28 实测"全部清除"在 (530, 1460) px → (265, 730) dp
+  'V2166A': { x: 265, y: 730 },
+  // vivo 品牌兜底（包含 V21 / Y33s / vivo 等机型，Recents UI 风格类似）
+  'vivo': { x: 265, y: 730 },
+
+  // 华为兜底（nova 7 5G 等 EMUI/MagicOS，Recents UI 风格不同，老板未实测 → 暂用 fallback）
+};
+
+/** Recents 清除按钮 fallback（华为兜底用） */
+const CLEAR_DEFAULT_FALLBACK: ClearRecentTasksCoord = { x: 265, y: 730 };
+
 /**
  * 读取当前设备的多维度标识
  * 注：ro.product.model 在 vivo 上返回 'V2166A' 或 'vivo Y33s'（因厂商/版本而异）
@@ -83,6 +106,30 @@ async function getDeviceIdentity(): Promise<string> {
     console.warn('[deviceModel] getDeviceIdentity 失败:', e);
     return '';
   }
+}
+
+/**
+ * 按机型匹配 Recents 页"全部清除"按钮 dp 坐标
+ *
+ * W16 老板拍板 2026-06-28：vivo OriginOS Recents UI 节点识别率低，改固定坐标兜底
+ *
+ * @returns dp 坐标（consumers 需自行转 px；当前 actions/app.ts clearRecentTasks 内联 dpToPx 处理屏宽归一化）
+ */
+export async function getClearRecentTasksCoord(): Promise<ClearRecentTasksCoord> {
+  const identity = await getDeviceIdentity();
+  if (!identity) {
+    console.warn('[deviceModel] 设备标识为空，使用 fallback (265, 730) dp');
+    return CLEAR_DEFAULT_FALLBACK;
+  }
+  for (const key of Object.keys(DEVICE_CLEAR_RECENT_TASKS_COORDS)) {
+    if (identity.toLowerCase().includes(key.toLowerCase())) {
+      const coord = DEVICE_CLEAR_RECENT_TASKS_COORDS[key];
+      console.log('[deviceModel] 命中 Recents 清除按钮规则 "' + key + '" → (' + coord.x + ', ' + coord.y + ') dp');
+      return coord;
+    }
+  }
+  console.warn('[deviceModel] 未匹配任何 Recents 清除按钮规则，使用 fallback (265, 730) dp');
+  return CLEAR_DEFAULT_FALLBACK;
 }
 
 /**
