@@ -32,38 +32,37 @@ setZBBAutomationRef(ZBBAutomation);
 
 // ==================== 超时保护（2026-06-28 老板拍板方案 A）====================
 // 老板：流程 2 次卡死后全项目扫，发现 18 个 native API 无超时保护，加 Promise.race 兜底
-// 风险等级：节点树 5s / 截图 10s / 启动 app 15s / OCR 30s
+// W10 老板拍板 06-28：全部 ≤3s（老板耐心低，之前 5/10/15/30s 太长）
+// 风险等级：节点树 / 截图 / 启动 app / OCR / shell / 点击长按统一 3s
 const NATIVE_API_TIMEOUTS: Record<string, number> = {
-  // 5s: 节点树递归相关（vivo 大屏 + 保利嵌套 H5 上 getAllTextNodes 会 hang）
-  getAllTextNodes: 5000,
-  findElementByText: 5000,
-  findNodeCenterByText: 5000,
-  findElementsByText: 5000,
-  dumpWindowTree: 5000,
-  dumpWindowTreeString: 5000,
-  // 10s: 截图 + waitForElement
-  screenshotViaMediaStore: 10000,
-  screenshotViaFramebuffer: 10000,
-  screencapShell: 10000,
-  screencapShellBase64: 10000,
-  waitForElement: 10000,
-  // 15s: 启动 app
-  launchApp: 15000,
-  launchAppWithMonkey: 15000,
-  launchAppWithAmStart: 15000,
-  // W9 老板 2026-06-28 拍板：tap/click/longPress/longClick 之前漏了
-  // vivo OriginOS 长按弹菜单后 dispatchGesture 抛 Error → mainHandler.post 死锁
-  // tap/click = 5s, longPress/longClick = 8s（含 2000ms stroke duration 缓冲）
-  tap: 5000,
-  click: 5000,
-  longPress: 8000,
-  longClick: 8000,
-  // 30s: OCR (MLKit) + execShell
-  recognizeText: 30000,
-  recognizeTextWithPosition: 30000,
-  screenContainsText: 30000,
-  findTextByMLKit: 30000,
-  execShell: 30000,
+  // 3s: 节点树递归相关（vivo 大屏 + 保利嵌套 H5 上 getAllTextNodes 会 hang）
+  getAllTextNodes: 3000,
+  findElementByText: 3000,
+  findNodeCenterByText: 3000,
+  findElementsByText: 3000,
+  dumpWindowTree: 3000,
+  dumpWindowTreeString: 3000,
+  // 3s: 截图 + waitForElement（老板拍板 W10：之前 10s 太长）
+  screenshotViaMediaStore: 3000,
+  screenshotViaFramebuffer: 3000,
+  screencapShell: 3000,
+  screencapShellBase64: 3000,
+  waitForElement: 3000,
+  // 3s: 启动 app（老板拍板 W10：之前 15s 太长，正常启动 < 2s）
+  launchApp: 3000,
+  launchAppWithMonkey: 3000,
+  launchAppWithAmStart: 3000,
+  // 3s: OCR (MLKit) + execShell（老板拍板 W10：之前 30s 误杀正常 OCR，但老板优先快速失败）
+  recognizeText: 3000,
+  recognizeTextWithPosition: 3000,
+  screenContainsText: 3000,
+  findTextByMLKit: 3000,
+  execShell: 3000,
+  // 3s: tap/click/longPress/longClick（W9 老板拍板：之前漏了 + W10 拍板 5/8s → 3s）
+  tap: 3000,
+  click: 3000,
+  longPress: 3000,
+  longClick: 3000,
 };
 
 async function withNativeTimeout<T>(apiName: string, promise: Promise<T>): Promise<T> {
