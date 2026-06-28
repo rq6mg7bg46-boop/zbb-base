@@ -33,7 +33,8 @@ export async function inputText(text: string): Promise<ActionResult> {
  * 4. 按机型分支获取弹窗"粘贴"按钮 dp 坐标 + 屏宽归一化转 px + 点击
  *
  * 复用于保利步骤 7 长按"客户联系方式" + 步骤 14 长按"备注"
- * 关键依赖：utils/deviceModel.ts 的 getPasteMenuCoord（W6 计划迁 adapters/devices.ts）
+ * 关键依赖：utils/deviceModel.ts 的 getPasteMenuCoord
+ * 历史备注：W6 起计划迁到 adapters/devices.ts（彻底分离 Action 适配层），未执行；当前继续用 deviceModel.ts
  */
 export async function pasteFromClipboard(
   target: InputTarget,
@@ -69,7 +70,8 @@ export async function pasteFromClipboard(
 
 /**
  * dpToPx(dpX, dpY) - 按屏宽归一化转 px（360dp 基准，复用于 deviceModel 兜底坐标）
- * 注：v2 计划迁到 adapters/devices.ts（v1.6.4 utils/deviceModel.ts 注释里说"dpCoord() 已做屏宽归一化"但实际没提供工具，所以这里内联）
+ * 历史备注：W6 起计划迁到 adapters/devices.ts，未执行；v1.6.4 deviceModel.ts 注释里
+ *           说 "dpCoord() 已做屏宽归一化" 但实际没提供工具，所以这里内联
  */
 async function dpToPx(dpX: number, dpY: number): Promise<{ x: number; y: number }> {
   const screen = await zbbAutomation.getScreenSize();

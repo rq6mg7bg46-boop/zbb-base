@@ -8,11 +8,12 @@
  *   → 必须用固定坐标兜底
  * - 不同手机不同弹窗系统的"粘贴"按钮位置不同
  *   → 必须按机型分支
- * - dpCoord() 已做屏宽归一化，所以同一 dp 值在不同屏宽下保持相对位置
- *   → 但不同弹窗系统的"粘贴"按钮 dp 位置不同（OriginOS 弹窗 ≠ EMUI 弹窗）
+ * - dpCoord() 待补：当前 deviceModel 不提供 dp→px 工具，consumers（如 actions/input.ts）
+ *   自行实现屏宽归一化（360dp 基准）
+ * - 不同弹窗系统的"粘贴"按钮 dp 位置不同（OriginOS 弹窗 ≠ EMUI 弹窗）
  *
- * v2 演进路径：utils/deviceModel.ts → adapters/devices.ts（W6 任务，
- *              把 Action 适配层彻底分离）
+ * v2 演进路径：utils/deviceModel.ts → adapters/devices.ts（曾计划 W6 起迁移，
+ *              把 Action 适配层彻底分离；v2 已完成但未执行，当前继续用 deviceModel.ts）
  *
  * v1.6.4 实战版本来自 release 分支 f2e30f2，refactor/v2 独立复制一份演进。
  *
@@ -85,7 +86,7 @@ async function getDeviceIdentity(): Promise<string> {
 /**
  * 按机型匹配弹窗"粘贴"按钮 dp 坐标
  *
- * @returns dp 坐标（仍是 dp，需用 dpCoord() 转 px）
+ * @returns dp 坐标（consumers 需自行转 px；当前 actions/input.ts 内联 dpToPx 处理屏宽归一化）
  */
 export async function getPasteMenuCoord(): Promise<PasteMenuCoord> {
   const identity = await getDeviceIdentity();
