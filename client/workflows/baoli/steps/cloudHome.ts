@@ -1,7 +1,7 @@
 // client/workflows/baoli/steps/cloudHome.ts
 // 保利 P4：上滑 4 次 → 查找"云和家经纪云"
 // 来源：BaoliService.ts execute() L278-311
-// 第一批优化 J：先 find 1 次（retries=1），找不到才上滑；上滑最多 3 次
+// 第一批优化 J：先 find 1 次（retries=1），找不到才上滑；上滑最多 15 次
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
@@ -13,7 +13,7 @@ import type { BaoliContext } from '../types';
 /**
  * P4：上滑 4 次 → 查找"云和家经纪云"
  * - 第一次直接 find，找不到才上滑
- * - 上滑最多 3 次
+ * - 上滑最多 15 次
  * - 都找不到 → 兜底坐标 (668, 1502)
  */
 export const findCloudHomeStep: StepFn<BaoliContext, void> = async (ctx) => {
@@ -25,7 +25,7 @@ export const findCloudHomeStep: StepFn<BaoliContext, void> = async (ctx) => {
     await humanTap(cloudNode.centerX, cloudNode.centerY);
     found = true;
   } else {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 15; i++) {
       // P+ 拟人化滚动：手指惯性 overshoot + 回弹
       await humanSwipeWithBounce(540, 1800, 540, 600, 800);
       await zbbAutomation.delay(1500);
