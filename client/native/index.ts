@@ -63,6 +63,11 @@ const NATIVE_API_TIMEOUTS: Record<string, number> = {
   click: 3000,
   longPress: 3000,
   longClick: 3000,
+  // 3s: delay（W14 老板拍板 2026-06-28：P15 等待 1-2s 卡死，根因 AutomationModule.delay
+  //   用 kotlin.concurrent.thread { Thread.sleep(ms); promise.resolve(true) }
+  //   vivo 后台冻结 Looper 时 promise 永不 resolve → JS 端 await 永远 hang
+  //   老板 P15 实测复现 + 全项目 182 处 zbbAutomation.delay 调用全受影响）
+  delay: 3000,
 };
 
 async function withNativeTimeout<T>(apiName: string, promise: Promise<T>): Promise<T> {
@@ -1197,7 +1202,9 @@ const zbbAutomation = {
       return false;
     }
     try {
-      return await ZBBAutomation.delay(ms);
+      // W14：3s 超时兜底（老板 P15 实测卡死，AutomationModule.delay 新线程 + Thread.sleep，
+      //   vivo 后台冻结 Looper 时 promise 不 resolve → JS 端 hang）
+      return await withNativeTimeout('delay', ZBBAutomation.delay(ms));
     } catch (error) {
       console.error('[ZBB] 延时失败:', error);
       return false;
