@@ -1,5 +1,5 @@
 // client/workflows/baoli/steps/cloudHome.ts
-// 保利 P4：上滑 4 次 → 查找"云和家经纪云"
+// 保利 P4：上滑最多 15 次 → 查找"云和家经纪云"
 // 来源：BaoliService.ts execute() L278-311
 // 第一批优化 J：先 find 1 次（retries=1），找不到才上滑；上滑最多 15 次
 
@@ -11,7 +11,7 @@ import { humanTap, humanSwipeWithBounce } from '../utils';
 import type { BaoliContext } from '../types';
 
 /**
- * P4：上滑 4 次 → 查找"云和家经纪云"
+ * P4：上滑最多 15 次 → 查找"云和家经纪云"
  * - 第一次直接 find，找不到才上滑
  * - 上滑最多 15 次
  * - 都找不到 → 兜底坐标 (668, 1502)
