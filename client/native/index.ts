@@ -30,6 +30,43 @@ export type { ElementInfo, ClickableElement, Point, Rect, AccessibilityServiceSt
 import { setZBBAutomationRef } from './events';
 setZBBAutomationRef(ZBBAutomation);
 
+// ==================== 超时保护（2026-06-28 老板拍板方案 A）====================
+// 老板：流程 2 次卡死后全项目扫，发现 18 个 native API 无超时保护，加 Promise.race 兜底
+// 风险等级：节点树 5s / 截图 10s / 启动 app 15s / OCR 30s
+const NATIVE_API_TIMEOUTS: Record<string, number> = {
+  // 5s: 节点树递归相关（vivo 大屏 + 保利嵌套 H5 上 getAllTextNodes 会 hang）
+  getAllTextNodes: 5000,
+  findElementByText: 5000,
+  findNodeCenterByText: 5000,
+  findElementsByText: 5000,
+  dumpWindowTree: 5000,
+  dumpWindowTreeString: 5000,
+  // 10s: 截图 + waitForElement
+  screenshotViaMediaStore: 10000,
+  screenshotViaFramebuffer: 10000,
+  screencapShell: 10000,
+  screencapShellBase64: 10000,
+  waitForElement: 10000,
+  // 15s: 启动 app
+  launchApp: 15000,
+  launchAppWithMonkey: 15000,
+  launchAppWithAmStart: 15000,
+  // 30s: OCR (MLKit) + execShell
+  recognizeText: 30000,
+  recognizeTextWithPosition: 30000,
+  screenContainsText: 30000,
+  findTextByMLKit: 30000,
+  execShell: 30000,
+};
+
+async function withNativeTimeout<T>(apiName: string, promise: Promise<T>): Promise<T> {
+  const ms = NATIVE_API_TIMEOUTS[apiName] ?? 5000;
+  return Promise.race([
+    promise,
+    new Promise<T>((_, rej) => setTimeout(() => rej(new Error(`${apiName} timeout (${ms}ms)`)), ms)),
+  ]);
+}
+
 // ==================== zbbAutomation 对象 ====================
 
 /**
@@ -85,7 +122,7 @@ const zbbAutomation = {
     }
     try {
       console.log(`[ZBB] 正在启动应用: ${packageName}`);
-      return await ZBBAutomation.launchApp(packageName);
+      return await withNativeTimeout('launchApp', ZBBAutomation.launchApp(packageName));
     } catch (error) {
       console.error('[ZBB] 启动应用失败:', error);
       return false;
@@ -104,7 +141,7 @@ const zbbAutomation = {
     }
     try {
       console.log(`[ZBB] 使用 monkey 启动应用: ${packageName}`);
-      return await ZBBAutomation.launchAppWithMonkey(packageName, mainActivityClass);
+      return await withNativeTimeout('launchAppWithMonkey', ZBBAutomation.launchAppWithMonkey(packageName, mainActivityClass));
     } catch (error) {
       console.error('[ZBB] monkey 启动应用失败:', error);
       return false;
@@ -123,7 +160,7 @@ const zbbAutomation = {
     }
     try {
       console.log(`[ZBB] 使用 AccessibilityService 启动应用: ${packageName}/${mainActivityClass}`);
-      return await ZBBAutomation.launchAppWithAmStart(packageName, mainActivityClass);
+      return await withNativeTimeout('launchAppWithAmStart', ZBBAutomation.launchAppWithAmStart(packageName, mainActivityClass));
     } catch (error) {
       console.error('[ZBB] AccessibilityService 启动应用失败:', error);
       return false;
@@ -192,7 +229,7 @@ const zbbAutomation = {
       return [];
     }
     try {
-      return await ZBBAutomation.recognizeText();
+      return await withNativeTimeout('recognizeText', ZBBAutomation.recognizeText());
     } catch (error) {
       console.error('[ZBB] OCR识别失败:', error);
       return [];
@@ -218,7 +255,7 @@ const zbbAutomation = {
       return [];
     }
     try {
-      return await ZBBAutomation.recognizeTextWithPosition();
+      return await withNativeTimeout('recognizeTextWithPosition', ZBBAutomation.recognizeTextWithPosition());
     } catch (error) {
       console.error('[ZBB] OCR识别失败:', error);
       return [];
@@ -236,7 +273,7 @@ const zbbAutomation = {
       return false;
     }
     try {
-      return await ZBBAutomation.screenContainsText(targetText);
+      return await withNativeTimeout('screenContainsText', ZBBAutomation.screenContainsText(targetText));
     } catch (error) {
       console.error('[ZBB] 检查文字失败:', error);
       return false;
@@ -262,7 +299,7 @@ const zbbAutomation = {
       return { found: false };
     }
     try {
-      return await ZBBAutomation.findTextByMLKit(targetText);
+      return await withNativeTimeout('findTextByMLKit', ZBBAutomation.findTextByMLKit(targetText));
     } catch (error) {
       console.error('[ZBB] MLKit 查找文字失败:', error);
       return { found: false };
@@ -553,7 +590,7 @@ const zbbAutomation = {
       return false;
     }
     try {
-      return await ZBBAutomation.screencapShell(filePath);
+      return await withNativeTimeout('screencapShell', ZBBAutomation.screencapShell(filePath));
     } catch (error) {
       console.error('[ZBB] 截图失败:', error);
       return false;
@@ -570,7 +607,7 @@ const zbbAutomation = {
       return false;
     }
     try {
-      return await ZBBAutomation.screencapShellBase64(filePath);
+      return await withNativeTimeout('screencapShellBase64', ZBBAutomation.screencapShellBase64(filePath));
     } catch (error) {
       console.error('[ZBB] 截图失败:', error);
       return false;
@@ -586,7 +623,7 @@ const zbbAutomation = {
       return '';
     }
     try {
-      return await ZBBAutomation.execShell(command);
+      return await withNativeTimeout('execShell', ZBBAutomation.execShell(command));
     } catch (error) {
       console.error('[ZBB] execShell 失败:', error);
       return '';
@@ -632,7 +669,7 @@ const zbbAutomation = {
       return false;
     }
     try {
-      return await ZBBAutomation.screenshotViaMediaStore();
+      return await withNativeTimeout('screenshotViaMediaStore', ZBBAutomation.screenshotViaMediaStore());
     } catch (error) {
       console.error('[ZBB] MediaStore截图失败:', error);
       return false;
@@ -648,7 +685,7 @@ const zbbAutomation = {
       return false;
     }
     try {
-      return await ZBBAutomation.screenshotViaFramebuffer();
+      return await withNativeTimeout('screenshotViaFramebuffer', ZBBAutomation.screenshotViaFramebuffer());
     } catch (error) {
       console.error('[ZBB] Framebuffer截图失败:', error);
       return false;
@@ -915,7 +952,7 @@ const zbbAutomation = {
       return { found: false };
     }
     try {
-      return await ZBBAutomation.findElementByText(text);
+      return await withNativeTimeout('findElementByText', ZBBAutomation.findElementByText(text));
     } catch (error) {
       console.error('[ZBB] 按文本查找元素失败:', error);
       return { found: false };
@@ -931,7 +968,7 @@ const zbbAutomation = {
       return [];
     }
     try {
-      return await ZBBAutomation.getAllTextNodes();
+      return await withNativeTimeout('getAllTextNodes', ZBBAutomation.getAllTextNodes());
     } catch (error) {
       console.error('[ZBB] 获取所有文字节点失败:', error);
       return [];
@@ -947,7 +984,7 @@ const zbbAutomation = {
       return null;
     }
     try {
-      return await ZBBAutomation.findNodeCenterByText(text);
+      return await withNativeTimeout('findNodeCenterByText', ZBBAutomation.findNodeCenterByText(text));
     } catch (error) {
       console.error('[ZBB] 查找节点失败:', error);
       return null;
@@ -999,7 +1036,7 @@ const zbbAutomation = {
       return { found: false };
     }
     try {
-      return await ZBBAutomation.waitForElement(text, viewId, timeout);
+      return await withNativeTimeout('waitForElement', ZBBAutomation.waitForElement(text, viewId, timeout));
     } catch (error) {
       console.error('[ZBB] 等待元素失败:', error);
       return { found: false };
@@ -1102,7 +1139,7 @@ const zbbAutomation = {
       return false;
     }
     try {
-      return await ZBBAutomation.dumpWindowTree();
+      return await withNativeTimeout('dumpWindowTree', ZBBAutomation.dumpWindowTree());
     } catch (error) {
       console.error('[ZBB] 导出节点树失败:', error);
       return false;
@@ -1118,7 +1155,7 @@ const zbbAutomation = {
       return '';
     }
     try {
-      return await ZBBAutomation.dumpWindowTreeString();
+      return await withNativeTimeout('dumpWindowTreeString', ZBBAutomation.dumpWindowTreeString());
     } catch (error) {
       console.error('[ZBB] 导出节点树字符串失败:', error);
       return '';
@@ -1131,7 +1168,7 @@ const zbbAutomation = {
       return [];
     }
     try {
-      return await ZBBAutomation.findElementsByText(text);
+      return await withNativeTimeout('findElementsByText', ZBBAutomation.findElementsByText(text));
     } catch (error) {
       console.error('[ZBB] 查找元素失败:', error);
       return [];

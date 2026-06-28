@@ -166,6 +166,7 @@ class BaoliService {
   private todayBaoliCount: number = 0;
   // W6 异步派发：event 订阅句柄
   private qianjiDataReadySub: ZbbEventSubscription | null = null;
+  private qianjiHasCustomerSub: ZbbEventSubscription | null = null;  // W8
 
   static getInstance(): BaoliService {
     if (!BaoliService.instance) {
@@ -185,6 +186,14 @@ class BaoliService {
       logToBoth('info', '[V2 Event] 收到 ON_QIANJI_DATA_READY');
       this.startBaoliLaunchV2().catch((err) => {
         logToBoth('error', '[V2 Event] startBaoliLaunchV2 failed: ' + err);
+      });
+    });
+
+    // W8 老板拍板 2026-06-28：千机 Q7 完成后接龙检测到下一个客户 → 保利端启动下一轮
+    this.qianjiHasCustomerSub = onEvent(QIANJI_EVENTS.HAS_CUSTOMER, (payload) => {
+      logToBoth('info', '[V2 Event] W8：收到 ON_QIANJI_HAS_CUSTOMER（来源: ' + (payload?.source ?? 'unknown') + '），启动下一轮报备...');
+      this.startBaoliLaunchV2().catch((err) => {
+        logToBoth('error', '[V2 Event] W8：startBaoliLaunchV2 failed: ' + err);
       });
     });
   }

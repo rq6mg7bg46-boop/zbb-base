@@ -9,6 +9,7 @@ import { logToBoth } from './AutomationLogger';
 import { BaoliService } from './BaoliService';
 // v2 Step 引擎接入（W3 迁移 + W7 抽回千机）
 import { runWorkflow, waitForUserGo } from '@/engine';
+import { closeApp } from '@/actions/app';
 import {
   qianjiCollectWorkflow,
   qianjiCollectOnlyWorkflow,
@@ -22,6 +23,7 @@ import {
   QIANJI_EVENTS,
   BAOLI_EVENTS,
   type QianjiDataReadyPayload,
+  type QianjiHasCustomerPayload,
   type BaoliLaunchDonePayload,
   type ZbbEventSubscription,
 } from '@/events';
@@ -839,7 +841,9 @@ export class QianjiService {
    * 启动 Q6/Q7 异步工作流（V2 抽回千机）
    * 触发：ON_BAOLI_LAUNCH_DONE event（保利端 handleSuccessCase round=2 emit）
    * 范围：Q6 返回千机 + Q7 GO 按钮 + 接龙完成
-   * 不含：循环接龙（testOnlyQianjiFlow 由 V2 阶段在千机端 Q7 完成后调，W8 收官时接入）
+   * 含（W8 老板拍板 2026-06-28）：Q7 后调 testOnlyQianjiFlowV2 接龙检测
+   *   - 'has_customer' → emit ON_QIANJI_HAS_CUSTOMER 通知保利端启动下一轮
+   *   - 'no_pending' / 'no_baoli' → 循环结束
    *
    * 老 v1.6.4 execute() 路径：仍调 handleSuccessCase round=2，老 Q6/Q7 内部代码已删
    * W7 阶段 V2 + 老同步链路并存 1 周，老路径也走 V2 异步链路（Q6/Q7 都走千机 step）
@@ -856,6 +860,43 @@ export class QianjiService {
         logToBoth('warn', '[千机：Q6/Q7 V2] workflow 未完全成功: ' + String(result.error));
       }
       logToBoth('success', '[千机：Q6/Q7 V2] 完整一组客户报备完成');
+
+      // ========== W8 老板拍板 2026-06-28：清场 - 杀掉千机 + 企业微信 ==========
+      // 原因：避免残留 app 状态干扰接龙检测（千机"报备有效"点完后回到保利小程序，
+      //       残留进程可能导致状态错乱），同时为下一组启动干净环境
+      logToBoth('info', '[千机：Q6/Q7 V2] W8：清场 - 杀掉千机和企业微信...');
+      const qianjiCloseResult = await closeApp(APP_PACKAGES.QIANJI);
+      if (qianjiCloseResult.ok) {
+        logToBoth('success', '[千机：Q6/Q7 V2] W8：千机已关闭');
+      } else {
+        logToBoth('warn', '[千机：Q6/Q7 V2] W8：千机关闭失败（可能未运行）: ' + String(qianjiCloseResult.error?.message ?? qianjiCloseResult.error));
+      }
+      const wechatCloseResult = await closeApp(APP_PACKAGES.WECHAT);
+      if (wechatCloseResult.ok) {
+        logToBoth('success', '[千机：Q6/Q7 V2] W8：企业微信已关闭');
+      } else {
+        logToBoth('warn', '[千机：Q6/Q7 V2] W8：企业微信关闭失败（可能未运行）: ' + String(wechatCloseResult.error?.message ?? wechatCloseResult.error));
+      }
+      // 短暂停顿等系统回收进程资源（拟人化节奏 800-1500ms）
+      await zbbAutomation.delay(pGammaDelay(800, 1500));
+
+      // ========== W8 收官：接龙循环检测（Q7 完成后跑一次千机检测）==========
+      logToBoth('info', '[千机：Q6/Q7 V2] W8：开始接龙循环检测下一个客户...');
+      try {
+        const exitReason = await this.testOnlyQianjiFlowV2();
+        if (exitReason === 'has_customer') {
+          logToBoth('success', '[千机：Q6/Q7 V2] W8：检测到下一个保利客户，emit ON_QIANJI_HAS_CUSTOMER');
+          emitEvent(QIANJI_EVENTS.HAS_CUSTOMER, {
+            detectedAt: Date.now(),
+            source: 'qianjiReturnV2',
+          } as QianjiHasCustomerPayload);
+        } else {
+          logToBoth('success', '[千机：Q6/Q7 V2] W8：接龙循环结束（' + exitReason + '），流程完结');
+        }
+      } catch (relayErr) {
+        logToBoth('error', '[千机：Q6/Q7 V2] W8：接龙检测异常: ' + String(relayErr));
+        // 接龙检测失败不影响 Q6/Q7 成功状态（客户可手动点"测试千机端"重试）
+      }
     } catch (error) {
       logToBoth('error', '[千机：Q6/Q7 V2] 失败: ' + String(error));
       throw error;

@@ -7,7 +7,7 @@ import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
 import { maybePause } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
-import { humanTap, humanSwipeWithBounce } from '../utils';
+import { humanTap, humanSwipeWithBounce, pGammaDelay } from '../utils';
 import type { BaoliContext } from '../types';
 
 /**
@@ -27,8 +27,10 @@ export const findCloudHomeStep: StepFn<BaoliContext, void> = async (ctx) => {
   } else {
     for (let i = 0; i < 15; i++) {
       // P+ 拟人化滚动：手指惯性 overshoot + 回弹
-      await humanSwipeWithBounce(540, 1800, 540, 600, 800);
-      await zbbAutomation.delay(1500);
+      // 老板 2026-06-28 调整：起点 y 1800 → 1400（避免 vivo 上滑触发底部导航条）
+      await humanSwipeWithBounce(540, 1400, 540, 600, 800);
+      // 老板 2026-06-28 调整：固定 1500ms 改为 Gamma 分布 1000-2500ms（更拟人 + 不规则节奏）
+      await zbbAutomation.delay(pGammaDelay(1000, 2500));
       cloudNode = await ctx.baoliService.findNodeByText('云和家经纪云', 1);
       if (cloudNode) {
         logToBoth('success', '[P4] 上滑 ' + (i + 1) + ' 次后找到 @ (' + cloudNode.centerX + ', ' + cloudNode.centerY + ')');

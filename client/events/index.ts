@@ -5,7 +5,7 @@ export { emitEvent, onEvent, offEvent } from './core';
 export type { ZbbEventName, ZbbEventPayload, ZbbEventSubscription } from './core';
 
 export { QIANJI_EVENTS } from './qianji';
-export type { QianjiDataReadyPayload } from './qianji';
+export type { QianjiDataReadyPayload, QianjiHasCustomerPayload } from './qianji';
 
 export { BAOLI_EVENTS } from './baoli';
 export type { BaoliLaunchDonePayload } from './baoli';

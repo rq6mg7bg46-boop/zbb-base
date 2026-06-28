@@ -15,6 +15,8 @@ import type { BaoliContext } from '../types';
  * - 未找到 → 兜底坐标 (540, 199)
  */
 export const tapWorkbenchStep: StepFn<BaoliContext, void> = async (ctx) => {
+  // P3 前拟人化随机等待（老板 2026-06-28 拍板：0.5-1.5s Gamma 分布）
+  await zbbAutomation.delay(pGammaDelay(500, 1500));
   logToBoth('info', '[P3] 点击"工作台"...');
   await zbbAutomation.delay(1000);  // 额外等待确保界面稳定
   const workbenchNode = await ctx.baoliService.findNodeByText('工作台');

@@ -23,9 +23,9 @@
  * 3. 在 DEVICE_PASTE_MENU_COORDS 加一条：'xxx': { x: a, y: b }
  *
  * @example
- * // 老板 2026-06-26 实测
- * // vivo V2166A: 弹窗"粘贴"在 (200, 920) px @ 720px 屏宽 → (100, 460) dp
- * // nova 7 5G:  弹窗"粘贴"在 (140, 720) px @ 1080px 屏宽 → (47, 240) dp
+ * // 老板 2026-06-26/28 实测（**老板只给 px 值，铁子按屏宽归一化换算 dp**）
+ * // vivo V2166A: 弹窗"粘贴"在 (100, 460) px @ 720×1600 屏宽 → (50, 230) dp
+ * // nova 7 5G:   弹窗"粘贴"在 (140, 720) px @ 1080×2400 屏宽 → (47, 240) dp
  */
 import { Platform } from 'react-native';
 import { zbbAutomation } from '@/native';
@@ -41,12 +41,14 @@ export interface PasteMenuCoord {
  * 匹配规则：includes（不区分大小写，先匹配 model 再匹配 brand）
  */
 const DEVICE_PASTE_MENU_COORDS: Record<string, PasteMenuCoord> = {
-  // vivo V2166A（Y33s 中国版，OriginOS Ocean，720×1600 px / 360 dp）— 老板 2026-06-26 实测
-  'V2166A': { x: 100, y: 460 },
+  // vivo V2166A（Y33s 中国版，OriginOS Ocean，720×1600 px / 360 dp / ratio=2）
+  // 老板 2026-06-26 实测"粘贴"在 (100, 460) px → (50, 230) dp
+  'V2166A': { x: 50, y: 230 },
   // vivo 品牌兜底（包含 V21 / Y33s / vivo 等机型）
-  'vivo': { x: 100, y: 460 },
+  'vivo': { x: 50, y: 230 },
 
-  // nova 7 5G（EMUI 12，1080×2400 xxhdpi / 360 dp）— 老板 2026-06-21 实测 (像素 140, 720)
+  // nova 7 5G（EMUI 12，1080×2400 xxhdpi / 360 dp / ratio=3）
+  // 老板 2026-06-21 实测"粘贴"在 (140, 720) px → (47, 240) dp
   'nova 7 5G': { x: 47, y: 240 },
   // 华为品牌兜底（包含 nova / P30 / Mate 等机型）
   'HUAWEI': { x: 47, y: 240 },

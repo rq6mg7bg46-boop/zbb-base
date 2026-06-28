@@ -10,6 +10,8 @@ export const QIANJI_EVENTS = {
   DATA_READY: 'ON_QIANJI_DATA_READY',
   /** 千机千机 listener 收到报备审核（v1.6.4 行为保留）*/
   MESSAGE_RECEIVED: 'ON_QIANJI_MESSAGE_RECEIVED',
+  /** W8 老板拍板 2026-06-28：Q7 完成后接龙检测到下一个保利客户，通知保利端启动下一轮报备 */
+  HAS_CUSTOMER: 'ON_QIANJI_HAS_CUSTOMER',
 } as const;
 
 export interface QianjiDataReadyPayload extends ZbbEventPayload {
@@ -18,4 +20,10 @@ export interface QianjiDataReadyPayload extends ZbbEventPayload {
   round: number;
   projectName: string;
   timestamp: number;
+}
+
+/** W8：接龙检测到下一个客户的 payload（千机 → 保利端）*/
+export interface QianjiHasCustomerPayload extends ZbbEventPayload {
+  detectedAt: number;          // 检测时间戳
+  source: 'qianjiReturnV2';   // 来源（未来可能多源）
 }
