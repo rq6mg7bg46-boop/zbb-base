@@ -22,6 +22,18 @@ import type { QianjiContext } from '../types';
  *   - W6 异步: () => emitEvent(ON_QIANJI_DATA_READY, payload)
  */
 export const jumpToReportAppStep: StepFn<QianjiContext, void> = async (ctx) => {
+  // W13 老板拍板 2026-06-28：Q5 派发前检查 lastExitReason，避免错误数据启动保利端
+  // 历史：find.ts Q3-2 无"保利"已设 lastExitReason='no_baoli'，但 Q5 仍 dispatch
+  //   → 保利端跑空流程（payload.customerInfo=null），造成无效启动
+  if (ctx.lastExitReason === 'no_baoli') {
+    logToBoth('warn', '[Q5] 跳过派发（Q3-2 已判断无保利界面，lastExitReason=no_baoli）');
+    return { ok: true };
+  }
+  if (ctx.lastExitReason === 'no_pending') {
+    logToBoth('warn', '[Q5] 跳过派发（无待报备客户，lastExitReason=no_pending）');
+    return { ok: true };
+  }
+
   logToBoth('info', '[Q5] 派发到下游（dispatch 抽象层，调 ctx.dispatch()）...');
   await maybePause();
   await pGammaDelay(500, 1000);

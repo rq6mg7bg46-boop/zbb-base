@@ -69,3 +69,40 @@ export async function pressBack(): Promise<ActionResult> {
     return { ok: false, error: new ActionError('pressBack', e) };
   }
 }
+
+/**
+ * clearRecentTasks() - 按最近任务键 + 点"全部清除"按钮 + 退出 + 循环 2 次
+ * W11 老板拍板 2026-06-28：vivo shell force-stop 没权限（root 限制），
+ *   改用 Recents 全部清除按钮（视觉可达，不依赖 shell 权限）
+ * 循环 2 次：第一次清除 + 第二次保底（部分 OEM 第一次未生效）
+ *
+ * 适配：vivo (OriginOS) / 华为 (EMUI) / 小米 (MIUI) 等"全部清除"按钮
+ */
+export async function clearRecentTasks(): Promise<ActionResult> {
+  for (let round = 1; round <= 2; round++) {
+    // 1. 按 Recent Tasks 键（左下角多功能键）
+    const pressed = await zbbAutomation.pressRecentApps();
+    if (!pressed) {
+      return { ok: false, error: new ActionError('clearRecentTasks', null, `第 ${round} 轮：按 Recents 键失败`) };
+    }
+    await zbbAutomation.delay(1500); // 等 Recents 页动画
+    
+    // 2. 找"全部清除"按钮并点击
+    const nodes = await zbbAutomation.getAllTextNodes();
+    const clearBtn = (nodes as any[]).find((n: any) => {
+      const t = (n.text || '').trim();
+      return t === '全部清除' || t === '清除' || t === '一键清除' || t === '清空' || t.includes('全部清除');
+    });
+    if (!clearBtn) {
+      console.log(`[clearRecentTasks] 第 ${round} 轮：未找到"全部清除"按钮（可能已清空）`);
+    } else {
+      await zbbAutomation.tap(Math.round(clearBtn.centerX), Math.round(clearBtn.centerY));
+      console.log(`[clearRecentTasks] 第 ${round} 轮：点击"全部清除" @ (${Math.round(clearBtn.centerX)}, ${Math.round(clearBtn.centerY)})`);
+    }
+    
+    // 3. 退出 Recents 页（按 Home）
+    await zbbAutomation.pressHomeKey();
+    await zbbAutomation.delay(1000);
+  }
+  return { ok: true };
+}

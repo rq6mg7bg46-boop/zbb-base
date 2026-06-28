@@ -907,7 +907,8 @@ const zbbAutomation = {
       return false;
     }
     try {
-      return await ZBBAutomation.pressRecentApps();
+      // W11：3s 超时兜底（clearRecentTasks 依赖，AccessibilityService GLOBAL_ACTION_RECENTS 可能 hang）
+      return await withNativeTimeout('pressRecentApps', ZBBAutomation.pressRecentApps());
     } catch (error) {
       console.error('[ZBB] 按最近任务键失败:', error);
       return false;

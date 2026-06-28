@@ -9,7 +9,7 @@ import { logToBoth } from './AutomationLogger';
 import { BaoliService } from './BaoliService';
 // v2 Step 引擎接入（W3 迁移 + W7 抽回千机）
 import { runWorkflow, waitForUserGo } from '@/engine';
-import { closeApp } from '@/actions/app';
+import { clearRecentTasks } from '@/actions/app';
 import {
   qianjiCollectWorkflow,
   qianjiCollectOnlyWorkflow,
@@ -130,8 +130,9 @@ const QIANJI_TRIGGER_DEBOUNCE_MS = 5 * 60 * 1000;
 /** 千机端流程是否启用（默认启用，由用户从 home 页面控制） */
 let qianjiAutoTriggerEnabled = true;
 
-/** 触发关键词过滤（任一命中即触发） */
-const TRIGGER_KEYWORDS = ['报备', '审核', '待审核', '新增', '客户'];
+/** 触发关键词过滤（AND 匹配：W12 老板拍板 2026-06-28）
+ * 必须同时包含"待审核"+"保利"才触发，避免误触发（之前任一命中导致风控/资讯消息误启动）*/
+const TRIGGER_REQUIRED_KEYWORDS = ['待审核', '保利'];
 
 export class QianjiService {
   private static instance: QianjiService;
@@ -648,13 +649,14 @@ export class QianjiService {
       return;
     }
 
-    // 2. 关键词过滤
+    // 2. 关键词过滤（W12 老板拍板 06-28：AND 匹配，必须同时包含"待审核"+"保利"）
     const text = `${payload.title} ${payload.text} ${payload.subText} ${payload.bigText}`.toLowerCase();
-    const hitKeyword = TRIGGER_KEYWORDS.find((kw) => text.includes(kw.toLowerCase()));
-    if (!hitKeyword) {
-      logToBoth('info', `[千机监听] 未命中关键词，跳过 (来源: ${payload.source})`);
+    const missing = TRIGGER_REQUIRED_KEYWORDS.filter((kw) => !text.includes(kw.toLowerCase()));
+    if (missing.length > 0) {
+      logToBoth('info', `[千机监听] 关键词不匹配（缺: ${missing.join(',')}），跳过 (来源: ${payload.source})`);
       return;
     }
+    const hitKeyword = TRIGGER_REQUIRED_KEYWORDS.join('+');
 
     // 3. 防抖：5 分钟内不重复触发
     const now = Date.now();
@@ -861,24 +863,18 @@ export class QianjiService {
       }
       logToBoth('success', '[千机：Q6/Q7 V2] 完整一组客户报备完成');
 
-      // ========== W8 老板拍板 2026-06-28：清场 - 杀掉千机 + 企业微信 ==========
-      // 原因：避免残留 app 状态干扰接龙检测（千机"报备有效"点完后回到保利小程序，
-      //       残留进程可能导致状态错乱），同时为下一组启动干净环境
-      logToBoth('info', '[千机：Q6/Q7 V2] W8：清场 - 杀掉千机和企业微信...');
-      const qianjiCloseResult = await closeApp(APP_PACKAGES.QIANJI);
-      if (qianjiCloseResult.ok) {
-        logToBoth('success', '[千机：Q6/Q7 V2] W8：千机已关闭');
+      // ========== W11 老板拍板 2026-06-28：清场 - 按 Recents + 全部清除（循环 2 次）==========
+      // 原因：vivo shell force-stop 没权限（[ZBB] 强制停止失败），改用视觉可达方案
+      //   - 按左下角 Recent Tasks 键 → 进 Recents 页
+      //   - 点"全部清除"按钮 → 清空所有 app 缩略图
+      //   - 按 Home 退出 → 循环 2 次保底（部分 OEM 第一次不生效）
+      logToBoth('info', '[千机：Q6/Q7 V2] W11：清场 - 按 Recents + 全部清除（2 轮）...');
+      const clearResult = await clearRecentTasks();
+      if (clearResult.ok) {
+        logToBoth('success', '[千机：Q6/Q7 V2] W11：清场完成（千机+企微+所有 app 已清空）');
       } else {
-        logToBoth('warn', '[千机：Q6/Q7 V2] W8：千机关闭失败（可能未运行）: ' + String(qianjiCloseResult.error?.message ?? qianjiCloseResult.error));
+        logToBoth('warn', '[千机：Q6/Q7 V2] W11：清场部分失败: ' + String(clearResult.error?.message ?? clearResult.error));
       }
-      const wechatCloseResult = await closeApp(APP_PACKAGES.WECHAT);
-      if (wechatCloseResult.ok) {
-        logToBoth('success', '[千机：Q6/Q7 V2] W8：企业微信已关闭');
-      } else {
-        logToBoth('warn', '[千机：Q6/Q7 V2] W8：企业微信关闭失败（可能未运行）: ' + String(wechatCloseResult.error?.message ?? wechatCloseResult.error));
-      }
-      // 短暂停顿等系统回收进程资源（拟人化节奏 800-1500ms）
-      await zbbAutomation.delay(pGammaDelay(800, 1500));
 
       // ========== W8 收官：接龙循环检测（Q7 完成后跑一次千机检测）==========
       logToBoth('info', '[千机：Q6/Q7 V2] W8：开始接龙循环检测下一个客户...');
