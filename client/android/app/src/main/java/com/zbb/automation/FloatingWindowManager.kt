@@ -4,8 +4,11 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.PixelFormat
+import android.graphics.Rect
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.view.GestureDetector
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -16,6 +19,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
+
+private const val TAG = "FloatingWindowManager"
 
 /**
  * ZBB 悬浮窗管理器
@@ -98,15 +103,18 @@ class FloatingWindowManager(private val context: Context) {
             onStopClicked?.invoke()
         }
 
-        // 设置截图确认按钮点击事件
-        screenshotButton?.setOnClickListener {
-            // 切换为蓝色并触发回调
-            isScreenshotConfirmed = true
-            screenshotButton?.setBackgroundResource(R.drawable.screenshot_button_blue)
-            onScreenshotConfirmed?.invoke()
-        }
+        // ⚠️ W15 老板拍板 2026-06-28：删 screenshotButton.setOnClickListener
+        // 原因：floatingView.setOnTouchListener 会拦截所有触摸事件，
+        //   screenshotButton.setOnClickListener 永远收不到 click
+        // 改用 GestureDetector.onSingleTapUp（huawei 版本治本方案）
+        // 注释保留下方以备查阅：
+        //   screenshotButton?.setOnClickListener {
+        //     isScreenshotConfirmed = true
+        //     screenshotButton?.setBackgroundResource(R.drawable.screenshot_button_blue)
+        //     onScreenshotConfirmed?.invoke()
+        //   }
         
-        // 设置拖拽功能
+        // 设置拖拽功能（含 GestureDetector 点击检测）
         setupDragFunctionality()
         
         // 设置运行指示灯闪烁
@@ -137,10 +145,73 @@ class FloatingWindowManager(private val context: Context) {
     }
     
     /**
-     * 设置拖拽功能
+     * 设置拖拽功能（含 GestureDetector 点击检测，W15 治本方案）
+     * 修复老板 2026-06-28 反馈：GO 按钮点击后流程不继续
+     * 根因：floatingView.onTouchListener 拦截所有触摸 → screenshotButton.setOnClickListener 永远收不到 click
+     * 参考：huawei release/user-v1.6.4-huawei 分支 ScreenshotService.kt:629-700
      */
     private fun setupDragFunctionality() {
+        // 用 GestureDetector 区分点击 vs 拖动（系统标准实现）
+        val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onDown(e: MotionEvent): Boolean = true  // 必须返回 true 才能接收后续事件
+
+            override fun onSingleTapUp(e: MotionEvent): Boolean {
+                // 短按点击：检查 touch position 落在哪个按钮
+                val touchX = e.rawX.toInt()
+                val touchY = e.rawY.toInt()
+
+                // 检查是否落在 screenshotButton（GO 按钮）区域内
+                val screenshotRect = Rect()
+                screenshotButton?.getGlobalVisibleRect(screenshotRect)
+                if (screenshotRect.contains(touchX, touchY)) {
+                    Log.d(TAG, "GO 按钮被点击 @ ($touchX, $touchY)")
+                    isScreenshotConfirmed = true
+                    screenshotButton?.setBackgroundResource(R.drawable.screenshot_button_blue)
+                    onScreenshotConfirmed?.invoke()
+                    return true
+                }
+
+                // 检查是否落在 stopButton（停止按钮）区域内
+                val stopRect = Rect()
+                stopButton?.getGlobalVisibleRect(stopRect)
+                if (stopRect.contains(touchX, touchY)) {
+                    Log.d(TAG, "停止按钮被点击 @ ($touchX, $touchY)")
+                    stopButton?.performClick()
+                    return true
+                }
+
+                return false  // 落在空白处
+            }
+
+            override fun onScroll(
+                e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float
+            ): Boolean {
+                // 拖动：GestureDetector 内部已判断超过 scaledTouchSlop 才会触发 onScroll
+                // 沿用原 onTouchListener 的拖动逻辑（计算绝对偏移并更新 layoutParams）
+                val dx = e2.rawX - (e1?.rawX ?: e2.rawX)
+                val dy = e2.rawY - (e1?.rawY ?: e2.rawY)
+                
+                if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
+                    isDragging = true
+                }
+                
+                if (isDragging) {
+                    layoutParams?.x = initialX + (e2.rawX - initialTouchX).toInt()
+                    layoutParams?.y = initialY + (e2.rawY - initialTouchY).toInt()
+                    try {
+                        windowManager?.updateViewLayout(floatingView, layoutParams)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "更新悬浮窗位置失败: ${e.message}")
+                    }
+                }
+                return true
+            }
+        })
+
+        // 设置触摸监听：把 MotionEvent 转给 gestureDetector 处理
         floatingView?.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            // 保留原 ACTION_DOWN/MOVE 状态追踪（GestureDetector 内部也有，但我们要更新 initialX/Y）
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     initialX = layoutParams?.x ?: 0
@@ -148,33 +219,12 @@ class FloatingWindowManager(private val context: Context) {
                     initialTouchX = event.rawX
                     initialTouchY = event.rawY
                     isDragging = false
-                    true
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    val deltaX = (event.rawX - initialTouchX).toInt()
-                    val deltaY = (event.rawY - initialTouchY).toInt()
-                    
-                    // 只有移动超过一定距离才认为是拖拽
-                    if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
-                        isDragging = true
-                    }
-                    
-                    if (isDragging) {
-                        layoutParams?.x = initialX + deltaX
-                        layoutParams?.y = initialY + deltaY
-                        windowManager?.updateViewLayout(floatingView, layoutParams)
-                    }
-                    true
                 }
                 MotionEvent.ACTION_UP -> {
-                    if (!isDragging) {
-                        // 点击事件
-                        stopButton?.performClick()
-                    }
-                    true
+                    isDragging = false  // 重置拖动状态
                 }
-                else -> false
             }
+            true  // 自己消费触摸，不让 view.onTouchEvent 干扰 GestureDetector 状态
         }
     }
     

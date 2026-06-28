@@ -61,16 +61,30 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
-    <!-- 截图确认按钮（隐藏，流程需要时显示） -->
-    <View
+    <!-- 截图确认按钮（W15 老板拍板 2026-06-28：从 32dp 改 56dp + 加"GO"文字 + 拟人化）
+         原因：原 32dp×32dp 红色小圆点在 360dp 宽屏上太隐蔽，老板 vivo 实测点不到 -->
+    <LinearLayout
         android:id="@+id/screenshot_button"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
         android:layout_gravity="center"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/screenshot_button_red"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical"
         android:visibility="gone"
         android:clickable="true"
-        android:focusable="true"/>
+        android:focusable="true"
+        android:elevation="6dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="✅ GO"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
 
 </LinearLayout>
