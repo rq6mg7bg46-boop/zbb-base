@@ -51,6 +51,13 @@ const NATIVE_API_TIMEOUTS: Record<string, number> = {
   launchApp: 15000,
   launchAppWithMonkey: 15000,
   launchAppWithAmStart: 15000,
+  // W9 老板 2026-06-28 拍板：tap/click/longPress/longClick 之前漏了
+  // vivo OriginOS 长按弹菜单后 dispatchGesture 抛 Error → mainHandler.post 死锁
+  // tap/click = 5s, longPress/longClick = 8s（含 2000ms stroke duration 缓冲）
+  tap: 5000,
+  click: 5000,
+  longPress: 8000,
+  longClick: 8000,
   // 30s: OCR (MLKit) + execShell
   recognizeText: 30000,
   recognizeTextWithPosition: 30000,
@@ -401,7 +408,8 @@ const zbbAutomation = {
       return false;
     }
     try {
-      return await ZBBAutomation.click(x, y);
+      // W9：5s 超时兜底（vivo OriginOS dispatchGesture 抛 Error → mainHandler.post 死锁）
+      return await withNativeTimeout('click', ZBBAutomation.click(x, y));
     } catch (error) {
       console.error('[ZBB] 点击失败:', error);
       return false;
@@ -417,7 +425,8 @@ const zbbAutomation = {
       return false;
     }
     try {
-      return await ZBBAutomation.click(x, y);
+      // W9：5s 超时兜底（v2.0.2 paste.ts L67 卡死的根因修复）
+      return await withNativeTimeout('tap', ZBBAutomation.click(x, y));
     } catch (error) {
       console.error('[ZBB] 点击失败:', error);
       return false;
@@ -437,7 +446,8 @@ const zbbAutomation = {
       return false;
     }
     try {
-      return await ZBBAutomation.longClick(x, y, duration, isLongPress);
+      // W9：8s 超时兜底（长按 dispatchGesture strokeDuration 2000ms + 缓冲）
+      return await withNativeTimeout('longClick', ZBBAutomation.longClick(x, y, duration, isLongPress));
     } catch (error) {
       console.error('[ZBB] 长按失败:', error);
       return false;
@@ -453,7 +463,8 @@ const zbbAutomation = {
       return false;
     }
     try {
-      return await ZBBAutomation.longClick(x, y, duration, true);
+      // W9：8s 超时兜底（longPress 通常 2000ms stroke + 缓冲）
+      return await withNativeTimeout('longPress', ZBBAutomation.longClick(x, y, duration, true));
     } catch (error) {
       console.error('[ZBB] 长按失败:', error);
       return false;
