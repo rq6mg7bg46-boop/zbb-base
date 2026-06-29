@@ -5,6 +5,7 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
+import { delay } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import type { BaoliContext } from '../types';
 
@@ -15,7 +16,7 @@ import type { BaoliContext } from '../types';
  */
 export const waitForRenderStep: StepFn<BaoliContext, void> = async (ctx) => {
   logToBoth('info', '[P9] 等粘贴内容渲染（2000ms）...');
-  await zbbAutomation.delay(2000);
+  await delay(2000);
   ctx.formNodes = (await zbbAutomation.getAllTextNodes()) || [];
   logToBoth('info', `[P9] 界面节点数: ${ctx.formNodes.length}`);
   return { ok: true };

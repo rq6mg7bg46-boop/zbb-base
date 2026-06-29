@@ -5,7 +5,7 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
-import { maybePause } from '@/actions';
+import { delay, maybePause } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import { pGammaDelay } from '../utils';
 import type { BaoliContext } from '../types';
@@ -18,7 +18,7 @@ import type { BaoliContext } from '../types';
  */
 export const waitReportResultStep: StepFn<BaoliContext, void> = async () => {
   logToBoth('info', '[P15] 等待报备结果（1-2 秒）...');
-  await zbbAutomation.delay(pGammaDelay(1000, 2000));
+  await delay(pGammaDelay(1000, 2000));
   await maybePause();
   return { ok: true };
 };

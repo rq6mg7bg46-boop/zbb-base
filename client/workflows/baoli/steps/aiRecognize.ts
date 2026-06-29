@@ -5,6 +5,7 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
+import { delay } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import { getTapCoord } from '@/utils/deviceModel';
 import { humanTap, pGammaDelay } from '../utils';
@@ -18,7 +19,7 @@ import type { BaoliContext } from '../types';
  */
 export const tapAiRecognizeStep: StepFn<BaoliContext, void> = async (ctx) => {
   logToBoth('info', '[P13] 点击"智能识别"...');
-  await zbbAutomation.delay(pGammaDelay(2000, 3000));
+  await delay(pGammaDelay(2000, 3000));
   const zhinengNode = await ctx.baoliService.findNodeByText('智能识别');
   if (zhinengNode) {
     logToBoth('success', '[P13] 找到"智能识别" @ (' + zhinengNode.centerX + ', ' + zhinengNode.centerY + ')');

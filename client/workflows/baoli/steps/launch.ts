@@ -4,7 +4,7 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
-import { maybePause } from '@/actions';
+import { delay, maybePause } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import { getDelay, humanTap } from '../utils';
 import type { BaoliContext } from '../types';
@@ -33,7 +33,7 @@ export const launchWechatWorkStep: StepFn<BaoliContext, void> = async () => {
       APP_PACKAGES.WECHAT_MAIN_ACTIVITY
     );
   }
-  await zbbAutomation.delay(getDelay('openApp'));
+  await delay(getDelay('openApp'));
   maybePause();
   return { ok: true };
 };

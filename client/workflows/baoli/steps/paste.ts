@@ -4,7 +4,7 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
-import { maybePause } from '@/actions';
+import { delay, maybePause } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import { getPasteMenuCoord, getTapCoord, getLongPressCoord, dpToPx } from '@/utils/deviceModel';
 import { humanTap, pGammaDelay } from '../utils';
@@ -19,7 +19,7 @@ import type { BaoliContext } from '../types';
  */
 export const pasteCustomerInfoStep: StepFn<BaoliContext, void> = async (ctx) => {
   logToBoth('info', '[P8] 找"粘贴完整客户信息..."节点');
-  await zbbAutomation.delay(1000);
+  await delay(1000);
 
   let pasteNode = await ctx.baoliService.findNodeByText('粘贴完整客户信息');
   if (!pasteNode) {
@@ -34,7 +34,7 @@ export const pasteCustomerInfoStep: StepFn<BaoliContext, void> = async (ctx) => 
     logToBoth('warn', '[P8] 兜底坐标长按 @ (' + longPressPx.x + ', ' + longPressPx.y + ') px (按机型)');
     await maybePause();                                       // 拟人：长按前思考
     await zbbAutomation.longPress(longPressPx.x, longPressPx.y, 2000);  // longPress 无 human 版本
-    await zbbAutomation.delay(pGammaDelay(800, 1500));        // 拟人：Gamma 延迟
+    await delay(pGammaDelay(800, 1500));        // 拟人：Gamma 延迟
     const fallbackDp = await getPasteMenuCoord();
     const fallbackPx = await dpToPx({ x: fallbackDp.x, y: fallbackDp.y });
     await humanTap(fallbackPx.x, fallbackPx.y);               // 拟人：±5px 偏移点击（按机型）
@@ -52,7 +52,7 @@ export const pasteCustomerInfoStep: StepFn<BaoliContext, void> = async (ctx) => 
     const dp = await getPasteMenuCoord();
     const px = await dpToPx(dp); // 接收 DpCoord 对象（v3 提取后）
     logToBoth('info', `[P8] tap 弹窗"粘贴"按钮 @ (${dp.x}, ${dp.y}) dp → (${px.x}, ${px.y}) px (按机型)`);
-    await zbbAutomation.delay(1000); // 等弹窗动画
+    await delay(1000); // 等弹窗动画
     await zbbAutomation.tap(px.x, px.y);
 
     // P+ 随机停顿（粘贴完成后的反应时间）
