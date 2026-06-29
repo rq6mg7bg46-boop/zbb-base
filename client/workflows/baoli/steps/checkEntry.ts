@@ -40,9 +40,9 @@ export const selectInstallmentStep: StepFn<BaoliContext, void> = async (ctx) => 
     await maybePause();       // 拟人：tap 后停顿
   }
 
-  // 等待 2-3 秒
-  await zbbAutomation.delay(pGammaDelay(2000, 3000));
-  // P+ 随机停顿（分期选择后）
+  // 等待 500ms（缩短 - 保甲 popup 加载由 P11 retry 机制兜底）
+  await zbbAutomation.delay(500);
+  // P+ 随机停顿（拟人化）
   await maybePause();
 
   return { ok: true };
