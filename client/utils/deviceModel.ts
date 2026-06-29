@@ -136,15 +136,15 @@ export const DEVICE_TAP_COORDS: Record<string, DeviceTapEntry> = {
   },
   clickReport: {                // P7 报备按钮（工作台点报备）
     nova7_5g: { x: 233, y: 733 },    // (700, 2200) ÷3
-    vivo: { x: 155, y: 489 },
+    vivo: { x: 240, y: 725 },         // 老板 06-29 vivo 实测 (479,1450) px ÷2
   },
   clickReportForm: {            // P14 表单内"报备"按钮
     nova7_5g: { x: 180, y: 733 },    // (540, 2200) ÷3
-    vivo: { x: 120, y: 489 },
+    vivo: { x: 150, y: 725 },         // 老板 06-29 vivo 实测 (299,1450) px ÷2
   },
   checkEntry_fenqi: {           // P10 请选择分期
     nova7_5g: { x: 193, y: 213 },    // (580, 640) ÷3
-    vivo: { x: 129, y: 142 },
+    vivo: { x: 174, y: 200 },         // 老板 06-29 vivo 实测 (347,399) px ÷2
   },
   selectProject_round1: {       // P11 选择项目 - 第 1 轮缦城和颂
     nova7_5g: { x: 180, y: 667 },    // (540, 2000) ÷3
@@ -152,15 +152,15 @@ export const DEVICE_TAP_COORDS: Record<string, DeviceTapEntry> = {
   },
   selectProject_round2: {       // P11 选择项目 - 第 2 轮山水和颂（同坐标，ctx.round 区分）
     nova7_5g: { x: 180, y: 667 },
-    vivo: { x: 120, y: 444 },
+    vivo: { x: 180, y: 718 },         // 老板 06-29 vivo OCR 命中 (360,1436) px ÷2
   },
   confirm: {                    // P12 确认
     nova7_5g: { x: 317, y: 500 },    // (950, 1500) ÷3
-    vivo: { x: 211, y: 333 },
+    vivo: { x: 320, y: 497 },         // 老板 06-29 vivo OCR 命中 (639,993) px ÷2
   },
   aiRecognize: {                // P13 智能识别
     nova7_5g: { x: 303, y: 367 },    // (910, 1100) ÷3
-    vivo: { x: 202, y: 244 },
+    vivo: { x: 307, y: 446 },         // 老板 06-29 vivo OCR 命中 (613,892) px ÷2
   },
 
   // ---- services/BaoliService.ts (4处) ----
@@ -323,7 +323,7 @@ export const DEVICE_SWIPE_COORDS: Record<string, DeviceSwipeEntry> = {
 export const DEVICE_LONGPRESS_COORDS: Record<string, DeviceTapEntry> = {
   paste_longPress_fallback: {        // paste.ts 兜底长按（1500ms）
     nova7_5g: { x: 150, y: 267 },    // (450, 800) ÷3
-    vivo: { x: 100, y: 178 },
+    vivo: { x: 180, y: 290 },         // 老板 06-29 vivo OCR 命中 (360,581) px ÷2
   },
 };
 
