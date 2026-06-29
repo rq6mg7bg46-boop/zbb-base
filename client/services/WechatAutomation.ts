@@ -10,7 +10,7 @@
 
 import { automationEngine, CustomerInfo } from './AutomationEngine';
 import { screenshotService } from './ScreenshotService';
-import ZBBAutomation from '@/native/ZBBAutomation';
+import { zbbAutomation as ZBBAutomation } from '@/native';
 // v3 全项目坐标规范化（按机型分支）
 import { getTapCoord, getSwipeCoord } from '@/utils/deviceModel';
 
@@ -348,6 +348,8 @@ class WechatAutomation {
       init: '初始化',
       open_wechat: '打开微信',
       pull_down: '下拉首页',
+      screenshot_ocr: 'OCR 截图',
+      click_xiaochengxu: '点击小程序',
       click_search: '点击搜索',
       input_xiaochengxu: '输入小程序',
       click_result: '点击结果',

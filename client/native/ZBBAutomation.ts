@@ -33,11 +33,15 @@ export interface ElementInfo {
   contentDescription?: string;
   clickable?: boolean;
   enabled?: boolean;
+  centerX?: number;
+  centerY?: number;
   boundsLeft?: number;
   boundsTop?: number;
   boundsRight?: number;
   boundsBottom?: number;
-  bounds?: { left: number; top: number; right: number; bottom: number };
+  boundsCenterX?: number;
+  boundsCenterY?: number;
+  bounds?: { left: number; top: number; right: number; bottom: number; centerX?: number; centerY?: number };
   viewId?: string;
   packageName?: string;
   className?: string;

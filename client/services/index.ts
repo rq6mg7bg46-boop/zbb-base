@@ -28,7 +28,7 @@ export type { FlowResult, ZBBStatus, ZBBPhase } from './ZBBFlowService';
 export { nativeAutomationService, NativeAutomationService } from './NativeAutomationService';
 export { calibrationService, CalibrationService } from './CalibrationService';
 export type { CalibrationCoords, CalibrationData } from './CalibrationService';
-export { workWechatAutomation, WorkWechatAutomationService } from './WorkWechatService';
+export { workWechatAutomation } from './WorkWechatService';
 
 /** 认证模块 */
 export { AuthApi } from '../src/api/AuthApi';

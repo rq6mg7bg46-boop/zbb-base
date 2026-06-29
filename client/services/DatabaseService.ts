@@ -15,7 +15,7 @@ let db: SQLite.SQLiteDatabase | null = null;
 export async function initDatabase(): Promise<void> {
   try {
     console.log('[ZBB DB] 开始初始化数据库...');
-    console.log('[ZBB DB] expo-sqlite 版本:', SQLite.openDatabaseAsync ? 'v16+ (async)' : '旧版');
+    console.log('[ZBB DB] expo-sqlite API:', typeof SQLite.openDatabaseAsync);
 
     try {
       db = await SQLite.openDatabaseAsync(DATABASE_NAME);
@@ -25,13 +25,7 @@ export async function initDatabase(): Promise<void> {
       console.log('[ZBB DB] 实际文件路径:', dbPath);
     } catch (openError: any) {
       console.error('[ZBB DB] openDatabaseAsync 失败:', openError.message);
-      // 尝试使用同步方式（旧版兼容）
-      if (typeof SQLite.openDatabase === 'function') {
-        console.log('[ZBB DB] 回退到 openDatabase...');
-        db = SQLite.openDatabase(DATABASE_NAME) as any;
-      } else {
-        throw openError;
-      }
+      throw openError;  // openDatabaseAsync 是 expo-sqlite v16+ 唯一 API，失败直接抛错
     }
 
     if (!db) {

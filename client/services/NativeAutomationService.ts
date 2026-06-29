@@ -12,7 +12,7 @@ import { automationEngine } from './AutomationEngine';
 import type { CustomerInfo } from './AutomationEngine';
 import { customerTable } from './CustomerTable';
 import { CalibrationService, ocrService } from './index';
-import { initDatabase, insertReport, insertBaoliReport, getAllBaoliReports, getLatestReport, updateReportSuccess, updateReportFailed, exportToCSV, exportToJSON, printAllReports } from './DatabaseService';
+import { initDatabase, insertReport, insertBaoliReport, getAllBaoliReports, getLatestReport, updateReportStatus, printAllReports } from './DatabaseService';
 import type { EmitterSubscription } from 'react-native';
 // v3 全项目坐标规范化（按机型分支）
 import { getTapCoord, getSwipeCoord } from '../utils/deviceModel';
@@ -28,6 +28,32 @@ const DELAY_CONFIG = {
   openApp: { min: 10000, max: 15000 },  // 开APP 10-15 秒
   other: { min: 2000, max: 3000 },      // 其他操作 2-3 秒
   notice: { min: 5000, max: 5000 },    // 阅读须知 5 秒
+};
+
+// 保利端预置客户（fillForm 兜底数据；老板 06-29 vivo 实测流程没走到这段，try/catch 也只是 log）
+// 数据来源：抖音步骤 P3-P4 复制后写入 customerTable（BaoliService.ts fillForm() L621-633）
+// 这里保留默认值兜底防 runtime ReferenceError（TS2304 P0-A 修复）
+interface BaoliPresetCustomer {
+  customerName: string;
+  customerGender: string;
+  customerPhone: string;
+  reportProject: string;
+  propertyType: string;
+  reportSubmitTime: string;
+  expectedVisitTime: string;
+  agentName: string;
+  agentRemark: string;
+}
+const presetBaoliCustomer: BaoliPresetCustomer = {
+  customerName: '张三',
+  customerGender: '先生',
+  customerPhone: '13800138000',
+  reportProject: '郑州保利山水和颂',
+  propertyType: '住宅',
+  reportSubmitTime: '2026-06-29 10:00:00',
+  expectedVisitTime: '2026-06-30 14:00:00',
+  agentName: '李四',
+  agentRemark: '首次到访',
 };
 
 // 辅助函数：同时输出到 Metro Console 和日志系统
@@ -57,9 +83,9 @@ async function findElementByTextWithRetry(
     
     if (result?.found) {
       // 检查坐标是否有效（必须 > 0）
-      const centerX = result.boundsCenterX || result.bounds?.centerX;
-      const centerY = result.boundsCenterY || result.bounds?.centerY;
-      
+      const centerX = result.boundsCenterX ?? result.bounds?.centerX ?? 0;
+      const centerY = result.boundsCenterY ?? result.bounds?.centerY ?? 0;
+
       if (centerX > 0 && centerY > 0) {
         logToBoth('info', `[findElement] ✓ 找到 "${text}", 坐标: (${centerX}, ${centerY})`);
         return result;
@@ -108,7 +134,11 @@ class NativeAutomationService {
   private customerInfo: CustomerInfo | null = null;
   
   private screenshotPaths: string[] = [];
-  
+
+  // 节点缓存（debugPrintScreenText 写入，供后续 findElementByText 使用）
+  private _lastScreenNodes: Array<{ text?: string; centerX?: number; centerY?: number; contentDesc?: string; [k: string]: any }> = [];
+  private _lastScreenshotNodes: Array<{ text?: string; centerX?: number; centerY?: number; [k: string]: any }> = [];
+
   // 对方发送的最后一条消息坐标（步骤4识别，步骤5使用）
   private lastFriendMessage: { text: string; startX: number; y: number } | null = null;
   
@@ -732,202 +762,6 @@ class NativeAutomationService {
    * 判断文字是否是干扰项（用户名、时间戳、操作按钮等）
    */
   private isInterferenceText(text: string): boolean {
-    // 干扰文字列表（参考文件 + 扩展）
-    const interferencePatterns: (string | RegExp)[] = [
-      // 时间戳相关
-      '刚刚', '分钟前', '小时前', '昨天', '今天',
-      /上午\d/, /下午\d/, /晚上\d/,
-      /\d{1,2}:\d{2}/, // 10:30 格式
-      /\d{2}:\d{2}/,  // 19:06 格式
-      // 操作按钮
-      '发送', '回复', '撤回', '删除', '转发',
-      '复制', '引用', '收藏', '设为未读',
-      // 聊天相关关键词
-      '消息', '私信', '聊天', '对话框',
-      '相册', '摄像头', '麦克风',
-      // 抖音聊天快捷按钮
-      '打招呼', '比心', '比 心', '捂脸', '[捂脸]', '玫瑰', '[玫瑰]', '语音', '更多面板',
-      // 抖音特定
-      '抖音', '关注', '粉丝', '直播', '推荐', '同城', '热点', '精选',
-      // 快捷表情
-      '赞', '评', '收', '藏', '转', '福', '利',
-      '比心', '捂脸', '哈欠', '早点睡',
-      // 界面元素
-      '音视频通话', '更多', '图片', '按钮', '头像',
-      '返回', '未读', '通话',
-    ];
-    
-    for (const pattern of interferencePatterns) {
-      if (typeof pattern === 'string') {
-        if (text === pattern || text.includes(pattern) || pattern.includes(text)) {
-          return true;
-        }
-      } else if (pattern instanceof RegExp) {
-        if (pattern.test(text)) {
-          return true;
-        }
-      }
-    }
-    
-    // 过滤过短或过长的文字
-    if (text.length < 2 || text.length > 50) {
-      return true;
-    }
-    
-    return false;
-  }
-  
-  /**
-   * 过滤消息列表，返回可能是消息内容的文字
-   */
-  private filterMessageTexts(texts: string[]): string[] {
-    return texts.filter(text => !this.isInterferenceText(text));
-  }
-  
-  /**
-   * 查找元素并获取边界信息
-   * 优先使用节点树，如果找不到则使用 OCR recognizeTextWithPosition 获取位置
-   */
-  private async findElementWithBounds(text: string): Promise<ElementInfo | null> {
-    try {
-      // 1. 优先使用节点树查找
-      const nodeResult = await zbbAutomation.findElementByText(text);
-      if (nodeResult?.found) {
-        logToBoth('info', `[查找元素] 节点树找到: "${text.substring(0, 20)}..." (${nodeResult.boundsCenterX}, ${nodeResult.boundsCenterY})`);
-        return nodeResult;
-      }
-      
-      // 2. 节点树找不到时，使用 recognizeTextWithPosition 获取所有 OCR 结果
-      logToBoth('info', `[查找元素] 节点树未找到，使用OCR位置: "${text.substring(0, 20)}..."`);
-      
-      try {
-        // 调用 recognizeTextWithPosition 获取所有识别结果
-        const ocrResults = await (zbbAutomation as any).recognizeTextWithPosition();
-        
-        if (ocrResults && Array.isArray(ocrResults) && ocrResults.length > 0) {
-          logToBoth('info', `[查找元素] 原生方案识别到 ${ocrResults.length} 个结果`);
-          
-          // 精确匹配
-          let matched = ocrResults.find((r: any) => r.text === text);
-          
-          // 模糊匹配：如果精确匹配找不到
-          if (!matched) {
-            // 对于电话号码，尝试部分匹配
-            const phonePattern = /1[3-9]\d{9}/;
-            if (phonePattern.test(text)) {
-              // 提取数字进行匹配
-              const digitsOnly = text.replace(/\D/g, '');
-              matched = ocrResults.find((r: any) => {
-                const rDigits = (r.text || '').replace(/\D/g, '');
-                // 检查数字序列是否包含或被包含
-                return rDigits.includes(digitsOnly) || digitsOnly.includes(rDigits);
-              });
-            }
-            
-            // 如果还是找不到，尝试包含匹配
-            if (!matched) {
-              matched = ocrResults.find((r: any) => 
-                (r.text || '').includes(text) || text.includes(r.text)
-              );
-            }
-          }
-          
-          if (matched && matched.bounds) {
-            const centerX = matched.bounds.left + (matched.bounds.right - matched.bounds.left) / 2;
-            const centerY = matched.bounds.top + (matched.bounds.bottom - matched.bounds.top) / 2;
-            logToBoth('info', `[查找元素] OCR找到: "${matched.text}" (${centerX.toFixed(0)}, ${centerY.toFixed(0)})`);
-            return {
-              found: true,
-              text: matched.text || text,
-              boundsLeft: matched.bounds.left,
-              boundsTop: matched.bounds.top,
-              boundsRight: matched.bounds.right,
-              boundsBottom: matched.bounds.bottom,
-              boundsCenterX: centerX,
-              boundsCenterY: centerY,
-            };
-          }
-        }
-      } catch (ocrError) {
-        logToBoth('warn', `[查找元素] recognizeTextWithPosition异常: ${ocrError}`);
-      }
-      
-      logToBoth('warn', `[查找元素] 都未找到: "${text.substring(0, 20)}..."`);
-      return null;
-    } catch (error) {
-      logToBoth('warn', `[查找元素] 异常: ${error}`);
-      return null;
-    }
-  }
-  
-  /**
-   * 查找对方发送的消息（通过坐标判断：对方消息通常在屏幕左侧）
-   * @param messageTexts 所有消息文本
-   * @param screenWidth 屏幕宽度
-   * @param screenHeight 屏幕高度
-   * @returns 对方消息及其坐标信息
-   */
-  private async findFriendMessages(
-    messageTexts: string[], 
-    screenWidth: number,
-    screenHeight: number
-  ): Promise<Array<{ text: string; startX: number; y: number }>> {
-    const friendMessages: Array<{ text: string; startX: number; y: number }> = [];
-    
-    // 对方消息区域的X坐标阈值：屏幕左侧 60% 以内为对方消息
-    const friendMaxX = screenWidth * 0.6;
-    
-    logToBoth('info', `[消息分析] 开始查找对方消息，候选数量: ${messageTexts.length}`);
-    
-    for (const text of messageTexts) {
-      // 使用 findElementByText 查找坐标
-      const element = await this.findElementWithBounds(text);
-      
-      if (!element) {
-        logToBoth('warn', `[消息分析] 文字无法定位到坐标: "${text.substring(0, 20)}..."`);
-        continue;
-      }
-      
-      if (!element?.found) {
-        logToBoth('warn', `[消息分析] findElementByText 未找到: "${text.substring(0, 20)}..."`);
-        continue;
-      }
-      
-      const centerX = element.boundsCenterX ?? 0;
-      const centerY = element.boundsCenterY ?? 0;
-      const boundsLeft = element.boundsLeft ?? 0;
-      const boundsTop = element.boundsTop ?? 0;
-      
-      // 验证坐标有效性
-      const isValidX = centerX >= 0 && centerX <= screenWidth;
-      const isValidY = centerY >= 0 && centerY <= screenHeight;
-      
-      if (!isValidX || !isValidY) {
-        logToBoth('warn', `[消息分析] 坐标无效: "${text.substring(0, 20)}..." (${centerX}, ${centerY})，跳过`);
-        continue;
-      }
-      
-      // 判断是否在屏幕左侧（对方消息区域）
-      if (centerX < friendMaxX) {
-        friendMessages.push({
-          text,
-          startX: boundsLeft ?? centerX - 50,
-          y: boundsTop ?? centerY,
-        });
-        logToBoth('info', `[消息分析] 对方消息: "${text.substring(0, 20)}..." X=${centerX.toFixed(0)} Y=${centerY.toFixed(0)}`);
-      } else {
-        logToBoth('info', `[消息分析] 自己的消息(右侧): "${text.substring(0, 20)}..." X=${centerX.toFixed(0)}`);
-      }
-    }
-    
-    logToBoth('info', `[消息分析] 找到对方消息数量: ${friendMessages.length}`);
-    return friendMessages;
-  }
-  
-  /**
-   * 判断文字是否是干扰项（用户名、时间戳、操作按钮等）
-   */
-  private isInterferenceText(text: string): boolean {
     // 干扰文字列表
     const interferencePatterns = [
       // 时间戳相关
@@ -1066,7 +900,7 @@ class NativeAutomationService {
     }
 
     const latestNode = messageNodes[0];
-    const msgX = latestNode.centerX || Math.floor(screenSize?.width * 0.23 || 250); // 按屏宽归一化（默认 23% = 原 250px@1080屏）
+    const msgX = latestNode.centerX || Math.floor(((await zbbAutomation.getScreenSize())?.width ?? 0) * 0.23 || 250); // 按屏宽归一化（默认 23% = 原 250px@1080屏）
     const msgY = latestNode.centerY || 1800;
 
     logToBoth('info', `[抖音：步骤5] 长按消息 @ (${msgX}, ${msgY})`);
@@ -1333,7 +1167,7 @@ class NativeAutomationService {
       // 方案2：screencapShell 失败，使用帧缓冲截图
       automationEngine.log('info', `[原生] screencapShell 失败，尝试帧缓冲截图`);
       try {
-        const fbResult = await zbbAutomation.screenshotViaFrameBuffer();
+        const fbResult = await zbbAutomation.screenshotViaFramebuffer();
         if (fbResult) {
           automationEngine.log('info', `[原生] 帧缓冲截图已保存: ${fbResult}`);
           return fbResult as string;
@@ -1654,18 +1488,18 @@ class NativeAutomationService {
         }
         
         workbenchResult = await zbbAutomation.findElementByText('工作台');
-        
-        if (workbenchResult?.found && workbenchResult.boundsCenterX > 0 && workbenchResult.boundsCenterY > 0) {
+
+        if (workbenchResult?.found && (workbenchResult.boundsCenterX ?? 0) > 0 && (workbenchResult.boundsCenterY ?? 0) > 0) {
           break;
         }
       }
-      
-      if (workbenchResult?.found && workbenchResult.boundsCenterX > 0 && workbenchResult.boundsCenterY > 0) {
+
+      if (workbenchResult?.found && (workbenchResult.boundsCenterX ?? 0) > 0 && (workbenchResult.boundsCenterY ?? 0) > 0) {
         logToBoth('success', `[企业微信] ⑨: 找到"工作台" @ (${workbenchResult.boundsCenterX}, ${workbenchResult.boundsCenterY})`);
-        
+
         // 点击"工作台"
         await zbbAutomation.delay(300);
-        await zbbAutomation.click(workbenchResult.boundsCenterX, workbenchResult.boundsCenterY);
+        await zbbAutomation.click(workbenchResult.boundsCenterX ?? 0, workbenchResult.boundsCenterY ?? 0);
         logToBoth('success', '[企业微信] ⑨: 点击"工作台"');
       } else {
         logToBoth('error', `[企业微信] ⑨: 未找到"工作台"，请检查屏幕`);
@@ -1688,18 +1522,18 @@ class NativeAutomationService {
         }
         
         yuexiuResult = await zbbAutomation.findElementByText('越秀地产悦秀会');
-        
-        if (yuexiuResult?.found && yuexiuResult.boundsCenterX > 0 && yuexiuResult.boundsCenterY > 0) {
+
+        if (yuexiuResult?.found && (yuexiuResult.boundsCenterX ?? 0) > 0 && (yuexiuResult.boundsCenterY ?? 0) > 0) {
           break;
         }
       }
-      
-      if (yuexiuResult?.found && yuexiuResult.boundsCenterX > 0 && yuexiuResult.boundsCenterY > 0) {
+
+      if (yuexiuResult?.found && (yuexiuResult.boundsCenterX ?? 0) > 0 && (yuexiuResult.boundsCenterY ?? 0) > 0) {
         logToBoth('success', `[企业微信] ⑩: 找到"越秀地产悦秀会" @ (${yuexiuResult.boundsCenterX}, ${yuexiuResult.boundsCenterY})`);
-        
+
         // 点击"越秀地产悦秀会"
         await zbbAutomation.delay(300);
-        await zbbAutomation.click(yuexiuResult.boundsCenterX, yuexiuResult.boundsCenterY);
+        await zbbAutomation.click(yuexiuResult.boundsCenterX ?? 0, yuexiuResult.boundsCenterY ?? 0);
         logToBoth('success', '[企业微信] ⑩: 点击"越秀地产悦秀会"进入小程序');
       } else {
         logToBoth('error', `[企业微信] ⑩: 未找到"越秀地产悦秀会"，请检查屏幕`);
@@ -2553,8 +2387,8 @@ class NativeAutomationService {
       
       if (nodes && nodes.length > 0) {
         // 查找所有包含目标文字的节点
-        const matchedNodes = nodes.filter(node => 
-          node.text?.includes(text) || node.contentDesc?.includes(text)
+        const matchedNodes = nodes.filter(node =>
+          node.text?.includes(text) || (node as any).contentDescription?.includes(text) || (node as any).contentDesc?.includes(text)
         );
         
         if (matchedNodes.length > 0) {
@@ -2666,17 +2500,17 @@ class NativeAutomationService {
           break;
         }
         
-        if (workbenchResult?.found && workbenchResult.centerX > 0 && workbenchResult.centerY > 0) {
+        if (workbenchResult?.found && (workbenchResult.centerX ?? 0) > 0 && (workbenchResult.centerY ?? 0) > 0) {
           break;
         }
       }
-      
-      if (!workbenchResult?.found || workbenchResult.centerX <= 0 || workbenchResult.centerY <= 0) {
+
+      if (!workbenchResult?.found || (workbenchResult.centerX ?? 0) <= 0 || (workbenchResult.centerY ?? 0) <= 0) {
         throw new Error('未找到"工作台"');
       }
-      
+
       logToBoth('success', `[企业微信测试] 找到"工作台" @ (${workbenchResult.centerX}, ${workbenchResult.centerY})`);
-      await zbbAutomation.click(workbenchResult.centerX, workbenchResult.centerY);
+      await zbbAutomation.click(workbenchResult.centerX ?? 0, workbenchResult.centerY ?? 0);
       
       // ========== 步骤3：进入工作台后，等待并下滑 ==========
       logToBoth('info', '[企业微信测试] 步骤3：进入工作台，等待加载...');
@@ -2858,7 +2692,7 @@ class NativeAutomationService {
       
       // ========== 步骤9.5：从数据库获取待报备客户列表 ==========
       logToBoth('info', '[企业微信测试] 步骤9.5：从数据库获取待报备客户列表');
-      const { getAllReports, updateReportSuccess, updateReportFailed } = await import('./DatabaseService');
+      const { getAllReports, updateReportStatus } = await import('./DatabaseService');
       const allReports = await getAllReports();
       const allPendingReports = allReports.filter(r => r.report_status === 'pending');
       
@@ -2914,7 +2748,7 @@ class NativeAutomationService {
         );
         if (pasteNode) {
           logToBoth('success', `[企业微信测试] 步骤10：点击"粘贴"(OCR) @ (${pasteNode.centerX}, ${pasteNode.centerY})`);
-          await zbbAutomation.click(pasteNode.centerX, pasteNode.centerY);
+          await zbbAutomation.click(pasteNode.centerX ?? 0, pasteNode.centerY ?? 0);
           pasted = true;
         } else {
           // 降级：使用相对偏移计算粘贴按钮位置
@@ -2958,7 +2792,7 @@ class NativeAutomationService {
         );
         if (phonePasteNode) {
           logToBoth('success', `[企业微信测试] 步骤11：点击"粘贴"(OCR) @ (${phonePasteNode.centerX}, ${phonePasteNode.centerY})`);
-          await zbbAutomation.click(phonePasteNode.centerX, phonePasteNode.centerY);
+          await zbbAutomation.click(phonePasteNode.centerX ?? 0, phonePasteNode.centerY ?? 0);
           phonePasted = true;
         } else {
           // 降级：使用相对偏移计算粘贴按钮位置
@@ -3130,7 +2964,7 @@ class NativeAutomationService {
           
           // 更新数据库状态为成功
           try {
-            await updateReportSuccess(customer.id);
+            await updateReportStatus(customer.id, 'completed');
             logToBoth('success', `[企业微信测试] 步骤14：数据库已更新为"成功"`);
           } catch (dbError) {
             logToBoth('warn', `[企业微信测试] 步骤14：更新数据库失败: ${(dbError as Error).message}`);
@@ -3140,7 +2974,7 @@ class NativeAutomationService {
           
           // 更新数据库状态为失败
           try {
-            await updateReportFailed(customer.id);
+            await updateReportStatus(customer.id, 'failed');
             logToBoth('error', `[企业微信测试] 步骤14：数据库已更新为"失败"`);
           } catch (dbError) {
             logToBoth('warn', `[企业微信测试] 步骤14：更新数据库失败: ${(dbError as Error).message}`);
@@ -3190,8 +3024,8 @@ logToBoth('info', '[企业微信测试] 返回：点击多任务键');
           // 重新点击工作台
           logToBoth('info', '[企业微信测试] 返回：点击"工作台"');
           const workbenchResult = await zbbAutomation.findElementByText('工作台');
-          if (workbenchResult?.found && workbenchResult.centerX > 0 && workbenchResult.centerY > 0) {
-            await zbbAutomation.click(workbenchResult.centerX, workbenchResult.centerY);
+          if (workbenchResult?.found && (workbenchResult.centerX ?? 0) > 0 && (workbenchResult.centerY ?? 0) > 0) {
+            await zbbAutomation.click(workbenchResult.centerX ?? 0, workbenchResult.centerY ?? 0);
           }
           await zbbAutomation.delay(2000);
           
@@ -3240,8 +3074,8 @@ logToBoth('info', '[企业微信测试] 返回：点击多任务键');
           // 重新点击"我要推荐"
           logToBoth('info', '[企业微信测试] 返回：点击"我要推荐"');
           const recommendResult = await zbbAutomation.findElementByText('我要推荐');
-          if (recommendResult?.found && recommendResult.centerX > 0 && recommendResult.centerY > 0) {
-            await zbbAutomation.click(recommendResult.centerX, recommendResult.centerY);
+          if (recommendResult?.found && (recommendResult.centerX ?? 0) > 0 && (recommendResult.centerY ?? 0) > 0) {
+            await zbbAutomation.click(recommendResult.centerX ?? 0, recommendResult.centerY ?? 0);
           } else {
             // 我要推荐兜底（按机型分支）
             const wantRecPx = await getTapCoord('native_wechat_wantRecommend_540_1450');
@@ -3372,12 +3206,12 @@ logToBoth('info', '[企业微信测试] 步骤15：点击多任务键');
         }
       }
       
-      if (!workbenchResult?.found || workbenchResult.centerX <= 0 || workbenchResult.centerY <= 0) {
+      if (!workbenchResult?.found || (workbenchResult.centerX ?? 0) <= 0 || (workbenchResult.centerY ?? 0) <= 0) {
         throw new Error('未找到"工作台"');
       }
-      
+
       logToBoth('success', `[保利端] 找到"工作台" @ (${workbenchResult.centerX}, ${workbenchResult.centerY})`);
-      await zbbAutomation.click(workbenchResult.centerX, workbenchResult.centerY);
+      await zbbAutomation.click(workbenchResult.centerX ?? 0, workbenchResult.centerY ?? 0);
       await zbbAutomation.delay(2000);
       
       // ========== 步骤3：下滑3次 ==========
@@ -3699,9 +3533,11 @@ logToBoth('info', '[企业微信测试] 步骤15：点击多任务键');
             
             // 6. 先更新数据库状态为"重复"（在退出小程序之前执行）
             try {
-              const { updateBaoliReportRepeat } = await import('./DatabaseService');
+              const { updateBaoliReportStatus, getLatestReportByType } = await import('./DatabaseService');
+              const latestBaoliReport = await getLatestReportByType('baoli');
+              const baoliId = latestBaoliReport?.id;
               if (baoliId) {
-                await updateBaoliReportRepeat(baoliId);
+                await updateBaoliReportStatus(baoliId, 'repeat');
                 logToBoth('success', `[保利端] 情况1-6：已更新数据库状态为"重复" (ID=${baoliId})`);
               }
             } catch (dbError) {
@@ -4256,8 +4092,8 @@ logToBoth('info', '[保利端] 情况1-5-1：点击多任务键');
       await this.checkAbort();
       
       // 更新数据库状态
-      const { updateReportSuccess } = await import('./DatabaseService');
-      await updateReportSuccess(latestReport.id);
+      const { updateReportStatus } = await import('./DatabaseService');
+      await updateReportStatus(latestReport.id, 'completed');
       
       logToBoth('success', '========================================');
       logToBoth('success', '       越秀端报备流程完成！');

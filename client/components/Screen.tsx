@@ -106,7 +106,7 @@ export const Screen = ({
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={0}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} enabled={Platform.OS !== 'web'}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={[styles.innerContainer, style]}>
             {children}
           </View>

@@ -144,3 +144,16 @@ export async function changePassword(oldPassword: string, newPassword: string): 
   if (!token) throw new Error("未登录");
   await AuthApi.changePassword(token, { old_password: oldPassword, new_password: newPassword });
 }
+
+// 命名空间导出（兼容 AuthContext.tsx L74 AuthService.getToken() 调用方式）
+export const AuthService = {
+  getToken,
+  saveToken,
+  clearToken,
+  login,
+  register,
+  logout,
+  fetchMe,
+  updateProfile,
+  changePassword,
+};

@@ -53,4 +53,7 @@ function sendToServer(level: LogLevel, message: string): void {
   });
 }
 
+// 日志数组（logs/index.tsx 用）
+export const logs: string[] = [];
+
 export { logToBoth };

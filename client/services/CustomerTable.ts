@@ -98,7 +98,7 @@ class CustomerTable {
    * 解析客户数据
    * 格式: "刘15325423611" 或 "张女士13812345678"
    */
-  private parseCustomerData(rawData: string): { surname: string; gender: string; phone: string } | null {
+  private parseCustomerData(rawData: string): { customerName: string; customerGender: string; phone: string } | null {
     const phonePattern = /1[3-9]\d{9}/;
     const phoneMatch = rawData.match(phonePattern);
     

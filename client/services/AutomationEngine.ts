@@ -195,7 +195,7 @@ const FLOW_STEPS: StepInfo[] = [
 ];
 
 // 事件类型
-type FlowEventType = 
+type FlowEventType =
   | 'started'
   | 'step_changed'
   | 'step_completed'
@@ -208,7 +208,9 @@ type FlowEventType =
   | 'stopped'
   | 'completed'
   | 'error'
-  | 'log';
+  | 'log'
+  | 'appChanged'
+  | 'stepChanged';
 
 // 事件监听器
 type FlowEventListener = (event: FlowEvent) => void;
