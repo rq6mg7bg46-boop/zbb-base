@@ -4,7 +4,7 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
-import { maybePause } from '@/actions';
+import { delay, maybePause } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import { getTapCoord } from '@/utils/deviceModel';
 import { humanTap, pGammaDelay } from '../utils';
@@ -40,8 +40,9 @@ export const selectInstallmentStep: StepFn<BaoliContext, void> = async (ctx) => 
     await maybePause();       // 拟人：tap 后停顿
   }
 
-  // 等待 2-3 秒
-  await zbbAutomation.delay(pGammaDelay(2000, 3000));
+  // 等待 2-3 秒（用纯 JS delay，绕开 Android Looper 后台冻结；
+  //   zbbAutomation.delay 调 native bridge，后台时 Looper 冻结 promise 不 resolve）
+  await delay(pGammaDelay(2000, 3000));
   // P+ 随机停顿（分期选择后）
   await maybePause();
 
