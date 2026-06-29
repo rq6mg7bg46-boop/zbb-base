@@ -4,7 +4,6 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
-import { delay } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import type { BaoliContext } from '../types';
 
@@ -15,6 +14,6 @@ export const pressHomeToDesktopStep: StepFn<BaoliContext, void> = async () => {
   logToBoth('info', '[P1] 按 Home 键退出到桌面...');
   await zbbAutomation.pressHomeKey();
   // 等待 2-3 秒随机时间确保桌面完全加载
-  await delay(2000 + Math.floor(Math.random() * 1000));
+  await zbbAutomation.delay(2000 + Math.floor(Math.random() * 1000));
   return { ok: true };
 };

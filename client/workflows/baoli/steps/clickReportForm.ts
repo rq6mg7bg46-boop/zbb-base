@@ -5,7 +5,6 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
-import { delay } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import { getTapCoord } from '@/utils/deviceModel';
 import { humanTap, pGammaDelay } from '../utils';
@@ -19,7 +18,7 @@ import type { BaoliContext } from '../types';
  */
 export const tapReportFormStep: StepFn<BaoliContext, void> = async (ctx) => {
   logToBoth('info', '[P14] 点击"报备"...');
-  await delay(pGammaDelay(2000, 3000));
+  await zbbAutomation.delay(pGammaDelay(2000, 3000));
   await ctx.baoliService.printScreenText();
   const finalBaobeiNode = await ctx.baoliService.findExactNode('报备');
   if (finalBaobeiNode) {

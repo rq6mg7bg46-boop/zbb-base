@@ -4,7 +4,7 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
-import { delay, maybePause } from '@/actions';
+import { maybePause } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import { getTapCoord } from '@/utils/deviceModel';
 import { humanTap, pGammaDelay } from '../utils';
@@ -17,9 +17,9 @@ import type { BaoliContext } from '../types';
  */
 export const tapWorkbenchStep: StepFn<BaoliContext, void> = async (ctx) => {
   // P3 前拟人化随机等待（老板 2026-06-28 拍板：0.5-1.5s Gamma 分布）
-  await delay(pGammaDelay(500, 1500));
+  await zbbAutomation.delay(pGammaDelay(500, 1500));
   logToBoth('info', '[P3] 点击"工作台"...');
-  await delay(1000);  // 额外等待确保界面稳定
+  await zbbAutomation.delay(1000);  // 额外等待确保界面稳定
   const workbenchNode = await ctx.baoliService.findNodeByText('工作台');
   if (workbenchNode) {
     logToBoth('success', '[P3] 找到"工作台" @ (' + workbenchNode.centerX + ', ' + workbenchNode.centerY + ')');
@@ -29,7 +29,7 @@ export const tapWorkbenchStep: StepFn<BaoliContext, void> = async (ctx) => {
     logToBoth('warn', '[P3] 未找到"工作台"，使用备用坐标 (' + fallback.x + ', ' + fallback.y + ') px (按机型)');
     await humanTap(fallback.x, fallback.y);
   }
-  await delay(pGammaDelay(2000, 3000));
+  await zbbAutomation.delay(pGammaDelay(2000, 3000));
   maybePause();
   return { ok: true };
 };

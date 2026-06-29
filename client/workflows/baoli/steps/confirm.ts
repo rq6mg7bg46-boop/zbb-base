@@ -4,7 +4,6 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
-import { delay } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import { getTapCoord } from '@/utils/deviceModel';
 import { humanTap } from '../utils';
@@ -17,7 +16,7 @@ import type { BaoliContext } from '../types';
  */
 export const tapConfirmStep: StepFn<BaoliContext, void> = async (ctx) => {
   logToBoth('info', '[P12] 点击"确认"...');
-  await delay(1000);
+  await zbbAutomation.delay(1000);
   const confirmNode = await ctx.baoliService.findExactNode('确认');
   if (confirmNode) {
     logToBoth('success', '[P12] 找到"确认" @ (' + confirmNode.centerX + ', ' + confirmNode.centerY + ')');

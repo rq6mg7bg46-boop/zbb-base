@@ -4,7 +4,6 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
-import { delay } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import type { BaoliContext } from '../types';
 
@@ -26,7 +25,7 @@ export const detectTimeoutStep: StepFn<BaoliContext, void> = async (ctx) => {
   ctx.detectStartTime = Date.now();
 
   for (let i = 0; i < 6; i++) {
-    await delay(5000);
+    await zbbAutomation.delay(5000);
     if (Date.now() - ctx.detectStartTime >= 30000) break;
 
     const nodes = await ctx.baoliService.printScreenText();

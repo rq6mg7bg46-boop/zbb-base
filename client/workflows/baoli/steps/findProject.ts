@@ -4,7 +4,7 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
-import { delay, maybePause, showToast } from '@/actions';
+import { maybePause, showToast } from '@/actions';
 import { ActionError } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import { humanTap, pGammaDelay } from '../utils';
@@ -33,7 +33,7 @@ export const findProjectStep: StepFn<BaoliContext, void> = async (ctx) => {
     }
     logToBoth('warn', '[P5] 第 ' + (i + 1) + ' 次未找到"郑州保利山水和颂"');
     // 老板 2026-06-28 调整：固定 1000ms 改为 Gamma 分布 800-1500ms（拟人化）
-    await delay(pGammaDelay(800, 1500));
+    await zbbAutomation.delay(pGammaDelay(800, 1500));
   }
   if (projectEntry) {
     await humanTap(projectEntry.centerX, projectEntry.centerY);
@@ -55,7 +55,7 @@ export const findProjectStep: StepFn<BaoliContext, void> = async (ctx) => {
     const start = Date.now();
     let userActive = false;
     while (Date.now() - start < P5_FALLBACK_TIMEOUT_MS) {
-      await delay(1000);
+      await zbbAutomation.delay(1000);
       const recent = await zbbAutomation.getRecentClick(P5_USER_ACTIVE_WINDOW_MS);
       if (recent && recent.found) {
         logToBoth('info', `[P5] 检测到用户操作 @ (${recent.x}, ${recent.y})`);
@@ -75,7 +75,7 @@ export const findProjectStep: StepFn<BaoliContext, void> = async (ctx) => {
     void zbbAutomation.killZbbProcess();  // fire-and-forget：杀 ZBB app 自己
     return { ok: false, error: new ActionError('findProject', reason) };
   }
-  await delay(pGammaDelay(2000, 3000));
+  await zbbAutomation.delay(pGammaDelay(2000, 3000));
   maybePause();
   return { ok: true };
 };

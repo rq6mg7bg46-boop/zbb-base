@@ -4,7 +4,7 @@
 
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
-import { delay, maybePause } from '@/actions';
+import { maybePause } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
 import { getTapCoord } from '@/utils/deviceModel';
 import { humanTap, pGammaDelay } from '../utils';
@@ -26,10 +26,10 @@ export const clickReportStep: StepFn<BaoliContext, void> = async (ctx) => {
     logToBoth('warn', '[P7] 未找到"报备"，使用备用坐标 (' + fallback.x + ', ' + fallback.y + ') px (按机型)');
     await humanTap(fallback.x, fallback.y);
     // 调试：等待后打印界面所有节点
-    await delay(4000);
+    await zbbAutomation.delay(4000);
     await ctx.baoliService.printScreenText();
   }
-  await delay(pGammaDelay(3000, 4000));
+  await zbbAutomation.delay(pGammaDelay(3000, 4000));
   maybePause();
   return { ok: true };
 };
