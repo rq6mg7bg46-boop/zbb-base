@@ -6,21 +6,9 @@ import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
 import { maybePause } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
-import { getPasteMenuCoord } from '@/utils/deviceModel';
+import { getPasteMenuCoord, getTapCoord, getLongPressCoord, dpToPx } from '@/utils/deviceModel';
 import { humanTap, pGammaDelay } from '../utils';
 import type { BaoliContext } from '../types';
-
-/**
- * 按屏宽归一化转 px（360dp 基准，复用于 deviceModel 兜底坐标）
- * 历史备注：W6 起计划迁到 adapters/devices.ts，未执行；v1.6.4 deviceModel.ts 注释里
- *           说 "dpCoord() 已做屏宽归一化" 但实际没提供工具，所以这里内联
- */
-async function dpToPx(dpX: number, dpY: number): Promise<{ x: number; y: number }> {
-  const screen = await zbbAutomation.getScreenSize();
-  if (!screen) return { x: dpX, y: dpY };
-  const ratio = screen.width / 360;
-  return { x: Math.round(dpX * ratio), y: Math.round(dpY * ratio) };
-}
 
 /**
  * P8：3 动作触发 EMUI 粘贴弹窗
@@ -42,12 +30,13 @@ export const pasteCustomerInfoStep: StepFn<BaoliContext, void> = async (ctx) => 
   if (!pasteNode) {
     // P8 失败兜底（findNodeByText 内部已 retry 3 次）
     logToBoth('error', '[P8] 重试 3 次仍未找到输入框节点');
-    logToBoth('warn', '[P8] 兜底坐标长按 @ (450, 800)');
+    const longPressPx = await getLongPressCoord('paste_longPress_fallback');
+    logToBoth('warn', '[P8] 兜底坐标长按 @ (' + longPressPx.x + ', ' + longPressPx.y + ') px (按机型)');
     await maybePause();                                       // 拟人：长按前思考
-    await zbbAutomation.longPress(450, 800, 2000);            // longPress 无 human 版本
+    await zbbAutomation.longPress(longPressPx.x, longPressPx.y, 2000);  // longPress 无 human 版本
     await zbbAutomation.delay(pGammaDelay(800, 1500));        // 拟人：Gamma 延迟
     const fallbackDp = await getPasteMenuCoord();
-    const fallbackPx = await dpToPx(fallbackDp.x, fallbackDp.y);
+    const fallbackPx = await dpToPx({ x: fallbackDp.x, y: fallbackDp.y });
     await humanTap(fallbackPx.x, fallbackPx.y);               // 拟人：±5px 偏移点击（按机型）
     await maybePause();                                       // 拟人：tap 后停顿
     await ctx.baoliService.handlePasteFailure('[P8] 重试 3 次仍未找到输入框节点');
@@ -61,7 +50,7 @@ export const pasteCustomerInfoStep: StepFn<BaoliContext, void> = async (ctx) => 
 
     // 动作 3：按机型分支取弹窗"粘贴" dp 坐标 → 屏宽归一化转 px → 点击
     const dp = await getPasteMenuCoord();
-    const px = await dpToPx(dp.x, dp.y);
+    const px = await dpToPx(dp); // 接收 DpCoord 对象（v3 提取后）
     logToBoth('info', `[P8] tap 弹窗"粘贴"按钮 @ (${dp.x}, ${dp.y}) dp → (${px.x}, ${px.y}) px (按机型)`);
     await zbbAutomation.delay(1000); // 等弹窗动画
     await zbbAutomation.tap(px.x, px.y);

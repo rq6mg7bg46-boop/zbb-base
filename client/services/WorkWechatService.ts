@@ -5,6 +5,7 @@
 
 import { NativeModules, NativeEventEmitter, Platform } from 'react-native';
 import { automationEngine } from './AutomationEngine';
+import { getSwipeCoord } from '@/utils/deviceModel';
 
 // 获取原生模块
 const { ZBBAutomation } = NativeModules;
@@ -371,7 +372,8 @@ class WorkWechatAutomationService {
     
     // 如果没找到，检查是否页面需要滚动
     logToBoth('warn', '  未找到"新绿城云"，尝试向上滚动...');
-    await zbbAutomation.swipe(540, 1500, 540, 800); // 向上滑动
+    const swipeCoord = await getSwipeCoord('wechat_swipeUp_540_1500_540_800');
+    await zbbAutomation.swipe(swipeCoord.startX, swipeCoord.startY, swipeCoord.endX, swipeCoord.endY); // 向上滑动
     await zbbAutomation.delay(1000);
     
     // 再次尝试点击

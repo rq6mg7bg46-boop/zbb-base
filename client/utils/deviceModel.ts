@@ -1,88 +1,312 @@
 /**
- * 设备机型分支 + 兜底坐标映射（v2 演进版 - 2026-06-27）
+ * 设备机型分支 + 兜底坐标映射（v3 演进版 - 2026-06-29）
  *
- * 老板拍板 D 方案：按机型选择兜底坐标，适配更多真机。
+ * 老板拍板 2026-06-29：全量改 dp 化 + 机型分支
+ * - 现有 34 个 stepName 入表（按 nova 7 5G 1080 屏实测 px，÷3 = dp）
+ * - vivo V2166A 兜底 = nova 7 5G dp × 0.667 几何缩放（标 TODO，等 vivo 实测覆盖）
  *
  * 设计原则：
- * - 系统弹窗节点（如 EMUI 粘贴弹窗 / OriginOS 粘贴弹窗）无法被 AccessibilityService 识别
- *   → 必须用固定坐标兜底
- * - 不同手机不同弹窗系统的"粘贴"按钮位置不同
- *   → 必须按机型分支
- * - dpCoord() 待补：当前 deviceModel 不提供 dp→px 工具，consumers（如 actions/input.ts）
- *   自行实现屏宽归一化（360dp 基准）
- * - 不同弹窗系统的"粘贴"按钮 dp 位置不同（OriginOS 弹窗 ≠ EMUI 弹窗）
+ * - 系统弹窗节点无法被 AccessibilityService 识别 → 必须用固定坐标兜底
+ * - 不同手机 UI 元素位置不同 → 必须按机型分支
+ * - dpCoord() 提供：屏宽归一化（360dp 基准）+ 机型选择
  *
- * v2 演进路径：utils/deviceModel.ts → adapters/devices.ts（曾计划 W6 起迁移，
- *              把 Action 适配层彻底分离；v2 已完成但未执行，当前继续用 deviceModel.ts）
+ * v2 → v3 演进路径：
+ *   v2 仅 2 个 stepName（pasteMenu/clearRecentTasks）
+ *   v3 全项目 34 个 stepName 覆盖
  *
- * v1.6.4 实战版本来自 release 分支 f2e30f2，refactor/v2 独立复制一份演进。
+ * 已有 v2 API（向后兼容，不破坏老调用）：
+ * - getPasteMenuCoord() / getClearRecentTasksCoord()
+ *
+ * v3 新 API：
+ * - getTapCoord(stepName) / getSwipeCoord(stepName) / getLongPressCoord(stepName)
+ *   返回 px 坐标（按机型分支 + 屏宽归一化）
+ * - dpToPx(dpCoord) / swipeDpToPx(swipeDpCoord)
  *
  * 新增机型流程：
- * 1. 在新真机长按输入框触发弹窗 → 截图 → 量"粘贴"中心相对屏幕的像素位置 (x, y)
- * 2. 算出 dp 坐标：dp = px × 360 / screen_width_px
- * 3. 在 DEVICE_PASTE_MENU_COORDS 加一条：'xxx': { x: a, y: b }
+ * 1. 在新真机走一遍流程 → 截图 → 量每步 px 位置
+ * 2. 算 dp：dp = px × 360 / screen_width_px
+ * 3. 在 DEVICE_TAP_COORDS / DEVICE_SWIPE_COORDS 加一条机型分支
+ * 4. 几何缩放兜底（× 0.667）保留为 TODO，等 vivo 实测后覆盖
  *
  * @example
- * // 老板 2026-06-26/28 实测（**老板只给 px 值，铁子按屏宽归一化换算 dp**）
- * // vivo V2166A: 弹窗"粘贴"在 (100, 460) px @ 720×1600 屏宽 → (50, 230) dp
- * // nova 7 5G:   弹窗"粘贴"在 (140, 720) px @ 1080×2400 屏宽 → (47, 240) dp
+ * // 老板 2026-06-28 实测：vivo V2166A Recents 清除按钮 (530, 1460) px → (265, 730) dp
+ * // 老板 2026-06-21 实测：nova 7 5G EMUI 粘贴弹窗 (140, 720) px → (47, 240) dp
  */
 import { Platform } from 'react-native';
 import { zbbAutomation } from '@/native';
 
-/** 弹窗"粘贴"按钮的 dp 坐标 */
-export interface PasteMenuCoord {
-  x: number;  // dp
-  y: number;  // dp
+// ============================================================================
+// 类型定义
+// ============================================================================
+
+/** dp 坐标（360dp 基准的逻辑坐标） */
+export interface DpCoord {
+  x: number;
+  y: number;
 }
 
-/**
- * 机型特征 → 弹窗"粘贴" dp 坐标 映射表
- * 匹配规则：includes（不区分大小写，先匹配 model 再匹配 brand）
- */
+/** swipe 类 dp 坐标（含起止 + duration） */
+export interface SwipeDpCoord {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  duration?: number;
+}
+
+/** px 坐标（设备实际像素） */
+export interface PxCoord {
+  x: number;
+  y: number;
+}
+
+/** swipe 类 px 坐标 */
+export interface SwipePxCoord {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  duration?: number;
+}
+
+/** 机型分支条目（按 nova 7 5G / vivo 分） */
+export interface DeviceTapEntry {
+  nova7_5g: DpCoord;   // 华为 nova 7 5G（1080 屏 / ratio=3）实测 dp
+  vivo: DpCoord;       // vivo V2166A（720 屏 / ratio=2）兜底 dp
+}
+
+/** swipe 机型分支条目 */
+export interface DeviceSwipeEntry {
+  nova7_5g: SwipeDpCoord;
+  vivo: SwipeDpCoord;
+}
+
+// ============================================================================
+// v2 已有的 2 个 stepName（保留 API）
+// ============================================================================
+
+/** 弹窗"粘贴"按钮 dp 坐标（v2 兼容） */
+export interface PasteMenuCoord {
+  x: number;
+  y: number;
+}
+
 const DEVICE_PASTE_MENU_COORDS: Record<string, PasteMenuCoord> = {
-  // vivo V2166A（Y33s 中国版，OriginOS Ocean，720×1600 px / 360 dp / ratio=2）
-  // 老板 2026-06-26 实测"粘贴"在 (100, 460) px → (50, 230) dp
-  'V2166A': { x: 50, y: 230 },
-  // vivo 品牌兜底（包含 V21 / Y33s / vivo 等机型）
-  'vivo': { x: 50, y: 230 },
-
-  // nova 7 5G（EMUI 12，1080×2400 xxhdpi / 360 dp / ratio=3）
-  // 老板 2026-06-21 实测"粘贴"在 (140, 720) px → (47, 240) dp
-  'nova 7 5G': { x: 47, y: 240 },
-  // 华为品牌兜底（包含 nova / P30 / Mate 等机型）
-  'HUAWEI': { x: 47, y: 240 },
+  'V2166A': { x: 50, y: 230 },   // vivo V2166A（720 屏）实测 (100, 460) px
+  'vivo': { x: 50, y: 230 },     // vivo 品牌兜底
+  'nova 7 5G': { x: 47, y: 240 }, // 华为 nova 7 5G（1080 屏）实测 (140, 720) px
+  'HUAWEI': { x: 47, y: 240 },   // 华为品牌兜底
 };
-
-/** 默认 fallback（保持向后兼容） */
 const DEFAULT_FALLBACK: PasteMenuCoord = { x: 47, y: 240 };
 
-/** Recents 页"全部清除"按钮的 dp 坐标
- *  W16 老板拍板 2026-06-28：vivo 实测 Recents 页底部中间"全部清除"按钮
- *  来源：老板 vivo V2166A 实测 (530, 1460) px @ 720×1600 屏宽 → (265, 730) dp
- *  ratio = 720/360 = 2，验证：265×2=530px ✅，730×2=1460px ✅
- *  替代 v2.0.5 动态找节点方案（vivo OriginOS Recents 页文字节点识别率不稳）*/
+/** Recents 清除按钮 dp 坐标（v2 兼容） */
 export interface ClearRecentTasksCoord {
-  x: number;  // dp
-  y: number;  // dp
+  x: number;
+  y: number;
 }
 
 const DEVICE_CLEAR_RECENT_TASKS_COORDS: Record<string, ClearRecentTasksCoord> = {
-  // vivo V2166A（Y33s 中国版，OriginOS Ocean，720×1600 px / 360 dp / ratio=2）
-  // 老板 2026-06-28 实测"全部清除"在 (530, 1460) px → (265, 730) dp
-  'V2166A': { x: 265, y: 730 },
-  // vivo 品牌兜底（包含 V21 / Y33s / vivo 等机型，Recents UI 风格类似）
-  'vivo': { x: 265, y: 730 },
+  'V2166A': { x: 265, y: 730 },  // vivo V2166A（720 屏）实测 (530, 1460) px
+  'vivo': { x: 265, y: 730 },    // vivo 品牌兜底
+};
+const CLEAR_DEFAULT_FALLBACK: ClearRecentTasksCoord = { x: 265, y: 730 };
 
-  // 华为兜底（nova 7 5G 等 EMUI/MagicOS，Recents UI 风格不同，老板未实测 → 暂用 fallback）
+// ============================================================================
+// v3 全项目 tap 类坐标表（34 个 stepName）
+// ============================================================================
+//
+// 数据来源：
+// - nova 7 5G 1080 屏：老板历史实测 px（v2.0.x 期间 39 处硬编码）
+// - vivo V2166A 720 屏：几何缩放兜底（× 0.667），TODO 等 vivo 实测覆盖
+//
+// nova 7 5G ratio = 1080 / 360 = 3，px → dp = px ÷ 3
+// vivo V2166A ratio = 720 / 360 = 2，dp → px = dp × 2
+//
+// 🔴 标记的 dp 在 nova 7 5G 上也接近屏边（y > 800 或 x > 540），vivo 上对应几何缩放后更安全
+
+export const DEVICE_TAP_COORDS: Record<string, DeviceTapEntry> = {
+  // ---- workflows/baoli/steps/ (9处，1处 longPress 单列) ----
+  workbench: {                  // P3 工作台 tab
+    nova7_5g: { x: 180, y: 66 },     // (540, 199) ÷3
+    vivo: { x: 120, y: 44 },          // TODO vivo 实测覆盖
+  },
+  cloudHome: {                  // P4 云和家经纪云
+    nova7_5g: { x: 223, y: 501 },    // (668, 1502) ÷3
+    vivo: { x: 149, y: 334 },
+  },
+  clickReport: {                // P7 报备按钮（工作台点报备）
+    nova7_5g: { x: 233, y: 733 },    // (700, 2200) ÷3
+    vivo: { x: 155, y: 489 },
+  },
+  clickReportForm: {            // P14 表单内"报备"按钮
+    nova7_5g: { x: 180, y: 733 },    // (540, 2200) ÷3
+    vivo: { x: 120, y: 489 },
+  },
+  checkEntry_fenqi: {           // P10 请选择分期
+    nova7_5g: { x: 193, y: 213 },    // (580, 640) ÷3
+    vivo: { x: 129, y: 142 },
+  },
+  selectProject_round1: {       // P11 选择项目 - 第 1 轮缦城和颂
+    nova7_5g: { x: 180, y: 667 },    // (540, 2000) ÷3
+    vivo: { x: 120, y: 444 },
+  },
+  selectProject_round2: {       // P11 选择项目 - 第 2 轮山水和颂（同坐标，ctx.round 区分）
+    nova7_5g: { x: 180, y: 667 },
+    vivo: { x: 120, y: 444 },
+  },
+  confirm: {                    // P12 确认
+    nova7_5g: { x: 317, y: 500 },    // (950, 1500) ÷3
+    vivo: { x: 211, y: 333 },
+  },
+  aiRecognize: {                // P13 智能识别
+    nova7_5g: { x: 303, y: 367 },    // (910, 1100) ÷3
+    vivo: { x: 202, y: 244 },
+  },
+
+  // ---- services/BaoliService.ts (4处) ----
+  baoli_humanTap_baobeiBtn: {   // 报备按钮兜底（workbench 列表）
+    nova7_5g: { x: 233, y: 733 },    // (700, 2200) ÷3
+    vivo: { x: 155, y: 489 },
+  },
+  baoli_multiTask_key: {        // 系统多任务键（P+ 保留：系统键不能偏移）
+    nova7_5g: { x: 100, y: 767 },    // (300, 2300) ÷3
+    vivo: { x: 67, y: 511 },
+  },
+  baoli_trash_key: {            // 系统垃圾箱键（P+ 保留：系统键不能偏移）
+    nova7_5g: { x: 180, y: 717 },    // (540, 2150) ÷3
+    vivo: { x: 120, y: 478 },
+  },
+
+  // ---- services/NativeAutomationService.ts (23处) ----
+  native_click_540_1100: {
+    nova7_5g: { x: 180, y: 367 },
+    vivo: { x: 120, y: 244 },
+  },
+  native_blankArea_540_300: {   // 点击空白区域收起键盘/弹窗（×3 共用）
+    nova7_5g: { x: 180, y: 100 },
+    vivo: { x: 120, y: 67 },
+  },
+  native_click_170_2066: {
+    nova7_5g: { x: 57, y: 689 },
+    vivo: { x: 38, y: 459 },
+  },
+  native_click_540_1463: {
+    nova7_5g: { x: 180, y: 488 },
+    vivo: { x: 120, y: 325 },
+  },
+  native_click_540_1200: {
+    nova7_5g: { x: 180, y: 400 },
+    vivo: { x: 120, y: 267 },
+  },
+  native_click_540_1450: {
+    nova7_5g: { x: 180, y: 483 },
+    vivo: { x: 120, y: 322 },
+  },
+  native_project_山水和颂: {     // 步骤5 项目名"郑州保利山水和颂"
+    nova7_5g: { x: 187, y: 450 },    // (560, 1350) ÷3
+    vivo: { x: 124, y: 300 },
+  },
+  native_tap_baobeiBtn_700_2200: {  // 步骤8 报备兜底
+    nova7_5g: { x: 233, y: 733 },
+    vivo: { x: 155, y: 489 },
+  },
+  native_tap_paste_130_710: {       // 步骤12 粘贴（×2 共用）
+    nova7_5g: { x: 43, y: 237 },
+    vivo: { x: 29, y: 158 },
+  },
+  native_tap_540_1300: {            // 步骤16/第二轮步骤13 项目名（×2 共用）
+    nova7_5g: { x: 180, y: 433 },
+    vivo: { x: 120, y: 289 },
+  },
+  native_tap_confirm_540_2150: {    // 确认按钮兜底（×3 共用）
+    nova7_5g: { x: 180, y: 717 },
+    vivo: { x: 120, y: 478 },
+  },
+  native_tap_970_1240: {            // 🔴 nova 7 5G 也接近屏边（970/1080）
+    nova7_5g: { x: 323, y: 413 },    // (970, 1240) ÷3
+    vivo: { x: 216, y: 275 },
+  },
+  native_tap_山水和颂_540_2159: {   // 第二轮步骤9 分期选山水和颂兜底
+    nova7_5g: { x: 180, y: 720 },    // (540, 2159) ÷3
+    vivo: { x: 120, y: 480 },
+  },
+  native_click_300_2300: {          // 多任务键（同 baoli_multiTask_key）
+    nova7_5g: { x: 100, y: 767 },
+    vivo: { x: 67, y: 511 },
+  },
+  native_click_540_2300: {          // 🔴 接近屏底
+    nova7_5g: { x: 180, y: 767 },    // (540, 2300) ÷3
+    vivo: { x: 120, y: 511 },
+  },
+  // ---- services/WechatAutomation.ts:167 校准坐标（v3 漏扫补遗）----
+  native_wechat_tuijian_calib: {
+    nova7_5g: { x: 60, y: 169 },     // (180, 506) ÷3
+    vivo: { x: 40, y: 113 },         // × 0.667 几何缩放
+  },
 };
 
-/** Recents 清除按钮 fallback（华为兜底用） */
-const CLEAR_DEFAULT_FALLBACK: ClearRecentTasksCoord = { x: 265, y: 730 };
+// ============================================================================
+// v3 全项目 swipe 类坐标表（10 个 stepName）
+// ============================================================================
+
+export const DEVICE_SWIPE_COORDS: Record<string, DeviceSwipeEntry> = {
+  // ---- services/BaoliService.ts ----
+  baoli_swipe_to_cloudhome: {       // 找云和家
+    nova7_5g: { startX: 180, startY: 400, endX: 180, endY: 267 }, // (540,1200,540,800) ÷3
+    vivo: { startX: 120, startY: 267, endX: 120, endY: 178 },
+  },
+
+  // ---- services/NativeAutomationService.ts ----
+  native_swipe_540_1800_540_600: {
+    nova7_5g: { startX: 180, startY: 600, endX: 180, endY: 200, duration: 500 },
+    vivo: { startX: 120, startY: 400, endX: 120, endY: 133, duration: 500 },
+  },
+  native_swipe_800_600_100_600: {
+    nova7_5g: { startX: 267, startY: 200, endX: 33, endY: 200, duration: 500 },
+    vivo: { startX: 178, startY: 133, endX: 22, endY: 133, duration: 500 },
+  },
+  native_swipeUp_to_cloudHome: {    // 步骤3 上滑3次找云和家
+    nova7_5g: { startX: 180, startY: 500, endX: 180, endY: 133 }, // (540,1500,540,400) ÷3
+    vivo: { startX: 120, startY: 333, endX: 120, endY: 89 },
+  },
+
+  // ---- services/QianjiService.ts + workflows/qianji/steps/recognize.ts (共享) ----
+  qianji_swipeUp_540_400_540_1500: {
+    nova7_5g: { startX: 180, startY: 133, endX: 180, endY: 500, duration: 500 },
+    vivo: { startX: 120, startY: 89, endX: 120, endY: 333, duration: 500 },
+  },
+
+  // ---- services/WorkWechatService.ts ----
+  wechat_swipeUp_540_1500_540_800: {
+    nova7_5g: { startX: 180, startY: 500, endX: 180, endY: 267 },
+    vivo: { startX: 120, startY: 333, endX: 120, endY: 178 },
+  },
+
+  // ---- services/WechatAutomation.ts:127 下拉微信首页（v3 漏扫补遗）----
+  wechat_swipeDownHome_300_200_300_800: {
+    nova7_5g: { startX: 100, startY: 67, endX: 100, endY: 267, duration: 500 }, // (300,200,300,800) ÷3
+    vivo: { startX: 67, startY: 44, endX: 67, endY: 178, duration: 500 },        // × 0.667 几何缩放
+  },
+};
+
+// ============================================================================
+// v3 全项目 longPress 类坐标表（1 个 stepName）
+// ============================================================================
+
+export const DEVICE_LONGPRESS_COORDS: Record<string, DeviceTapEntry> = {
+  paste_longPress_fallback: {        // paste.ts 兜底长按（1500ms）
+    nova7_5g: { x: 150, y: 267 },    // (450, 800) ÷3
+    vivo: { x: 100, y: 178 },
+  },
+};
+
+// ============================================================================
+// 工具函数
+// ============================================================================
 
 /**
  * 读取当前设备的多维度标识
- * 注：ro.product.model 在 vivo 上返回 'V2166A' 或 'vivo Y33s'（因厂商/版本而异）
+ * 注：ro.product.model 在 vivo 上返回 'V2166A' 或 'vivo Y33s'
  *     ro.product.brand 在 vivo 上返回 'vivo'，在华为上返回 'HUAWEI'
  */
 async function getDeviceIdentity(): Promise<string> {
@@ -108,12 +332,102 @@ async function getDeviceIdentity(): Promise<string> {
   }
 }
 
+/** 判断当前设备是否 vivo（含 V2166A/Y33s/OriginOS 设备） */
+function isVivoDevice(identity: string): boolean {
+  if (!identity) return false;
+  const lower = identity.toLowerCase();
+  return lower.includes('vivo') || lower.includes('v2166a') || lower.includes('y33s') || lower.includes('origin');
+}
+
+/** 判断当前设备是否华为 nova 7 5G */
+function isHuaweiNova7(identity: string): boolean {
+  if (!identity) return false;
+  const lower = identity.toLowerCase();
+  return lower.includes('nova 7 5g') || lower.includes('nova7') || lower.includes('hwdualine') || lower.includes('hwdra');
+}
+
 /**
- * 按机型匹配 Recents 页"全部清除"按钮 dp 坐标
- *
- * W16 老板拍板 2026-06-28：vivo OriginOS Recents UI 节点识别率低，改固定坐标兜底
- *
- * @returns dp 坐标（consumers 需自行转 px；当前 actions/app.ts clearRecentTasks 内联 dpToPx 处理屏宽归一化）
+ * dp 坐标 → px 坐标（按屏宽归一化，360dp 基准）
+ * ratio = screen.width / 360
+ *   vivo V2166A 720 / 360 = 2
+ *   nova 7 5G  1080 / 360 = 3
+ */
+export async function dpToPx(coord: DpCoord): Promise<PxCoord> {
+  const screen = await zbbAutomation.getScreenSize();
+  if (!screen || !screen.width) return { x: coord.x, y: coord.y };
+  const ratio = screen.width / 360;
+  return {
+    x: Math.round(coord.x * ratio),
+    y: Math.round(coord.y * ratio),
+  };
+}
+
+/** swipe dp → swipe px（屏宽归一化） */
+export async function swipeDpToPx(coord: SwipeDpCoord): Promise<SwipePxCoord> {
+  const screen = await zbbAutomation.getScreenSize();
+  if (!screen || !screen.width) return { ...coord };
+  const ratio = screen.width / 360;
+  return {
+    startX: Math.round(coord.startX * ratio),
+    startY: Math.round(coord.startY * ratio),
+    endX: Math.round(coord.endX * ratio),
+    endY: Math.round(coord.endY * ratio),
+    duration: coord.duration,
+  };
+}
+
+/**
+ * 按机型选择 tap 类坐标（dp）→ 屏宽归一化转 px
+ * 匹配规则：vivo 优先 → nova 7 5G → nova 7 5G 兜底（默认）
+ */
+export async function getTapCoord(stepName: keyof typeof DEVICE_TAP_COORDS): Promise<PxCoord> {
+  const entry = DEVICE_TAP_COORDS[stepName];
+  if (!entry) {
+    console.warn('[deviceModel] getTapCoord 未找到 stepName:', stepName);
+    return { x: 0, y: 0 };
+  }
+  const identity = await getDeviceIdentity();
+  const dp = isVivoDevice(identity) ? entry.vivo : entry.nova7_5g;
+  const px = await dpToPx(dp);
+  console.log('[deviceModel] getTapCoord(' + stepName + ') dp=(' + dp.x + ',' + dp.y + ') px=(' + px.x + ',' + px.y + ')');
+  return px;
+}
+
+/** 按机型选择 swipe 类坐标（dp）→ 屏宽归一化转 px */
+export async function getSwipeCoord(stepName: keyof typeof DEVICE_SWIPE_COORDS): Promise<SwipePxCoord> {
+  const entry = DEVICE_SWIPE_COORDS[stepName];
+  if (!entry) {
+    console.warn('[deviceModel] getSwipeCoord 未找到 stepName:', stepName);
+    return { startX: 0, startY: 0, endX: 0, endY: 0 };
+  }
+  const identity = await getDeviceIdentity();
+  const dp = isVivoDevice(identity) ? entry.vivo : entry.nova7_5g;
+  const px = await swipeDpToPx(dp);
+  console.log('[deviceModel] getSwipeCoord(' + stepName + ') px=(' + px.startX + ',' + px.startY + ')->(' + px.endX + ',' + px.endY + ')');
+  return px;
+}
+
+/** 按机型选择 longPress 类坐标（dp）→ 屏宽归一化转 px */
+export async function getLongPressCoord(stepName: keyof typeof DEVICE_LONGPRESS_COORDS): Promise<PxCoord> {
+  const entry = DEVICE_LONGPRESS_COORDS[stepName];
+  if (!entry) {
+    console.warn('[deviceModel] getLongPressCoord 未找到 stepName:', stepName);
+    return { x: 0, y: 0 };
+  }
+  const identity = await getDeviceIdentity();
+  const dp = isVivoDevice(identity) ? entry.vivo : entry.nova7_5g;
+  const px = await dpToPx(dp);
+  console.log('[deviceModel] getLongPressCoord(' + stepName + ') px=(' + px.x + ',' + px.y + ')');
+  return px;
+}
+
+// ============================================================================
+// v2 兼容 API（不破坏老调用）
+// ============================================================================
+
+/**
+ * 按机型匹配 Recents 页"全部清除"按钮 dp 坐标（v2 兼容）
+ * @deprecated v3 起请用 getTapCoord('clearRecentTasks')（TODO 待加）
  */
 export async function getClearRecentTasksCoord(): Promise<ClearRecentTasksCoord> {
   const identity = await getDeviceIdentity();
@@ -133,9 +447,8 @@ export async function getClearRecentTasksCoord(): Promise<ClearRecentTasksCoord>
 }
 
 /**
- * 按机型匹配弹窗"粘贴"按钮 dp 坐标
- *
- * @returns dp 坐标（consumers 需自行转 px；当前 actions/input.ts 内联 dpToPx 处理屏宽归一化）
+ * 按机型匹配弹窗"粘贴"按钮 dp 坐标（v2 兼容）
+ * @deprecated v3 起请用 getTapCoord('pasteMenu')（TODO 待加）
  */
 export async function getPasteMenuCoord(): Promise<PasteMenuCoord> {
   const identity = await getDeviceIdentity();

@@ -6,6 +6,7 @@
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
 import { logToBoth } from '@/services/AutomationLogger';
+import { getTapCoord } from '@/utils/deviceModel';
 import { humanTap, pGammaDelay } from '../utils';
 import type { BaoliContext } from '../types';
 
@@ -13,7 +14,7 @@ import type { BaoliContext } from '../types';
  * P13：点击"智能识别"
  * 等 2-3s 让智能识别按钮加载
  * 找到 → 点击
- * 未找到 → 兜底坐标 (910, 1100)
+ * 未找到 → 兜底坐标（按机型分支）
  */
 export const tapAiRecognizeStep: StepFn<BaoliContext, void> = async (ctx) => {
   logToBoth('info', '[P13] 点击"智能识别"...');
@@ -23,8 +24,9 @@ export const tapAiRecognizeStep: StepFn<BaoliContext, void> = async (ctx) => {
     logToBoth('success', '[P13] 找到"智能识别" @ (' + zhinengNode.centerX + ', ' + zhinengNode.centerY + ')');
     await humanTap(zhinengNode.centerX, zhinengNode.centerY);
   } else {
-    logToBoth('warn', '[P13] 未找到"智能识别"，使用备用坐标 (910, 1100)');
-    await humanTap(910, 1100);
+    const fallback = await getTapCoord('aiRecognize');
+    logToBoth('warn', '[P13] 未找到"智能识别"，使用备用坐标 (' + fallback.x + ', ' + fallback.y + ') px (按机型)');
+    await humanTap(fallback.x, fallback.y);
   }
   return { ok: true };
 };

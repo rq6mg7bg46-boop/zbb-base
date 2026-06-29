@@ -11,6 +11,8 @@
 import { automationEngine, CustomerInfo } from './AutomationEngine';
 import { screenshotService } from './ScreenshotService';
 import ZBBAutomation from '@/native/ZBBAutomation';
+// v3 全项目坐标规范化（按机型分支）
+import { getTapCoord, getSwipeCoord } from '@/utils/deviceModel';
 
 export type WechatPhase = 
   | 'init'
@@ -122,7 +124,9 @@ class WechatAutomation {
       // 步骤9：下拉微信首页（显示小程序列表）
       await this.delay('normal');
       this.currentPhase = 'pull_down';
-      await ZBBAutomation.swipe(300, 200, 300, 800, 500);
+      // 步骤9：下拉微信首页（按机型分支）
+      const swipePx = await getSwipeCoord('wechat_swipeDownHome_300_200_300_800');
+      await ZBBAutomation.swipe(swipePx.startX, swipePx.startY, swipePx.endX, swipePx.endY, swipePx.duration);
       automationEngine.log('success', '[微信] ⑨: 下拉微信首页');
       
       // 等待下拉动画完成
@@ -162,9 +166,10 @@ class WechatAutomation {
         await ZBBAutomation.click(tuijianResult.centerX, tuijianResult.centerY);
         automationEngine.log('success', '[微信] ⑫: 点击"我要推荐"成功');
       } else {
-        // 使用校准坐标
+        // 使用校准坐标（按机型分支）
         automationEngine.log('warn', '[微信] ⑫: OCR 未找到"我要推荐"，使用校准坐标');
-        await ZBBAutomation.click(180, 506);
+        const tuijianPx = await getTapCoord('native_wechat_tuijian_calib');
+        await ZBBAutomation.click(tuijianPx.x, tuijianPx.y);
         automationEngine.log('success', '[微信] ⑫: 点击"我要推荐"(校准坐标)');
       }
       

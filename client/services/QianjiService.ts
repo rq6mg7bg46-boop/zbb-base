@@ -10,6 +10,7 @@ import { BaoliService } from './BaoliService';
 // v2 Step 引擎接入（W3 迁移 + W7 抽回千机）
 import { runWorkflow, waitForUserGo } from '@/engine';
 import { clearRecentTasks } from '@/actions/app';
+import { getSwipeCoord } from '@/utils/deviceModel';
 import {
   qianjiCollectWorkflow,
   qianjiCollectOnlyWorkflow,
@@ -254,10 +255,11 @@ export class QianjiService {
       for (let attempt = 1; attempt <= 3; attempt++) {
         // 第 1 次用初始抓的节点；第 2/3 次需要下拉刷新
         if (attempt > 1) {
-          // 下拉刷新：坐标 (540,400)→(540,1500)，300-500ms 随机
+          // 下拉刷新：按机型分支的 swipe 坐标
+          const swipeCoord = await getSwipeCoord('qianji_swipeUp_540_400_540_1500');
           const swipeDuration = 300 + Math.floor(Math.random() * 200);
           logToBoth('info', `[千机：步骤2] 第 ${attempt} 次下拉刷新 (duration=${swipeDuration}ms)...`);
-          await zbbAutomation.swipe(540, 400, 540, 1500, swipeDuration);
+          await zbbAutomation.swipe(swipeCoord.startX, swipeCoord.startY, swipeCoord.endX, swipeCoord.endY, swipeDuration);
           // 下拉后等（Gamma 分布 1000-2000ms）
           await zbbAutomation.delay(pGammaDelay(1000, 2000));
 

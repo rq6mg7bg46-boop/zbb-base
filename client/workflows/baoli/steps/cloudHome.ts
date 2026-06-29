@@ -7,6 +7,7 @@ import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
 import { maybePause } from '@/actions';
 import { logToBoth } from '@/services/AutomationLogger';
+import { getTapCoord } from '@/utils/deviceModel';
 import { humanTap, humanSwipeWithBounce, pGammaDelay } from '../utils';
 import type { BaoliContext } from '../types';
 
@@ -42,8 +43,9 @@ export const findCloudHomeStep: StepFn<BaoliContext, void> = async (ctx) => {
   }
 
   if (!found) {
-    logToBoth('warn', '[P4] 未找到"云和家经纪云"，使用备用坐标 (668, 1502)');
-    await humanTap(668, 1502);
+    const fallback = await getTapCoord('cloudHome');
+    logToBoth('warn', '[P4] 未找到"云和家经纪云"，使用备用坐标 (' + fallback.x + ', ' + fallback.y + ') px (按机型)');
+    await humanTap(fallback.x, fallback.y);
   }
 
   // 第一批优化 A：等云和家小程序加载（9s → 3s）

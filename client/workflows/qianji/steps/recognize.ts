@@ -5,6 +5,7 @@
 import type { StepFn } from '@/engine';
 import { zbbAutomation } from '@/actions/_internal';
 import { logToBoth } from '@/services/AutomationLogger';
+import { getSwipeCoord } from '@/utils/deviceModel';
 import type { QianjiContext } from '../types';
 import { pGammaDelay } from '../utils';
 
@@ -51,10 +52,11 @@ export const recognizeInterfaceStep: StepFn<QianjiContext, void> = async (ctx) =
   let pendingCount = '0';
   for (let attempt = 1; attempt <= 3; attempt++) {
     if (attempt > 1) {
-      // 下拉刷新：坐标 (540,400)→(540,1500)，300-500ms 随机
+      // 下拉刷新：按机型分支的 swipe 坐标
+      const swipeCoord = await getSwipeCoord('qianji_swipeUp_540_400_540_1500');
       const swipeDuration = 300 + Math.floor(Math.random() * 200);
       logToBoth('info', `[Q2] 第 ${attempt} 次下拉刷新 (duration=${swipeDuration}ms)...`);
-      await zbbAutomation.swipe(540, 400, 540, 1500, swipeDuration);
+      await zbbAutomation.swipe(swipeCoord.startX, swipeCoord.startY, swipeCoord.endX, swipeCoord.endY, swipeDuration);
       // 下拉后等（Gamma 分布 1000-2000ms）
       await zbbAutomation.delay(pGammaDelay(1000, 2000));
 

@@ -14,6 +14,8 @@ import { customerTable } from './CustomerTable';
 import { CalibrationService, ocrService } from './index';
 import { initDatabase, insertReport, insertBaoliReport, getAllBaoliReports, getLatestReport, updateReportSuccess, updateReportFailed, exportToCSV, exportToJSON, printAllReports } from './DatabaseService';
 import type { EmitterSubscription } from 'react-native';
+// v3 全项目坐标规范化（按机型分支）
+import { getTapCoord, getSwipeCoord } from '../utils/deviceModel';
 
 // APP 包名定义
 const APP_PACKAGES = {
@@ -1123,9 +1125,10 @@ class NativeAutomationService {
       await zbbAutomation.click(copyNode.centerX, copyNode.centerY);
       logToBoth('success', '[抖音：步骤6] ✓ 点击成功');
     } else {
-      // 兜底：使用固定坐标（复制菜单通常在屏幕中间偏下）
+      // 兜底：使用固定坐标（复制菜单通常在屏幕中间偏下）—— 按机型分支
       logToBoth('warn', '[抖音：步骤6] 未找到"复制"，使用兜底坐标');
-      await zbbAutomation.click(540, 1100);
+      const coordD = await getTapCoord('native_douyin_copyMenu_fallback');
+      await zbbAutomation.click(coordD.x, coordD.y);
       logToBoth('success', '[抖音：步骤6] ✓ 兜底点击成功');
     }
 
@@ -2683,10 +2686,11 @@ class NativeAutomationService {
       logToBoth('info', '[企业微信测试] 步骤3：进入工作台，等待加载...');
       await zbbAutomation.delay(4000 + Math.random() * 2000);  // 等待 4-6 秒
       
-      // 下滑屏幕 3 次
+      // 下滑屏幕 3 次（按机型分支）
       for (let i = 1; i <= 3; i++) {
         logToBoth('info', `[企业微信测试] 第 ${i} 次下滑...`);
-        await zbbAutomation.swipe(540, 1800, 540, 600, 500);
+        const swipeCoord = await getSwipeCoord('native_wechat_swipeDown_540_1800_540_600');
+        await zbbAutomation.swipe(swipeCoord.startX, swipeCoord.startY, swipeCoord.endX, swipeCoord.endY, 500);
         await zbbAutomation.delay(2000 + Math.random() * 500);  // 等待 2-2.5 秒
       }
       
@@ -2817,8 +2821,9 @@ class NativeAutomationService {
         logToBoth('warn', `[企业微信测试] 验证失败（第${retryCount}次）：未找到"姓名"或"手机号"字段`);
         logToBoth('info', `[企业微信测试] 右滑退回，重新点击"去推荐"...`);
         
-        // 右滑退回上一页
-        await zbbAutomation.swipe(800, 600, 100, 600, 500);
+        // 右滑退回上一页（按机型分支）
+        const swipeCoord = await getSwipeCoord('native_wechat_swipeRight_800_600_100_600');
+        await zbbAutomation.swipe(swipeCoord.startX, swipeCoord.startY, swipeCoord.endX, swipeCoord.endY, 500);
         await zbbAutomation.delay(2000);  // 等待页面返回
         
         // 打印界面
@@ -2997,9 +3002,10 @@ class NativeAutomationService {
         // ========== 步骤12：验证输入内容 ==========
         logToBoth('info', '[企业微信测试] 步骤12：验证输入内容');
         
-        // 先点击空白处收起键盘
+        // 先点击空白处收起键盘（按机型分支）
         logToBoth('info', '[企业微信测试] 步骤12：收起键盘');
-        await zbbAutomation.click(540, 300);  // 点击空白区域
+        const blankAreaPx = await getTapCoord('native_wechat_blankArea_540_300');
+        await zbbAutomation.click(blankAreaPx.x, blankAreaPx.y);  // 点击空白区域
         await zbbAutomation.delay(1500);
         
         // 打印界面，查看输入框中的内容
@@ -3066,8 +3072,9 @@ class NativeAutomationService {
           await zbbAutomation.click(genderBtnX, genderBtnY);
           await zbbAutomation.delay(300);
           
-          // 收起键盘并再次验证
-          await zbbAutomation.click(540, 300);
+          // 收起键盘并再次验证（按机型分支）
+          const blankAreaPx2 = await getTapCoord('native_wechat_blankArea_540_300');
+          await zbbAutomation.click(blankAreaPx2.x, blankAreaPx2.y);
           await zbbAutomation.delay(1000);
           await this.debugPrintScreenText();
         } else {
@@ -3076,16 +3083,18 @@ class NativeAutomationService {
         
         // ========== 步骤12.5：勾选"我已阅读并同意" ==========
         logToBoth('info', '[企业微信测试] 步骤12.5：勾选"我已阅读并同意"');
-        // 选择框在"我"字前，文字在(213, 2066)，点击左侧复选框位置
-        await zbbAutomation.click(170, 2066);
+        // 选择框在"我"字前，文字在(213, 2066)，点击左侧复选框位置（按机型分支）
+        const checkboxPx = await getTapCoord('native_wechat_checkbox_170_2066');
+        await zbbAutomation.click(checkboxPx.x, checkboxPx.y);
         await zbbAutomation.delay(500);
         logToBoth('success', '[企业微信测试] 步骤12.5：勾选成功');
         
         // ========== 步骤13：点击"立即推荐" ==========
         logToBoth('info', '[企业微信测试] 步骤13：点击"立即推荐"');
         
-        // 先收起键盘
-        await zbbAutomation.click(540, 300);
+        // 先收起键盘（按机型分支）
+        const blankAreaPx3 = await getTapCoord('native_wechat_blankArea_540_300');
+        await zbbAutomation.click(blankAreaPx3.x, blankAreaPx3.y);
         await zbbAutomation.delay(1000);
         
         // 获取所有节点，查找"立即推荐"
@@ -3097,8 +3106,10 @@ class NativeAutomationService {
           await zbbAutomation.click(recommendBtn.centerX, recommendBtn.centerY);
           logToBoth('success', '[企业微信测试] 步骤13：点击"立即推荐"成功');
         } else {
-          logToBoth('warn', '[企业微信测试] 步骤13：未找到"立即推荐"，使用固定坐标 (540, 1463)');
-          await zbbAutomation.click(540, 1463);
+          // 立即推荐兜底（按机型分支）
+          const recommendPx = await getTapCoord('native_wechat_recommendBtn_540_1463');
+          logToBoth('warn', '[企业微信测试] 步骤13：未找到"立即推荐"，使用固定坐标 (' + recommendPx.x + ', ' + recommendPx.y + ')');
+          await zbbAutomation.click(recommendPx.x, recommendPx.y);
         }
         
         // ========== 步骤14：验证报备结果并更新数据库 ==========
@@ -3221,8 +3232,10 @@ class NativeAutomationService {
           }
           
           if (!foundYueXiu) {
-            logToBoth('error', '[企业微信测试] 返回：未能找到"越秀地产悦秀会"，尝试使用固定坐标 (540, 1200)');
-            await zbbAutomation.click(540, 1200);
+            // 越秀地产悦秀会兜底（按机型分支）
+            const yueXiuPx = await getTapCoord('native_wechat_yueXiu_540_1200');
+            logToBoth('error', '[企业微信测试] 返回：未能找到"越秀地产悦秀会"，尝试使用固定坐标 (' + yueXiuPx.x + ', ' + yueXiuPx.y + ')');
+            await zbbAutomation.click(yueXiuPx.x, yueXiuPx.y);
           }
           
           await zbbAutomation.delay(3000);
@@ -3233,8 +3246,10 @@ class NativeAutomationService {
           if (recommendResult?.found && recommendResult.centerX > 0 && recommendResult.centerY > 0) {
             await zbbAutomation.click(recommendResult.centerX, recommendResult.centerY);
           } else {
-            logToBoth('warn', '[企业微信测试] 返回：未找到"我要推荐"，尝试使用固定坐标 (540, 1450)');
-            await zbbAutomation.click(540, 1450);
+            // 我要推荐兜底（按机型分支）
+            const wantRecPx = await getTapCoord('native_wechat_wantRecommend_540_1450');
+            logToBoth('warn', '[企业微信测试] 返回：未找到"我要推荐"，尝试使用固定坐标 (' + wantRecPx.x + ', ' + wantRecPx.y + ')');
+            await zbbAutomation.click(wantRecPx.x, wantRecPx.y);
           }
           await zbbAutomation.delay(3000);
         }
@@ -3373,16 +3388,13 @@ class NativeAutomationService {
       // ========== 步骤3：下滑3次 ==========
       logToBoth('info', '[保利端] 步骤3：下滑3次查找"云和家经纪云"');
       
-      // 从屏幕中间位置开始上滑（下滑页面）
-      const swipeStartX = 540;
-      const swipeStartY = 1500;
-      const swipeEndX = 540;
-      const swipeEndY = 400;
+      // 从屏幕中间位置开始上滑（下滑页面）—— 按机型分支
+      const swipeCoord = await getSwipeCoord('native_baoli_swipeDown_540_1500_540_400');
       const swipeDuration = 500;
-      
+
       for (let i = 1; i <= 3; i++) {
         logToBoth('info', `[保利端] 步骤3：第 ${i} 次上滑（查找"云和家经纪云"...）`);
-        await zbbAutomation.swipe(swipeStartX, swipeStartY, swipeEndX, swipeEndY, swipeDuration);
+        await zbbAutomation.swipe(swipeCoord.startX, swipeCoord.startY, swipeCoord.endX, swipeCoord.endY, swipeDuration);
         await zbbAutomation.delay(1500);
         
         // 检查是否找到了"云和家经纪云"
@@ -3408,9 +3420,10 @@ class NativeAutomationService {
           // ========== 步骤5：点击"郑州保利山水和颂" ==========
           logToBoth('info', '[保利端] 步骤5：点击"郑州保利山水和颂"');
           
-          // 直接点击固定坐标 (560, 1350)
-          const clickX = 560;
-          const clickY = 1350;
+          // 直接点击固定坐标（按机型分支）
+          const coordX = await getTapCoord('native_baoli_shanShui_560_1350');
+          const clickX = coordX.x;
+          const clickY = coordX.y;
           logToBoth('info', `[保利端] 直接点击 (${clickX}, ${clickY})`);
           await zbbAutomation.tap(clickX, clickY);
           
@@ -3448,8 +3461,10 @@ class NativeAutomationService {
             logToBoth('info', `[保利端] 找到"报备" @ (${baobeiNodeForTap.centerX}, ${baobeiNodeForTap.centerY})`);
             await zbbAutomation.tap(baobeiNodeForTap.centerX, baobeiNodeForTap.centerY);
           } else {
-            logToBoth('error', '[保利端] 未在当前界面找到"报备"，使用备用坐标 (700, 2200)');
-            await zbbAutomation.tap(700, 2200);
+            // 保利端报备兜底（按机型分支）
+            const tapReportPx = await getTapCoord('native_baoli_tapReport_700_2200');
+            logToBoth('error', '[保利端] 未在当前界面找到"报备"，使用备用坐标 (' + tapReportPx.x + ', ' + tapReportPx.y + ')');
+            await zbbAutomation.tap(tapReportPx.x, tapReportPx.y);
           }
 
           // 等待3-4秒随机时间
@@ -3500,10 +3515,11 @@ class NativeAutomationService {
             logToBoth('error', '[保利端] 未找到"粘贴完整客户信息..."');
           }
 
-          // 步骤12：直接点击粘贴坐标 (130, 710)
+          // 步骤12：直接点击粘贴（按机型分支）
+          const pasteBtnPx = await getTapCoord('native_baoli_pasteBtn_130_710');
           logToBoth('info', '[保利端] 步骤12：点击粘贴');
-          logToBoth('info', '[保利端] 直接点击粘贴坐标 (130, 710)');
-          await zbbAutomation.tap(130, 710);
+          logToBoth('info', '[保利端] 直接点击粘贴坐标 (' + pasteBtnPx.x + ', ' + pasteBtnPx.y + ')');
+          await zbbAutomation.tap(pasteBtnPx.x, pasteBtnPx.y);
 
           // 点击后等待1秒
           await zbbAutomation.delay(1000);
@@ -3572,8 +3588,10 @@ class NativeAutomationService {
               logToBoth('error', `[保利端] 点击失败: ${tapError}`);
             }
           } else {
-            logToBoth('warn', '[保利端] 未找到"智能识别"按钮，使用备用坐标');
-            await zbbAutomation.tap(540, 1300);
+            // 保利端智能识别兜底（按机型分支）
+            const aiPx = await getTapCoord('native_baoli_aiRecognize_540_1300');
+            logToBoth('warn', '[保利端] 未找到"智能识别"按钮，使用备用坐标 (' + aiPx.x + ', ' + aiPx.y + ')');
+            await zbbAutomation.tap(aiPx.x, aiPx.y);
           }
 
           // 步骤21：等待1-2秒随机时间
@@ -3598,8 +3616,10 @@ class NativeAutomationService {
               logToBoth('error', `[保利端] 点击失败: ${tapError}`);
             }
           } else {
-            logToBoth('warn', '[保利端] 未找到"报备"按钮，使用备用坐标');
-            await zbbAutomation.tap(540, 2150);
+            // 保利端报备按钮兜底（按机型分支）
+            const reportBtnPx = await getTapCoord('native_baoli_reportBtn_540_2150');
+            logToBoth('warn', '[保利端] 未找到"报备"按钮，使用备用坐标 (' + reportBtnPx.x + ', ' + reportBtnPx.y + ')');
+            await zbbAutomation.tap(reportBtnPx.x, reportBtnPx.y);
           }
 
           // 步骤23：等待1-2秒随机时间
@@ -3740,9 +3760,10 @@ class NativeAutomationService {
               logToBoth('info', `[保利端] 情况2步骤2：点击"上传附件"右侧 @ (${targetX}, ${targetY})`);
               await zbbAutomation.tap(targetX, targetY);
             } else {
-              // 兜底方案：点击 (970, 1240)
-              logToBoth('warn', '[保利端] 未找到"上传附件"，使用兜底坐标 (970, 1240)');
-              await zbbAutomation.tap(970, 1240);
+              // 兜底方案：点击上传附件（按机型分支）
+              const uploadPx = await getTapCoord('native_baoli_uploadAttachment_970_1240');
+              logToBoth('warn', '[保利端] 未找到"上传附件"，使用兜底坐标 (' + uploadPx.x + ', ' + uploadPx.y + ')');
+              await zbbAutomation.tap(uploadPx.x, uploadPx.y);
             }
             
             // ========== 情况2步骤3：等待3-4秒 ==========
@@ -3788,8 +3809,10 @@ class NativeAutomationService {
                 logToBoth('info', `[保利端] 找到"报备" @ (${baobeiNode2_2.centerX}, ${baobeiNode2_2.centerY})`);
                 await zbbAutomation.tap(baobeiNode2_2.centerX, baobeiNode2_2.centerY);
               } else {
-                logToBoth('warn', '[保利端] 未找到"报备"，使用备用坐标 (700, 2200)');
-                await zbbAutomation.tap(700, 2200);
+                // 保利端第二轮报备兜底（按机型分支）
+                const tapReport2Px = await getTapCoord('native_baoli_tapReport2_700_2200');
+                logToBoth('warn', '[保利端] 未找到"报备"，使用备用坐标 (' + tapReport2Px.x + ', ' + tapReport2Px.y + ')');
+                await zbbAutomation.tap(tapReport2Px.x, tapReport2Px.y);
               }
               
               // 情况2第二轮步骤3：等待3-4秒
@@ -3834,9 +3857,10 @@ class NativeAutomationService {
                 logToBoth('error', '[保利端] 情况2第二轮步骤5：未找到"粘贴完整客户信息..."');
               }
               
-              // 情况2第二轮步骤6：点击粘贴 (130, 710)
-              logToBoth('info', '[保利端] 情况2第二轮步骤6：点击粘贴 (130, 710)');
-              await zbbAutomation.tap(130, 710);
+              // 情况2第二轮步骤6：点击粘贴（按机型分支）
+              const pasteBtn2Px = await getTapCoord('native_baoli_pasteBtn2_130_710');
+              logToBoth('info', '[保利端] 情况2第二轮步骤6：点击粘贴 (' + pasteBtn2Px.x + ', ' + pasteBtn2Px.y + ')');
+              await zbbAutomation.tap(pasteBtn2Px.x, pasteBtn2Px.y);
               
               // 情况2第二轮步骤7：点击"请选择分期"
               logToBoth('info', '[保利端] 情况2第二轮步骤7：点击"请选择分期"');
@@ -3863,8 +3887,10 @@ class NativeAutomationService {
                 logToBoth('info', `[保利端] 找到"${projectNode2_9.text}" @ (${projectNode2_9.centerX}, ${projectNode2_9.centerY})`);
                 await zbbAutomation.tap(projectNode2_9.centerX, projectNode2_9.centerY);
               } else {
-                logToBoth('error', '[保利端] 情况2第二轮步骤9：未找到"郑州市三村杓袁7号地项目-保利山水和颂【郑州保利山水和颂】"，兜底点击 (540, 2159)');
-                await zbbAutomation.tap(540, 2159);
+                // 保利端山水和颂项目兜底（按机型分支）
+                const shanShuiProjPx = await getTapCoord('native_baoli_shanShuiProject_540_2159');
+                logToBoth('error', '[保利端] 情况2第二轮步骤9：未找到"郑州市三村杓袁7号地项目-保利山水和颂【郑州保利山水和颂】"，兜底点击 (' + shanShuiProjPx.x + ', ' + shanShuiProjPx.y + ')');
+                await zbbAutomation.tap(shanShuiProjPx.x, shanShuiProjPx.y);
               }
               
               // 情况2第二轮步骤10：等待0-1秒
@@ -3897,8 +3923,10 @@ class NativeAutomationService {
                 logToBoth('info', `[保利端] 找到"${smartNode2_13.text}" @ (${smartNode2_13.centerX}, ${smartNode2_13.centerY})`);
                 await zbbAutomation.tap(smartNode2_13.centerX, smartNode2_13.centerY);
               } else {
-                logToBoth('warn', '[保利端] 情况2第二轮步骤13：未找到"智能识别"，使用备用坐标 (540, 1300)');
-                await zbbAutomation.tap(540, 1300);
+                // 保利端第二轮智能识别兜底（按机型分支）
+                const ai2Px = await getTapCoord('native_baoli_aiRecognize2_540_1300');
+                logToBoth('warn', '[保利端] 情况2第二轮步骤13：未找到"智能识别"，使用备用坐标 (' + ai2Px.x + ', ' + ai2Px.y + ')');
+                await zbbAutomation.tap(ai2Px.x, ai2Px.y);
               }
               
               // 情况2第二轮步骤14：等待1-2秒
@@ -3914,8 +3942,10 @@ class NativeAutomationService {
                 logToBoth('info', `[保利端] 找到"报备" @ (${finalBaobeiNode.centerX}, ${finalBaobeiNode.centerY})`);
                 await zbbAutomation.tap(finalBaobeiNode.centerX, finalBaobeiNode.centerY);
               } else {
-                logToBoth('warn', '[保利端] 情况2第二轮步骤15：未找到"报备"，使用备用坐标 (540, 2150)');
-                await zbbAutomation.tap(540, 2150);
+                // 保利端第二轮报备按钮兜底（按机型分支）
+                const reportBtn2Px = await getTapCoord('native_baoli_reportBtn2_540_2150');
+                logToBoth('warn', '[保利端] 情况2第二轮步骤15：未找到"报备"，使用备用坐标 (' + reportBtn2Px.x + ', ' + reportBtn2Px.y + ')');
+                await zbbAutomation.tap(reportBtn2Px.x, reportBtn2Px.y);
               }
               
               logToBoth('success', '[保利端] 情况2第二轮表单填写完成！');
@@ -3944,8 +3974,10 @@ class NativeAutomationService {
                 logToBoth('info', `[保利端] 情况2第三轮步骤3：点击"上传附件"右侧 @ (${targetX3}, ${targetY3})`);
                 await zbbAutomation.tap(targetX3, targetY3);
               } else {
-                logToBoth('warn', '[保利端] 情况2第三轮步骤2：未找到"上传附件"，使用兜底坐标 (970, 1240)');
-                await zbbAutomation.tap(970, 1240);
+                // 第三轮上传附件兜底（按机型分支）
+                const upload3Px = await getTapCoord('native_baoli_uploadAttachment3_970_1240');
+                logToBoth('warn', '[保利端] 情况2第三轮步骤2：未找到"上传附件"，使用兜底坐标 (' + upload3Px.x + ', ' + upload3Px.y + ')');
+                await zbbAutomation.tap(upload3Px.x, upload3Px.y);
               }
 
               // 情况2第三轮步骤4：等待3-4秒
@@ -3971,18 +4003,21 @@ class NativeAutomationService {
               logToBoth('info', `[保利端] 情况2第三轮步骤6：等待 ${(wait3_6 / 1000).toFixed(1)} 秒`);
               await zbbAutomation.delay(wait3_6);
 
-              // 情况2第三轮步骤7：退出小程序
+              // 情况2第三轮步骤7：退出小程序（按机型分支）
               logToBoth('info', '[保利端] 情况2第三轮步骤7：退出小程序');
-              logToBoth('info', '[保利端] 情况2第三轮步骤7.1：点击多任务键 @ (300, 2300)');
-              await zbbAutomation.click(300, 2300);
+              const multiTaskPx = await getTapCoord('native_baoli_multiTaskBtn_300_2300');
+              logToBoth('info', '[保利端] 情况2第三轮步骤7.1：点击多任务键 @ (' + multiTaskPx.x + ', ' + multiTaskPx.y + ')');
+              await zbbAutomation.click(multiTaskPx.x, multiTaskPx.y);
               await zbbAutomation.delay(1000);
-              
-              logToBoth('info', '[保利端] 情况2第三轮步骤7.2：点击垃圾箱关闭小程序 @ (540, 2150)');
-              await zbbAutomation.click(540, 2150);
+
+              const trashPx = await getTapCoord('native_baoli_trashBtn_540_2150');
+              logToBoth('info', '[保利端] 情况2第三轮步骤7.2：点击垃圾箱关闭小程序 @ (' + trashPx.x + ', ' + trashPx.y + ')');
+              await zbbAutomation.click(trashPx.x, trashPx.y);
               await zbbAutomation.delay(1000);
-              
-              logToBoth('info', '[保利端] 情况2第三轮步骤7.3：按Home键 @ (540, 2300)');
-              await zbbAutomation.click(540, 2300);
+
+              const homePx = await getTapCoord('native_baoli_homeBtn_540_2300');
+              logToBoth('info', '[保利端] 情况2第三轮步骤7.3：按Home键 @ (' + homePx.x + ', ' + homePx.y + ')');
+              await zbbAutomation.click(homePx.x, homePx.y);
               await zbbAutomation.delay(1000);
 
               logToBoth('success', '[保利端] 情况2第三轮完成！');

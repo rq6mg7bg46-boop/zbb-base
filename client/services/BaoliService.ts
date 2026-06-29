@@ -13,6 +13,8 @@ import { runWorkflow, waitForUserGo } from '@/engine';
 import { baoliLaunchWorkflow, baoliFillFormWorkflow, baoliDetectResultWorkflow, type BaoliContext } from '@/workflows/baoli';
 // W6 异步派发（event bus 订阅）
 import { onEvent, QIANJI_EVENTS, BAOLI_EVENTS, emitEvent, type ZbbEventSubscription } from '@/events';
+// v3 全项目坐标规范化（按机型分支）
+import { getTapCoord, getSwipeCoord } from '@/utils/deviceModel';
 // 注：logToBoth 在本文件 L131 内部定义（W4 阶段保留老设计，不引用外部 AutomationLogger）
 
 const APP_PACKAGES = {
@@ -518,7 +520,8 @@ class BaoliService {
 
     // 直接上滑屏幕（不写库）
     logToBoth('info', '[P16-情况2-1] 上滑屏幕...');
-    await zbbAutomation.swipe(540, 1200, 540, 800);
+    const swipeCoord = await getSwipeCoord('baoli_swipe_to_cloudhome');
+    await zbbAutomation.swipe(swipeCoord.startX, swipeCoord.startY, swipeCoord.endX, swipeCoord.endY);
 
     // 识别"上传附件"坐标，点击(x+500, y)
     logToBoth('info', '[P16-情况2-2] 识别"上传附件"坐标，点击(x+500, y)...');
@@ -590,8 +593,9 @@ class BaoliService {
       logToBoth('success', '[第二轮-步骤1] 找到"报备" @ (' + baobeiNode2.centerX + ', ' + baobeiNode2.centerY + ')');
       await humanTap(baobeiNode2.centerX, baobeiNode2.centerY);
     } else {
-      logToBoth('warn', '[第二轮-步骤1] 未找到"报备"，使用备用坐标 (700, 2200)');
-      await humanTap(700, 2200);
+      const fallback = await getTapCoord('baoli_humanTap_baobeiBtn');
+      logToBoth('warn', '[第二轮-步骤1] 未找到"报备"，使用备用坐标 (' + fallback.x + ', ' + fallback.y + ') px (按机型)');
+      await humanTap(fallback.x, fallback.y);
     }
 
     await zbbAutomation.delay(pGammaDelay(3000, 4000));
@@ -610,9 +614,11 @@ class BaoliService {
    * 退出小程序
    */
   async exitMiniProgram(): Promise<void> {
-    await zbbAutomation.tap(300, 2300); // 多任务键（P+ 保留：系统键不能偏移）
+    const multiTaskPx = await getTapCoord('baoli_multiTask_key');
+    await zbbAutomation.tap(multiTaskPx.x, multiTaskPx.y); // 多任务键（按机型，P+ 保留：系统键不能偏移）
     await zbbAutomation.delay(1000);
-    await zbbAutomation.tap(540, 2150); // 垃圾箱（P+ 保留：系统键不能偏移）
+    const trashPx = await getTapCoord('baoli_trash_key');
+    await zbbAutomation.tap(trashPx.x, trashPx.y); // 垃圾箱（按机型，P+ 保留：系统键不能偏移）
     await zbbAutomation.delay(1000);
     // 删 Home 键（避免 APK 不在首屏导致后续流程失败）—— 滑掉小程序后已回到桌面
   }
