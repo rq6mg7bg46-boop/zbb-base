@@ -148,11 +148,11 @@ export const DEVICE_TAP_COORDS: Record<string, DeviceTapEntry> = {
   },
   selectProject_round1: {       // P11 选择项目 - 第 1 轮缦城和颂
     nova7_5g: { x: 180, y: 667 },    // (540, 2000) ÷3
-    vivo: { x: 120, y: 444 },
+    vivo: { x: 170, y: 635 },         // 老板 06-29 vivo 实测 (340, 1270) px ÷2
   },
   selectProject_round2: {       // P11 选择项目 - 第 2 轮山水和颂（同坐标，ctx.round 区分）
     nova7_5g: { x: 180, y: 667 },
-    vivo: { x: 180, y: 718 },         // 老板 06-29 vivo OCR 命中 (360,1436) px ÷2
+    vivo: { x: 170, y: 715 },         // 老板 06-29 vivo 实测 (340, 1430) px ÷2
   },
   confirm: {                    // P12 确认
     nova7_5g: { x: 317, y: 500 },    // (950, 1500) ÷3
