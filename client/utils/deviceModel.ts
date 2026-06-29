@@ -148,7 +148,7 @@ export const DEVICE_TAP_COORDS: Record<string, DeviceTapEntry> = {
   },
   selectProject_round1: {       // P11 选择项目 - 第 1 轮缦城和颂
     nova7_5g: { x: 180, y: 667 },    // (540, 2000) ÷3
-    vivo: { x: 170, y: 635 },         // 老板 06-29 vivo 实测 (340, 1270) px ÷2
+    vivo: { x: 180, y: 635 },         // 老板 06-29 vivo 实测 popup 缦城和颂 (360, 1270) px ÷2
   },
   selectProject_round2: {       // P11 选择项目 - 第 2 轮山水和颂（同坐标，ctx.round 区分）
     nova7_5g: { x: 180, y: 667 },

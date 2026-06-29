@@ -14,9 +14,13 @@ import type { BaoliContext } from '../types';
  * 未找到 → 兜底坐标（按机型分支，按 ctx.round 区分 round1/round2）
  */
 export const selectProjectStep: StepFn<BaoliContext, void> = async (ctx) => {
-  logToBoth('info', `[P11] 选择报备项目 (第 ${ctx.round} 轮: ${ctx.projectName})...`);
+  // 老板 2026-06-29 拍板：分期关键词按轮次注入（不用 ctx.projectName，避免方括号中英文不匹配）
+  // round=1: 找 "保利缦城和颂"
+  // round=2: 找 "保利山水和颂"
+  const keyword = ctx.round === 1 ? '保利缦城和颂' : '保利山水和颂';
+  logToBoth('info', `[P11] 选择报备项目 (第 ${ctx.round} 轮: 关键词="${keyword}", 全名=${ctx.projectName})...`);
   const projectNodes = await ctx.baoliService.printScreenText();
-  const targetProject = projectNodes?.find((n: any) => n.text && n.text.includes(ctx.projectName));
+  const targetProject = projectNodes?.find((n: any) => n.text && n.text.includes(keyword));
   if (targetProject) {
     logToBoth('success', '[P11] 找到"' + targetProject.text + '" @ (' + targetProject.centerX + ', ' + targetProject.centerY + ')');
     await humanTap(targetProject.centerX, targetProject.centerY);
