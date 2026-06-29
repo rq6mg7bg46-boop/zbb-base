@@ -46,12 +46,5 @@ export const selectInstallmentStep: StepFn<BaoliContext, void> = async (ctx) => 
   // P+ 随机停顿（分期选择后）
   await maybePause();
 
-  // 等老板手动选完分期（GO 按钮机制）
-  // 根因：vivo 弹分期 popup 后不会自动关闭，需要老板选；程序不能自动点
-  // 用 GO 浮窗让老板在 ZBB 界面上点 GO → 继续 P11
-  // 老板 06-29 反馈：P10 tap 完"请选择分期" → 弹 popup → 不点就不会消失 → P11 看到 popup 后界面找不到项目
-  logToBoth('info', '[P10] 等老板选完分期 → GO 继续...');
-  await ctx.waitForGo('请选择分期', '在弹窗里选完分期选项后，点 ZBB 浮窗的 GO 按钮继续');
-
   return { ok: true };
 };
