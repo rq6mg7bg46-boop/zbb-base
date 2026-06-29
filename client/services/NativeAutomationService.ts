@@ -383,15 +383,13 @@ class NativeAutomationService {
       logToBoth('info', `[抖音：步骤2] 找到"消息" @ (${messageNode.centerX}, ${messageNode.centerY})`);
       await zbbAutomation.click(messageNode.centerX, messageNode.centerY);
       logToBoth('success', '[抖音：步骤2] ✓ 点击成功');
-    } else {
-      // 兜底：使用固定坐标
-      const CLICK_X = 750;
-      const CLICK_Y = 2300;
-      logToBoth('warn', `[抖音：步骤2] 未找到"消息"，使用兜底坐标: (${CLICK_X}, ${CLICK_Y})`);
-      await zbbAutomation.click(CLICK_X, CLICK_Y);
+    // 兜底：使用固定坐标（按机型分支）
+      const clickCoord = await getTapCoord('native_douyin_msgBtn_750_2300');
+      logToBoth('warn', `[抖音：步骤2] 未找到"消息"，使用兜底坐标: (${clickCoord.x}, ${clickCoord.y})`);
+      await zbbAutomation.click(clickCoord.x, clickCoord.y);
       logToBoth('success', '[抖音：步骤2] ✓ 兜底点击成功');
     }
-    
+
     await zbbAutomation.delay(getDelay('other'));
   }
   
@@ -491,12 +489,10 @@ class NativeAutomationService {
       logToBoth('info', `[抖音：步骤3] 找到"${this.friendName}" @ (${friendNode.centerX}, ${friendNode.centerY})`);
       await zbbAutomation.click(friendNode.centerX, friendNode.centerY);
       logToBoth('success', '[抖音：步骤3] ✓ 点击成功');
-    } else {
-      // 兜底：使用固定坐标
-      const CLICK_X = 360;
-      const CLICK_Y = 360;
-      logToBoth('warn', `[抖音：步骤3] 未找到"${this.friendName}"，使用兜底坐标: (${CLICK_X}, ${CLICK_Y})`);
-      await zbbAutomation.click(CLICK_X, CLICK_Y);
+    // 兜底：使用固定坐标（按机型分支）
+      const friendCoord = await getTapCoord('native_douyin_friendBtn_360_360');
+      logToBoth('warn', `[抖音：步骤3] 未找到"${this.friendName}"，使用兜底坐标: (${friendCoord.x}, ${friendCoord.y})`);
+      await zbbAutomation.click(friendCoord.x, friendCoord.y);
       logToBoth('success', '[抖音：步骤3] ✓ 兜底点击成功');
     }
     
@@ -1070,7 +1066,7 @@ class NativeAutomationService {
     }
 
     const latestNode = messageNodes[0];
-    const msgX = latestNode.centerX || 250;
+    const msgX = latestNode.centerX || Math.floor(screenSize?.width * 0.23 || 250); // 按屏宽归一化（默认 23% = 原 250px@1080屏）
     const msgY = latestNode.centerY || 1800;
 
     logToBoth('info', `[抖音：步骤5] 长按消息 @ (${msgX}, ${msgY})`);
@@ -2894,9 +2890,10 @@ class NativeAutomationService {
         await zbbAutomation.pasteText(fullName);
         await zbbAutomation.delay(500);
         
-        // 2. 点击姓名输入框（姓名标签"*"在177,1130，输入框在其右侧）
-        const nameInputX = 350;
-        const nameInputY = 1130;
+        // 2. 点击姓名输入框（姓名标签"*"在177,1130，输入框在其右侧，按机型分支）
+        const nameInputCoord = await getTapCoord('native_wechat_nameInput_350_1130');
+        const nameInputX = nameInputCoord.x;
+        const nameInputY = nameInputCoord.y;
         logToBoth('info', `[企业微信测试] 步骤10：点击姓名输入框 (${nameInputX}, ${nameInputY})`);
         await zbbAutomation.click(nameInputX, nameInputY);
         await zbbAutomation.delay(1500);  // 等待键盘弹出
@@ -2937,10 +2934,11 @@ class NativeAutomationService {
         await zbbAutomation.pasteText(customer.phone);
         await zbbAutomation.delay(500);
         
-        // 2. 点击手机号输入框（+86在174,1262，输入框在其右侧）
-        const phoneInputX = 350;
-        const phoneInputY = 1262;
-        logToBoth('info', `[企业微信测试] 步骤11：点击手机号输入框 (${phoneInputX}, ${phoneInputY})`);
+// 2. 点击电话输入框（按机型分支）
+        const phoneInputCoord = await getTapCoord('native_wechat_phoneInput_350_1262');
+        const phoneInputX = phoneInputCoord.x;
+        const phoneInputY = phoneInputCoord.y;
+        logToBoth('info', `[企业微信测试] 步骤11：点击电话输入框 (${phoneInputX}, ${phoneInputY})`);
         await zbbAutomation.click(phoneInputX, phoneInputY);
         await zbbAutomation.delay(1500);  // 等待键盘弹出
         
@@ -2991,9 +2989,10 @@ class NativeAutomationService {
         const gender = isFemale ? '女' : '男';
         logToBoth('info', `[企业微信测试] 步骤11.5：根据姓名"${customerName}"判断性别为"${gender}"`);
         
-        // 点击对应的性别按钮（女:933,1265  男:816,1265）
-        const genderBtnX = isFemale ? 933 : 816;
-        const genderBtnY = 1265;
+        // 点击对应的性别按钮（按机型分支）
+        const genderCoord = await getTapCoord(isFemale ? 'native_wechat_genderFemale_933_1265' : 'native_wechat_genderMale_816_1265');
+        const genderBtnX = genderCoord.x;
+        const genderBtnY = genderCoord.y;
         logToBoth('info', `[企业微信测试] 步骤11.5：点击"${gender}" @ (${genderBtnX}, ${genderBtnY})`);
         await zbbAutomation.click(genderBtnX, genderBtnY);
         logToBoth('success', `[企业微信测试] 步骤11.5：点击"${gender}"成功`);
@@ -3159,25 +3158,23 @@ class NativeAutomationService {
         // 如果不是最后一个客户，需要返回重新输入
         if (customerIndex < allPendingReports.length - 1) {
           logToBoth('info', `[企业微信测试] 不是最后一个客户，返回重新输入下一个`);
-          
-          // 导航键位置（三键导航模式）
-          const NAV_RECENT = { x: 300, y: 2300 };  // 多任务键（左侧）
-          const NAV_TRASH = { x: 540, y: 2150 };   // 垃圾箱（Home键上方）
-          const NAV_HOME = { x: 540, y: 2300 };     // Home键（中间）
-          
-          // 1. 点击多任务键，显示最近应用
-          logToBoth('info', '[企业微信测试] 返回：点击多任务键');
-          await zbbAutomation.click(NAV_RECENT.x, NAV_RECENT.y);
+
+          // 1. 点击多任务键，显示最近应用（按机型分支）
+logToBoth('info', '[企业微信测试] 返回：点击多任务键');
+          const navRecent1 = await getTapCoord('native_baoli_multiTaskBtn_300_2300');
+          await zbbAutomation.click(navRecent1.x, navRecent1.y);
           await zbbAutomation.delay(1000);
-          
+
           // 2. 点击垃圾箱，关闭当前应用
           logToBoth('info', '[企业微信测试] 返回：点击垃圾箱关闭应用');
-          await zbbAutomation.click(NAV_TRASH.x, NAV_TRASH.y);
+          const navTrash1 = await getTapCoord('native_baoli_trashBtn_540_2150');
+          await zbbAutomation.click(navTrash1.x, navTrash1.y);
           await zbbAutomation.delay(1000);
-          
-          // 3. 按Home键确保回到桌面
-          logToBoth('info', '[企业微信测试] 返回：按Home键回到桌面');
-          await zbbAutomation.click(NAV_HOME.x, NAV_HOME.y);
+
+          // 3. 点击 Home 键
+          logToBoth('info', '[企业微信测试] 返回：点击 Home 键');
+          const navHome1 = await getTapCoord('native_baoli_homeBtn_540_2300');
+          await zbbAutomation.click(navHome1.x, navHome1.y);
           await zbbAutomation.delay(1000);
           
           // 等待2-3秒随机时间
@@ -3257,25 +3254,23 @@ class NativeAutomationService {
       
       // ========== 步骤15：清理界面，退出小程序 ==========
       logToBoth('info', '[企业微信测试] 步骤15：清理界面，退出小程序');
-      
-      // 导航键位置（三键导航模式）
-      const NAV_RECENT = { x: 300, y: 2300 };  // 多任务键（左侧）
-      const NAV_TRASH = { x: 540, y: 2150 };   // 垃圾箱（Home键上方）
-      const NAV_HOME = { x: 540, y: 2300 };     // Home键（中间）
-      
-      // 1. 点击多任务键，显示最近应用
-      logToBoth('info', '[企业微信测试] 步骤15：点击多任务键');
-      await zbbAutomation.click(NAV_RECENT.x, NAV_RECENT.y);
+
+      // 1. 点击多任务键，显示最近应用（按机型分支）
+logToBoth('info', '[企业微信测试] 步骤15：点击多任务键');
+      const navRecent2 = await getTapCoord('native_baoli_multiTaskBtn_300_2300');
+      await zbbAutomation.click(navRecent2.x, navRecent2.y);
       await zbbAutomation.delay(1000);
-      
+
       // 2. 点击垃圾箱，关闭当前应用
       logToBoth('info', '[企业微信测试] 步骤15：点击垃圾箱关闭应用');
-      await zbbAutomation.click(NAV_TRASH.x, NAV_TRASH.y);
+      const navTrash2 = await getTapCoord('native_baoli_trashBtn_540_2150');
+      await zbbAutomation.click(navTrash2.x, navTrash2.y);
       await zbbAutomation.delay(1000);
-      
-      // 3. 按Home键确保回到桌面
-      logToBoth('info', '[企业微信测试] 步骤15：按Home键回到桌面');
-      await zbbAutomation.click(NAV_HOME.x, NAV_HOME.y);
+
+      // 3. 点击 Home 键
+      logToBoth('info', '[企业微信测试] 步骤15：点击 Home 键');
+      const navHome2 = await getTapCoord('native_baoli_homeBtn_540_2300');
+      await zbbAutomation.click(navHome2.x, navHome2.y);
       await zbbAutomation.delay(1000);
       
       // ========== 步骤16：打印完整数据库内容 ==========
@@ -3713,24 +3708,24 @@ class NativeAutomationService {
               logToBoth('error', `[保利端] 情况1-6：更新数据库失败: ${dbError}`);
             }
             
-            // 导航键位置（三键导航模式）
-            const NAV_RECENT = { x: 300, y: 2300 };  // 多任务键（左侧）
-            const NAV_TRASH = { x: 540, y: 2150 };   // 垃圾箱（Home键上方）
-            const NAV_HOME = { x: 540, y: 2300 };     // Home键（中间）
-            
+            // 导航键位置（按机型分支，下面 5.1-5.3 用 getTapCoord 取值）
+
             // 5.1 点击多任务键，显示最近应用
-            logToBoth('info', '[保利端] 情况1-5-1：点击多任务键');
-            await zbbAutomation.click(NAV_RECENT.x, NAV_RECENT.y);
+logToBoth('info', '[保利端] 情况1-5-1：点击多任务键');
+            const navRecent3 = await getTapCoord('native_baoli_multiTaskBtn_300_2300');
+            await zbbAutomation.click(navRecent3.x, navRecent3.y);
             await zbbAutomation.delay(1000);
-            
+
             // 5.2 点击垃圾箱，关闭当前应用
             logToBoth('info', '[保利端] 情况1-5-2：点击垃圾箱关闭小程序');
-            await zbbAutomation.click(NAV_TRASH.x, NAV_TRASH.y);
+            const navTrash3 = await getTapCoord('native_baoli_trashBtn_540_2150');
+            await zbbAutomation.click(navTrash3.x, navTrash3.y);
             await zbbAutomation.delay(1000);
-            
-            // 5.3 按Home键确保回到桌面
-            logToBoth('info', '[保利端] 情况1-5-3：按Home键回到桌面');
-            await zbbAutomation.click(NAV_HOME.x, NAV_HOME.y);
+
+            // 5.3 点击 Home 键
+            logToBoth('info', '[保利端] 情况1-5-3：点击 Home 键');
+            const navHome3 = await getTapCoord('native_baoli_homeBtn_540_2300');
+            await zbbAutomation.click(navHome3.x, navHome3.y);
             await zbbAutomation.delay(1000);
             
             logToBoth('info', '[保利端] 情况1流程完成');
